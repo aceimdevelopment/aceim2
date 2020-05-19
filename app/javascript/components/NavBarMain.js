@@ -18,9 +18,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class NavBarMain extends React.Component {
 	render() {
-		// const largo = useRef(null);
-		// const ancho = useRef(null);
-		// const bgColor = 'background-image: linear-gradient(0, #1B3A5B)'
 		return (
 			<Navbar expand="lg" className='color-bg-nav' fixed='top'>
 				<Navbar.Brand href="#home" className='nav-bar-link text-info'>Fundeim</Navbar.Brand>
