@@ -1,13 +1,10 @@
 import React, {useRef} from 'react'
-import Header from './Header'
+import MainTitle from './Home/MainTitle'
 
 class Main extends React.Component {
   render() {
     return (
-      <div>
-        <h1> Bienvenido a Aceim React App </h1>
-        <Header />
-      </div>
+      <MainTitle />
     );
   }
 }
