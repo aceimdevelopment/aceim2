@@ -1,6 +1,18 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Mailgun Config:
+  config.action_mailer.smtp_settings = {
+    address: ENV['EMAIL_PROVIDER_ADDRESS'],
+    port: 587,
+    domain: ENV['EMAIL_PROVIDER_DOMAIN_NAME'],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV['EMAIL_PROVEDER_USER_NAME'],
+    password: ENV['EMAIL_PROVIDER_PASSWORD']
+  }
+
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
