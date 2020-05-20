@@ -1,6 +1,10 @@
 # Traducciones adicionales en https://github.com/plataformatec/devise/wiki/I18n
 
 es:
+  admin:
+    actions:
+      dashboard:
+        title: "Dashboard"
   devise:
     confirmations:
       confirmed: "Tu correo electrónico ha sido confirmado exitosamente."
