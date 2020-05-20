@@ -29,7 +29,6 @@ gem 'jbuilder', '~> 2.7'
 # GEM INCLUDE BY ME:
 
 gem 'devise'
-gem 'devise-i18n'
 gem 'font-awesome-rails'
 gem 'react-rails'
 gem 'responders'
