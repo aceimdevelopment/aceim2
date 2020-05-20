@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Aceim - Escuela de Idiomas Modernos - UCV</title>
+    <title>Fundeim - Escuela de Idiomas Modernos - UCV</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +11,7 @@
   </head>
 
   <body>
+    <%= render 'layouts/toastr_alert' %>
     <%= react_component 'NavBarMain' %>
     <%= yield %>
     <%= react_component 'FootBar' %>

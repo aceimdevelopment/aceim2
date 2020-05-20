@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Aceim - Administrador de los Cursos de Fundiem - EIM - UCV</title>
+    <title>Fundeim - Administrador de los Cursos de Fundiem - EIM - UCV</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +11,7 @@
   </head>
 
   <body>
+    <%= render 'layouts/toastr_alert' %>
     <%= yield %>
     <%= react_component 'FootBar' %>
 

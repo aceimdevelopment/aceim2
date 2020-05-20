@@ -18,7 +18,7 @@ class FormLogin extends React.Component {
     return (
       <React.Fragment>
 		<Form inline>
-			<FormControl type="text" placeholder="Cédula de Identidad" className="mr-sm-2" />
+				<FormControl type="text" placeholder="Correo Electrónico" autoFocus className="mr-sm-2" />
 			<FormControl type="text" placeholder="Contraseña" className="mr-sm-2" />
 			<Button>Entrar</Button>
 		</Form>

@@ -27,9 +27,12 @@ gem 'jbuilder', '~> 2.7'
 
 
 # GEM INCLUDE BY ME:
-gem 'responders'
-gem 'react-rails'
+
+gem 'devise'
+gem 'devise-i18n'
 gem 'font-awesome-rails'
+gem 'react-rails'
+gem 'responders'
 
 
 # Reduces boot times through caching; required in config/boot.rb
