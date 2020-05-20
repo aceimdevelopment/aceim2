@@ -2,6 +2,8 @@
 
 es:
   admin:
+    form:
+      optional: "<span class='badge badge-secondary'>Opcional</span>"
     actions:
       dashboard:
         title: "Dashboard"
