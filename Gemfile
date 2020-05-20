@@ -27,7 +27,8 @@ gem 'jbuilder', '~> 2.7'
 
 
 # GEM INCLUDE BY ME:
-
+# gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
+gem 'rails_admin', '~> 2.0'
 gem 'devise'
 gem 'font-awesome-rails'
 gem 'react-rails'
