@@ -22,7 +22,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.string   :last_sign_in_ip
 
       ## Datos Personales
-      t.string :ci
+      t.string :document_id
+      t.string :location
+      t.string :source_country
       t.string :name
       t.string :last_name
       t.string :number_phone

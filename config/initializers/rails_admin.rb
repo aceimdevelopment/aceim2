@@ -15,8 +15,10 @@ RailsAdmin.config do |config|
   end
 
   def custom_label_method
-    "#{self.description}"
+    "#{self.name}"
   end
+
+  config.excluded_models << "Item"
 
   ## == CancanCan ==
   config.authorize_with :cancancan

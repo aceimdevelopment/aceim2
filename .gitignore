@@ -22,6 +22,9 @@
 /storage/*
 !/storage/.keep
 
+# Mac finder artifacts
+.DS_Store
+
 /public/assets
 .byebug_history
 

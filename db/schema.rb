@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_21_124547) do
+ActiveRecord::Schema.define(version: 2020_05_21_164237) do
+
+  create_table "agreements", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.decimal "value", precision: 10
+    t.integer "discount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id"], name: "index_agreements_on_id"
+  end
+
+  create_table "courses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "language_id", null: false
+    t.string "level_id", null: false
+    t.integer "grade"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["language_id"], name: "index_courses_on_language_id"
+    t.index ["level_id", "language_id"], name: "index_courses_on_level_id_and_language_id", unique: true
+    t.index ["level_id"], name: "index_courses_on_level_id"
+  end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -44,7 +64,9 @@ ActiveRecord::Schema.define(version: 2020_05_21_124547) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "ci"
+    t.string "document_id"
+    t.string "location"
+    t.string "source_country"
     t.string "name"
     t.string "last_name"
     t.string "number_phone"
@@ -59,4 +81,6 @@ ActiveRecord::Schema.define(version: 2020_05_21_124547) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "courses", "languages", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "courses", "levels", on_update: :cascade, on_delete: :cascade
 end

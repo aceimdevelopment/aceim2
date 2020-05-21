@@ -215,6 +215,23 @@ es:
     errors:
       <<: *errors
   activerecord:
+    models:
+      level:
+        one: "Nivel"
+        other: "Niveles"
+      language:
+        one: "Idioma"
+        other: "Idiomas"
+      course:
+        one: "Curso"
+        other: "Cursos"
+      agreement:
+        one: "Convenio"
+        other: "Convenios"
+      user:
+        one: "Usuario"
+        other: "Usuarios"
+
     errors:
       <<: *errors
   flash:
