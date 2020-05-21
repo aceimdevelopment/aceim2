@@ -8,8 +8,18 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  config.model 'Language' do
+    object_label_method do
+      :custom_label_method
+    end
+  end
+
+  def custom_label_method
+    "#{self.description}"
+  end
+
   ## == CancanCan ==
-  # config.authorize_with :cancancan
+  config.authorize_with :cancancan
 
   ## == Pundit ==
   # config.authorize_with :pundit

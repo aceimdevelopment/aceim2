@@ -26,7 +26,7 @@ class NavBarMain extends React.Component {
 					<Nav className="mr-auto">
 						<Nav.Link href="mailto:fundeimucv@gmail.com" className='nav-bar-link text-muted'>Contáctanos</Nav.Link>
 					</Nav>
-					<a class="login-button btn btn-primary" href="/users/sign_in">Entrar</a>
+					<a className="login-button btn btn-primary" href="/users/sign_in">Entrar</a>
 				</Navbar.Collapse>
 			</Navbar>
 
