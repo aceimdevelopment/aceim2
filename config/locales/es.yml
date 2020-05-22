@@ -231,6 +231,9 @@ es:
       user:
         one: "Usuario"
         other: "Usuarios"
+      period:
+        one: "Periodo"
+        other: "Periodos"
 
     errors:
       <<: *errors

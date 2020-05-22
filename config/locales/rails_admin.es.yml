@@ -26,7 +26,7 @@ es:
       basic_info: "Información Básica"
       optional: "<span class='label label-default'>Opcional</span>"
       required: "<span class='label label-danger'>Requerido</span>"
-      char_length_up_to: "Hasta 255 caracteres permitidos"
+      char_length_up_to: "máximos caracteres permitidos "
     actions:
       create: "crear"
       created: "creado"
@@ -55,6 +55,7 @@ es:
         menu: "Listado"
         breadcrumb: "%{model_label}"
       new:
+        done: 'guardar'
         link: "Agregar"
         title: "Nuevo"
         menu: "Agregar Nuevo"

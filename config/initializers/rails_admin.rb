@@ -8,6 +8,45 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  config.model Period do
+    label 'Periodo'
+    list do
+      field :desc
+      field :kind do
+        label 'Tipo'
+      end
+    end
+
+    edit do
+      field :year do
+        label 'Año'
+        html_attributes do
+          {:min => 2005, :max => 2040}
+        end        
+      end
+      field :letter do
+        label 'Letra'
+        html_attributes do
+          {:length => 1, :size => 1, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9]/g,'').charAt($(this).val().length-1))"}
+        end
+      # help 'Solo un caracter permitido'
+      end
+      field :kind do
+        label 'Tipo'
+      end
+      exclude_fields :created_at, :updated_at
+    end
+  end
+
+  # ActiveRecord::Base.descendants.each do |imodel| 
+  #   config.model "#{imodel.name}" do
+  #     list do
+  #       exclude_fields :created_at, :updated_at
+  #     end
+  #   end
+  # end
+
+
   config.model 'Language' do
     object_label_method do
       :custom_label_method

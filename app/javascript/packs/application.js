@@ -17,6 +17,15 @@ document.addEventListener("turbolinks:load", () => {
 	$('[data-toggle="popover"]').popover()
 })
 
+$(document).ready(function() {
+	$('.tooltip-btn').tooltip();
+
+	$('.onlyOneCharacter').on('input', function(evt) {
+		var node = $(this);
+		console.log(node.val());
+	});
+
+});
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
