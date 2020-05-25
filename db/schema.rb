@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_002805) do
+ActiveRecord::Schema.define(version: 2020_05_25_122727) do
+
+  create_table "administrators", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_administrators_on_user_id"
+  end
 
   create_table "agreements", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -27,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_002805) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["course_id"], name: "index_course_periods_on_course_id"
+    t.index ["period_id", "course_id"], name: "index_course_periods_on_period_id_and_course_id", unique: true
     t.index ["period_id"], name: "index_course_periods_on_period_id"
   end
 
@@ -39,6 +47,13 @@ ActiveRecord::Schema.define(version: 2020_05_25_002805) do
     t.index ["language_id"], name: "index_courses_on_language_id"
     t.index ["level_id", "language_id"], name: "index_courses_on_level_id_and_language_id", unique: true
     t.index ["level_id"], name: "index_courses_on_level_id"
+  end
+
+  create_table "instructors", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_instructors_on_user_id"
   end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -70,6 +85,16 @@ ActiveRecord::Schema.define(version: 2020_05_25_002805) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "students", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.string "personal_identity_document"
+    t.string "location"
+    t.string "source_country"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_students_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -81,25 +106,20 @@ ActiveRecord::Schema.define(version: 2020_05_25_002805) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "document_id"
-    t.string "location"
-    t.string "source_country"
     t.string "name"
     t.string "last_name"
     t.string "number_phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "superadmin_role", default: false
-    t.boolean "supervisor_role", default: false
-    t.boolean "user_role", default: true
-    t.boolean "student_role", default: false
-    t.boolean "teacher_role", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "administrators", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "course_periods", "courses"
   add_foreign_key "course_periods", "periods"
   add_foreign_key "courses", "languages", on_update: :cascade, on_delete: :cascade
   add_foreign_key "courses", "levels", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "instructors", "users", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "students", "users", on_update: :cascade, on_delete: :cascade
 end

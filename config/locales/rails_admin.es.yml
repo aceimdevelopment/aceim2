@@ -17,6 +17,7 @@ es:
       reset_filters: "Resetear filtros"
       refresh: "Refrescar"
     form:
+      char_length_of: "Caracteres entre"
       confirmation: "Confirmado"
       save: "Guardar"
       save_and_add_another: "Guardar y agregar otro"
