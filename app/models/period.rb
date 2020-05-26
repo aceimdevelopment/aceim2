@@ -8,8 +8,7 @@ class Period < ApplicationRecord
 	validates :kind, presence: true
 	enum kind: [:Online, :Interdiario, :Sabatino]
 
-	def desc
+	def name
 		[self.year, self.letter].compact.join(' - ')
 	end
-
 end

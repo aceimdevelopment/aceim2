@@ -216,24 +216,51 @@ es:
       <<: *errors
   activerecord:
     models:
+      bank:
+        one: Banco
+        other: Bancos
+      bank_account:
+        one: Cuenta Bancaria
+        other: Cuentas Bancarias
+      career:
+        one: Carrera
+        other: Carreras
+      course_period:
+        one: Curso Periodo
+        other: Cursos Periodos
+      payment_detail:
+        one: Detalle de Pago
+        other: Detalles de Pagos
+      section:
+        one: Sección
+        other: Secciones
+      student:
+        one: Estudiante
+        other: Estudiantes
+      qualification_detail:
+        one: Detalle de Calificación
+        other: Detalles de Calificaciones
       level:
-        one: "Nivel"
-        other: "Niveles"
+        one: Nivel
+        other: Niveles
       language:
-        one: "Idioma"
-        other: "Idiomas"
+        one: Idioma
+        other: Idiomas
       course:
-        one: "Curso"
-        other: "Cursos"
+        one: Curso
+        other: Cursos
       agreement:
-        one: "Convenio"
-        other: "Convenios"
+        one: Convenio
+        other: Convenios
       user:
-        one: "Usuario"
-        other: "Usuarios"
+        one: Usuario
+        other: Usuarios
       period:
-        one: "Periodo"
-        other: "Periodos"
+        one: Periodo
+        other: Periodos
+      academic_record:
+        one: Registro Académico
+        other: Registros Académicos
 
     errors:
       <<: *errors

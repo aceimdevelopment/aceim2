@@ -34,7 +34,6 @@ Agreement.create([
 {id: "Administra", name: "Escuela de Administración 50%", value: 100000, discount: 50},
 {id: "AUT30", name: "Descuento Autorizado por Directiva 30%", value: 140000, discount: 30},
 {id: "AUT50", name: "Descuento Autorizado por Directiva 50%", value: 100000, discount: 50},
-{id: "BBVA", name: "BBVA", value: 200000, discount: 0},
 {id: "Bomberos", name: "Convenio con los Bomberos UCV", value: 	0, discount: 100},
 {id: "CIENS", name:"Convenio con la Facultad de Ciencias", value: 100000, discount: 50},
 {id: "CP", name:"Centro Plaza", value: 200000, discount: 0},

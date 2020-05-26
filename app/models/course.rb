@@ -6,4 +6,8 @@ class Course < ApplicationRecord
   validates :level_id, presence: true
   validates :grade, presence: true
 
+
+  def name
+  	self.language and self.level ? "#{self.language.name}-#{self.level.name}" : "#{self.id}"
+  end
 end
