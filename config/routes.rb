@@ -12,5 +12,6 @@ Rails.application.routes.draw do
 		end
 	end
 
+	resources :student_session, only: [:index]
 	root to: 'home#index'
 end

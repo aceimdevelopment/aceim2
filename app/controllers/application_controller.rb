@@ -8,7 +8,11 @@ class ApplicationController < ActionController::Base
 
 	def after_sign_in_path_for(resource)
 		# dashboard_index_path
-		rails_admin_path
+		if current_user.student
+			student_session_index_path
+		else	
+			rails_admin_path
+		end
 	end
 
 end
