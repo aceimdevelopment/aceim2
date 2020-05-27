@@ -17,6 +17,7 @@ es:
       reset_filters: "Resetear filtros"
       refresh: "Refrescar"
     form:
+      new_model: 'Nuevo'
       char_length_of: "Caracteres entre"
       confirmation: "Confirmado"
       save: "Guardar"
@@ -29,6 +30,11 @@ es:
       required: "<span class='label label-danger'>Requerido</span>"
       char_length_up_to: "máximos caracteres permitidos "
     actions:
+      import:
+        done: "guardar"
+        menu: "importaciones"
+        breadcrumb: "importaciones"
+        title: "importación"
       create: "crear"
       created: "creado"
       update: "actualizar"
@@ -47,6 +53,7 @@ es:
         breadcrumb: "Detalle %{model_label}"
         menu: "Ver detalle"
       edit:
+        done: "guardado"
         link: "editar"
         title: "Editar"
         breadcrumb: "Editar %{model_label}"

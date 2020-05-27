@@ -7,6 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # 10.times { Item.create!(name: "Item", description: "I am a description.") }
+Bank.create([{id: '0102', name: 'Banco de Venezuela'}, {id: '0134', name: 'Banesco'}])
+
+BankAccount.create(id: 'FUNDEIM', number: '0102-0140-34000442688-4', holder: 'FUNDEIM (RIF: J-30174529-9)', bank_id: '0102')
+
+# User.create(email: 'moros.daniel@gmail.com', name: 'Daniel', last_name: 'Moros', number_phone: '04242603202', password: 'd15573230')
 
 Language.create([{id: 'IN', name: 'Inglés'}, 
 	{id: 'AL', name: 'Alemán'}, 

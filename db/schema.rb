@@ -16,14 +16,12 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.bigint "student_id", null: false
     t.bigint "section_id", null: false
     t.string "agreement_id", null: false
-    t.bigint "payment_detail_id", null: false
     t.integer "status", null: false
     t.float "final_qualification"
     t.boolean "qualified", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["agreement_id"], name: "index_academic_records_on_agreement_id"
-    t.index ["payment_detail_id"], name: "index_academic_records_on_payment_detail_id"
     t.index ["section_id"], name: "index_academic_records_on_section_id"
     t.index ["student_id"], name: "index_academic_records_on_student_id"
   end
@@ -75,6 +73,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   create_table "course_periods", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.bigint "period_id", null: false
+    t.integer "kind"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["course_id"], name: "index_course_periods_on_course_id"
@@ -125,9 +124,11 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.string "transaction_number", null: false
     t.string "bank_account_id", null: false
     t.string "source_bank_id"
+    t.bigint "academic_record_id"
     t.integer "transaction_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["academic_record_id"], name: "index_payment_details_on_academic_record_id"
     t.index ["bank_account_id"], name: "index_payment_details_on_bank_account_id"
     t.index ["source_bank_id"], name: "index_payment_details_on_source_bank_id"
   end
@@ -135,25 +136,26 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   create_table "periods", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "year"
     t.string "letter"
-    t.integer "kind"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "qualification_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "section_id", null: false
     t.bigint "qualifier_id", null: false
     t.date "qualification_date"
     t.boolean "qualified", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["qualifier_id"], name: "index_qualification_details_on_qualifier_id"
+    t.index ["section_id"], name: "index_qualification_details_on_section_id"
   end
 
   create_table "sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "number", null: false
     t.bigint "course_period_id", null: false
-    t.bigint "instructor_id", null: false
-    t.bigint "evaluator_id", null: false
+    t.bigint "instructor_id"
+    t.bigint "evaluator_id"
     t.boolean "open"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -175,6 +177,9 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
+    t.string "name"
+    t.string "last_name"
+    t.string "number_phone"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -184,9 +189,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "name"
-    t.string "last_name"
-    t.string "number_phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -194,7 +196,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   end
 
   add_foreign_key "academic_records", "agreements", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "academic_records", "payment_details", on_update: :cascade, on_delete: :cascade
   add_foreign_key "academic_records", "sections", on_update: :cascade, on_delete: :cascade
   add_foreign_key "academic_records", "students", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "administrators", "users", on_update: :cascade, on_delete: :cascade
@@ -207,9 +208,11 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   add_foreign_key "courses", "languages", on_update: :cascade, on_delete: :cascade
   add_foreign_key "courses", "levels", on_update: :cascade, on_delete: :cascade
   add_foreign_key "instructors", "users", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "payment_details", "academic_records", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "bank_accounts", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "banks", column: "source_bank_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "qualification_details", "instructors", column: "qualifier_id", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "qualification_details", "sections", on_update: :cascade, on_delete: :cascade
   add_foreign_key "sections", "course_periods", on_update: :cascade, on_delete: :cascade
   add_foreign_key "sections", "instructors", column: "evaluator_id", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "sections", "instructors", primary_key: "user_id", on_update: :cascade, on_delete: :cascade

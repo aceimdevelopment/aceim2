@@ -8,7 +8,23 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  config.configure_with(:import) do |config|
+    config.logging = true
+    config.line_item_limit = 30000
+    config.update_if_exists = false
+    config.rollback_on_error = false
+    # config.header_converter = lambda do |header|
+    #   header.parameterize.underscore if header.present?
+    # end
+    config.csv_options = {}
+  end
+
   config.model CoursePeriod do
+
+    # import do
+    #   mapping_key = [:period_id, :language_id, :level_id]
+    #   mapping_key_list [:period_id, :language_id, :level_id]
+    # end
 
     list do
       field :id
@@ -17,6 +33,9 @@ RailsAdmin.config do |config|
       end
       field :period do
         label :periodo
+      end
+      field :kind do
+        label 'Tipo'
       end
       field :sections do
         label :secciones
@@ -29,6 +48,9 @@ RailsAdmin.config do |config|
       end
       field :period do
         label 'periodo'
+      end
+      field :kind do
+        label 'Tipo'
       end
     end
 
@@ -53,7 +75,81 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model AcademicRecord do
+
+    list do
+      configure :period_desc do
+        label 'Periodo'
+      end
+      configure :section_desc_short do
+        label 'Sección'
+      end
+      field :status do
+        label 'Estado'
+      end
+      field :agreement_id do
+        label 'Convenio'
+      end
+      field :student do 
+        label 'Estudiante'
+      end
+      fields :student, :period_desc, :section_desc_short, :agreement_id, :status
+    end
+  end
+
+
+  config.model Section do
+
+    # import do
+    #   mapping_key = [:period_id, :language_id, :level_id, :number]
+    #   mapping_key_list [:period_id, :language_id, :level_id, :number]
+    # end
+
+    edit do
+      field :course_period do
+        label 'Curso Periodo'
+      end
+      field :number do
+        label 'número'
+      end
+      field :instructor
+
+      field :evaluator do
+        label 'Evaluador'
+      end
+      field :open do
+        label '¿Abierta?'
+      end
+    end
+
+    list do
+      field :course_period do
+        label 'Curso Periodo'
+      end
+      field :number do
+        label 'número'
+      end
+      field :open do
+        label '¿Abierta?'
+      end
+      field :instructor do
+        label 'Instructor'
+      end
+      field :evaluator do
+        label 'Evaludor'
+      end
+    end
+
+  end
+
+
   config.model Instructor do
+
+    import do
+      mapping_key :user_email
+      mapping_key_list [:active]
+    end
+
     edit do
       field :user do
         label 'usuario'
@@ -75,6 +171,14 @@ RailsAdmin.config do |config|
   end
 
   config.model Student do
+
+    import do
+      mapping_key :user_email
+      # for multiple values, use mapping_key [:first_name, :last_name]
+      mapping_key_list [:personal_identity_document, :active, :location]
+
+    end
+
     list do
       field :user do
         label 'Usuario'
@@ -109,6 +213,19 @@ RailsAdmin.config do |config|
     end
   end
   config.model User do
+
+    import do
+      mapping_key :email
+      # for multiple values, use mapping_key [:first_name, :last_name]
+      mapping_key_list [:email, :name, :last_name, :number_phone]
+      # field :email
+      # field :name
+      # field :last_name
+      # field :number_phone
+      # field :password
+    end
+
+
     edit do
       field :name do
         label 'Nombres'
@@ -166,9 +283,6 @@ RailsAdmin.config do |config|
       field :name do
         label 'Id'
       end
-      field :kind do
-        label 'Tipo'
-      end
     end
 
     edit do
@@ -184,9 +298,6 @@ RailsAdmin.config do |config|
           {:length => 1, :size => 1, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9]/g,'').charAt($(this).val().length-1))"}
         end
       # help 'Solo un caracter permitido'
-      end
-      field :kind do
-        label 'Tipo'
       end
       # exclude_fields :created_at, :updated_at
     end
@@ -211,7 +322,9 @@ RailsAdmin.config do |config|
 #    "#{self.name}"
 #  end
 
-  config.excluded_models = ["Item", "User"]
+  # config.excluded_models = ["Item", "User"]
+  config.excluded_models << "Item"
+
 
   ## == CancanCan ==
   config.authorize_with :cancancan
@@ -233,6 +346,7 @@ RailsAdmin.config do |config|
     index                         # mandatory
     new
     export
+    import
     bulk_delete
     show
     edit
