@@ -84,8 +84,14 @@ RailsAdmin.config do |config|
       configure :section_desc_short do
         label 'Sección'
       end
-      field :status do
+      field :inscription_status do
         label 'Estado'
+      end
+      field :final_qualification do
+        label 'Nota Final'
+      end
+      field :qualification_status do
+        label 'Estado Cal'
       end
       field :agreement_id do
         label 'Convenio'
@@ -93,7 +99,7 @@ RailsAdmin.config do |config|
       field :student do 
         label 'Estudiante'
       end
-      fields :student, :period_desc, :section_desc_short, :agreement_id, :status
+      fields :student, :period_desc, :section_desc_short, :agreement_id, :inscription_status, :qualification_status, :final_qualification
     end
   end
 

@@ -16,12 +16,13 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.bigint "student_id", null: false
     t.bigint "section_id", null: false
     t.string "agreement_id", null: false
-    t.integer "status", null: false
+    t.string "qualification_status_id", null: false
+    t.integer "inscription_status", default: 0, null: false
     t.float "final_qualification"
-    t.boolean "qualified", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["agreement_id"], name: "index_academic_records_on_agreement_id"
+    t.index ["qualification_status_id"], name: "index_academic_records_on_qualification_status_id"
     t.index ["section_id"], name: "index_academic_records_on_section_id"
     t.index ["student_id"], name: "index_academic_records_on_student_id"
   end
@@ -151,6 +152,11 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.index ["section_id"], name: "index_qualification_details_on_section_id"
   end
 
+  create_table "qualification_statuses", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.index ["id"], name: "index_qualification_statuses_on_id"
+  end
+
   create_table "sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "number", null: false
     t.bigint "course_period_id", null: false
@@ -196,6 +202,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   end
 
   add_foreign_key "academic_records", "agreements", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "academic_records", "qualification_statuses", on_update: :cascade, on_delete: :cascade
   add_foreign_key "academic_records", "sections", on_update: :cascade, on_delete: :cascade
   add_foreign_key "academic_records", "students", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "administrators", "users", on_update: :cascade, on_delete: :cascade
