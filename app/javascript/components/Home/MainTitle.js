@@ -7,14 +7,16 @@ import Image from 'react-bootstrap/Image'
 class MainTitle extends React.Component {
   render() {
     return (
-		<div className='text-center text-info py-5 align-middle'>
-		<Image src={LogoUCV} width='100px' className='float-left m-5' rounded />
-		<Image src={LogoFHE} width='100px' className='float-right m-5' rounded />
-		<Image src={LogoEIM} rounded className='m-5'/>
-        <h3> Universidad Central de Venezuela </h3>
-        <h3> Facultad de Humanidad y Educación</h3>
-        <h3> Escuela de Idiomas </h3>
-        <h3> FUNDEIM </h3>
+		<div className='text-center text-info pt-4 align-middle'>
+		  <Image src={LogoUCV} width='100px' className='float-left m-5' rounded />
+		  <Image src={LogoFHE} width='100px' className='float-right m-5' rounded />
+		  <Image src={LogoEIM} rounded className='mt-5 mb-3'/>
+      <h5 className=' mb-0'> Universidad Central de Venezuela </h5>
+      <h5 className=' mb-0'> Facultad de Humanidad y Educación</h5>
+      <h5 className=' mb-0'> Escuela de Idiomas </h5>
+      <h5 className=' mb-0'> FUNDEIM </h5>
+      <br/>
+      <br/>
       </div>
     );
   }
