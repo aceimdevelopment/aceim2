@@ -17,7 +17,7 @@ class FootBar extends React.Component {
 		// const bgColor = 'background-image: linear-gradient(0, #1B3A5B)'
 		// const bgNavBar = 
 		return (
-			<p className='footer-copyright text-center text-light py-3 color-bg-nav fixed-bottom'>© Moros Dev Solutions - 2020</p>
+			<small className='footer-copyright text-center text-light py-1 color-bg-nav fixed-bottom'>© CAPRUMC Devs - 2020</small>
 		);
 	}
 }
