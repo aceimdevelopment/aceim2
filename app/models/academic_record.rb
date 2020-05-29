@@ -7,6 +7,8 @@ class AcademicRecord < ApplicationRecord
 
   enum inscription_status: [:Preinscrito, :Confirmado]
 
+  validates :student_id, uniqueness: {scope: :section_id}
+
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period_aux = Period.where(year: year_aux, letter: letter_aux).first) && (course_aux = Course.where(language_id: record[:language_id], level_id: record[:level_id]).first) && (course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id).first) && (section_aux = Section.where(course_period_id: course_period_aux.id, number: record[:number]).first)
       self.section_id = section_aux.id
@@ -29,11 +31,11 @@ class AcademicRecord < ApplicationRecord
     (student and student.user) ? student.user.description : ""
   end
   def period_desc
-    section.period.name
+    section.period.name if section and section.period
   end
 
   def section_desc_short
-    "#{section.number} (#{section.course.language_id}-#{section.course.level_id})"
+    "#{section.number} (#{section.course.language_id}-#{section.course.level_id})" if section
   end
 
 end

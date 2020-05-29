@@ -4,8 +4,10 @@ class Instructor < ApplicationRecord
 	validates :user_id, presence: true
 
 	def before_import_save(record)
-		if (email = record[:user_email]) && (user_aux = User.find_by_email(email))
-			self.user_id = user_aux.id
-		end
+		self.user_id = record[:user_id]
+		# if (email = record[:user_email]) && (user_aux = User.find_by_email(email))
+			# self.user_id = user_aux.id
+		self.active = record[:active]
+		# end
 	end
 end

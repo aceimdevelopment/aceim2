@@ -66,8 +66,8 @@ RailsAdmin.config do |config|
       end
     end
     list do
-      field :user do
-        label 'usuario'
+      field :name do
+        label 'Usuario'
       end
       field :role do
         label 'rol'
@@ -151,10 +151,10 @@ RailsAdmin.config do |config|
 
   config.model Instructor do
 
-    import do
-      mapping_key :user_email
-      mapping_key_list [:active]
-    end
+    # import do
+    #   mapping_key :user_id
+    #   mapping_key_list [:active]
+    # end
 
     edit do
       field :user do
@@ -179,9 +179,9 @@ RailsAdmin.config do |config|
   config.model Student do
 
     import do
-      mapping_key :user_email
+      mapping_key :user_id
       # for multiple values, use mapping_key [:first_name, :last_name]
-      mapping_key_list [:personal_identity_document, :active, :location]
+      mapping_key_list [:personal_identity_document, :user_id, :user_email]
 
     end
 

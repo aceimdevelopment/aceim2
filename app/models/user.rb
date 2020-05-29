@@ -8,12 +8,13 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :number_phone, presence: true
 
+  # belongs_to :administrator, foreign_key: :user_id
   has_one :administrator
-  accepts_nested_attributes_for :administrator
+  # accepts_nested_attributes_for :administrator
   has_one :student
-  accepts_nested_attributes_for :student
+  # accepts_nested_attributes_for :student
   has_one :instructor
-  accepts_nested_attributes_for :student
+  # accepts_nested_attributes_for :instructor
 
 
   attr_accessor :allow_blank_password
