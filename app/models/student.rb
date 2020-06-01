@@ -4,7 +4,7 @@ class Student < ApplicationRecord
   accepts_nested_attributes_for :user
 
 	validates :user_id, presence: true
-	validates :personal_identity_document, presence: true, uniqueness: true#, case_sensitive: true
+	validates :personal_identity_document, presence: true, uniqueness: true, unless: :new_record? #, case_sensitive: true
 
   has_many :careers
   accepts_nested_attributes_for :careers

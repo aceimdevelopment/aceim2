@@ -8,10 +8,12 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag 'logo_favicon.ico' %>
   </head>
 
-  <body>
+  <body class="grey-bg">
     <%= render 'layouts/toastr_alert' %>
+    <%# render 'layouts/topnavbar' %>
     <%= react_component 'NavBarMainLogin' %>
     <%= yield %>
     <%= react_component 'FootBar' %>

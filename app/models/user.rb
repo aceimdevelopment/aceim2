@@ -4,9 +4,9 @@ class User < ApplicationRecord
   # has_one :user, through: :student
   validates :email, presence: true#, uniqueness: true
   # validates_uniqueness_of :email#, message: 'La sección ya existe para el período seleccionado', field_name: false
-  validates :name, presence: true
-  validates :last_name, presence: true
-  validates :number_phone, presence: true
+  validates :name, presence: true, unless: :new_record?
+  validates :last_name, presence: true, unless: :new_record?
+  validates :number_phone, presence: true, unless: :new_record?
 
   # belongs_to :administrator, foreign_key: :user_id
   has_one :administrator

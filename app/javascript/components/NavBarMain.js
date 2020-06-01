@@ -20,13 +20,13 @@ class NavBarMain extends React.Component {
 	render() {
 		return (
 			<Navbar expand="lg" className='color-bg-nav' fixed='top'>
-				<Navbar.Brand href="#home" className='nav-bar-link text-info'>Fundeim</Navbar.Brand>
+				<Navbar.Brand href="/" className='nav-bar-link text-info'>Fundeim</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="mr-auto">
 						<Nav.Link href="mailto:fundeimucv@gmail.com" className='nav-bar-link text-muted'>Contáctanos</Nav.Link>
 					</Nav>
-					{/*<a className="login-button btn btn-primary" href="/users/sign_in">Entrar</a>*/}
+					<a className="login-button btn btn-primary" href="/users/sign_in">Ingresa</a>
 				</Navbar.Collapse>
 			</Navbar>
 

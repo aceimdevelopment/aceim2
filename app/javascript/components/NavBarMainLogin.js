@@ -20,7 +20,7 @@ class NavBarMainLogin extends React.Component {
 	render() {
 		return (
 			<Navbar expand="lg" className='color-bg-nav' fixed='top'>
-				<Navbar.Brand href="#home" className='nav-bar-link text-info'>Fundeim</Navbar.Brand>
+				<Navbar.Brand href="/" className='nav-bar-link text-info'>Fundeim</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="mr-auto">

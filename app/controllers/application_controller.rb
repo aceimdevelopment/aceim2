@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
 
   	before_action :authenticate_user!
 
+	# def after_sign_up_path_for(resource)
+	# 	1/0
+	# 	# if param[:student]
+
+	# 	student_session_index_path
+	# end
+
+
 	def after_sign_in_path_for(resource)
 		# dashboard_index_path
 		if current_user.student

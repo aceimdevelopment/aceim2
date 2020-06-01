@@ -1,7 +1,7 @@
 import React, {useRef} from 'react'
 import LogoEIM from 'images/logo_eim.png';
 import LogoUCV from 'images/logo_ucv.png';
-import LogoFHE from 'images/logo_fhye.jpg';
+import LogoFHE from 'images/logo_fhye.png';
 import Image from 'react-bootstrap/Image'
 
 class MainTitle extends React.Component {
@@ -16,6 +16,11 @@ class MainTitle extends React.Component {
       <h5 className=' mb-0'> Escuela de Idiomas </h5>
       <h5 className=' mb-0'> FUNDEIM </h5>
       <br/>
+      <a className="mr-2 btn btn-success" href="/users/sign_up">¡Regístrate!</a>
+      
+      ó
+      
+      <a className="ml-2 btn btn-primary" href="/users/sign_in">Ingresa</a>
       <br/>
       </div>
     );
