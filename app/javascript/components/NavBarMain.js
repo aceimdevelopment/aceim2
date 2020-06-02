@@ -5,9 +5,10 @@ import FormLogin from './FormLogin'
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
+import axios from 'axios-on-rails'
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +18,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import LogoEIMWhite from 'images/logo_eim_white.png';
 
 class NavBarMain extends React.Component {
+
+	checkLoggin(){
+		var loggedInUser;
+		axios.get('/home/longged_in', { withCredentials: true }).then((response) => {
+			
+			loggedInUser = response.data
+		}).catch(error => {
+			console.log("Error: ", error)
+		})
+		return loggedInUser
+	}
+
 	render() {
+		let loginButton;
+		console.log(this.checkLoggin());
+
+		if (false) {
+			loginButton = <LogoutButton />;
+		} else {
+			loginButton = <LoginButton />;
+		}
+
 		return (
 			<Navbar expand="lg" className='color-bg-nav' fixed='top'>
 				<Navbar.Brand href="/" className='nav-bar-link text-info'>Fundeim</Navbar.Brand>
@@ -26,7 +48,7 @@ class NavBarMain extends React.Component {
 					<Nav className="mr-auto">
 						<Nav.Link href="mailto:fundeimucv@gmail.com" className='nav-bar-link text-muted'>Contáctanos</Nav.Link>
 					</Nav>
-					<a className="login-button btn btn-primary" href="/users/sign_in">Ingresa</a>
+					{loginButton}
 				</Navbar.Collapse>
 			</Navbar>
 
