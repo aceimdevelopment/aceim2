@@ -1,7 +1,7 @@
 RailsAdmin.config do |config|
 
   ### Popular gems integration
-
+  config.main_app_name = Proc.new { |controller| [ "Aceim", "Admin - #{controller.params[:action].try(:titleize)}" ] }
   ## == Devise ==
   config.authenticate_with do
     warden.authenticate! scope: :user
@@ -328,8 +328,8 @@ RailsAdmin.config do |config|
 #    "#{self.name}"
 #  end
 
-  # config.excluded_models = ["Item", "User"]
-  config.excluded_models << "Item"
+  config.excluded_models = ["Item", "QualificationDetail", "QualificationStatus", "PaymentDetail"]
+  # config.excluded_models << "Item"
 
 
   ## == CancanCan ==

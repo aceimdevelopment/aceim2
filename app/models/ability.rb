@@ -13,11 +13,38 @@ class Ability
     #
     user ||= User.new # guest user (not logged in)
 
-    can :access, :rails_admin 
-    # can :read, :dashboard 
+    # all_visible = [Course, CoursePeriod, Bank, Career, Agreement, BankAccount, Student, Instructor, Language, Level, Period, Section, AcademicRecord, User]
+
+    if user.administrator?
+        can :access, :rails_admin
+        can :manage, :dashboard
+        if user.administrator.desarrollador?
+            can :manage, :all
+        elsif user.administrator.superadmin?
+            can :manage, [CoursePeriod, Career, Student, Instructor, Section, AcademicRecord, User]
+            can :read, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
+            can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
+            can :create, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
+            # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
+
+        else
+            can :read, [Course, CoursePeriod, AcademicRecord, Student]
+        end
+        #     can :read, [Administrator]
+        # elsif user.administrator.supervisor
+        #     can :create, [Student, Instructor, User]
+        #     can :update, [Student, Instructor, User, AcademicRecord]
+        #     cannot :destroy, [Student, Instructor, User]
+        #     can :read, [Course, CoursePeriod, Career]
+        # else
+        #     can :read, [Course, CoursePeriod, Career, Student, Instructor, AcademicRecord]
+        # end
+
+    end
+
     # can :manage, :dashboard 
     # can :manage, [User]
-    can :manage, :all
+    # can :manage, :all
 
     # if user.superadmin_role?
     #   can :manage, :all

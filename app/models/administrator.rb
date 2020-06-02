@@ -3,10 +3,10 @@ class Administrator < ApplicationRecord
 	# accepts_nested_attributes_for :user 
 	validates :user_id, presence: true
 	validates :role, presence: true
-	enum role: [:Desarrollador, :SuperAdmin, :Supervidor, :Admin]
+	enum role: [:desarrollador, :superadmin, :supervidor, :admin]
 
 	def before_import_save(record)
-		p "Fuera de la búsqueda de usuario: #{record}"
+		# p "Fuera de la búsqueda de usuario: #{record}"
 		if user_aux = User.find(record[:id])
 			p "rol: #{record[:rol]}"
 			self.user_id = user_aux.id

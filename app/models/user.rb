@@ -25,6 +25,18 @@ class User < ApplicationRecord
   before_save :upcase_names
   # before_validation :upcase_names
 
+  def administrator?
+    self.administrator ? true : false
+  end
+
+  def student?
+    self.student ? true : false
+  end
+
+  def instructor?
+    self.instructor ? true : false
+  end
+
   def any_blank?
     return (name.blank? or last_name.blank? or number_phone.blank? or (student and student.any_blank?))
   end

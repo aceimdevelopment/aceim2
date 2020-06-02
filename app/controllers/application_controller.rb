@@ -16,10 +16,21 @@ class ApplicationController < ActionController::Base
 
 	def after_sign_in_path_for(resource)
 		# dashboard_index_path
-		if current_user.student
+		roles = []
+		roles << :administrador if current_user.administrator
+		roles << :student if current_user.student
+		# roles << :instructor if current_user.instructor
+
+		if roles.count > 1
+			params[:roles] = roles
+			select_role_home_index_path(roles: roles)
+		elsif current_user.student?
 			student_session_index_path
-		else	
+		elsif current_user.adminstrator?
 			rails_admin_path
+		else
+			flash[:warning] = "No posee rol asignado. Por favor diríjase a un Administrador para cambiar dicha situación"
+			root_path 
 		end
 	end
 

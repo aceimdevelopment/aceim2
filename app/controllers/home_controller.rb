@@ -4,4 +4,8 @@ class HomeController < ApplicationController
 	def index
 		session.clear
 	end
+
+	def select_role
+		@roles = params[:roles]
+	end
 end
