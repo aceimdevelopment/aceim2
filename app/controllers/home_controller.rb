@@ -1,8 +1,12 @@
 class HomeController < ApplicationController
-	skip_before_action :authenticate_user!, :only => [:index]
-	layout 'home'
+	skip_before_action :authenticate_user!, only: [:index,:longged_in]
+	# layout 'home'
 	def index
 		session.clear
+	end
+
+	def longged_in
+		render json: user_signed_in?
 	end
 
 	def select_role

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :home, only: [:index] do
     collection do
       get 'select_role'
+      get 'longged_in'
     end
   end
 
