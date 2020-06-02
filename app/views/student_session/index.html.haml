@@ -1,0 +1,30 @@
+- if current_user.any_blank? or current_user.sign_in_count.eql? 0
+  - @user = current_user
+  - content = render partial: '/users/form'
+  - title = "Datos Personales"
+  - msg = "<strong>Atención</strong>: Por favor, actualiza tus datos personales"
+  - id = "updatePersonalData"
+  = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, content: content }
+
+%br
+%h1.mt-5 Dashboard
+%h3.m-3 Registro Académico:
+.border.p-3.m-3
+  -if current_user.student.academic_records.any?
+    %table.table.table-sm.table-striped.table-hover
+      %thead
+        %tr
+          %th Curso
+          %th Período
+          %th Calificación
+      %tbody
+        - current_user.student.academic_records.each do |ra|
+          %tr
+            %td= ra.section.course.name
+            %td= ra.period_desc
+            %td= ra.final_qualification
+  - else
+    - period = Periodo.where(year: '2020').last
+
+    -# available_courses = period.course
+    -# cursosp.

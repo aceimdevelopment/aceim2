@@ -12,6 +12,9 @@ class Student < ApplicationRecord
   has_many :academic_records
   accepts_nested_attributes_for :academic_records
 
+  before_save :upcase_location
+  # before_validation :upcase_location
+
   def before_import_save(record)
     # if (email = record[:user_email]) && (user = User.find_by_email(email))
       # self.personal_identity_document = self.personal_identity_document.delete! '^0-9'
@@ -22,8 +25,17 @@ class Student < ApplicationRecord
       self.active = record[:active]
     # end
   end
+
+  def any_blank?
+    personal_identity_document.blank? or location.blank? or source_country.blank?
+  end
 	
   def name
     "#{user.description}" if user
   end
+
+  def upcase_location
+    self.location = location.strip.upcase #if self.location
+  end
+
 end

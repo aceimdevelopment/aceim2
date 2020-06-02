@@ -1,0 +1,11 @@
+.modal.fade{'aria-hidden': false, 'aria-labelledby': 'updateModalLabel', id: 'updatePersonalData'}
+  .modal-dialog.modal-lg
+    .modal-content
+      - if msg
+        .alert.alert-info.text-center
+          %h5= raw msg
+      #updateModalLabel.text-center
+        = title
+      .modal-body
+        .border.m-1.p-3
+          = content

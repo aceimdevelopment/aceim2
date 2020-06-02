@@ -1,0 +1,16 @@
+%h3 ¡Registrate!
+= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  = render "devise/shared/error_messages", resource: resource
+  .form-group
+    = f.email_field :email, autofocus: true, autocomplete: "email", required: true, placeholder: "Correo Electrónico", class: 'form-control input-login', style: 'width: 300px;'
+  - if @minimum_password_length
+    %em
+      (#{@minimum_password_length} caracteres mínimos)
+  .form-group
+    = f.password_field :password, autocomplete: "new-password", placeholder: 'Contraseña', class: 'form-control input-login'
+  .form-group
+    = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: 'Confirma Contraseña', class: 'form-control input-login'
+  = hidden_field_tag :student, true
+  %button.btn.btn-primary.block.full-width.m-b{:type => "submit"} Completar Registro
+  ó
+  = render "devise/shared/links"

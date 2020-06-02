@@ -1,0 +1,18 @@
+.container-fluid.middle-box.text-center.loginscreen.animated.fadeInDown.mt-5
+  %div
+    %h1.logo-name
+      = image_tag 'logo_aceim2'
+  %h3 ¡Registrate!
+  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    = render "devise/shared/error_messages", resource: resource
+    .form-group
+      = f.email_field :email, autofocus: true, autocomplete: "email", required: true, placeholder: "Correo Electrónico", class: 'form-control input-login'
+    - if @minimum_password_length
+      %em
+        (#{@minimum_password_length} caracteres mínimos)
+    .form-group
+      = f.password_field :password, autocomplete: "new-password", placeholder: 'Contraseña', class: 'form-control input-login'
+    .form-group
+      = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: 'Confirma Contraseña', class: 'form-control input-login'
+    %button.btn.btn-primary.block.full-width.m-b{:type => "submit"} Completar Registro
+    = render "devise/shared/links"

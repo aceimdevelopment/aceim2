@@ -1,0 +1,46 @@
+=# "VALOR DE CONTADOR DE SESSIONES: #{current_user.sign_in_count}"
+= form_for @user do |f|
+  - if @user and @user.student
+    .form-group
+      = f.label :number_phone, value: 'Cédula de Identidad:'
+
+      = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'número de Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);", required: true, autofocus: true
+  .form-group
+    = f.label :number_phone, value: 'Nombres:'
+    = f.text_field :name, autofocus: true, placeholder: 'Nombres', class: 'form-control upcase', onInput: "disnableSpecialChar(this);", required: true
+  .form-group
+    = f.label :number_phone, value: 'Apellidos:'
+    = f.text_field :last_name, placeholder: 'Apellidos', class: 'form-control upcase', onInput: "disnableSpecialChar(this);", required: true
+  .form-group
+    = f.label :number_phone, value: 'Número Telefónico:'
+    .row
+      - @operators_code = ['0412', '0414', '0424', '0416','0426']
+      - if (@user and @user.number_phone)
+        -# @operator_code, @user.number_phone = @user.split_phone
+        - @operator_code = @user.number_phone[0..3] 
+        - @user.number_phone = @user.number_phone[4..10] 
+      = select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control col-3 ml-3', required: true, include_blank: 'CÓDIGO'
+      .col-1.text-center= "-"
+      = f.text_field :number_phone, placeholder: 'Complemento', class: 'form-control upcase col-7', onInput: "onlyNumber(this);maxSize(this, 7)", required: true
+  - if @user and @user.student
+    .form-group
+      = label_tag 'Ubicación:'
+      = text_field_tag 'student[location]', @user.student.location, placeholder: 'Dirección Corta', class: 'form-control upcase', required: true
+  = f.hidden_field :sign_in_count
+  - if false
+    .form-group
+      =# label_tag 'Origen:'
+      = hidden_field_tag 'student[source_country]', 'Venezuela', placeholder: 'País de Origen', disabled: true, class: 'form-control'
+
+  %button.btn.btn-primary.btn-lg.btn-block{:type => "submit"} Guardar
+:javascript
+  function disnableSpecialChar(elem) {
+    return elem.value = elem.value.replace(/[^A-Z|a-z| |Ñ]/g, '');
+  }
+
+  function onlyNumber(elem){
+    return elem.value = elem.value.replace(/[^0-9]/g,'');
+  }
+  function maxSize(elem, size){
+    return elem.value = elem.value.substring(0, size)
+  }

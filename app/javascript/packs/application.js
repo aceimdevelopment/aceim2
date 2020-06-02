@@ -17,9 +17,10 @@ document.addEventListener("turbolinks:load", () => {
 	$('[data-toggle="popover"]').popover()
 })
 
+
 $(document).ready(function() {
 	$('.tooltip-btn').tooltip();
-	$("#update_personal_data").modal({ keyboard: false, backdrop: 'static' });
+	$("#updatePersonalData").modal({ keyboard: false, backdrop: 'static' });
 	
 	$('.onlyOneCharacter').on('input', function(evt) {
 		var node = $(this);

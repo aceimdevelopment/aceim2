@@ -22,6 +22,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable
 
+  before_save :upcase_names
+  # before_validation :upcase_names
+
+  def any_blank?
+    return (name.blank? or last_name.blank? or number_phone.blank? or (student and student.any_blank?))
+  end
 
   def description
     "#{last_name}, #{name} (#{email})"
@@ -39,6 +45,16 @@ class User < ApplicationRecord
     # self.allow_blank_password = true
   end
 
+  def upcase_names
+    self.name = name.strip.upcase
+    self.last_name = last_name.strip.upcase
+  end
+
+  def split_phone
+    operator_code = @user.number_phone[0..3] 
+    complement = @user.number_phone[3..10]
+    return [operator_code, complement]
+  end
   # def before_import_attributes(record)
   #   p 'Estamos Acá en before_import_attributes'
   #   # self.encrypted_password = password_digest(@password) if @password.present?

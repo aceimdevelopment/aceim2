@@ -7,6 +7,12 @@ class Period < ApplicationRecord
 
 	validates_uniqueness_of :year, scope: :letter, message: 'Período ya creado', field_name: false 
 
+	has_many :course_periods
+	accepts_nested_attributes_for :course_periods
+
+	# has_many :courses, through: :course_periods
+	# has_many :planes, through: :historialplanes, source: :plan
+
 	# validates_uniqueness_of :horario_id, scope: [:dia, :entrada], message: 'Ya existe un horario con una hora de entrada igual para la sección.', field_name: false
 
 	def name
