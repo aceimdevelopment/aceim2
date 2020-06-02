@@ -34,7 +34,7 @@ class NavBarMain extends React.Component {
 		let loginButton;
 		console.log(this.checkLoggin());
 
-		if (false) {
+		if (true) {
 			loginButton = <LogoutButton />;
 		} else {
 			loginButton = <LoginButton />;

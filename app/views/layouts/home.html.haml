@@ -1,9 +1,8 @@
 !!!
 %html
   %head
-        
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title 
+    %title Fundeim - Escuela de Idiomas Modernos - UCV
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -12,7 +11,7 @@
     = favicon_link_tag 'logo_favicon.ico'
   %body.grey-bg
     = render 'layouts/toastr_alert'
-    - if user_signed_in?
+    - if false #user_signed_in?
       = react_component 'NavBarMainLogin'
     - else
       = react_component 'NavBarMain'

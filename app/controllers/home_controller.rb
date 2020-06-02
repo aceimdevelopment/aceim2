@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
 	skip_before_action :authenticate_user!, only: [:index,:longged_in]
-	# layout 'home'
 	def index
 		session.clear
 	end
