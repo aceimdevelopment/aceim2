@@ -24,7 +24,7 @@ class Ability
             can :manage, [CoursePeriod, Career, Student, Instructor, Section, AcademicRecord, User]
             can :read, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
             can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
-            can :create, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
+            can :create, [Bank, Period, CoursePeriod, Agreement]
             # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
 
         else
