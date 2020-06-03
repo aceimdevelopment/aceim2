@@ -22,6 +22,12 @@ Rails.application.routes.draw do
   end
 
   resources :student_session, only: [:index]
+  resources :enrollment, only: [:index] do
+    member do
+      get 'regular'
+    end
+  end
+
   resources :users, only: [:show, :edit, :update]
   
   root to: 'home#index'

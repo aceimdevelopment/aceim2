@@ -34,7 +34,7 @@ class NavBarMain extends React.Component {
 		let loginButton;
 		console.log(this.checkLoggin());
 
-		if (true) {
+		if (false) {
 			loginButton = <LogoutButton />;
 		} else {
 			loginButton = <LoginButton />;
@@ -48,7 +48,7 @@ class NavBarMain extends React.Component {
 					<Nav className="mr-auto">
 						<Nav.Link href="mailto:fundeimucv@gmail.com" className='nav-bar-link text-muted'>Contáctanos</Nav.Link>
 					</Nav>
-					{loginButton}
+					<LoginButton />
 				</Navbar.Collapse>
 			</Navbar>
 

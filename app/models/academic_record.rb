@@ -1,14 +1,27 @@
 class AcademicRecord < ApplicationRecord
+  #=========== RELATIONSHIPS=======#
   belongs_to :student
   belongs_to :section
   belongs_to :agreement
   belongs_to :qualification_status
   belongs_to :payment_detail, optional: true
 
-  enum inscription_status: [:Preinscrito, :Confirmado]
+  has_one :course_period, through: :section, dependent: :nullify
+  has_one :course, through: :course_period, dependent: :nullify
 
+  #============TYPES===============#
+  enum inscription_status: [:preinscrito, :confirmado]
+  SC = -2
+  PI = -1
+  #============VALIDATIONS=========#
   validates :student_id, uniqueness: {scope: :section_id}
+  after_initialize  :set_default, :if => :new_record?
 
+  #============SCOPE===============#
+  scope :approved, -> {where(qualification_status_id: :AP)}
+  scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
+
+  #============FUNCTIONS============#
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period_aux = Period.where(year: year_aux, letter: letter_aux).first) && (course_aux = Course.where(language_id: record[:language_id], level_id: record[:level_id]).first) && (course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id).first) && (section_aux = Section.where(course_period_id: course_period_aux.id, number: record[:number]).first)
       self.section_id = section_aux.id
@@ -37,5 +50,24 @@ class AcademicRecord < ApplicationRecord
   def section_desc_short
     "#{section.number} (#{section.course.language_id}-#{section.course.level_id})" if section
   end
+
+  def final_desc
+    case final_qualification
+      when SC 
+         "SC"
+      when PI
+        "PI"
+      else
+        sprintf("%02i",final_qualification)
+    end
+  end
+
+  protected
+
+  def set_default
+    self.final_qualification ||= SC
+    self.qualification_status_id ||= 'REG'
+  end
+
 
 end

@@ -1,14 +1,28 @@
 class CoursePeriod < ApplicationRecord
+  #========== RELATIONSHIPS ==========#
+  
   belongs_to :course
   belongs_to :period
+  # has_one :language, through: :course, dependent: :nullify
+  has_many :sections
+  accepts_nested_attributes_for :sections
 
+  has_many :academic_records, through: :sections
+  accepts_nested_attributes_for :academic_records
+  
+  #========== VALIDATIONS ==========#
   validates :course_id, presence: true
   validates :period_id, presence: true
   validates :kind, presence: true
-  enum kind: [:Online, :Interdiario, :Sabatino, :Mixtos]
+  enum kind: [:online, :interdiario, :sabatino, :mixtos]
 
-  has_many :sections
-  accepts_nested_attributes_for :sections
+  after_create :create_first_section
+  #========== SCOPE ==========#
+
+  #========== FUNCTIONS ==========#
+  def language
+    course.language if course
+  end
 
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period = Period.where(year: year_aux, letter: letter_aux).first)
@@ -20,8 +34,18 @@ class CoursePeriod < ApplicationRecord
     self.kind = :Mixtos
   end
 
+  def description_inscription
+    "#{course.name} para el período #{period.name} en la modalidad #{kind.capitalize}"
+  end
+
   def name
     (self.period and self.course) ? "#{self.period.name}:#{self.course.name}" : "#{self.id}"
+  end
+
+  protected
+
+  def create_first_section
+    sections.create(number: '1') unless sections.any?
   end
 
 end

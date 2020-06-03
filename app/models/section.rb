@@ -13,6 +13,10 @@ class Section < ApplicationRecord
 
   has_one :period, through: :course_period
   has_one :course, through: :course_period
+  has_one :language, through: :course
+
+  has_many :academic_records
+  accepts_nested_attributes_for :academic_records
 
   validates :number, presence: true
   validates :course_period_id, presence: true

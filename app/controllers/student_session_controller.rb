@@ -4,4 +4,8 @@ class StudentSessionController < ApplicationController
 	
 	def index
 	end
+
+	def regular_enrollment
+		1/0
+	end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_203626) do
+ActiveRecord::Schema.define(version: 2020_06_03_105928) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["course_id"], name: "index_course_periods_on_course_id"
-    t.index ["period_id", "course_id"], name: "index_course_periods_on_period_id_and_course_id", unique: true
+    t.index ["period_id", "course_id", "kind"], name: "index_course_periods_on_period_id_and_course_id_and_kind", unique: true
     t.index ["period_id"], name: "index_course_periods_on_period_id"
   end
 
@@ -95,13 +95,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   end
 
   create_table "instructors", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.boolean "active", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_instructors_on_user_id"
-  end
-
-  create_table "instructors_copy", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -189,57 +182,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 
-  create_table "students_copy", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.boolean "active", default: true
-    t.string "personal_identity_document"
-    t.string "location"
-    t.string "source_country"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_students_on_user_id"
-  end
-
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "name"
-    t.string "last_name"
-    t.string "number_phone"
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "users_copy", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "name"
-    t.string "last_name"
-    t.string "number_phone"
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "users_copy1", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "name"
     t.string "last_name"
@@ -273,7 +216,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   add_foreign_key "courses", "languages", on_update: :cascade, on_delete: :cascade
   add_foreign_key "courses", "levels", on_update: :cascade, on_delete: :cascade
   add_foreign_key "instructors", "users", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "instructors_copy", "users", name: "instructors_copy_ibfk_1", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "academic_records", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "bank_accounts", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "banks", column: "source_bank_id", on_update: :cascade, on_delete: :cascade
@@ -283,5 +225,4 @@ ActiveRecord::Schema.define(version: 2020_05_25_203626) do
   add_foreign_key "sections", "instructors", column: "evaluator_id", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "sections", "instructors", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "students", "users", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "students_copy", "users", name: "students_copy_ibfk_1", on_update: :cascade, on_delete: :cascade
 end

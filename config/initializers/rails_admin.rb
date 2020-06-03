@@ -27,12 +27,21 @@ RailsAdmin.config do |config|
     # end
 
     list do
-      field :id
+
+      # field :period do
+      #   label 'Periodo'
+      #   formatted_value do
+      #     bindings[:object].period.name
+      #   end
+      #   filterable true
+      #   searchable true
+      # end
+
       field :course do
-        label :curso
+        label 'Curso'
       end
       field :period do
-        label :periodo
+        label 'Periodo'
       end
       field :kind do
         label 'Tipo'
@@ -129,9 +138,30 @@ RailsAdmin.config do |config|
     end
 
     list do
-      field :course_period do
-        label 'Curso Periodo'
+
+      field :language do
+        label 'Idioma'
+        formatted_value do
+          bindings[:object].language.name
+        end
+        filterable true
+        searchable true
       end
+
+      field :period do
+        label 'Periodo'
+        formatted_value do
+          bindings[:object].period.name
+        end
+        filterable true
+        searchable true
+      end
+
+
+
+      # field :language do
+      #   formatted_value{ bindings[:object].language.name }
+      # end
       field :number do
         label 'número'
       end
