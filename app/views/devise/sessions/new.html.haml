@@ -1,2 +1,6 @@
-- content = render partial: 'form'
-= render partial: '/layouts/login', locals: {content: content}
+%br
+.container-fluid.middle-box.text-center.loginscreen.animated.fadeInDown.mt-5
+
+	= react_component 'LoginTitle'
+	= render partial: 'form'
+=# render partial: '/layouts/login', locals: {content: content}
