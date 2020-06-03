@@ -13,6 +13,7 @@
     %input#user_remember_me{:name => "user[remember_me]", :type => "checkbox", :value => "1"}/
     %label{:for => "user_remember_me"} Recuérdame
   %button.btn.btn-primary.block.full-width.m-b{:type => "submit"} Entra
+  ó 
   = render "devise/shared/links"
   - if devise_mapping.registerable? && controller_name != 'registrations'
     %p.text-muted.text-center
