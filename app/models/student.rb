@@ -12,7 +12,7 @@ class Student < ApplicationRecord
   has_many :academic_records
   accepts_nested_attributes_for :academic_records
 
-  before_save :upcase_location
+  before_save :upcase_location, unless: :new_record?
   # before_validation :upcase_location
 
   def before_import_save(record)

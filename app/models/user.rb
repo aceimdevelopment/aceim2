@@ -22,7 +22,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable
 
-  before_save :upcase_names
+  before_save :upcase_names, unless: :new_record?
   # before_validation :upcase_names
 
   def administrator?
