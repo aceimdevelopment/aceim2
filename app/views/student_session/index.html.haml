@@ -40,9 +40,9 @@
 - else
   - period = Period.where(year: 2020).last 
   -# period.course_periods.each do |cp| 
-  -# period.course_periods.joins(:course).where("courses.level_id = ?", 'BI').each do |cp| 
-  -# period.course_periods.online.each do |cp| 
-    =# link_to "¡Inscríbite #{cp.language.name.capitalize} (#{cp.kind.capitalize})", regular_enrollment_path(cp.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{cp.description_inscription}'?"
+  -# period.course_periods.online.each do |cp| 
+  - period.course_periods.joins(:course).where("courses.level_id = ?", 'BI').online.each do |cp| 
+    = link_to "¡Inscríbite #{cp.language.name.capitalize} (#{cp.kind.capitalize})", regular_enrollment_path(cp.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{cp.description_inscription}'?"
 
   -# available_courses = period.course
   -# cursosp.
