@@ -42,3 +42,6 @@ workers 1
 
 # Min and Max threads per worker
 threads 1, 5
+
+
+# worker processes = support multiple concurrent requests

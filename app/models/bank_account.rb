@@ -11,7 +11,7 @@ class BankAccount < ApplicationRecord
   validates :bank_id, presence: true
 
   # ========== RAILS ADMIN ============ #
-  config.model BankAccount do
+  rails_admin do
     edit do
       field :id do
         label 'Identificador'
