@@ -38,7 +38,7 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 plugin :tmp_restart
 
 # Change to match your CPU core count
-workers 2
+workers 1
 
 # Min and Max threads per worker
 threads 1, 6
