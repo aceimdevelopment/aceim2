@@ -1,5 +1,7 @@
 class Student < ApplicationRecord
 
+  # ========== RELATIONSHIPS ============ #
+
   belongs_to :user, foreign_key: :user_id
   accepts_nested_attributes_for :user
 
@@ -12,8 +14,13 @@ class Student < ApplicationRecord
   has_many :academic_records
   accepts_nested_attributes_for :academic_records
 
+  # ========== VALIDATIONS ============ #
+
   before_save :upcase_location, unless: :new_record?
   # before_validation :upcase_location
+
+
+  # ========== RAILS ADMIN ============ #
 
   def before_import_save(record)
     # if (email = record[:user_email]) && (user = User.find_by_email(email))
@@ -25,6 +32,51 @@ class Student < ApplicationRecord
       self.active = record[:active]
     # end
   end
+
+  rails_admin do
+
+    import do
+      mapping_key :user_id
+      # for multiple values, use mapping_key [:first_name, :last_name]
+      mapping_key_list [:personal_identity_document, :user_id, :user_email]
+
+    end
+
+    list do
+      field :user do
+        label 'Usuario'
+      end
+      field :personal_identity_document do
+        label 'PID'
+      end
+      field :location do
+        label 'Ubicación'
+      end
+      field :source_country do
+        label 'Origen'
+      end
+    end
+
+    edit do
+      field :user do
+        label 'Usuario'
+      end
+      field :personal_identity_document do
+        label 'Documento Personal de Identiicación'
+        html_attributes do
+          {:length => 8, :size => 8, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^0-9]/g,''))"}
+        end
+      end
+      field :location do
+        label 'Ubicación de Residencia'
+      end
+      field :source_country do
+        label 'País de Origen'
+      end
+    end
+  end
+
+  # ========== FUNCTIONS ============ #
 
   def any_blank?
     personal_identity_document.blank? or location.blank? or source_country.blank?

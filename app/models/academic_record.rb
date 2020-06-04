@@ -8,6 +8,7 @@ class AcademicRecord < ApplicationRecord
 
   has_one :course_period, through: :section, dependent: :nullify
   has_one :course, through: :course_period, dependent: :nullify
+  has_one :period, through: :course_period, dependent: :nullify
 
   #============TYPES===============#
   enum inscription_status: [:preinscrito, :confirmado]
@@ -20,6 +21,41 @@ class AcademicRecord < ApplicationRecord
   #============SCOPE===============#
   scope :approved, -> {where(qualification_status_id: :AP)}
   scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
+
+
+  # ===========RAILS ADMIN ====================#
+
+  rails_admin do
+
+    list do
+      configure :period_desc do
+        label 'Periodo'
+      end
+      configure :section_desc_short do
+        label 'Sección'
+      end
+      field :inscription_status do
+        label 'Estado'
+      end
+      field :final_qualification do
+        label 'Nota Final'
+      end
+      field :qualification_status do
+        label 'Estado Cal'
+      end
+      field :agreement_id do
+        label 'Convenio'
+      end
+      field :student do 
+        label 'Estudiante'
+      end
+      fields :student, :period_desc, :section_desc_short, :agreement_id, :inscription_status, :qualification_status, :final_qualification
+    end
+  end
+
+  # ===========RAILS ADMIN END ================#
+
+
 
   #============FUNCTIONS============#
   def before_import_save(record)
@@ -34,6 +70,15 @@ class AcademicRecord < ApplicationRecord
     self.inscription_status = :Confirmado
     self.qualification_status_id = record[:qualification_status_id]
     self.final_qualification = record[:final_qualification]
+  end
+
+  def desc_to_pay
+    aux = ""
+    aux += "(#{student.personal_identity_document})" if student
+    aux += " #{section.number}" if section
+    aux += " #{course.language.name} #{course.level.name}" if course
+    aux += " #{period.name}" if periodo
+    return aux
   end
 
   def name

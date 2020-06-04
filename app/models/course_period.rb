@@ -17,9 +17,59 @@ class CoursePeriod < ApplicationRecord
   enum kind: [:online, :interdiario, :sabatino, :mixtos]
 
   after_create :create_first_section
-  #========== SCOPE ==========#
+  #========== SCOPE ==================#
 
-  #========== FUNCTIONS ==========#
+  #========== RAILS ADMIN ============= #
+
+
+  rails_admin do
+
+    # import do
+    #   mapping_key = [:period_id, :language_id, :level_id]
+    #   mapping_key_list [:period_id, :language_id, :level_id]
+    # end
+
+    list do
+
+      # field :period do
+      #   label 'Periodo'
+      #   formatted_value do
+      #     bindings[:object].period.name
+      #   end
+      #   filterable true
+      #   searchable true
+      # end
+
+      field :course do
+        label 'Curso'
+      end
+      field :period do
+        label 'Periodo'
+      end
+      field :kind do
+        label 'Tipo'
+      end
+      field :sections do
+        label :secciones
+      end
+    end
+
+    edit do
+      field :course do
+        label 'curso'
+      end
+      field :period do
+        label 'periodo'
+      end
+      field :kind do
+        label 'Tipo'
+      end
+    end
+
+  end
+  
+
+  #========== FUNCTIONS =============#
   def language
     course.language if course
   end

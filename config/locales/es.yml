@@ -223,8 +223,8 @@ es:
         one: "Cuenta Bancaria"
         other: "Cuentas Bancarias"
       career:
-        one: "Carrera"
-        other: "Carreras"
+        one: "Idioma Cursado"
+        other: "Idiomas Cursados"
       course_period:
         one: "Curso Periodo"
         other: "Cursos Periodos"

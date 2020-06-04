@@ -1,13 +1,11 @@
 class User < ApplicationRecord
+
+  # ========== RELATIONSHIPS ============ #
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # has_one :user, through: :student
-  validates :email, presence: true#, uniqueness: true
-  # validates_uniqueness_of :email#, message: 'La sección ya existe para el período seleccionado', field_name: false
-  validates :name, presence: true, unless: :new_record?
-  validates :last_name, presence: true, unless: :new_record?
-  validates :number_phone, presence: true, unless: :new_record?
-
+  
   # belongs_to :administrator, foreign_key: :user_id
   has_one :administrator
   # accepts_nested_attributes_for :administrator
@@ -16,14 +14,60 @@ class User < ApplicationRecord
   has_one :instructor
   # accepts_nested_attributes_for :instructor
 
+  # ========== VALIDATIONS ============ #
+  before_save :upcase_names, unless: :new_record?
+  # before_validation :upcase_names
+  # validates_uniqueness_of :email#, message: 'La sección ya existe para el período seleccionado', field_name: false
+  validates :email, presence: true#, uniqueness: true
+  validates :name, presence: true, unless: :new_record?
+  validates :last_name, presence: true, unless: :new_record?
+  validates :number_phone, presence: true, unless: :new_record?
 
   attr_accessor :allow_blank_password
 
+  # ========== DEVISE ============ #
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable
 
-  before_save :upcase_names, unless: :new_record?
-  # before_validation :upcase_names
+  # ========== RAILS ADMIN ============ #
+
+  rails_admin do
+
+    import do
+      mapping_key :email
+      # for multiple values, use mapping_key [:first_name, :last_name]
+      mapping_key_list [:email, :name, :last_name, :number_phone]
+      # field :email
+      # field :name
+      # field :last_name
+      # field :number_phone
+      # field :password
+    end
+
+
+    edit do
+      field :name do
+        label 'Nombres'
+      end
+      field :last_name do
+        label 'Apellidos'
+      end
+      field :email do
+        label 'Correo'
+      end
+      field :number_phone do
+        label 'Número Telefónico'
+      end
+      field :password do
+        label 'Contraseña'
+      end
+      field :password_confirmation do
+        label 'Confirmar Contraseña'
+      end
+    end
+  end
+
+  # ========== FUNCTIONS ============ #
 
   def administrator?
     self.administrator ? true : false
@@ -58,8 +102,12 @@ class User < ApplicationRecord
   end
 
   def upcase_names
-    self.name = name.strip.upcase
-    self.last_name = last_name.strip.upcase
+    self.name = capitalize_by_word(name)
+    self.last_name = capitalize_by_word(last_name) 
+  end
+
+  def capitalize_by_word(string)
+    string.split.map{|w| w.capitalize}.join(" ")
   end
 
   def split_phone

@@ -20,6 +20,8 @@ class Ability
         can :manage, :dashboard
         if user.administrator.desarrollador?
             can :manage, :all
+        # elsif user.administrator.administrativo?
+        # Agregar vista de Guedez y Mendez
         elsif user.administrator.superadmin?
             can :manage, [CoursePeriod, Career, Student, Instructor, Section, AcademicRecord, User]
             can :read, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]

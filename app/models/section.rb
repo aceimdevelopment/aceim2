@@ -1,7 +1,9 @@
 class Section < ApplicationRecord
+  
+  # ========== RELATIONSCHIPS ============ #
+
   belongs_to :course_period
   # accepts_nested_attributes_for :course_period
-
   belongs_to :instructor, class_name: 'Instructor', foreign_key: :instructor_id, primary_key: :user_id, optional: true
   accepts_nested_attributes_for :instructor
   
@@ -18,6 +20,8 @@ class Section < ApplicationRecord
   has_many :academic_records
   accepts_nested_attributes_for :academic_records
 
+  # ========== VALIDATIONS ============ #
+  
   validates :number, presence: true
   validates :course_period_id, presence: true
   # validates :instructor_id, presence: true
@@ -27,6 +31,76 @@ class Section < ApplicationRecord
   # validates_uniqueness_of :horario_id, scope: [:dia, :entrada], message: 'Ya existe un horario con una hora de entrada igual para la sección.', field_name: false
 
   # validates_uniqueness_of :number, scope: [:course_period_id], message: 'La sección ya existe para el período seleccionado', field_name: false, case_sensitive: true
+
+  # ========== SCOPE ============ #
+
+
+  # ========== RAILS ADMIN ============ #
+
+  rails_admin do
+
+    # import do
+    #   mapping_key = [:period_id, :language_id, :level_id, :number]
+    #   mapping_key_list [:period_id, :language_id, :level_id, :number]
+    # end
+
+    edit do
+      field :course_period do
+        label 'Curso Periodo'
+      end
+      field :number do
+        label 'número'
+      end
+      field :instructor
+
+      field :evaluator do
+        label 'Evaluador'
+      end
+      field :open do
+        label '¿Abierta?'
+      end
+    end
+
+    list do
+
+      field :language do
+        label 'Idioma'
+        formatted_value do
+          bindings[:object].language.name
+        end
+        filterable true
+        searchable true
+      end
+
+      field :period do
+        label 'Periodo'
+        formatted_value do
+          bindings[:object].period.name
+        end
+        filterable true
+        searchable true
+      end
+
+      # field :language do
+      #   formatted_value{ bindings[:object].language.name }
+      # end
+      field :number do
+        label 'número'
+      end
+      field :open do
+        label '¿Abierta?'
+      end
+      field :instructor do
+        label 'Instructor'
+      end
+      field :evaluator do
+        label 'Evaludor'
+      end
+    end
+
+  end
+
+  # ========== FUNCTIONS ============ #
 
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period_aux = Period.where(year: year_aux, letter: letter_aux).first) &&
@@ -45,6 +119,7 @@ class Section < ApplicationRecord
   end
 
   def name
-  	self.course_period ? "#{number}-#{course_period.name}" : self.id.to_s
+  	# self.course_period ? "#{number}-#{course_period.name}" : self.id.to_s
+    self.number
   end
 end
