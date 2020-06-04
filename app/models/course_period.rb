@@ -10,9 +10,12 @@ class CoursePeriod < ApplicationRecord
   has_many :academic_records, through: :sections
   accepts_nested_attributes_for :academic_records
 
-  # has_one :language, through: :course
-  # accepts_nested_attributes_for :language
-  
+  has_one :language, through: :course
+  accepts_nested_attributes_for :language
+
+  has_one :level, through: :course
+  accepts_nested_attributes_for :level
+
   #========== VALIDATIONS ==========#
   validates :course_id, presence: true
   validates :period_id, presence: true
@@ -48,8 +51,8 @@ class CoursePeriod < ApplicationRecord
         formatted_value do
           bindings[:object].course.language.name
         end
-        # filterable true
-        # searchable true
+        filterable :name
+        searchable :name
       end
 
       field :level do
@@ -57,17 +60,17 @@ class CoursePeriod < ApplicationRecord
         formatted_value do
           bindings[:object].course.level.name
         end
-        # filterable true
-        # searchable true
+        filterable :name
+        searchable :name
       end
 
-      # field :course do
-      #   label 'curso'
-      # end
+      field :course do
+        label 'curso'
+      end
       field :period do
         label 'periodo'
-        filterable true
-        searchable true
+        filterable :name
+        searchable :name
       end
       field :kind do
         label 'tipo'
