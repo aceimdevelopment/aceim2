@@ -20,6 +20,7 @@ class AcademicRecord < ApplicationRecord
 
   #============SCOPE===============#
   scope :approved, -> {where(qualification_status_id: :AP)}
+  scope :currents, -> {confirmado.where(qualification_status_id: :SC)}
   scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
 
 
@@ -28,11 +29,29 @@ class AcademicRecord < ApplicationRecord
   rails_admin do
 
     list do
-      configure :period_desc do
+
+      configure :period do
         label 'Periodo'
+        formatted_value do
+          bindings[:object].period.name
+        end
+        filterable :id
+        searchable :id
       end
+
+      # configure :period_desc do
+      #   label 'Periodo'
+      #   # formatted_value do
+      #   #   bindings[:object].period.name
+      #   # end
+      #   filterable :name
+      #   searchable :name
+
+      # end
       configure :section_desc_short do
         label 'Sección'
+        searchable false
+
       end
       field :inscription_status do
         label 'Estado'
@@ -41,7 +60,9 @@ class AcademicRecord < ApplicationRecord
         label 'Nota Final'
       end
       field :qualification_status do
-        label 'Estado Cal'
+        label 'Estado Calific.'
+        filterable :name
+        searchable :name        
       end
       field :agreement_id do
         label 'Convenio'
@@ -49,7 +70,7 @@ class AcademicRecord < ApplicationRecord
       field :student do 
         label 'Estudiante'
       end
-      fields :student, :period_desc, :section_desc_short, :agreement_id, :inscription_status, :qualification_status, :final_qualification
+      fields :student, :period, :section_desc_short, :agreement_id, :inscription_status, :qualification_status, :final_qualification
     end
   end
 
@@ -111,7 +132,8 @@ class AcademicRecord < ApplicationRecord
 
   def set_default
     self.final_qualification ||= SC
-    self.qualification_status_id ||= 'REG'
+    # self.aggrement_id ||= 'REG'
+    self.qualification_status_id ||= 'SC'
   end
 
 

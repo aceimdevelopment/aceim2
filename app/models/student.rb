@@ -22,6 +22,10 @@ class Student < ApplicationRecord
 
   # ========== RAILS ADMIN ============ #
 
+  def enrolled_course_period? (course_period_id)
+    academic_records.joins(:section).where("sections.course_period_id = ?", course_period_id).any?
+  end
+
   def before_import_save(record)
     # if (email = record[:user_email]) && (user = User.find_by_email(email))
       # self.personal_identity_document = self.personal_identity_document.delete! '^0-9'

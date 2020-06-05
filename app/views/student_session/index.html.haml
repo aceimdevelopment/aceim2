@@ -7,42 +7,54 @@
   = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, content: content }
 
 %br
-%h3.p-2.my-5.bg-dark.text-white.text-center Dashboard
-
--if current_user.student.careers.any?
-  - current_user.student.careers.each do |career| 
+%h5.p-2.my-5.bg-dark.text-white.text-center= "Dashboard - #{current_user.description}"
+- student = current_user.student
+-if student and student.careers.any?
+  - student.careers.each do |career| 
     .border.p-3.m-3
       %h3= career.language.name
       %table.table.table-sm.table-striped.table-hover.table-responsable
         %thead
           %tr.row
-            %th.col-3 Nivel
-            %th.col-3 Período
-            %th.col-3 Calificación
-            %th.col-3 Estado
+            %th.col-4 Nivel
+            %th.col-2 Período
+            %th.col-2 Calificación
+            %th.col-2 Estado
+            %th.col-2 Inscripción 
         %tbody
-          - career.academic_records.each do |ra|
+          - records = career.academic_records 
+          - records.each do |ra|
             %tr.row
-              %td.col-3= ra.section.course.level.name
-              %td.col-3= ra.period_desc
-              %td.col-3= ra.final_desc
-              %td.col-3= ra.qualification_status.name
-        - if next_course = career.next_course
-          %tfoot
-            %tr
-              %td
-                %b Próximo nivel:
-                = next_course.level.name
-                -# if available_course_period_insc = CoursePeriod.online.where(course_id: next_course.id).first
-                - CoursePeriod.online.where(course_id: next_course.id).each do |available_course_period_insc| 
+              %td.col-4= "#{ra.section.course.level.name} (#{ra.section.course_period.kind})"
+              %td.col-2= ra.period_desc
+              %td.col-2= ra.final_desc
+              %td.col-2= ra.qualification_status.name
+              %td.col-2= ra.inscription_status.capitalize
 
-                  = link_to "¡Inscríbite ahora! (#{available_course_period_insc.kind.capitalize})", regular_enrollment_path(available_course_period_insc.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{available_course_period_insc.description_inscription}'?"
-- else
-  - period = Period.where(year: 2020).last 
-  -# period.course_periods.each do |cp| 
-  -# period.course_periods.online.each do |cp| 
-  - period.course_periods.joins(:course).where("courses.level_id = ?", 'BI').online.each do |cp| 
-    = link_to "¡Inscríbite #{cp.language.name.capitalize} (#{cp.kind.capitalize})", regular_enrollment_path(cp.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{cp.description_inscription}'?"
+        -# if next_course = career.next_course
+        %tfoot
+          - records.currents.each do |current| 
+            - course_id_aux = current.course.id
+            - period_aux = current.period
+            -# period_aux = Period.where(year: '2020', letter: 'A').first
+            - online_course_period = CoursePeriod.online.where(period_id: period_aux.id, course_id: course_id_aux).first
+            - if online_course_period and !student.enrolled_course_period?(online_course_period.id)
+              - section = online_course_period.sections.first
+              - if section
+                %tr
+                  %td
+                    %b Nivel Online Disponible:
+                    = online_course_period.course.level.name
+                    -# if available_course_period_insc = CoursePeriod.online.where(course_id: next_course.id).first
+                    -# CoursePeriod.online.where(course_id: next_course.id).each do |available_course_period_insc| 
 
-  -# available_courses = period.course
-  -# cursosp.
+                    = link_to "¡Inscríbite ahora! (#{period_aux.name})", regular_enrollment_path(section.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{online_course_period.description_inscription}'?"
+-# else
+-# period = Period.where(year: 2020).last 
+-# period.course_periods.each do |cp| 
+-# period.course_periods.online.each do |cp| 
+- #period.course_periods.joins(:course).where("courses.level_id = ?", 'BI').online.each do |cp| 
+=# link_to "¡Inscríbite #{cp.language.name.capitalize} (#{cp.kind.capitalize})", regular_enrollment_path(cp.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{cp.description_inscription}'?"
+
+-# available_courses = period.course
+-# cursosp.

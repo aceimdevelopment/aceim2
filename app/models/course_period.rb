@@ -10,11 +10,11 @@ class CoursePeriod < ApplicationRecord
   has_many :academic_records, through: :sections
   accepts_nested_attributes_for :academic_records
 
-  has_one :language, through: :course
-  accepts_nested_attributes_for :language
+  # has_one :language, through: :course
+  # accepts_nested_attributes_for :language
 
-  has_one :level, through: :course
-  accepts_nested_attributes_for :level
+  # has_one :level, through: :course
+  # accepts_nested_attributes_for :level
 
   #========== VALIDATIONS ==========#
   validates :course_id, presence: true
@@ -37,14 +37,14 @@ class CoursePeriod < ApplicationRecord
 
     list do
 
-      # field :period do
-      #   label 'Periodo'
-      #   formatted_value do
-      #     bindings[:object].period.name
-      #   end
-      #   filterable true
-      #   searchable true
-      # end
+      field :period do
+        label 'Periodo'
+        formatted_value do
+          bindings[:object].period.name
+        end
+        filterable true
+        searchable true
+      end
 
       field :language do
         label 'Idioma'
@@ -52,7 +52,7 @@ class CoursePeriod < ApplicationRecord
           bindings[:object].course.language.name
         end
         filterable :name
-        searchable :name
+        searchable false #:name
       end
 
       field :level do
@@ -60,18 +60,18 @@ class CoursePeriod < ApplicationRecord
         formatted_value do
           bindings[:object].course.level.name
         end
-        filterable :name
-        searchable :name
+        filterable false #:name
+        searchable false #:name
       end
 
-      field :course do
-        label 'curso'
-      end
-      field :period do
-        label 'periodo'
-        filterable :name
-        searchable :name
-      end
+      # field :course do
+      #   label 'curso'
+      # end
+      # field :period do
+      #   label 'periodo'
+      #   filterable :name
+      #   searchable :name
+      # end
       field :kind do
         label 'tipo'
       end
@@ -100,6 +100,10 @@ class CoursePeriod < ApplicationRecord
   #========== FUNCTIONS =============#
   def language
     course.language if course
+  end
+
+  def level
+    course.level if course
   end
 
   def before_import_save(record)
