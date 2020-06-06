@@ -3,6 +3,9 @@ class Instructor < ApplicationRecord
   
   belongs_to :user, foreign_key: :user_id
   accepts_nested_attributes_for :user
+  
+  has_many :sections
+  accepts_nested_attributes_for :sections
 
   # ========== VALIDATIONS ============ #
   validates :user_id, presence: true
@@ -34,12 +37,19 @@ class Instructor < ApplicationRecord
     end
 
     list do
-      field :user do
-        label 'usuario'
+      configure :description do
+        label 'Descricpción'
+        formatted_value do
+          bindings[:object].user.description
+        end
+        filterable false
+        searchable false, class_name: :user #:name
       end
-      field :active do
-        label 'Activo'
-      end
+
+      fields :description
+      # field :active do
+      #   label 'Activo'
+      # end
     end
 
   end 

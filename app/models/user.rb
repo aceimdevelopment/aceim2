@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # accepts_nested_attributes_for :administrator
   has_one :student
   # accepts_nested_attributes_for :student
-  has_one :instructor
+  belongs_to :instructor
   # accepts_nested_attributes_for :instructor
 
   # ========== VALIDATIONS ============ #
@@ -69,16 +69,16 @@ class User < ApplicationRecord
 
   # ========== FUNCTIONS ============ #
 
+  def instructor?
+    self.instructor ? true : false
+  end
+
   def administrator?
     self.administrator ? true : false
   end
 
   def student?
     self.student ? true : false
-  end
-
-  def instructor?
-    self.instructor ? true : false
   end
 
   def any_blank?

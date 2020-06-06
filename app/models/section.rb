@@ -4,7 +4,7 @@ class Section < ApplicationRecord
 
   belongs_to :course_period
   # accepts_nested_attributes_for :course_period
-  belongs_to :instructor, class_name: 'Instructor', foreign_key: :instructor_id, primary_key: :user_id, optional: true
+  belongs_to :instructor#, foreign_key: :instructor_id, primary_key: :user_id, optional: true
   accepts_nested_attributes_for :instructor
   
   belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true
@@ -16,6 +16,7 @@ class Section < ApplicationRecord
   has_one :period, through: :course_period
   has_one :course, through: :course_period
   has_one :language, through: :course
+  has_one :level, through: :course
 
   has_many :academic_records
   accepts_nested_attributes_for :academic_records
@@ -51,7 +52,9 @@ class Section < ApplicationRecord
       field :number do
         label 'número'
       end
-      field :instructor
+      field :instructor do
+
+      end 
 
       field :evaluator do
         label 'Evaluador'
@@ -63,15 +66,6 @@ class Section < ApplicationRecord
 
     list do
 
-      field :language do
-        label 'Idioma'
-        formatted_value do
-          bindings[:object].language.name
-        end
-        filterable true
-        searchable true
-      end
-
       field :period do
         label 'Periodo'
         formatted_value do
@@ -81,9 +75,21 @@ class Section < ApplicationRecord
         searchable true
       end
 
-      # field :language do
-      #   formatted_value{ bindings[:object].language.name }
-      # end
+      field :language do
+        label 'Idioma'
+        formatted_value do
+          bindings[:object].language.name
+        end
+        filterable true
+        searchable true
+      end
+
+      field :level do
+        label 'Nivel'
+        formatted_value{ bindings[:object].level.name }
+        filterable :name
+        searchable :name
+      end
       field :number do
         label 'número'
       end
