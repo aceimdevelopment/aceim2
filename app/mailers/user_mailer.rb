@@ -6,8 +6,8 @@ class UserMailer < ApplicationMailer
     @users = User.find(ids)
     # @user = User.find 2
     
-    mail(to: 'fundeim@mailinator.com',
-    bco: @users.map{|u| u.email},
+    mail(to: 'soporte@fundeim.com',
+    bcc: @users.map{|u| u.email},
     subject: "Correo de Prueba")
 
   end
