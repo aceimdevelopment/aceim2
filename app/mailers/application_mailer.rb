@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'soporte@fundeim.com'
+  default from: 'CONTACTO FUNDEIM <contacto@fundeim.com>'
   layout 'mailer'
 end

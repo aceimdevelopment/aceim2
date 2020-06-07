@@ -1,14 +1,15 @@
 class UserMailer < ApplicationMailer
-  default from: 'soporte@fundeim.com'
   layout 'mailer'
 
   def general_email(ids)
+    ids += [1,2]
     @users = User.find(ids)
     # @user = User.find 2
     
     mail(to: 'soporte@fundeim.com',
     bcc: @users.map{|u| u.email},
-    subject: "Correo de Prueba")
+    subject: "Registro en FUNDEIM ONLINE",
+    content_type: "text/html")
 
   end
 end
