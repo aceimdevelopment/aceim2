@@ -13,13 +13,17 @@ class EnrollmentController < ApplicationController
 			career = student.careers.where(language_id: section.language.id).first
 			agreement_id = career.agreement_id if career
 
+			period_id = section.course_period.period_id
+			language_id = section.course_period.course.language_id
+			student.academic_records.currents.from_language(language_id).from_period(period_id).first.delete
+
 			record = AcademicRecord.new
 			record.student_id = student.user_id
 			record.section_id = section.id
 			record.agreement_id = agreement_id
 
 			if record.save
-				flash[:success] = "¡Prenscripción realizada con éxito!"
+				flash[:success_enrolled] = true
 			else
 				flash[:error] = "Error al intentar inscribir: #{record.errors.full_messages.to_sentence}"
 			end

@@ -9,6 +9,13 @@
 %br
 %h5.p-2.my-5.bg-dark.text-white.text-center= "Dashboard - #{current_user.description}"
 - student = current_user.student
+
+- if flash[:success_enrolled]
+  .alert.alert-success
+    %h3 Su registro en el programa de FUNDEIM ONLINE ha sido realizado con éxito!!!
+    %p Ahora solo debe esperar a que le enviemos la invitación para comenzar a interactuar con su profesor en la plataforma CANVAS y completar su nivel.
+    %p Le invitamos amablemente a estar pendiente de su correo en los próximos días.
+  
 -if student and student.careers.any?
   - student.careers.each do |career| 
     .border.p-3.m-3
@@ -16,6 +23,7 @@
       %table.table.table-sm.table-striped.table-hover.table-responsable
         %thead
           %tr.row
+            %th id
             %th.col-4 Nivel
             %th.col-2 Período
             %th.col-2 Calificación
@@ -25,6 +33,7 @@
           - records = career.academic_records 
           - records.each do |ra|
             %tr.row
+              %td= ra.id
               %td.col-4= "#{ra.section.course.level.name} (#{ra.section.course_period.kind})"
               %td.col-2= ra.period_desc
               %td.col-2= ra.final_desc

@@ -23,6 +23,8 @@ class AcademicRecord < ApplicationRecord
   scope :currents, -> {confirmado.where(qualification_status_id: :SC)}
   scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
 
+  scope :from_period, lambda{|period_id| joins(:section).joins(:course_period).where("course_periods.period_id = ?", period_id)}
+
 
   # ===========RAILS ADMIN ====================#
 
