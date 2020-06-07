@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # accepts_nested_attributes_for :administrator
   has_one :student
   # accepts_nested_attributes_for :student
-  belongs_to :instructor
+  has_one :instructor
   # accepts_nested_attributes_for :instructor
 
   # ========== VALIDATIONS ============ #
