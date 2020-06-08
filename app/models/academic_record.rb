@@ -50,6 +50,8 @@ class AcademicRecord < ApplicationRecord
         sortable :name
         searchable :name
         filterable :name
+        column_width 100
+
       end
 
       configure :level do
@@ -88,7 +90,7 @@ class AcademicRecord < ApplicationRecord
         label 'Convenio'
         column_width 50
       end
-      fields :student, :period, :language, :level, :section, :agreement_id, :inscription_status, :qualification_status, :final_qualification
+      # fields :student, :period, :language, :level, :section, :agreement_id, :inscription_status, :qualification_status, :final_qualification
     end
   end
 

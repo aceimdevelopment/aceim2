@@ -66,27 +66,47 @@ class Section < ApplicationRecord
 
     list do
 
+      filters [:period, :language, :level]
       field :period do
         label 'Periodo'
         formatted_value do
           bindings[:object].period.name
         end
-        filterable true
-        searchable true
+        sortable :letter
+        filterable :letter
+        searchable :letter
       end
+      # field :period, :enum do
+      #   label 'Periodo'
+      #   enum do
+      #     Period.all.collect {|p| ["#{p.year}-#{p.letter}", p.id]}
+      #   end
+      #   formatted_value do
+      #     bindings[:object].period.name
+      #   end
+      #   sortable :year
+      #   filterable :year
+      #   searchable :year
+      # end
+
+
 
       field :language do
         label 'Idioma'
         formatted_value do
           bindings[:object].language.name
         end
-        filterable true
-        searchable true
+        queryable true
+        sortable :name
+        filterable :name
+        searchable :name
       end
 
       field :level do
         label 'Nivel'
         formatted_value{ bindings[:object].level.name }
+        queryable true
+        sortable :grade
         filterable :name
         searchable :name
       end
@@ -99,14 +119,29 @@ class Section < ApplicationRecord
       field :instructor do
         label 'Instructor'
       end
-      field :evaluator do
-        label 'Evaludor'
+      # field :evaluator do
+      #   label 'Evaluador'
+      # end
+      configure :registed do
+        label 'PRE'
       end
+      configure :enrolled do
+        label 'CONF'
+      end
+      fields :period, :language, :level, :registed, :number, :open, :instructor, :registed, :enrolled
     end
-
   end
 
   # ========== FUNCTIONS ============ #
+
+  def registed
+    academic_records.preinscrito.count
+  end
+
+  def enrolled
+    academic_records.confirmado.count
+  end
+
 
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period_aux = Period.where(year: year_aux, letter: letter_aux).first) &&

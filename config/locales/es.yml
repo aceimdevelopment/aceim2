@@ -226,8 +226,8 @@ es:
         one: "Idioma Cursado"
         other: "Idiomas Cursados"
       course_period:
-        one: "Curso Periodo"
-        other: "Cursos Periodos"
+        one: "Programación"
+        other: "Programaciones"
       payment_detail:
         one: "Detalle de Pago"
         other: "Detalles de Pagos"
