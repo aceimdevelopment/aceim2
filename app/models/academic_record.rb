@@ -8,6 +8,8 @@ class AcademicRecord < ApplicationRecord
 
   has_one :course_period, through: :section, dependent: :nullify
   has_one :course, through: :course_period, dependent: :nullify
+  has_one :language, through: :course, dependent: :nullify
+  has_one :level, through: :course, dependent: :nullify
   has_one :period, through: :course_period, dependent: :nullify
 
   #============TYPES===============#
@@ -31,48 +33,62 @@ class AcademicRecord < ApplicationRecord
   rails_admin do
 
     list do
+      checkboxes false
+      configure :student do 
+        label 'Estudiante'
+      end
 
       configure :period do
         label 'Periodo'
-        formatted_value do
-          bindings[:object].period.name
-        end
-        filterable :id
-        searchable :id
+        sortable [:letter, :year]
+        filterable [:letter, :year]
+        searchable [:letter, :year]
       end
 
-      # configure :period_desc do
-      #   label 'Periodo'
-      #   # formatted_value do
-      #   #   bindings[:object].period.name
-      #   # end
-      #   filterable :name
-      #   searchable :name
+      configure :language do
+        label 'Idioma'
+        sortable :name
+        searchable :name
+        filterable :name
+      end
 
-      # end
-      configure :section_desc_short do
+      configure :level do
+        label 'Nivel'
+        sortable :grade
+        searchable :name
+        filterable :name
+      end
+
+      configure :section do
         label 'Sección'
-        searchable false
+        formatted_value do
+          bindings[:object].section.number
+        end
 
+        searchable false
+        column_width 80
       end
+
       field :inscription_status do
         label 'Estado'
+        column_width 60
+
       end
       field :final_qualification do
-        label 'Nota Final'
+        label 'Final'
+        column_width 50
       end
       field :qualification_status do
         label 'Estado Calific.'
         filterable :name
-        searchable :name        
+        searchable :name
+        column_width 50
       end
       field :agreement_id do
         label 'Convenio'
+        column_width 50
       end
-      field :student do 
-        label 'Estudiante'
-      end
-      fields :student, :period, :section_desc_short, :agreement_id, :inscription_status, :qualification_status, :final_qualification
+      fields :student, :period, :language, :level, :section, :agreement_id, :inscription_status, :qualification_status, :final_qualification
     end
   end
 
@@ -81,6 +97,14 @@ class AcademicRecord < ApplicationRecord
 
 
   #============FUNCTIONS============#
+  # def language
+  #   course.language.name if course
+  # end
+
+  # def level
+  #   course.level.name if course
+  # end
+
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period_aux = Period.where(year: year_aux, letter: letter_aux).first) && (course_aux = Course.where(language_id: record[:language_id], level_id: record[:level_id]).first) && (course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id).first) && (section_aux = Section.where(course_period_id: course_period_aux.id, number: record[:number]).first)
       self.section_id = section_aux.id

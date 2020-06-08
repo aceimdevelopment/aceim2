@@ -8,6 +8,10 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  config.sidescroll = {num_frozen_columns: 0}
+  # Details sidescroll:
+  # https://github.com/sferik/rails_admin/wiki/Horizontally-scrolling-table-with-frozen-columns-in-list-view
+
   config.configure_with(:import) do |config|
     config.logging = true
     config.line_item_limit = 30000

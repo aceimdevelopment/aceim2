@@ -11,6 +11,7 @@ class Level < ApplicationRecord
   # ========== VALIDATIONS ==================== #
   validates :name, presence: true, uniqueness: true
   validates :id, presence: true, uniqueness: true
+  validates :grade, presence: true, uniqueness: true
 
   # ========== RAILS_ADMIN ================== #
 
@@ -22,6 +23,9 @@ class Level < ApplicationRecord
       field :name do
         label 'Nombre'
       end
+      field :grade do
+        label 'orden'
+      end      
     end
 
     edit do
@@ -30,6 +34,10 @@ class Level < ApplicationRecord
       end
       field :name do
         label 'Nombre'
+      end
+
+      field :grade do
+        label 'orden'
       end
     end
 
