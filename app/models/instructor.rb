@@ -1,8 +1,8 @@
 class Instructor < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
   
-  belongs_to :user, foreign_key: :user_id
-  accepts_nested_attributes_for :user
+  belongs_to :user#, foreign_key: :user_id
+  # accepts_nested_attributes_for :user
   
   has_many :sections
   accepts_nested_attributes_for :sections
@@ -53,5 +53,13 @@ class Instructor < ApplicationRecord
     end
 
   end 
+
+  # ================ FUNCTIONS =================== #
+
+  def name
+    "#{user.description}" if user
+  end
+
+
 
 end

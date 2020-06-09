@@ -2,8 +2,8 @@ class Student < ApplicationRecord
 
   # ========== RELATIONSHIPS ============ #
 
-  belongs_to :user, foreign_key: :user_id
-  accepts_nested_attributes_for :user
+  belongs_to :user#, foreign_key: :user_id
+  # accepts_nested_attributes_for :user
 
 	validates :user_id, presence: true
 	validates :personal_identity_document, presence: true, uniqueness: true, unless: :new_record? #, case_sensitive: true

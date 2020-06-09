@@ -5,7 +5,7 @@ class Section < ApplicationRecord
   belongs_to :course_period
   # accepts_nested_attributes_for :course_period
   belongs_to :instructor#, foreign_key: :instructor_id, primary_key: :user_id, optional: true
-  accepts_nested_attributes_for :instructor
+  # accepts_nested_attributes_for :instructor
   
   belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true
   accepts_nested_attributes_for :evaluator
@@ -53,7 +53,7 @@ class Section < ApplicationRecord
         label 'número'
       end
       field :instructor do
-
+        searchable :name
       end 
 
       field :evaluator do
@@ -65,8 +65,8 @@ class Section < ApplicationRecord
     end
 
     list do
-
-      filters [:period, :language, :level]
+      limited_pagination true
+      # filters [:period, :language, :level]
       field :period do
         label 'Periodo'
         formatted_value do
@@ -93,6 +93,9 @@ class Section < ApplicationRecord
 
       field :language do
         label 'Idioma'
+        # enum do
+        #   Language.all.map{|p| [p.name, p.id]}
+        # end
         formatted_value do
           bindings[:object].language.name
         end
