@@ -1,19 +1,25 @@
-%h2 Change your password
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "New password"
-    %br/
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-      %br/
-    = f.password_field :password, autofocus: true, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Change my password"
-= render "devise/shared/links"
+%br
+.container-fluid.middle-box.text-center.loginscreen.animated.fadeInDown.mt-5
+
+  = react_component 'LoginTitle'
+  %h2 Cambio de Contraseña
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = render "devise/shared/error_messages", resource: resource
+    = f.hidden_field :reset_password_token
+    .group-form
+      = f.label :password, "Nueva Contraseña"
+      %br
+      - if @minimum_password_length
+        %em
+          (#{@minimum_password_length} caracteres mínimos)
+        %br
+      = f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control input-login'
+    %br
+    .group-form
+      = f.label :password_confirmation, "Confirme contraseña"
+      %br
+      = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control input-login'
+    %br
+    .actions
+      = f.submit "Cambiar mi contraseña", class: 'btn btn-primary'
+  = render "devise/shared/links"
