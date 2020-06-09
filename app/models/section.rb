@@ -69,12 +69,15 @@ class Section < ApplicationRecord
       # filters [:period, :language, :level]
       field :period do
         label 'Periodo'
+
         formatted_value do
           bindings[:object].period.name
         end
-        sortable :letter
-        filterable :letter
-        searchable :letter
+        queryable true
+        sortable true
+        searchable :name
+        filterable :name
+
       end
       # field :period, :enum do
       #   label 'Periodo'
