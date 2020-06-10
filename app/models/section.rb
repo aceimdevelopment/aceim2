@@ -61,9 +61,11 @@ class Section < ApplicationRecord
     end
 
     edit do
-      field :course_period do
-        label 'Curso Periodo'
-      end
+      # field :course_period do
+      #   label 'Curso Periodo'
+      #   inline_edit false
+      #   inline_add false
+      # end
       # field :course_period_id, :enum do
       #   enum do
       #     course_periods_aux = bindings[:object].period ? bindings[:object].period.course_periods : CoursePeriod.all
@@ -80,7 +82,7 @@ class Section < ApplicationRecord
         end
       end
 
-      field :user_classroom_canvas do
+      field :url_classroom_canvas do
         label 'Url Aula de Canvas'
       end
 
