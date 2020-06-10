@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 2020_06_10_183957) do
     t.boolean "open"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "user_classroom_canvas"
+    t.string "url_classroom_canvas"
     t.index ["course_period_id"], name: "index_sections_on_course_period_id"
     t.index ["evaluator_id"], name: "index_sections_on_evaluator_id"
     t.index ["instructor_id"], name: "index_sections_on_instructor_id"
