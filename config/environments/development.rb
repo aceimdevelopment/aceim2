@@ -9,15 +9,15 @@ Rails.application.configure do
 
 
   # Mailgun Config:
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.mailgun.org',
-    port: 587,
-    domain: 'mg.fundeim.com',
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: 'postmaster@mg.fundeim.com',
-    password: '4e82ab15a5c104d50502af6832468b5e-e5e67e3e-82b1d369'
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address: 'smtp.mailgun.org',
+  #   port: 587,
+  #   domain: 'mg.fundeim.com',
+  #   authentication: "plain",
+  #   enable_starttls_auto: true,
+  #   user_name: 'postmaster@mg.fundeim.com',
+  #   password: '4e82ab15a5c104d50502af6832468b5e-e5e67e3e-82b1d369'
+  # }
 
   config.cache_classes = false
 
