@@ -216,6 +216,9 @@ es:
       <<: *errors
   activerecord:
     models:
+      instructor:
+        one: "Instructor"
+        other: "Instructores"
       bank:
         one: "Banco"
         other: "Bancos"
@@ -263,6 +266,16 @@ es:
         other: "Registros Académicos"
 
     errors:
+      models:
+        academic_record:
+          attributes:
+            required: "%{attribute_name} requerido"
+            student:
+              required: 'Estudiante requerido'
+            section:
+              required: 'Seccion requerida'
+            agreement:
+              required: 'Convenio requerido'
       <<: *errors
   flash:
     actions:

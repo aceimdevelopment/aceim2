@@ -1,12 +1,16 @@
 class Career < ApplicationRecord
-  belongs_to :agreement
-  belongs_to :language
-  belongs_to :student
 
+  # =============== ASSOTIACIONS =================# 
+  belongs_to :agreement, inverse_of: :careers
+  belongs_to :language, inverse_of: :careers
+  belongs_to :student, inverse_of: :careers
+
+  # =============== VALIATIONS =================# 
   validates :agreement_id, presence: true
   validates :language_id, presence: true
   validates :student_id, presence: true
 
+  # =============== FUNCTIONS =================# 
   def academic_records
     student.academic_records.from_language(language_id)
   end

@@ -2,8 +2,11 @@ class Language < ApplicationRecord
   
   # ========== RELATIONSHIPS ==================== #
   
-  has_many :courses
+  has_many :courses, inverse_of: :language
   accepts_nested_attributes_for :courses
+
+  has_many :careers, inverse_of: :language
+  accepts_nested_attributes_for :careers
 
   # has_many :course_periodos, through: :courses
   # accepts_nested_attributes_for :course_periodos

@@ -2,7 +2,7 @@ class Bank < ApplicationRecord
 
   # ========== RELATIONSHIPS ============ #
 
-  has_many :payment_details, foreign_key: :source_bank_id
+  has_many :payment_details, foreign_key: :source_bank_id, inverse_of: :bank
 
   # ========== VALIDATIONS ============ #
 

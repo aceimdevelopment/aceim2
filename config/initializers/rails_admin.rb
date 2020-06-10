@@ -1,4 +1,7 @@
 RailsAdmin.config do |config|
+  # require 'i18n'
+  # I18n.default_locale = 'es'
+  # Se produce un error `<top (required)>'
 
   ### Popular gems integration
   config.main_app_name = Proc.new { |controller| [ "Aceim", "Admin - #{controller.params[:action].try(:titleize)}" ] }
@@ -11,6 +14,9 @@ RailsAdmin.config do |config|
   config.sidescroll = {num_frozen_columns: 0}
   # Details sidescroll:
   # https://github.com/sferik/rails_admin/wiki/Horizontally-scrolling-table-with-frozen-columns-in-list-view
+
+  config.default_items_per_page = 50
+  # Máximos items por Páginas
 
   config.configure_with(:import) do |config|
     config.logging = true
@@ -44,7 +50,7 @@ RailsAdmin.config do |config|
 #    "#{self.name}"
 #  end
 
-  config.excluded_models = ["Item", "QualificationDetail", "QualificationStatus", "PaymentDetail"]
+  config.excluded_models = ["Item"]
   # config.excluded_models << "Item"
 
 
@@ -65,7 +71,9 @@ RailsAdmin.config do |config|
 
   config.actions do
     dashboard                     # mandatory
-    index                         # mandatory
+    index do                        # mandatory
+      except [User, Language, Level, Course, BankAccount, Bank, PaymentDetail, QualificationStatus, QualificationDetail, Career]
+    end
     new
     export
     import
@@ -73,7 +81,7 @@ RailsAdmin.config do |config|
     show
     edit
     delete
-    show_in_app
+    # show_in_app
 
     ## With an audit adapter, you can add:
     # HELP: https://github.com/sferik/rails_admin/wiki/Papertrail

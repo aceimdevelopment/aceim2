@@ -2,7 +2,7 @@ class Level < ApplicationRecord
  
   # ========== RELATIONSHIPS ==================== #
  
-  has_many :courses
+  has_many :courses, inverse_of: :level
   accepts_nested_attributes_for :courses
 
   # has_many :course_periodos, through: :courses

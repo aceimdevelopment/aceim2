@@ -1,7 +1,7 @@
 class BankAccount < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
   
-  belongs_to :bank
+  belongs_to :bank, inverse_of: :bank_accounts
 
   # ========== VALIDATIONS ============ #
   

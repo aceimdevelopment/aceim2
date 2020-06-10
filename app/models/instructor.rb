@@ -1,14 +1,14 @@
 class Instructor < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
   
-  belongs_to :user#, foreign_key: :user_id
+  belongs_to :user, inverse_of: :instructor#, foreign_key: :user_id
   # accepts_nested_attributes_for :user
   
-  has_many :sections
+  has_many :sections, inverse_of: :instructor
   accepts_nested_attributes_for :sections
 
   # ========== VALIDATIONS ============ #
-  validates :user_id, presence: true
+  validates :user, presence: true, uniqueness: true
 
   # ========== SCOPE ============ #
 
@@ -28,6 +28,7 @@ class Instructor < ApplicationRecord
     # end
 
     edit do
+
       field :user do
         label 'usuario'
       end
@@ -40,10 +41,10 @@ class Instructor < ApplicationRecord
       configure :description do
         label 'Descricpción'
         formatted_value do
-          bindings[:object].user.description
+          bindings[:object].user.description if bindings[:object].user
         end
         filterable false
-        searchable false, class_name: :user #:name
+        # searchable false, class_name: :user #:name
       end
 
       fields :description

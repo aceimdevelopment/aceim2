@@ -1,13 +1,16 @@
 class Course < ApplicationRecord
-  belongs_to :language
-  belongs_to :level
+  # ================ ASSOCIATIONS ================== # 
+  belongs_to :language, inverse_of: :courses
+  belongs_to :level, inverse_of: :courses
 
+  has_many :course_periods, inverse_of: :course
+  accepts_nested_attributes_for :course_periods
+
+
+  # ================ VALIDATIONS ================== # 
   validates :language_id, presence: true
   validates :level_id, presence: true
   validates :grade, presence: true
-
-  has_many :course_periods
-  accepts_nested_attributes_for :course_periods
 
   def next_course
     Course.where(language_id: self.language_id, grade: self.grade+1).first 

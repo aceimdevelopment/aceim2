@@ -1,13 +1,13 @@
 class CoursePeriod < ApplicationRecord
-  #========== RELATIONSHIPS ==========#
+  #========== ASSOCIATIONS ==========#
   
-  belongs_to :course
-  belongs_to :period
+  belongs_to :course, inverse_of: :course_periods
+  belongs_to :period, inverse_of: :course_periods
   # has_one :language, through: :course, dependent: :nullify
-  has_many :sections
+  has_many :sections, inverse_of: :course_period
   accepts_nested_attributes_for :sections
 
-  has_many :academic_records, through: :sections
+  has_many :academic_records, through: :sections, inverse_of: :course_period
   accepts_nested_attributes_for :academic_records
 
   # has_one :language, through: :course
@@ -17,8 +17,8 @@ class CoursePeriod < ApplicationRecord
   # accepts_nested_attributes_for :level
 
   #========== VALIDATIONS ==========#
-  validates :course_id, presence: true
-  validates :period_id, presence: true
+  validates :course, presence: true
+  validates :period, presence: true
   validates :kind, presence: true
   enum kind: [:online, :interdiario, :sabatino, :mixtos]
 
@@ -34,6 +34,21 @@ class CoursePeriod < ApplicationRecord
     #   mapping_key = [:period_id, :language_id, :level_id]
     #   mapping_key_list [:period_id, :language_id, :level_id]
     # end
+
+    show do
+      field :course do
+        label 'Curso'
+      end
+      field :period do
+        label 'Period'
+      end
+      field :kind do
+        label 'Tipo'
+      end
+      field :sections do
+        label 'secciones'
+      end
+    end
 
     list do
 

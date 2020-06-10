@@ -1,5 +1,5 @@
 class PaymentDetail < ApplicationRecord
-	belongs_to :academic_record
+	has_one :academic_record, inverse_of: :payment_details
 	validates :bank_account_id, presence: true
 
 	belongs_to :source_bank, foreign_key: :source_bank_id, class_name: 'Bank'

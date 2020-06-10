@@ -7,11 +7,11 @@ class User < ApplicationRecord
   # has_one :user, through: :student
   
   # belongs_to :administrator, foreign_key: :user_id
-  has_one :administrator
+  has_one :administrator, inverse_of: :user
   # accepts_nested_attributes_for :administrator
-  has_one :student
+  has_one :student, inverse_of: :user
   # accepts_nested_attributes_for :student
-  has_one :instructor
+  has_one :instructor, inverse_of: :user
   # accepts_nested_attributes_for :instructor
 
   # ========== VALIDATIONS ============ #
@@ -33,17 +33,33 @@ class User < ApplicationRecord
 
   rails_admin do
 
-    import do
-      mapping_key :email
-      # for multiple values, use mapping_key [:first_name, :last_name]
-      mapping_key_list [:email, :name, :last_name, :number_phone]
-      # field :email
-      # field :name
-      # field :last_name
-      # field :number_phone
-      # field :password
-    end
+    # import do
+    #   mapping_key :email
+    #   # for multiple values, use mapping_key [:first_name, :last_name]
+    #   mapping_key_list [:email, :name, :last_name, :number_phone]
+    #   # field :email
+    #   # field :name
+    #   # field :last_name
+    #   # field :number_phone
+    #   # field :password
+    # end
 
+    show do
+      field :description do
+        label 'Descripción'
+        # css_class 'bg-dark text-white'
+      end
+
+      field :number_phone_style do
+        label 'Número Telefónico'
+        # css_class 'bg-dark text-white'
+      end
+      
+      field :types_users do
+        label 'Tipos de usuario'
+
+      end
+    end
 
     edit do
       field :name do
@@ -57,6 +73,9 @@ class User < ApplicationRecord
       end
       field :number_phone do
         label 'Número Telefónico'
+        html_attributes do
+          {:length => 12, :size => 12, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^0-9]/g,''))"}
+        end        
       end
       field :password do
         label 'Contraseña'
@@ -68,6 +87,18 @@ class User < ApplicationRecord
   end
 
   # ========== FUNCTIONS ============ #
+  def number_phone_style
+    number_phone ? self.split_phone.join(" - ") : ""
+  end
+
+  def types_users
+    aux = []
+    aux << 'Administrator' if administrator?
+    aux << 'Estudiante' if student?
+    aux << 'Instructor' if instructor?
+
+    aux.to_sentence
+  end
 
   def instructor?
     self.instructor ? true : false
@@ -111,8 +142,8 @@ class User < ApplicationRecord
   end
 
   def split_phone
-    operator_code = @user.number_phone[0..3] 
-    complement = @user.number_phone[3..10]
+    operator_code = self.number_phone[0..3] 
+    complement = self.number_phone[3..10]
     return [operator_code, complement]
   end
   # def before_import_attributes(record)

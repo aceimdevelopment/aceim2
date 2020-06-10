@@ -1,8 +1,9 @@
 class Agreement < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
-  has_many :careers
-  has_many :academic_records
+  has_many :careers, inverse_of: :agreement
+  has_many :academic_records, inverse_of: :agreement
 
+  # ========== VALIDATIONS ============ #
   validates :id, presence: true
   validates :name, presence: true
   validates :value, presence: true
@@ -11,11 +12,27 @@ class Agreement < ApplicationRecord
   # ========== RAILS ADMIN ============ #
   rails_admin do
 
-    edit do
+
+    show do
       field :id do
         label 'Identificador'
       end
-      field :name do
+      field :description do
+        label 'Nombre'
+      end
+      field :value do
+        label 'Valor'
+      end
+      field :discount do
+        label 'Descuento'
+      end
+      field :total_enrollment do
+        label 'Total de Inscripciones'
+      end
+    end
+
+    edit do
+      field :description do
         label 'Nombre'
       end
       field :value do
@@ -44,6 +61,10 @@ class Agreement < ApplicationRecord
         end
       end
     end
+  end
+
+  def description
+    "#{id}: #{name}"
   end
 
   def total_enrollment

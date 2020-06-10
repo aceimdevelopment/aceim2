@@ -2,16 +2,16 @@ class Student < ApplicationRecord
 
   # ========== RELATIONSHIPS ============ #
 
-  belongs_to :user#, foreign_key: :user_id
+  belongs_to :user, inverse_of: :student#, foreign_key: :user_id
   # accepts_nested_attributes_for :user
 
 	validates :user_id, presence: true
 	validates :personal_identity_document, presence: true, uniqueness: true, unless: :new_record? #, case_sensitive: true
 
-  has_many :careers
+  has_many :careers, inverse_of: :student
   accepts_nested_attributes_for :careers
 
-  has_many :academic_records
+  has_many :academic_records, inverse_of: :student
   accepts_nested_attributes_for :academic_records
 
   # ========== VALIDATIONS ============ #
@@ -46,12 +46,36 @@ class Student < ApplicationRecord
 
     end
 
+    show do
+      field :name do
+        label 'Descripción'
+        # css_class 'bg-dark text-white'
+      end
+
+      field :personal_identity_document do
+        label 'Cédula de Identidad'
+        # css_class 'bg-dark text-white'
+      end
+      
+      field :location do
+        label 'Ubicación'
+      end
+
+      field :careers do
+        label 'Idiomas Cursados'
+      end
+      field :academic_records do
+        label 'Registros Academicos'
+      end
+    end
+
+
     list do
       field :user do
         label 'Usuario'
       end
       field :personal_identity_document do
-        label 'PID'
+        label 'Cédula'
       end
       field :location do
         label 'Ubicación'
@@ -76,6 +100,10 @@ class Student < ApplicationRecord
       end
       field :source_country do
         label 'País de Origen'
+      end
+
+      field :academic_records do 
+        label 'Registros Académicos'
       end
     end
   end

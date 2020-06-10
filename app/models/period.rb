@@ -11,6 +11,10 @@ class Period < ApplicationRecord
     accepts_nested_attributes_for :course_periods
     has_many :courses, through: :course_periods
     accepts_nested_attributes_for :courses
+    has_many :sections, through: :course_periods
+    accepts_nested_attributes_for :sections
+    has_many :academic_records, through: :sections
+    accepts_nested_attributes_for :academic_records
     
     before_save :set_name
     # has_many :planes, through: :historialplanes, source: :plan
@@ -23,6 +27,24 @@ class Period < ApplicationRecord
       list do
         field :name do
           label 'Id'
+        end
+
+        field :total_preenrollment do
+          label 'Preisncritos'
+        end
+        field :total_enrollment do
+          label 'Confirmdos'
+        end
+
+      end
+
+      show do
+        field :name do
+          label 'Id'
+        end
+
+        field :course_periods do
+          label 'Programaciones'
         end
       end
 
@@ -48,10 +70,13 @@ class Period < ApplicationRecord
     # ============== RAILS ADMIN END ============= #
 
 
+    def total_preenrollment
+      academic_records.preinscrito.count
+    end
 
-    # def name
-    #     [self.letter, self.year].compact.join('-')
-    # end
+    def total_enrollment
+      academic_records.confirmado.count
+    end
 
 
     protected
@@ -60,3 +85,16 @@ class Period < ApplicationRecord
       self.name = "#{year}-#{letter}"
     end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
