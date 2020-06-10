@@ -2,23 +2,23 @@ class Section < ApplicationRecord
   
   # ========== RELATIONSCHIPS ============ #
 
-  belongs_to :course_period
+  belongs_to :course_period, inverse_of: :sections
   # accepts_nested_attributes_for :course_period
-  belongs_to :instructor#, foreign_key: :instructor_id, primary_key: :user_id, optional: true
+  belongs_to :instructor, foreign_key: :instructor_id, primary_key: :user_id#, optional: true
   # accepts_nested_attributes_for :instructor
   
-  belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true
-  accepts_nested_attributes_for :evaluator
+  belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true, inverse_of: :sections
+  # accepts_nested_attributes_for :evaluator
 
-  belongs_to :qualification_datail, optional: true
-  accepts_nested_attributes_for :qualification_datail
+  belongs_to :qualification_datail, optional: true, inverse_of: :sections
+  # accepts_nested_attributes_for :qualification_datail
 
   has_one :period, through: :course_period
   has_one :course, through: :course_period
   has_one :language, through: :course
   has_one :level, through: :course
 
-  has_many :academic_records
+  has_many :academic_records, inverse_of: :section
   accepts_nested_attributes_for :academic_records
 
   # ========== VALIDATIONS ============ #
@@ -52,9 +52,7 @@ class Section < ApplicationRecord
       field :number do
         label 'número'
       end
-      field :instructor do
-        searchable :name
-      end 
+      field :instructor 
 
       field :evaluator do
         label 'Evaluador'
@@ -118,6 +116,7 @@ class Section < ApplicationRecord
       end
       field :number do
         label 'número'
+        filterable false
       end
       field :open do
         label '¿Abierta?'
@@ -128,13 +127,13 @@ class Section < ApplicationRecord
       # field :evaluator do
       #   label 'Evaluador'
       # end
-      configure :registed do
+      field :registed do
         label 'PRE'
       end
-      configure :enrolled do
+      field :enrolled do
         label 'CONF'
       end
-      fields :period, :language, :level, :registed, :number, :open, :instructor, :registed, :enrolled
+      # fields :period, :language, :level, :registed, :number, :open, :instructor, :registed, :enrolled
     end
   end
 
@@ -165,8 +164,15 @@ class Section < ApplicationRecord
 
   end
 
+  def description
+    self.course_period ? "#{number}-#{course_period.name}" : self.id.to_s
+  end
+
   def name
-  	# self.course_period ? "#{number}-#{course_period.name}" : self.id.to_s
-    self.number
+    # if controller_name.eql? 'academic_record' and action_name.eql? 'new'
+    # else
+    #   self.number
+    # end
+    self.course_period ? "#{course_period.name}-#{number}" : number
   end
 end

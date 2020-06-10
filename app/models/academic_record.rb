@@ -1,10 +1,10 @@
 class AcademicRecord < ApplicationRecord
   #=========== RELATIONSHIPS=======#
-  belongs_to :student
-  belongs_to :section
-  belongs_to :agreement
-  belongs_to :qualification_status
-  belongs_to :payment_detail, optional: true
+  belongs_to :student, inverse_of: :academic_records
+  belongs_to :section, inverse_of: :academic_records
+  belongs_to :agreement, inverse_of: :academic_records
+  belongs_to :qualification_status, inverse_of: :academic_records
+  belongs_to :payment_detail, optional: true, inverse_of: :academic_records
 
   has_one :course_period, through: :section, dependent: :nullify
   has_one :course, through: :course_period, dependent: :nullify
@@ -32,36 +32,107 @@ class AcademicRecord < ApplicationRecord
 
   rails_admin do
 
-    list do
-      checkboxes false
-      configure :student do 
+    show do
+      field :student do
         label 'Estudiante'
       end
 
-      configure :period do
-        label 'Periodo'
-        sortable [:letter, :year]
-        filterable [:letter, :year]
-        searchable [:letter, :year]
+      field :section do
+        label 'Sección'
+
+        formatted_value do
+          bindings[:object].section.description if bindings[:object].section
+        end
+
+
+        # orderable true
+        # N funciona
+      end
+      field :agreement do
+        label 'Convenio'
       end
 
-      configure :language do
+      field :final_qualification do
+        label 'Cal. Final'
+      end
+
+    end
+
+    edit do
+      field :student do
+        label 'Estudiante'
+      end
+
+      field :section do
+        label 'Sección'
+
+        formatted_value do
+          bindings[:object].section.description if bindings[:object].section
+        end
+
+        # orderable true
+        # N funciona
+      end
+
+      field :agreement do
+        label 'Convenio'
+      end
+
+      field :inscription_status do
+        label 'Estado de Inscripción'
+      end
+
+      field :final_qualification do
+        label 'Final'
+      end
+
+    end
+
+
+
+    list do
+      checkboxes false
+      items_per_page 100
+      scopes [:preinscrito, :confirmado, nil]
+
+      # field :inscription_status do
+      #   label 'Estado'
+      #   column_width 60
+
+      # end
+      field :final_qualification do
+        label 'Final'
+        column_width 50
+      end
+      
+      field :student do 
+        label 'Estudiante'
+      end
+
+      field :period do
+        label 'Periodo'
+        sortable :name
+        filterable :name #[:letter, :year]
+        searchable :name #[:letter, :year]
+      end
+
+      field :language do
         label 'Idioma'
         sortable :name
         searchable :name
         filterable :name
-        column_width 100
+        column_width 50
 
       end
 
-      configure :level do
+      field :level do
         label 'Nivel'
         sortable :grade
         searchable :name
         filterable :name
       end
 
-      configure :section do
+      field :number do
         label 'Sección'
         formatted_value do
           bindings[:object].section.number
@@ -69,16 +140,6 @@ class AcademicRecord < ApplicationRecord
 
         searchable false
         column_width 80
-      end
-
-      field :inscription_status do
-        label 'Estado'
-        column_width 60
-
-      end
-      field :final_qualification do
-        label 'Final'
-        column_width 50
       end
       field :qualification_status do
         label 'Estado Calific.'
@@ -90,7 +151,7 @@ class AcademicRecord < ApplicationRecord
         label 'Convenio'
         column_width 50
       end
-      # fields :student, :period, :language, :level, :section, :agreement_id, :inscription_status, :qualification_status, :final_qualification
+      # fields :student, :period, :language, :level, :section, :agreement_id, :qualification_status, :final_qualification
     end
   end
 
