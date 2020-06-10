@@ -92,18 +92,14 @@ class AcademicRecord < ApplicationRecord
 
     list do
       checkboxes false
-      items_per_page 100
-      scopes [:preinscrito, :confirmado, nil]
+      items_per_page 60
+      # scopes [:preinscrito, :confirmado, nil]
 
       # field :inscription_status do
       #   label 'Estado'
       #   column_width 60
 
       # end
-      field :final_qualification do
-        label 'Final'
-        column_width 50
-      end
       
       field :student do 
         label 'Estudiante'
@@ -114,6 +110,8 @@ class AcademicRecord < ApplicationRecord
         sortable :name
         filterable :name #[:letter, :year]
         searchable :name #[:letter, :year]
+        column_width 80
+        
       end
 
       field :language do
@@ -121,7 +119,7 @@ class AcademicRecord < ApplicationRecord
         sortable :name
         searchable :name
         filterable :name
-        column_width 50
+        column_width 80
 
       end
 
@@ -130,6 +128,8 @@ class AcademicRecord < ApplicationRecord
         sortable :grade
         searchable :name
         filterable :name
+        column_width 80
+
       end
 
       field :number do
@@ -141,14 +141,22 @@ class AcademicRecord < ApplicationRecord
         searchable false
         column_width 80
       end
+      field :final_qualification do
+        label 'Final'
+        column_width 50
+      end
+      field :inscription_status do
+        label 'INS'
+        column_width 50
+      end
       field :qualification_status do
-        label 'Estado Calific.'
+        label 'Est Cal.'
         filterable :name
         searchable :name
         column_width 50
       end
       field :agreement_id do
-        label 'Convenio'
+        label 'Conv'
         column_width 50
       end
       # fields :student, :period, :language, :level, :section, :agreement_id, :qualification_status, :final_qualification
