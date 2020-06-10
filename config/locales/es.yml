@@ -262,8 +262,8 @@ es:
         one: "Periodo"
         other: "Periodos"
       academic_record:
-        one: "Registro Académico"
-        other: "Registros Académicos"
+        one: "Inscripción"
+        other: "Inscripciones"
 
     errors:
       models:

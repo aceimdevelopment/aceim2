@@ -29,8 +29,10 @@ class Ability
             can :create, [Bank, Period, CoursePeriod, Agreement]
             # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
 
+        elsif user.admnistrator.supervidor?
+            can :read, [AcademicRecord, Student, Section]
         else
-            can :read, [Course, CoursePeriod, AcademicRecord, Student]
+            can :read, [CoursePeriod, AcademicRecord, Student]
         end
         #     can :read, [Administrator]
         # elsif user.administrator.supervisor

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_09_140542) do
+ActiveRecord::Schema.define(version: 2020_06_10_183957) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2020_06_09_140542) do
     t.boolean "open"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "user_classroom_canvas"
     t.index ["course_period_id"], name: "index_sections_on_course_period_id"
     t.index ["evaluator_id"], name: "index_sections_on_evaluator_id"
     t.index ["instructor_id"], name: "index_sections_on_instructor_id"

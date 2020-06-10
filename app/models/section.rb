@@ -4,10 +4,10 @@ class Section < ApplicationRecord
 
   belongs_to :course_period, inverse_of: :sections
   # accepts_nested_attributes_for :course_period
-  belongs_to :instructor, foreign_key: :instructor_id, primary_key: :user_id#, optional: true
+  belongs_to :instructor, foreign_key: :instructor_id, primary_key: :user_id, optional: true
   # accepts_nested_attributes_for :instructor
   
-  belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true, inverse_of: :sections
+  # belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true, inverse_of: :sections
   # accepts_nested_attributes_for :evaluator
 
   belongs_to :qualification_datail, optional: true, inverse_of: :sections
@@ -39,24 +39,51 @@ class Section < ApplicationRecord
   # ========== RAILS ADMIN ============ #
 
   rails_admin do
-
+    # inline_add false
     # import do
     #   mapping_key = [:period_id, :language_id, :level_id, :number]
     #   mapping_key_list [:period_id, :language_id, :level_id, :number]
     # end
 
+    show do
+      field :description do
+        label 'Sección'
+      end
+      field :open do
+        label '¿Abierta?'
+      end
+      field :url_classroom_canvas do
+        label 'Url de Aula en Canvas'
+      end
+      field :academic_records do
+        label 'Inscripciones'
+      end
+    end
+
     edit do
       field :course_period do
         label 'Curso Periodo'
       end
+      # field :course_period_id, :enum do
+      #   enum do
+      #     course_periods_aux = bindings[:object].period ? bindings[:object].period.course_periods : CoursePeriod.all
+      #     course_periods_aux.map{|cp| [cp.name, cp.id]}
+      #   end
+      # end
+
       field :number do
         label 'número'
       end
-      field :instructor 
-
-      field :evaluator do
-        label 'Evaluador'
+      field :instructor_id, :enum do
+        enum do
+          Instructor.all.map{|inst| [inst.name, inst.id]}
+        end
       end
+
+      field :user_classroom_canvas do
+        label 'Url Aula de Canvas'
+      end
+
       field :open do
         label '¿Abierta?'
       end
@@ -64,7 +91,8 @@ class Section < ApplicationRecord
 
     list do
       limited_pagination true
-      # filters [:period, :language, :level]
+      filters [:period, :language, :level]
+
       field :period do
         label 'Periodo'
 
@@ -75,19 +103,25 @@ class Section < ApplicationRecord
         sortable true
         searchable :name
         filterable :name
-
       end
+
+
+
+
       # field :period, :enum do
       #   label 'Periodo'
       #   enum do
-      #     Period.all.collect {|p| ["#{p.year}-#{p.letter}", p.id]}
+      #     Period.all.collect {|p| [[p, p.id]]}
       #   end
+      #   # pretty_value do
+      #   #   value.try(:period)
+      #   # end
       #   formatted_value do
-      #     bindings[:object].period.name
+      #     bindings[:object].period
       #   end
-      #   sortable :year
-      #   filterable :year
-      #   searchable :year
+      #   # sortable :name
+      #   filterable true
+      #   # searchable :nema
       # end
 
 
@@ -118,8 +152,16 @@ class Section < ApplicationRecord
         label 'número'
         filterable false
       end
-      field :open do
-        label '¿Abierta?'
+      field :course_period_kind, :enum do
+        label 'Tipo'
+        enum do
+          CoursePeriod::kinds
+        end
+
+        # queryable true
+        sortable "course_periods.kind" #CoursePeriod::kinds.keys
+        filterable false #"course_periods.kind"
+        searchable false
       end
       field :instructor do
         label 'Instructor'
@@ -145,6 +187,10 @@ class Section < ApplicationRecord
 
   def enrolled
     academic_records.confirmado.count
+  end
+
+  def course_period_kind
+    course_period.kind if course_period
   end
 
 
