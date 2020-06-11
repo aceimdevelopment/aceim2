@@ -18,21 +18,23 @@ class Ability
     if user.administrator?
         can :access, :rails_admin
         can :manage, :dashboard
-        if user.administrator.desarrollador?
+        if user.administrator.yo?
             can :manage, :all
+        elsif user.administrator.desarrollador?
+            can :manage, [Period, CoursePeriod, Section, AcademicRecord, Student, Instructor, Administrator, User]
         # elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
         elsif user.administrator.superadmin?
-            can :manage, [CoursePeriod, Career, Student, Instructor, Section, AcademicRecord, User]
-            can :read, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
-            can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
-            can :create, [Bank, Period, CoursePeriod, Agreement]
+            can :manage, [Student, Instructor, Section, AcademicRecord, User]
+            can :read, [Period, CoursePeriod]
+            # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
+            # can :create, [Bank, Period, CoursePeriod, Agreement]
             # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
 
         elsif user.administrator.supervidor?
             can :read, [AcademicRecord, Student, Section]
         else
-            can :read, [CoursePeriod, AcademicRecord, Student]
+            can :read, [Section, Student]
         end
         #     can :read, [Administrator]
         # elsif user.administrator.supervisor

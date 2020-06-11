@@ -72,7 +72,7 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index do                        # mandatory
-      except [User, Language, Level, Course, BankAccount, Bank, PaymentDetail, QualificationStatus, QualificationDetail, Career]
+      except [User, PaymentDetail, QualificationStatus, QualificationDetail, Career]
     end
     new
     export

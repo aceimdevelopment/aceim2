@@ -5,6 +5,10 @@ class Administrator < ApplicationRecord
   validates :role, presence: true
   enum role: [:desarrollador, :superadmin, :supervidor, :pasante, :administrativo]
 
+  def yo?
+    self.user.email.eql? 'moros.daniel@gmail.com'
+  end
+
   rails_admin do
 
 
