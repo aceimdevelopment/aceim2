@@ -4,13 +4,13 @@ class Section < ApplicationRecord
 
   belongs_to :course_period, inverse_of: :sections
   # accepts_nested_attributes_for :course_period
-  belongs_to :instructor, foreign_key: :instructor_id, primary_key: :user_id, optional: true
+  belongs_to :instructor, foreign_key: :instructor_id, primary_key: :user_id, optional: true, inverse_of: :sections
   # accepts_nested_attributes_for :instructor
   
   # belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true, inverse_of: :sections
   # accepts_nested_attributes_for :evaluator
 
-  belongs_to :qualification_datail, optional: true, inverse_of: :sections
+  has_one :qualification_datail, inverse_of: :section
   # accepts_nested_attributes_for :qualification_datail
 
   has_one :period, through: :course_period
@@ -38,6 +38,21 @@ class Section < ApplicationRecord
 
   # ========== RAILS ADMIN ============ #
 
+  def table_head
+    aux = "<thead>"
+    aux.concat "<tr><th>CI</th><th>Nombres</th><th>Apellidos</th><th>Emails</th><tr>"
+    aux.concat "</head>"
+  end
+
+  def table_body(elements)
+    aux = "<thead>"
+    aux.concat "<tr><tr>"
+  end
+
+  # def render_partial(elements)
+  #   partial "user_state_partial", locals: {field: self}
+  # end
+
   rails_admin do
     # inline_add false
     # import do
@@ -47,7 +62,8 @@ class Section < ApplicationRecord
 
     show do
       field :description do
-        label 'Sección'
+        label 'Descripción'
+        read_only true
       end
       field :open do
         label '¿Abierta?'
@@ -55,17 +71,75 @@ class Section < ApplicationRecord
       field :url_classroom_canvas do
         label 'Url de Aula en Canvas'
       end
-      field :academic_records do
+      field :records do
         label 'Inscripciones'
+        formatted_value do
+
+          # bindings[:object].academic_records.map{|ar| "<p>#{ar.student.personal_identity_document},#{ar.student.user.name},#{ar.student.user.last_name}#{ar.student.user.email} </p>".html_safe}
+
+          bindings[:view].render(partial: "table_academic_records_partial", locals: {field: self})
+
+          # field = bindings[:object]
+
+          # view.concat "HOLA MUNDO"
+          # view.content_tag :table, {class: 'table table table-striped table-sm table-hover table-bordered table-responsive-md mt-3'} do
+          #   view.content_tag :thead do
+          #     view.content_tag :tr do
+          #       view.content_tag( :th, 'CI' ) + 
+          #       view.content_tag( :th, 'Nombres' ) + 
+          #       view.content_tag( :th, 'Apellidos' ) + 
+          #       view.content_tag( :th, 'emails' )
+          #     end
+          #   end
+          #   view.content_tag :tbody do
+          #     view.content_tag :tr do
+          #       bindings[:object].academic_records.collect do |ar|
+          #         view.content_tag( :td, ar.student.personal_identity_document ) + 
+          #         view.content_tag( :td, ar.student.user.name ) + 
+          #         view.content_tag( :td, ar.student.user.last_name ) + 
+          #         view.content_tag( :td, ar.student.user.email )
+          #       end
+          #     end
+          #   end
+          # end
+
+        end
       end
     end
 
-    edit do
-      # field :course_period do
-      #   label 'Curso Periodo'
-      #   inline_edit false
-      #   inline_add false
+    update do
+      field :description do
+        label 'Descripción'
+        read_only true
+      end
+      field :number do
+        label 'número'
+      end      
+      field :open do
+        label '¿Abierta?'
+      end
+      field :url_classroom_canvas do
+        label 'Url de Aula en Canvas'
+      end
+      field :instructor_id, :enum do
+        enum do
+          Instructor.all.map{|inst| [inst.name, inst.id]}
+        end
+      end
+      # field :academic_records do
+      #   label 'Inscripciones'
+      #   partial "user_state_partial", locals: {field: self}
       # end
+
+    end
+
+    edit do
+      field :course_period do
+        label 'Curso Periodo'
+        inline_edit false
+        inline_add false
+        queryable "course_periods_periods.name"
+      end
       # field :course_period_id, :enum do
       #   enum do
       #     course_periods_aux = bindings[:object].period ? bindings[:object].period.course_periods : CoursePeriod.all
@@ -171,6 +245,10 @@ class Section < ApplicationRecord
       # field :evaluator do
       #   label 'Evaluador'
       # end
+
+      field :open do
+        label '¿Abierta?'
+      end      
       field :registed do
         label 'PRE'
       end

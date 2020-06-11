@@ -1,5 +1,7 @@
 class Student < ApplicationRecord
 
+  # QUERY CON INCLUDES QUE PUEDE SER UTIL:
+  # Student.includes(:user, {academic_records: {section: {course_period: [{course: [:language, :level]}, :period]}}}).limit(5).each{|es|}
   # ========== RELATIONSHIPS ============ #
 
   belongs_to :user, inverse_of: :student#, foreign_key: :user_id
@@ -12,6 +14,7 @@ class Student < ApplicationRecord
   accepts_nested_attributes_for :careers
 
   has_many :academic_records, inverse_of: :student
+  has_many :sections, through: :academic_records
   accepts_nested_attributes_for :academic_records
 
   # ========== VALIDATIONS ============ #

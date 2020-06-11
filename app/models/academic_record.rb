@@ -1,4 +1,8 @@
 class AcademicRecord < ApplicationRecord
+
+  # QUERY CON INCLUDES QUE PUEDE SER UTIL:
+  # AcademicRecord.includes({student: :user}, {section: {course_period: [{course: [:language, :level]}, :period]}}).limit(5).each{|ar| ar.student.name; ar.section.name}
+
   #=========== RELATIONSHIPS=======#
   belongs_to :student, inverse_of: :academic_records
   belongs_to :section, inverse_of: :academic_records
@@ -229,7 +233,7 @@ class AcademicRecord < ApplicationRecord
 
   def set_default
     self.final_qualification ||= SC
-    # self.aggrement_id ||= 'REG'
+    self.agreement_id ||= 'REG'
     self.qualification_status_id ||= 'SC'
   end
 

@@ -1,0 +1,16 @@
+
+%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th CI
+			%th Nombre
+			%th Apellidos
+			%th Corrreo
+	%tbody
+		- field.bindings[:object].academic_records.each do |ar| 
+			- user = ar.student.user
+			%tr
+				%td= ar.student.personal_identity_document
+				%td= user.name
+				%td= user.last_name
+				%td= user.email
