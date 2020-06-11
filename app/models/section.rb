@@ -38,17 +38,6 @@ class Section < ApplicationRecord
 
   # ========== RAILS ADMIN ============ #
 
-  def table_head
-    aux = "<thead>"
-    aux.concat "<tr><th>CI</th><th>Nombres</th><th>Apellidos</th><th>Emails</th><tr>"
-    aux.concat "</head>"
-  end
-
-  def table_body(elements)
-    aux = "<thead>"
-    aux.concat "<tr><tr>"
-  end
-
   # def render_partial(elements)
   #   partial "user_state_partial", locals: {field: self}
   # end

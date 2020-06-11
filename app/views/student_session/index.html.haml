@@ -23,7 +23,6 @@
       %table.table.table-sm.table-striped.table-hover.table-responsable
         %thead
           %tr.row
-            %th id
             %th.col-4 Nivel
             %th.col-2 Período
             %th.col-2 Calificación
@@ -33,7 +32,6 @@
           - records = career.academic_records 
           - records.each do |ra|
             %tr.row
-              %td= ra.id
               %td.col-4= "#{ra.section.course.level.name} (#{ra.section.course_period.kind})"
               %td.col-2= ra.period_desc
               %td.col-2= ra.final_desc
@@ -41,23 +39,24 @@
               %td.col-2= ra.inscription_status.capitalize
 
         -# if next_course = career.next_course
-        %tfoot
-          - records.currents.each do |current| 
-            - course_id_aux = current.course.id
-            - period_aux = current.period
-            -# period_aux = Period.where(year: '2020', letter: 'A').first
-            - online_course_period = CoursePeriod.online.where(period_id: period_aux.id, course_id: course_id_aux).first
-            - if online_course_period and !student.enrolled_course_period?(online_course_period.id)
-              - section = online_course_period.sections.first
-              - if section
-                %tr
-                  %td
-                    %b Nivel Online Disponible:
-                    = online_course_period.course.level.name
-                    -# if available_course_period_insc = CoursePeriod.online.where(course_id: next_course.id).first
-                    -# CoursePeriod.online.where(course_id: next_course.id).each do |available_course_period_insc| 
+        - if false #  AQUI VA LA CONDICIÓN DE PARAMETRO GENERAL DE PERMITIR_INSCRIPCIONES IGUAL SI
+          %tfoot
+            - records.currents.each do |current| 
+              - course_id_aux = current.course.id
+              - period_aux = current.period
+              -# period_aux = Period.where(year: '2020', letter: 'A').first
+              - online_course_period = CoursePeriod.online.where(period_id: period_aux.id, course_id: course_id_aux).first
+              - if online_course_period and !student.enrolled_course_period?(online_course_period.id)
+                - section = online_course_period.sections.first
+                - if section
+                  %tr
+                    %td
+                      %b Nivel Online Disponible:
+                      = online_course_period.course.level.name
+                      -# if available_course_period_insc = CoursePeriod.online.where(course_id: next_course.id).first
+                      -# CoursePeriod.online.where(course_id: next_course.id).each do |available_course_period_insc| 
 
-                    = link_to "¡Inscríbite ahora! (#{period_aux.name})", regular_enrollment_path(section.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{online_course_period.description_inscription}'?"
+                      = link_to "¡Inscríbite ahora! (#{period_aux.name})", regular_enrollment_path(section.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{current_user.description}' en el curso: '#{online_course_period.description_inscription}'?"
 -# else
 -# period = Period.where(year: 2020).last 
 -# period.course_periods.each do |cp| 
