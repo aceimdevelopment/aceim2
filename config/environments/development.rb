@@ -8,16 +8,16 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 
-  # Mailgun Config:
-  # config.action_mailer.smtp_settings = {
-  #   address: 'smtp.mailgun.org',
-  #   port: 587,
-  #   domain: 'mg.fundeim.com',
-  #   authentication: "plain",
-  #   enable_starttls_auto: true,
-  #   user_name: 'postmaster@mg.fundeim.com',
-  #   password: '4e82ab15a5c104d50502af6832468b5e-e5e67e3e-82b1d369'
-  # }
+  # Mail Config:
+  config.action_mailer.smtp_settings = {
+    address: ENV['EMAIL_PROVIDER_ADDRESS'],
+    port: 587,
+    domain: ENV['EMAIL_PROVIDER_DOMAIN_NAME'],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV['EMAIL_PROVEDER_USER_NAME'],
+    password: ENV['EMAIL_PROVIDER_PASSWORD']
+  }
 
   config.cache_classes = false
 
