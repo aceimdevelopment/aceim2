@@ -10,7 +10,7 @@ class Section < ApplicationRecord
   # belongs_to :evaluator, class_name: 'Instructor', foreign_key: :evaluator_id, primary_key: :user_id, optional: true, inverse_of: :sections
   # accepts_nested_attributes_for :evaluator
 
-  has_one :qualification_datail, inverse_of: :section
+  has_one :qualification_detail, inverse_of: :section
   # accepts_nested_attributes_for :qualification_datail
 
   has_one :period, through: :course_period
