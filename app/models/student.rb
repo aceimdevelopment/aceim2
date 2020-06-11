@@ -23,6 +23,8 @@ class Student < ApplicationRecord
   # before_validation :upcase_location
 
 
+  scope :my_search, -> (keyword) { joins(:user).where("personal_identity_document LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%'") }
+
   # ========== RAILS ADMIN ============ #
 
   def enrolled_course_period? (course_period_id)
@@ -74,17 +76,16 @@ class Student < ApplicationRecord
 
 
     list do
-      field :user do
-        label 'Usuario'
-      end
+      search_by :my_search
       field :personal_identity_document do
         label 'Cédula'
+        column_width 100
+      end
+      field :name do
+        label 'Usuario'
       end
       field :location do
         label 'Ubicación'
-      end
-      field :source_country do
-        label 'Origen'
       end
     end
 

@@ -20,6 +20,18 @@ class Instructor < ApplicationRecord
     self.active = record[:active]
     # end
   end
+  scope :my_search, -> (keyword) { joins(:user).where("users.email LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%'") }
+
+
+  #   scope :search, lambda { |clave| 
+  #   where("ci LIKE ? OR nombres LIKE ? OR apellidos LIKE ? OR ci LIKE ? OR email LIKE ?","%#{clave}%","%#{clave}%","%#{clave}%", "%#{clave}%", "%#{clave}%")
+  # }
+
+  # scope :my_search, lambda { |clave| 
+  #   joins(:user).where("MATCH(users.name, users.last_name, users.email, users.number_phone) AGAINST('#{clave}')")
+  # }
+
+
   rails_admin do
 
     # import do
@@ -38,16 +50,19 @@ class Instructor < ApplicationRecord
     end
 
     list do
-      configure :description do
+      search_by :my_search
+      field :description do
         label 'Descricpción'
         formatted_value do
           bindings[:object].user.description if bindings[:object].user
         end
-        filterable false
+        # queryable 'INNER JOIN users ON users.id = id'
+        # filterable false
+        # searchable 'users.name'
         # searchable false, class_name: :user #:name
       end
 
-      fields :description
+      # fields :description
       # field :active do
       #   label 'Activo'
       # end
