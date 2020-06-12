@@ -21,7 +21,7 @@ class Ability
         if user.administrator.yo?
             can :manage, :all
         elsif user.administrator.desarrollador?
-            can :manage, [Period, CoursePeriod, Section, AcademicRecord, Student, Instructor, Administrator, User]
+            can :manage, [Period, CoursePeriod, Section, AcademicRecord, Student, Instructor, Administrator, User, Agreement]
         # elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
         elsif user.administrator.superadmin?
