@@ -17,6 +17,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sections, only: [:index] do
+    member do
+      get 'split'
+    end
+  end
+
+
   scope module: :admin do
     resources :dashboard, only: [:index]
   end

@@ -25,6 +25,8 @@ class CoursePeriod < ApplicationRecord
   after_create :create_first_section
   #========== SCOPE ==================#
 
+  scope :from_period, -> (period_id) {where(period_id: period_id)}
+  # scope :approved, -> {where(qualification_status_id: :AP)}
   #========== RAILS ADMIN ============= #
 
 
@@ -113,6 +115,10 @@ class CoursePeriod < ApplicationRecord
   
 
   #========== FUNCTIONS =============#
+  def next_section_number
+    self.sections.map{|s| s.number}.max.to_i+1
+  end
+
   def language
     course.language if course
   end
