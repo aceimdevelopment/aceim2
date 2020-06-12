@@ -136,7 +136,7 @@ class CoursePeriod < ApplicationRecord
   end
 
   def name
-    (self.period and self.course) ? "#{self.period.name}:#{self.course.name}(#{self.kind})" : "#{self.id}"
+    (self.period and self.course) ? "#{self.period.name}:#{self.course.name} (#{self.kind})" : "#{self.id}"
   end
 
   protected

@@ -12,4 +12,13 @@ class UserMailer < ApplicationMailer
     content_type: "text/html")
 
   end
+
+  def confirmation_enrollment_email(ar)
+    # ar = AcademicRecord.find(id)
+    @user = ar.student.user
+    @section = ar.section
+    mail(to: @user.email,
+    subject: "Confirmación de Inscripción #{ar.course_period.name}",
+    content_type: "text/html")    
+  end
 end
