@@ -4,9 +4,10 @@
 
   .content{style: 'text-align: justify;'}
 
-    %p= "Por favor utilice el siguiente enlace #{link_to 'Aula', @section.url_classroom_canvas} para entrar a su aula en CANVAS."
-
-    %p= "Todo este proceso nos ha llevado a realizar varios cambios y actualizaciones en nuestras plataformas y ahora requerimos que cada uno de ustedes ingrese al nuevo ACEIM colocando en su buscador nuestra nueva dirección fundeim.com y en una primera instancia actualicen sus datos de contacto."
+    %p
+      Por favor utilice el siguiente enlace
+      =link_to 'Aula', @section.url_classroom_canvas
+      para entrar a su aula en CANVAS.
 
     %p Cuando se abra la página de CANVAS coloque su usuario y contraseña. Luego haga click en Go To Course.
 
