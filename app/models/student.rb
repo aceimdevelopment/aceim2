@@ -114,12 +114,18 @@ class Student < ApplicationRecord
 
   # ========== FUNCTIONS ============ #
 
+  def ci
+    self.personal_identity_document
+  end
+
   def any_blank?
     personal_identity_document.blank? or location.blank? or source_country.blank?
   end
 	
   def name
-    "#{user.description}" if user
+    aux = ""
+    aux = "(#{self.ci})" if self.ci.blank?
+    aux = " #{user.description}" if user
   end
 
   def upcase_location

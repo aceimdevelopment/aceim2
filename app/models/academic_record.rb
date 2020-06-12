@@ -53,6 +53,9 @@ class AcademicRecord < ApplicationRecord
         # orderable true
         # N funciona
       end
+      field :inscription_status do
+        label 'Estado de Inscripción'
+      end
       field :agreement do
         label 'Convenio'
       end
@@ -60,6 +63,15 @@ class AcademicRecord < ApplicationRecord
       field :final_qualification do
         label 'Cal. Final'
       end
+
+      field :options do
+        label 'Opciones'
+        formatted_value do
+          bindings[:view].render(partial: "send_reconfirmer_button", locals: {object: bindings[:object]})
+        end
+      end
+
+
 
     end
 

@@ -11,6 +11,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :academic_records, only: [:index] do
+    member do
+      get 'send_confirmation_mail'
+    end
+  end
+
   scope module: :admin do
     resources :dashboard, only: [:index]
   end
