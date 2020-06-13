@@ -5,6 +5,7 @@ class SectionsController < ApplicationController
 	def split 
 		number_split = params[:number_split].to_i
 		total_groups = @section.academic_records.count/number_split
+		remainder = @section.academic_records.count%number_split
 
 		flash[:info] = ""
 		total_new_sections = 0
@@ -16,7 +17,13 @@ class SectionsController < ApplicationController
 			if section_aux.save
 				total_new_sections += 1
 				@section.reload
-				@section.academic_records.limit(total_groups).each do |ar|
+				if remainder > 0
+					aux = total_groups+1
+					remainder -=1
+				else
+					aux = total_groups
+				end
+				@section.academic_records.limit(aux).each do |ar|
 					ar.section = section_aux
 					total_challenge += 1 if ar.save
 				end
