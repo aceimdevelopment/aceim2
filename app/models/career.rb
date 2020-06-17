@@ -12,15 +12,15 @@ class Career < ApplicationRecord
 
   # =============== FUNCTIONS =================# 
   def academic_records
-    student.academic_records.from_language(language_id)
+    self.student.academic_records.from_language(language_id)
   end
 
   def last_academic_record
-    academic_records.first
+    self.academic_records.first
   end
 
   def last_academic_record_approved
-    academic_records.approved.first
+    self.academic_records.approved.first
   end
 
   #====== LA IDEA ES QUE NO SE LE OFERTE PARA PREINSCRIBIR UN CURSO QUE YA TIENE PREINSCRITO O APROBADO   ======#

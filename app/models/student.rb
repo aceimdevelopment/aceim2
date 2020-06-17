@@ -94,7 +94,7 @@ class Student < ApplicationRecord
         label 'Usuario'
       end
       field :personal_identity_document do
-        label 'Documento Personal de Identiicación'
+        label 'Cédula de Identidad'
         html_attributes do
           {:length => 8, :size => 8, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^0-9]/g,''))"}
         end
@@ -129,7 +129,7 @@ class Student < ApplicationRecord
   end
 
   def upcase_location
-    self.location = location.strip.upcase #if self.location
+    self.location = location.strip.upcase if self.location
   end
 
 end

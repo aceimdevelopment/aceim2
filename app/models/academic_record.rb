@@ -22,7 +22,8 @@ class AcademicRecord < ApplicationRecord
   PI = -1
   #============VALIDATIONS=========#
   validates :student_id, uniqueness: {scope: :section_id}
-  after_initialize  :set_default, :if => :new_record?
+  after_initialize :set_default, :if => :new_record?
+  after_save :add_career
 
   #============SCOPE===============#
   scope :approved, -> {where(qualification_status_id: :AP)}
@@ -31,7 +32,6 @@ class AcademicRecord < ApplicationRecord
   scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
 
   scope :from_period, lambda{|period_id| joins(:section).joins(:course_period).where("course_periods.period_id = ?", period_id)}
-
 
   # ===========RAILS ADMIN ====================#
 
@@ -94,6 +94,13 @@ class AcademicRecord < ApplicationRecord
       field :agreement do
         label 'Convenio'
       end
+
+      # field :agreement_id, :enum do
+      #   enum do
+      #     Agreement.all.map{|inst| [inst.name, inst.id]}
+      #   end
+      # end
+
 
       field :inscription_status do
         label 'Estado de Inscripción'
@@ -243,6 +250,13 @@ class AcademicRecord < ApplicationRecord
   end
 
   protected
+
+  def add_career
+    unless Career.where(student_id: self.student_id, language_id: self.language.id).any?
+      Career.create(student_id: self.student_id, language_id: self.language.id)
+    end
+  end
+
 
   def set_default
     self.final_qualification ||= SC

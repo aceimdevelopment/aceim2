@@ -23,20 +23,26 @@
       %table.table.table-sm.table-striped.table-hover.table-responsable
         %thead
           %tr.row
-            %th.col-4 Nivel
+            %th.col-2 Nivel
             %th.col-2 Período
             %th.col-2 Calificación
             %th.col-2 Estado
-            %th.col-2 Inscripción 
+            %th.col-2 Inscripción
+            %th.col-2 Opciones
         %tbody
           - records = career.academic_records 
-          - records.each do |ra|
+          - records.each do |ar|
             %tr.row
-              %td.col-4= "#{ra.section.course.level.name} (#{ra.section.course_period.kind})"
-              %td.col-2= ra.period_desc
-              %td.col-2= ra.final_desc
-              %td.col-2= ra.qualification_status.name
-              %td.col-2= ra.inscription_status.capitalize
+              %td.col-2= "#{ar.section.course.level.name} (#{ar.section.course_period.kind})"
+              %td.col-2= ar.period_desc
+              %td.col-2= ar.final_desc
+              %td.col-2= ar.qualification_status.name
+              %td.col-2= ar.inscription_status.capitalize
+              %td.col-2
+                - if GeneralSetup.mostrar_enlace_canvas and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
+                  = link_to ar.section.url_classroom_canvas, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+                    Entrar en mi curso ONLINE
+                    %span.fa.fa-external-link
 
         -# if next_course = career.next_course
         - if false #  AQUI VA LA CONDICIÓN DE PARAMETRO GENERAL DE PERMITIR_INSCRIPCIONES IGUAL SI
