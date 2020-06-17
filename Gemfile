@@ -37,7 +37,7 @@ gem 'font-awesome-rails'
 gem 'react-rails'
 gem 'responders'
 gem "haml-rails", "~> 2.0"
-
+gem "canvas-api"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

@@ -50,6 +50,13 @@ class CoursePeriod < ApplicationRecord
       field :sections do
         label 'secciones'
       end
+
+      field :canvas_enrollemnets do
+        label 'Inscritos en Canvas'
+        formatted_value do
+          bindings[:view].render(partial: 'canvas_enrollemnets_partial', locals: {course_period: bindings[:object]})
+        end
+      end
     end
 
     list do
@@ -109,6 +116,13 @@ class CoursePeriod < ApplicationRecord
       field :kind do
         label 'Tipo'
       end
+      field :id_canvas do
+        label 'Identificador Canvas'
+        html_attributes do
+          {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^0-9|]/g,''))"}
+        end
+      end
+
     end
 
   end
