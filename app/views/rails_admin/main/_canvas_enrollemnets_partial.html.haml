@@ -39,14 +39,11 @@
 								- if user and es = user.student
 									- enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period.id}").first
 									- if enrolled
-										= enrolled.section.name
-										= enrolled.inscription_status
+										.label.label-info= enrolled.inscription_status.capitalize
 									- else
-										.label.label-warning
-											No inscrito en el curso
+										.label.label-warning No inscrito en el curso
 								- else
-									.label.label-danger
-										Usuario no encontrado
+									.label.label-danger Usuario no encontrado
 
 						- i+=1
 			- end while enrollments.more? and enrollments = enrollments.next_page!
