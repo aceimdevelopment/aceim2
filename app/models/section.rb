@@ -217,6 +217,15 @@ class Section < ApplicationRecord
         label 'número'
         filterable false
       end
+
+      # field :course_period do 
+      #   label 'Tipo'
+      #   formatted_value{ bindings[:object].course_period.kind}
+      #   queryable true
+      #   sortable "course_periods.kind"
+      #   filterable true
+      #   searchable false
+      # end
       field :course_period_kind, :enum do
         label 'Tipo'
         enum do
@@ -225,7 +234,7 @@ class Section < ApplicationRecord
 
         # queryable true
         sortable "course_periods.kind" #CoursePeriod::kinds.keys
-        filterable false #"course_periods.kind"
+        filterable false # "sections_course_periods.kind"
         searchable false
       end
       field :instructor do
@@ -243,6 +252,11 @@ class Section < ApplicationRecord
       end
       field :enrolled do
         label 'CONF'
+      end
+
+      field :aula do
+        label 'Aula Canvas'
+        formatted_value{ bindings[:object].url_classroom_canvas.split("/").last if bindings[:object].url_classroom_canvas }
       end
       # fields :period, :language, :level, :registed, :number, :open, :instructor, :registed, :enrolled
     end
