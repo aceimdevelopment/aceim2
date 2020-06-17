@@ -224,18 +224,19 @@ class AcademicRecord < ApplicationRecord
   end
 
   def name
-    "#{user_desc}-#{period_desc}-#{section_desc_short}"
+    "#{user_desc} en #{self.section.desc_short if self.section}"
   end
 
   def user_desc
-    (student and student.user) ? student.user.description : ""
+    (student and student.user) ? student.name : ""
   end
   def period_desc
     section.period.name if section and section.period
   end
 
   def section_desc_short
-    "#{section.number} (#{section.course.language_id}-#{section.course.level_id})" if section
+    # "#{section.course.language_id} | #{section.course.level_id} | #{section.course_period.kind[0..3]}" if section and section.course_period
+    self.section.desc_short
   end
 
   def final_desc

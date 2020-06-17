@@ -1,0 +1,17 @@
+%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th Periodo
+			%th Idioma
+			%th Nivel
+			%th Tipo
+			%th Sección
+	%tbody
+		- field.bindings[:object].academic_records.includes({student: :user}).order('users.last_name').each do |ar| 
+			- user = ar.student.user
+			%tr
+				%td= ar.period.name
+				%td= ar.language.name
+				%td= ar.level.name
+				%td= ar.course_period.kind
+				%td= ar.section.number

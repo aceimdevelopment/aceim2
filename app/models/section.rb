@@ -294,7 +294,10 @@ class Section < ApplicationRecord
   end
 
   def description
-    self.course_period ? "#{number}-#{course_period.name}" : self.id.to_s
+    self.course_period ? "#{number}|#{course_period.name}" : self.id.to_s
+  end
+  def desc_short
+    self.course_period ? "#{course_period.desc_short} #{number}" : self.id.to_s
   end
 
   def name

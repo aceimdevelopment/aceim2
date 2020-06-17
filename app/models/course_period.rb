@@ -156,7 +156,11 @@ class CoursePeriod < ApplicationRecord
   end
 
   def name
-    (self.period and self.course) ? "#{self.period.name}:#{self.course.name} (#{self.kind})" : "#{self.id}"
+    (self.period and self.course) ? "#{self.period.name}|#{self.course.name}|#{self.kind}" : "#{self.id}"
+  end
+
+  def desc_short
+    "#{self.period.name} #{self.course.language_id} #{self.course.level_id} #{self.kind[0..2].upcase}"
   end
 
   protected

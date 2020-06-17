@@ -56,11 +56,6 @@ class Student < ApplicationRecord
         label 'Descripción'
         # css_class 'bg-dark text-white'
       end
-
-      field :personal_identity_document do
-        label 'Cédula de Identidad'
-        # css_class 'bg-dark text-white'
-      end
       
       field :location do
         label 'Ubicación'
@@ -69,9 +64,17 @@ class Student < ApplicationRecord
       field :careers do
         label 'Idiomas Cursados'
       end
-      field :academic_records do
-        label 'Registros Academicos'
+      # field :academic_records do
+      #   label 'Registros Academicos'
+      # end
+
+      field :records do
+        label 'Inscripciones'
+        formatted_value do
+          bindings[:view].render(partial: "table_personal_academic_records_partial", locals: {field: self})
+        end
       end
+
     end
 
 
@@ -124,8 +127,8 @@ class Student < ApplicationRecord
 	
   def name
     aux = ""
-    aux = "(#{self.ci})" if self.ci.blank?
-    aux = " #{user.description}" if user
+    aux += "#{self.ci}" unless self.ci.blank?
+    aux += " #{user.description}" if user
   end
 
   def upcase_location
