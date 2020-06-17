@@ -21,7 +21,7 @@ class User < ApplicationRecord
   validates :email, presence: true#, uniqueness: true
   validates :name, presence: true, unless: :new_record?
   validates :last_name, presence: true, unless: :new_record?
-  validates :password, presence: true#, unless: :new_record?
+  # validates :password, presence: true, unless: :new_record?
 
   # validates :number_phone, presence: true, unless: :new_record?
 
