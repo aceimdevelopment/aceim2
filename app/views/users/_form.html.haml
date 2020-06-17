@@ -6,8 +6,18 @@
 
       = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'número de Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 8)", required: true, autofocus: true
   .form-group
+    = f.label :email, value: 'Email:'
+    = f.email_field :email, autofocus: true, placeholder: 'Correo', class: 'form-control', required: true
+  .form-group
+    = f.label :password, value: 'Contraseña:'
+    = f.password_field :password, placeholder: 'Contraseña', class: 'form-control', required: true
+  .form-group
+    = f.label :confirmation_password, value: 'Confirmación de Contraseña:'
+    = f.password_field :password, placeholder: 'Confirmación de Contraseña', class: 'form-control', required: true    
+
+  .form-group
     = f.label :number_phone, value: 'Nombres:'
-    = f.text_field :name, autofocus: true, placeholder: 'Nombres', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
+    = f.text_field :name, placeholder: 'Nombres', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
   .form-group
     = f.label :number_phone, value: 'Apellidos:'
     = f.text_field :last_name, placeholder: 'Apellidos', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
