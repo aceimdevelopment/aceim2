@@ -11,7 +11,7 @@ task confirm_and_send_mail: :environment do
       puts " #{ar.name} ".center(220, "=")
       ar.inscription_status = 'confirmado'
       puts "     Confirmado    ".center(220, "-") if ar.save
-      if UserMailer.confirmation_enrollment_email(ar).deliver
+      if UserMailer.confirmation_enrollment_email(ar.id).deliver
         puts "     Correo Enviado    ".center(220, "-")
       end
 

@@ -1,3 +1,4 @@
-= link_to "/academic_records/#{object.id}/send_confirmation_mail", class: 'btn btn-sm btn-primary' do
-	%i.fa.fa-send
-	Enviar Correo confimación
+- unless object.section.url_classroom_canvas.blank?
+	= link_to "/academic_records/#{object.id}/send_confirmation_mail", class: 'btn btn-sm btn-primary' do
+		%i.fa.fa-send
+		Enviar Correo confimación

@@ -13,8 +13,8 @@ class UserMailer < ApplicationMailer
 
   end
 
-  def confirmation_enrollment_email(ar)
-    # ar = AcademicRecord.find(id)
+  def confirmation_enrollment_email(ar_id)
+    ar = AcademicRecord.find(ar_id)
     @user = ar.student.user
     @section = ar.section
     mail(to: @user.email,

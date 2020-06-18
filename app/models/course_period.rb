@@ -104,6 +104,11 @@ class CoursePeriod < ApplicationRecord
         filterable true
         searchable true
       end
+
+      field :id_canvas do
+        label 'Canvas'
+      end
+
     end
 
     edit do

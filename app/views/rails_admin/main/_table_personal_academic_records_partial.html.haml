@@ -1,6 +1,7 @@
 %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
 	%thead
 		%tr
+			%th Id
 			%th Periodo
 			%th Idioma
 			%th Nivel
@@ -10,8 +11,9 @@
 		- field.bindings[:object].academic_records.includes({student: :user}).order('users.last_name').each do |ar| 
 			- user = ar.student.user
 			%tr
+				%td= link_to ar.id, "/admin/academic_record/#{ar.id}"
 				%td= ar.period.name
 				%td= ar.language.name
 				%td= ar.level.name
 				%td= ar.course_period.kind
-				%td= ar.section.number
+				%td= link_to ar.section.number, "/admin/section/#{ar.section.number}"

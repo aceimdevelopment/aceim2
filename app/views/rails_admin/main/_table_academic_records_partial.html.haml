@@ -26,7 +26,7 @@
 		- field.bindings[:object].academic_records.includes({student: :user}).order('users.last_name').each do |ar| 
 			- user = ar.student.user
 			%tr
-				%td= ar.student.personal_identity_document
+				%td= link_to ar.student.ci, "/admin/student/#{ar.student_id}"
 				%td= user.last_name
 				%td= user.name
 				%td= user.email
