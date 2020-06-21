@@ -118,6 +118,10 @@ class User < ApplicationRecord
     return (name.blank? or last_name.blank? or number_phone.blank? or (student and student.any_blank?))
   end
 
+  def full_name
+    "#{name} #{last_name}"
+  end
+
   def description
     "#{last_name}, #{name} (#{email})"
   end
@@ -135,8 +139,8 @@ class User < ApplicationRecord
   end
 
   def upcase_names
-    self.name = capitalize_by_word(name)
-    self.last_name = capitalize_by_word(last_name) 
+    self.name = capitalize_by_word(self.name)
+    self.last_name = capitalize_by_word(self.last_name) 
   end
 
   def capitalize_by_word(string)

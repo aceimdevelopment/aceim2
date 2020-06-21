@@ -1,10 +1,12 @@
 - if current_user.any_blank? or current_user.sign_in_count.eql? 0
+
   - @user = current_user
   - content = render partial: '/users/form'
   - title = "Datos Personales"
   - msg = "<strong>Atención</strong>: Por favor, actualiza tus datos personales"
+  - msg2 = "<strong>Los datos suministrados en el siguiente formulario serán usados para tu cuenta de Canvas</strong>"
   - id = "updatePersonalData"
-  = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, content: content }
+  = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, content: content, msg2: msg2 }
 
 %br
 %h5.p-2.my-5.bg-dark.text-white.text-center= "Dashboard - #{current_user.description}"
