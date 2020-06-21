@@ -41,11 +41,15 @@
               %td.col-2= ar.qualification_status.name
               %td.col-2= ar.inscription_status.capitalize
               %td.col-2
-                - if GeneralSetup.mostrar_enlace_canvas and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
-                  = link_to ar.section.url_classroom_canvas, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
-                    Entrar en mi curso ONLINE
+                - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
+                  = link_to ar.section.url_classroom_canvas, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle mb-3', title: 'Haz clíc aquí para automatricularte a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+                    Automatricúlarme a mi curso ONLINE
                     %span.fa.fa-external-link
-
+                - if ar.period.enabled_login_canvas_link
+                  - url = GeneralSetup.url_canvas_login
+                  = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+                    Entrar a mi curso ONLINE
+                    %span.fa.fa-external-link
         -# if next_course = career.next_course
         - if false #  AQUI VA LA CONDICIÓN DE PARAMETRO GENERAL DE PERMITIR_INSCRIPCIONES IGUAL SI
           %tfoot

@@ -25,8 +25,10 @@ class Period < ApplicationRecord
     rails_admin do
       label 'Periodo'
       list do
+        sort_by :name
         field :name do
           label 'Id'
+          sort_reverse true
         end
 
         field :total_preenrollment do
@@ -36,6 +38,19 @@ class Period < ApplicationRecord
           label 'Confirmdos'
         end
 
+        field :canvas_autoregister do
+          label 'Autometricular Canvas'
+          formatted_value do
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', function_to_switch: 'canvas_autoregister', to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvas_autoregister'})
+          end
+        end
+
+        field :canvas_login do
+          label 'Login Canvas'
+          formatted_value do
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', function_to_switch: 'canvas_login', to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvas_login'})
+          end
+        end
       end
 
       show do

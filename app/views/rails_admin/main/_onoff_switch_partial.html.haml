@@ -1,0 +1,19 @@
+
+= content_tag :b, class: 'tooltip-btn', 'data_toggle': :tooltip, title: titulo do
+  .onoffswitch
+    - onChange = "switches('/periods/#{virtual_object.id}/onoff_switch?function_to_switch=#{function_to_switch}');"
+    = check_box nil, :activa, checked: to_checked, class: 'onoffswitch-checkbox', id: id_html, onChange: onChange
+    %label.onoffswitch-label{for: id_html}
+      %span.onoffswitch-inner
+      %span.onoffswitch-switch
+
+:javascript
+
+  function switches(url){
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json', 
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}  
+    });
+  }

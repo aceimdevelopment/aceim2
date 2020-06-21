@@ -23,6 +23,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :periods, only: [:index] do
+    member do
+      get 'onoff_switch'
+    end
+  end
 
   scope module: :admin do
     resources :dashboard, only: [:index]

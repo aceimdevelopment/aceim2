@@ -5,6 +5,11 @@ class GeneralSetup < ApplicationRecord
 		(aux and aux.value.eql? 'SI')
 	end
 
+  def self.url_canvas_login
+    aux = GeneralSetup.where(id: "CANVAS_LOGIN_URL").first
+    aux.value ? aux.value : '#'
+  end
+
 	def self.mostrar_enlace_canvas
 		aux = GeneralSetup.where(id: "MOSTRAR_ENLACE_CANVAS").first
 		(aux and aux.value.eql? 'SI')
@@ -20,9 +25,9 @@ class GeneralSetup < ApplicationRecord
         end
         field :value do
           label 'Valor'
-          html_attributes do
-            {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|]/g,''))"}
-          end
+          # html_attributes do
+          #   {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|]/g,''))"}
+          # end
         # help 'Solo un caracter permitido'
         end
         # exclude_fields :created_at, :updated_at
