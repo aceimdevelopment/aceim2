@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_154700) do
+ActiveRecord::Schema.define(version: 2020_06_23_130152) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2020_06_21_154700) do
     t.index ["level_id"], name: "index_courses_on_level_id"
   end
 
-  create_table "general_setups", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "general_setups", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "value"
     t.index ["id"], name: "index_general_setups_on_id"
   end
@@ -148,9 +148,9 @@ ActiveRecord::Schema.define(version: 2020_06_21_154700) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
-    t.boolean "autoregister"
     t.boolean "enabled_autoregister_canvas_link"
     t.boolean "enabled_login_canvas_link", default: false
+    t.boolean "enrollment", default: false
   end
 
   create_table "qualification_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -1,14 +1,15 @@
 .modal.fade{'aria-hidden': false, 'aria-labelledby': 'updateModalLabel', id: 'updatePersonalData'}
   .modal-dialog.modal-lg
     .modal-content
-      - if flash[:canvas]
+      - if false #flash[:canvas]
         .alert.alert-info
           %p= flash[:canvas]
       - if msg
         .alert.alert-info.text-center
           %h5= raw msg
-        .alert.alert-danger.text-center
-          %h5= raw msg2
+        - if false
+          .alert.alert-danger.text-center
+            %h5= raw msg2
       #updateModalLabel.text-center
         = title
       .modal-body

@@ -6,7 +6,7 @@ task confirm_and_send_mail: :environment do
 
     records =  AcademicRecord.preinscrito.not_qualifiqued
     puts " TOTAL REGISTROS A PROCESAR: #{records.count} ".center(220, "*")
-    AcademicRecord.preinscrito.not_qualifiqued.each do |ar|
+    records.each do |ar|
 
       puts " #{ar.name} ".center(220, "=")
       ar.inscription_status = 'confirmado'

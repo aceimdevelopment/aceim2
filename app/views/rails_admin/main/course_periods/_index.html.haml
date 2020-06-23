@@ -1,0 +1,14 @@
+%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th #
+			%th Idioma
+			%th Nivel
+			%th Tipo
+	%tbody
+		- virtual_object.course_periods.each do |cp| 
+			%tr
+				%td= cp.id
+				%td= cp.language.name
+				%td= cp.level.name
+				%td= cp.kind

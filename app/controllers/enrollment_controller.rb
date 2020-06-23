@@ -13,9 +13,6 @@ class EnrollmentController < ApplicationController
 			career = student.careers.where(language_id: section.language.id).first
 			agreement_id = career.agreement_id if career
 
-			period_id = section.course_period.period_id
-			language_id = section.course_period.course.language_id
-			student.academic_records.currents.from_language(language_id).from_period(period_id).first.delete
 
 			record = AcademicRecord.new
 			record.student_id = student.user_id
@@ -23,6 +20,13 @@ class EnrollmentController < ApplicationController
 			record.agreement_id = agreement_id
 
 			if record.save
+				period_id = section.course_period.period_id
+				language_id = section.course_period.course.language_id
+				student.academic_records.currents.from_language(language_id).from_period(period_id).first.delete
+
+				# OJO: FORMA CORRECTA DE ELIMINAR HISTORIALES NO ONLINE
+				# currents_course_period_no_online = student.academic_records.currents.from_course_perido(section.course_period_id).first
+				# currents_course_period_no_online.delete if currents_course_period_no_online
 				flash[:success_enrolled] = true
 			else
 				flash[:error] = "Error al intentar inscribir: #{record.errors.full_messages.to_sentence}"

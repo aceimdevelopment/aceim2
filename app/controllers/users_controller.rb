@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	before_action :set_user, except: [:index, :new, :create]
-	before_action :authenticate_user!
+	before_action :authenticate_user!, except: [:update]
 	before_action :setup_data, only: :update
 	def update
 		# AVANCES EN EL AUTOREGISTRO EN CANVAS Y LA CONEXIÓN CON LA API

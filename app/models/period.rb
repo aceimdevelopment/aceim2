@@ -41,16 +41,24 @@ class Period < ApplicationRecord
         field :canvas_autoregister do
           label 'Autometricular Canvas'
           formatted_value do
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', function_to_switch: 'canvas_autoregister', to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvas_autoregister'})
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', function_to_switch: 'canvas_autoregister', to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister'})
           end
         end
 
         field :canvas_login do
           label 'Login Canvas'
           formatted_value do
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', function_to_switch: 'canvas_login', to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvas_login'})
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', function_to_switch: 'canvas_login', to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin'})
           end
         end
+
+        field :enrollments do
+          label 'Preinscripciones'
+          formatted_value do
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Permitir PreInscripcion', function_to_switch: 'enrollment', to_checked: bindings[:object].enrollment, id_html: 'enrollment'})
+          end
+        end
+
       end
 
       show do
@@ -58,8 +66,11 @@ class Period < ApplicationRecord
           label 'Id'
         end
 
-        field :course_periods do
-          label 'Programaciones'
+        field :programations do
+          label 'Programaciones en éste período'
+          formatted_value do
+            bindings[:view].render(partial: "rails_admin/main/course_periods/index", locals: {virtual_object: bindings[:object]})
+          end
         end
       end
 

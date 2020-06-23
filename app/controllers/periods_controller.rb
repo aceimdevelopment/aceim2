@@ -4,8 +4,14 @@ class PeriodsController < ApplicationController
 	before_action :set_period, only: :onoff_switch
 
 	def onoff_switch
-		@period.enabled_autoregister_canvas_link = !@period.enabled_autoregister_canvas_link if params[:function_to_switch].eql? 'canvas_autoregister'
-		@period.enabled_login_canvas_link = !@period.enabled_login_canvas_link if params[:function_to_switch].eql? 'canvas_login'
+		case params[:function_to_switch]
+		when 'canvas_autoregister' 
+			@period.enabled_autoregister_canvas_link = !@period.enabled_autoregister_canvas_link 	
+		when 'canvas_login' 
+			@period.enabled_login_canvas_link = !@period.enabled_login_canvas_link
+		when 'enrollment'
+			@period.enrollment = !@period.enrollment
+		end
 
 		if @period.save
 			type = 'success'
@@ -15,7 +21,8 @@ class PeriodsController < ApplicationController
 			msg = 'No se puydo guardar el cambio.'
 		end
 
-      head :no_content
+      # head :no_content
+      render json: {type: type, data: msg}, status: :ok
 
 	end
 

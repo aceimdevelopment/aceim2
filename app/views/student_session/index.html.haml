@@ -14,9 +14,10 @@
 
 - if flash[:success_enrolled]
   .alert.alert-success
-    %h3 Su registro en el programa de FUNDEIM ONLINE ha sido realizado con éxito!!!
-    %p Ahora solo debe esperar a que le enviemos la invitación para comenzar a interactuar con su profesor en la plataforma CANVAS y completar su nivel.
-    %p Le invitamos amablemente a estar pendiente de su correo en los próximos días.
+    %h3 Ha completado el primer paso satisfactoriamente!!!
+    %p 
+      Le invitamos amablemente a estar pendiente de las publicaciones que haremos en nuestra cuenta en twitter @fundeim sobre el siguiente paso: 
+      %b la automatriculación en su curso ONLINE en la plataforma CANVAS.
   
 -if student and student.careers.any?
   - student.careers.each do |career| 
@@ -45,17 +46,18 @@
                   = link_to ar.section.url_classroom_canvas, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle mb-3', title: 'Haz clíc aquí para automatricularte a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
                     Automatricúlarme a mi curso ONLINE
                     %span.fa.fa-external-link
-                - if ar.period.enabled_login_canvas_link
+                - if ar.period.enabled_login_canvas_link and ar.confirmado? and ar.course_period.online? and ar.SC?
                   - url = GeneralSetup.url_canvas_login
                   = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
                     Entrar a mi curso ONLINE
                     %span.fa.fa-external-link
         -# if next_course = career.next_course
-        - if false #  AQUI VA LA CONDICIÓN DE PARAMETRO GENERAL DE PERMITIR_INSCRIPCIONES IGUAL SI
-          %tfoot
-            - records.currents.each do |current| 
-              - course_id_aux = current.course.id
-              - period_aux = current.period
+        -# if true #  AQUI VA LA CONDICIÓN DE PARAMETRO GENERAL DE PERMITIR_PREINSCRIPCIONES IGUAL SI
+        %tfoot
+          - records.currents.each do |current| 
+            - course_id_aux = current.course.id
+            - period_aux = current.period
+            - if period_aux.enrollment?
               -# period_aux = Period.where(year: '2020', letter: 'A').first
               - online_course_period = CoursePeriod.online.where(period_id: period_aux.id, course_id: course_id_aux).first
               - if online_course_period and !student.enrolled_course_period?(online_course_period.id)

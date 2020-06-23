@@ -4,6 +4,7 @@ es:
   home:
     name: "inicio"
   admin:
+    loading: 'cargando'
     misc:
       bulk_menu_title: "Seleccionados"
       add_filter: "Agregar Filtro"

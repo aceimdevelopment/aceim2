@@ -33,6 +33,8 @@ class AcademicRecord < ApplicationRecord
 
   scope :from_period, lambda{|period_id| joins(:section).joins(:course_period).where("course_periods.period_id = ?", period_id)}
 
+  scope :from_course_perido, lambda {|course_period_id| joins(:section).joins(:course_period).where("course_periods.id = ?", course_period_id)}
+
   # ===========RAILS ADMIN ====================#
 
   rails_admin do
@@ -237,6 +239,10 @@ class AcademicRecord < ApplicationRecord
   def section_desc_short
     # "#{section.course.language_id} | #{section.course.level_id} | #{section.course_period.kind[0..3]}" if section and section.course_period
     self.section.desc_short
+  end
+
+  def SC?
+    final_qualification.eql? SC
   end
 
   def final_desc
