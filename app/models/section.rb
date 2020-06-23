@@ -264,6 +264,10 @@ class Section < ApplicationRecord
 
   # ========== FUNCTIONS ============ #
 
+  def number_to_string
+    sprintf("%02i",self.number)
+  end
+
   def registed
     academic_records.preinscrito.count
   end

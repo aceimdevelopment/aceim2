@@ -3,6 +3,7 @@
 
 $(document).ready(function() {
 	$('[rel="tooltip"]').tooltip()
+	$('.tooltip-btn').tooltip()
 });
 
 function switches(url) {

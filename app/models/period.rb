@@ -32,10 +32,10 @@ class Period < ApplicationRecord
         end
 
         field :total_preenrollment do
-          label 'Preisncritos'
+          label 'Preinscritos'
         end
         field :total_enrollment do
-          label 'Confirmdos'
+          label 'Confirmados'
         end
 
         field :enrollments do

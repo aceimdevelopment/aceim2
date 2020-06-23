@@ -99,10 +99,11 @@ class CoursePeriod < ApplicationRecord
       field :kind do
         label 'tipo'
       end
-      field :sections do
+      field :numbers do
         label 'secciones'
-        filterable true
-        searchable true
+        formatted_value do
+          bindings[:object].sections.map { |s| s.number_to_string }.to_sentence
+        end
       end
 
       field :id_canvas do
