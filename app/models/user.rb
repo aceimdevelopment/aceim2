@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # belongs_to :administrator, foreign_key: :user_id
   has_one :administrator, inverse_of: :user
   # accepts_nested_attributes_for :administrator
-  has_one :student, inverse_of: :user
+  has_one :student, inverse_of: :user, foreign_key: :user_id
   # accepts_nested_attributes_for :student
   has_one :instructor, inverse_of: :user
   # accepts_nested_attributes_for :instructor
@@ -151,6 +151,22 @@ class User < ApplicationRecord
     operator_code = self.number_phone[0..3] 
     complement = self.number_phone[3..10]
     return [operator_code, complement]
+  end
+
+  def any_rol?
+    (self.how_many_roles? > 0)
+  end
+
+  def without_rol?
+    (self.how_many_roles? == 0)
+  end
+
+  def how_many_roles?
+    aux = 0
+    aux += 1 if administrator?
+    aux += 1 if student?
+    aux += 1 if instructor?    
+    return aux
   end
   # def before_import_attributes(record)
   #   p 'Estamos Acá en before_import_attributes'

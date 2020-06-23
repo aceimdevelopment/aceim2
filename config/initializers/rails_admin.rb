@@ -80,7 +80,7 @@ RailsAdmin.config do |config|
     # bulk_delete
     show
     edit
-    # delete
+    delete
     # show_in_app
 
     ## With an audit adapter, you can add:

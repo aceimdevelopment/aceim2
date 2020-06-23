@@ -15,24 +15,27 @@ class Ability
 
     # all_visible = [Course, CoursePeriod, Bank, Career, Agreement, BankAccount, Student, Instructor, Language, Level, Period, Section, AcademicRecord, User]
 
+    alias_action :create, :read, :update, to: :cru
+
     if user.administrator?
         can :access, :rails_admin
         can :manage, :dashboard
         if user.administrator.yo?
             can :manage, :all
         elsif user.administrator.desarrollador?
-            can :manage, [Period, CoursePeriod, Section, AcademicRecord, Student, Instructor, Administrator, User, Agreement]
+            can :manage, [CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator]
+            can :cru, [Period, Agreement]
             can :read, [Course]
         # elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
         elsif user.administrator.superadmin?
-            can :manage, [Student, Instructor, Section, AcademicRecord, User]
+            can :cru, [User, Student, Instructor, Section, AcademicRecord, User]
             can :read, [Period, CoursePeriod]
             # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
             # can :create, [Bank, Period, CoursePeriod, Agreement]
             # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
 
-        elsif user.administrator.supervidor?
+        elsif user.administrator.supervisor?
             can :read, [AcademicRecord, Student, Section]
         else
             can :read, [Section, Student]

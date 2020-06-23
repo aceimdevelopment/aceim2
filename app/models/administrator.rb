@@ -1,9 +1,18 @@
 class Administrator < ApplicationRecord
+  # ========== ASSOCIATIONS ============ #
+
   belongs_to :user, inverse_of: :administrator#, foreign_key: :user_id
   # accepts_nested_attributes_for :user 
+
+  # ========== VARIABLES ============ #
+
+  enum role: [:desarrollador, :superadmin, :supervisor, :pasante, :administrativo]
+
+  # ========== VALIDATIONS ============ #
   validates :user_id, presence: true
   validates :role, presence: true
-  enum role: [:desarrollador, :superadmin, :supervidor, :pasante, :administrativo]
+  after_destroy :check_user_for_destroy
+
 
   def yo?
     self.user.email.eql? 'moros.daniel@gmail.com'
@@ -52,6 +61,13 @@ class Administrator < ApplicationRecord
 
   def name
     "#{user.description}" if user
+  end
+
+  protected
+
+  def check_user_for_destroy
+    user_aux = User.find self.user_id
+    user_aux.delete if user_aux.without_rol?
   end
 
 end

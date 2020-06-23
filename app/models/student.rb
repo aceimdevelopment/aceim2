@@ -22,6 +22,7 @@ class Student < ApplicationRecord
   before_save :upcase_location, unless: :new_record?
   # before_validation :upcase_location
 
+  after_destroy :check_user_for_destroy
 
   scope :my_search, -> (keyword) { joins(:user).where("personal_identity_document LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%'") }
 
@@ -133,6 +134,13 @@ class Student < ApplicationRecord
 
   def upcase_location
     self.location = location.strip.upcase if self.location
+  end
+
+  protected
+
+  def check_user_for_destroy
+    user_aux = User.find self.user_id
+    user_aux.delete if user_aux.without_rol?
   end
 
 end

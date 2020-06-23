@@ -4,12 +4,13 @@ class Instructor < ApplicationRecord
   belongs_to :user, inverse_of: :instructor#, foreign_key: :user_id
   # accepts_nested_attributes_for :user
   
-  has_many :sections, inverse_of: :instructor
+  has_many :sections, inverse_of: :instructor, dependent: :nullify
   accepts_nested_attributes_for :sections
 
   # ========== VALIDATIONS ============ #
   validates :user, presence: true, uniqueness: true
 
+  after_destroy :check_user_for_destroy
   # ========== SCOPE ============ #
 
   # ========== RAILS ADMIN ============ #
@@ -76,6 +77,11 @@ class Instructor < ApplicationRecord
     "#{user.description}" if user
   end
 
+  protected
 
+  def check_user_for_destroy
+    user_aux = User.find self.user_id
+    user_aux.delete if user_aux.without_rol?
+  end
 
 end
