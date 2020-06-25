@@ -1,0 +1,72 @@
+
+%h5.p-2.my-5.bg-dark.text-white.text-center= "Dashboard - #{@user.description}"
+- student = @user.student
+
+- if flash[:success_enrolled]
+  .alert.alert-success
+    %h3 Ha completado el primer paso satisfactoriamente!!!
+    %p 
+      Le invitamos amablemente a estar pendiente de las publicaciones que haremos en nuestra cuenta en twitter @fundeim sobre el siguiente paso: 
+      %b la automatriculación en su curso ONLINE en la plataforma CANVAS.
+  
+-if student and student.careers.any?
+  - student.careers.each do |career| 
+    .border.p-3.m-3
+      %h3= career.language.name
+      %table.table.table-sm.table-striped.table-hover.table-responsable
+        %thead
+          %tr.row
+            %th.col-2 Nivel
+            %th.col-2 Período
+            %th.col-2 Calificación
+            %th.col-2 Estado
+            %th.col-2 Inscripción
+            %th.col-2 Opciones
+        %tbody
+          - records = career.academic_records 
+          - records.each do |ar|
+            %tr.row
+              %td.col-2= "#{ar.section.course.level.name} (#{ar.section.course_period.kind})"
+              %td.col-2= ar.period_desc
+              %td.col-2= ar.final_desc
+              %td.col-2= ar.qualification_status.name
+              %td.col-2= ar.inscription_status.capitalize
+              %td.col-2
+                - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
+                  = link_to ar.section.url_classroom_canvas, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle mb-3', title: 'Haz clíc aquí para automatricularte a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+                    Automatricúlarme a mi curso ONLINE
+                    %span.fa.fa-external-link
+                - if ar.period.enabled_login_canvas_link and ar.confirmado? and ar.course_period.online? and ar.SC?
+                  - url = GeneralSetup.url_canvas_login
+                  = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+                    Entrar a mi curso ONLINE
+                    %span.fa.fa-external-link
+        -# if next_course = career.next_course
+        -# if true #  AQUI VA LA CONDICIÓN DE PARAMETRO GENERAL DE PERMITIR_PREINSCRIPCIONES IGUAL SI
+        %tfoot
+          - records.currents.each do |current| 
+            - course_id_aux = current.course.id
+            - period_aux = current.period
+            - if period_aux.enrollment?
+              -# period_aux = Period.where(year: '2020', letter: 'A').first
+              - online_course_period = CoursePeriod.online.where(period_id: period_aux.id, course_id: course_id_aux).first
+              - if online_course_period and !student.enrolled_course_period?(online_course_period.id)
+                - section = online_course_period.sections.first
+                - if section
+                  %tr
+                    %td
+                      %b Nivel Online Disponible:
+                      = online_course_period.course.level.name
+                      -# if available_course_period_insc = CoursePeriod.online.where(course_id: next_course.id).first
+                      -# CoursePeriod.online.where(course_id: next_course.id).each do |available_course_period_insc| 
+
+                      = link_to "¡Inscríbite ahora! (#{period_aux.name})", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{online_course_period.description_inscription}'?"
+-# else
+-# period = Period.where(year: 2020).last 
+-# period.course_periods.each do |cp| 
+-# period.course_periods.online.each do |cp| 
+- #period.course_periods.joins(:course).where("courses.level_id = ?", 'BI').online.each do |cp| 
+=# link_to "¡Inscríbite #{cp.language.name.capitalize} (#{cp.kind.capitalize})", regular_enrollment_path(cp.id), class: 'btn btn-sm btn-primary', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?"
+
+-# available_courses = period.course
+-# cursosp.

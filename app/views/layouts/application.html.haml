@@ -12,7 +12,7 @@
   %body.grey-bg
     = render 'layouts/toastr_alert'
     - if user_signed_in?
-      = react_component 'NavBarMainLogin'
+      = react_component 'NavBarMainLogin' if @user and (@user.id.eql? current_user.id)
     - else
       = react_component 'NavBarMain'
     = yield

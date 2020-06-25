@@ -5,14 +5,13 @@ class EnrollmentController < ApplicationController
 
 	def regular
 		# params[:student_id] ||= current_user.id
-		student = Student.find(current_user.id)
+		student = Student.find(params[:student_id])
 		if student.nil?
 			flash[:error] = "Disculpa, el usuario no se encuentra registrado como estudiante"
 		else
 			section = Section.find params[:id]
 			career = student.careers.where(language_id: section.language.id).first
 			agreement_id = career.agreement_id if career
-
 
 			record = AcademicRecord.new
 			record.student_id = student.user_id
