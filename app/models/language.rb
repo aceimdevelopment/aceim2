@@ -39,7 +39,16 @@ class Language < ApplicationRecord
 
 
   # ========== FUNCTIONS ==================== #
+  def first_course
+    # courses.where(grade: 1).first
+    courses.where('grade > 0').order(grade: :asc).first
+  end
+
   def total_levels
     self.courses.where("level_id != 'NI'").count
+  end
+
+  def last_level
+    courses.maximum(:grade)
   end
 end

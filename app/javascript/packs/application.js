@@ -27,6 +27,18 @@ $(document).ready(function() {
 		console.log(node.val());
 	});
 
+	$('.upcase').on('input', function(evt) {
+		var node = $(this);
+		node.val(node.val().toUpperCase());
+	});
+
+
+	$('.onlyNumbers').on('input', function(evt) {
+		var node = $(this);
+		node.val(node.val().replace(/[^0-9]/g, ''));
+	});
+
+
 });
 
 // Uncomment to copy all static images under ../images to the output folder and reference

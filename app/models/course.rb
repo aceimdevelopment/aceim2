@@ -12,6 +12,9 @@ class Course < ApplicationRecord
   validates :level_id, presence: true
   validates :grade, presence: true
 
+  # ================ SCOPE ================== # 
+  scope :without_nevel, -> {where("level_id != 'NIVE'")}
+  # ================ FUNCTIONS ================== # 
   def next_course
     Course.where(language_id: self.language_id, grade: self.grade+1).first 
   end

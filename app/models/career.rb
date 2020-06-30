@@ -5,6 +5,8 @@ class Career < ApplicationRecord
   belongs_to :language, inverse_of: :careers
   belongs_to :student, inverse_of: :careers
 
+  # has_many :academic_records, through: :student 
+
   # =============== VALIATIONS =================# 
   validates :agreement_id, presence: true
   validates :language_id, presence: true
@@ -19,6 +21,10 @@ class Career < ApplicationRecord
     self.academic_records.first
   end
 
+  def last_level_approved #alias last_academic_record_approved
+    self.last_academic_record_approved
+  end
+
   def last_academic_record_approved
     self.academic_records.approved.first
   end
@@ -28,19 +34,38 @@ class Career < ApplicationRecord
     aux = academic_records.preinscrito.last
     return aux ? aux.course : nil
   end
+
   def next_course_available
-    approved = last_academic_record_approved
-    course = approved.course
-    course.next_course
+    unless academic_records.any?
+      return language.first_course
+    else
+      approved = last_academic_record_approved
+      if approved.nil?
+        aux = academic_records.qualified.last
+        if aux.nil?
+          course = academic_records.last.course
+        else
+          course = aux.course
+        end
+      else
+        course = approved.course.next_course
+      end
+      return course
+    end
+    # approved = last_academic_record_approved
+    # if approved.nil?
+    #   aux = academic_records.confirmado.last
+    #   if aux
+    #     return aux.course
+    #   else
+    #     return language.first_course
+    #   end
+    # else
+    #   course = approved.course
+    #   return course.next_course
+    # end
   end
   #=================================================================#
-
-  def next_course
-    approved = last_academic_record_approved
-    course = approved.course
-    course.next_course
-  end
-
 
   def before_import_save(record)
     if (email = record[:user_email]) && (user_aux = User.find_by_email(email))

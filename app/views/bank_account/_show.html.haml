@@ -1,0 +1,24 @@
+- # OJO: ESTO DEBE CAMBIAR SI SE DISPONE DE OTRAS CUENTAS
+- ba = BankAccount.first
+%h4.text-center Datos de pago para Depósito o Transferencia Bancaria
+%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
+	%tbody
+		%tr.row
+			%th.col-6.float-right{style: 'text-align: right;'} Banco:
+			%td.col-6= ba.bank.name if ba.bank
+		%tr.row
+			%th.col-6.float-right{style: 'text-align: right;'} Cuenta:
+			%td.col-6= ba.number
+		%tr.row
+			%th.col-6{style: 'text-align: right;'} A nombre de:
+			%td.col-6= ba.holder
+%hr
+%h4.text-center Pagos en Efectivo o Divisas
+%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
+	%tbody		
+		%tr.row
+			%th.col-6{style: 'text-align: right;'} Dirigirse a nuestras oficinas ubicadas en:
+			%td.col-6= GeneralSetup.fundeim_location_value
+		%tr.row
+			%th.col-6{style: 'text-align: right;'} En el horario:
+			%td.col-6= raw GeneralSetup.payment_receive_value

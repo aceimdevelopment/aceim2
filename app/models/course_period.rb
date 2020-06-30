@@ -26,6 +26,8 @@ class CoursePeriod < ApplicationRecord
   #========== SCOPE ==================#
 
   scope :from_period, -> (period_id) {where(period_id: period_id)}
+  scope :from_language, -> (language_id) {joins(:course).where("courses.language_id = ?", language_id)}
+
   # scope :approved, -> {where(qualification_status_id: :AP)}
   #========== RAILS ADMIN ============= #
 

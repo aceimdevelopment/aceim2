@@ -1,0 +1,108 @@
+%br
+%h5.p-2.my-5.bg-dark.text-white.text-center
+  = link_to student_session_index_path, class: 'btn btn-sm btn-primary float-left' do
+    %span.fa.fa-angle-left
+    Atrás
+  = "Reporte de Pago para: #{@academic_record.course_period.description_inscription}"
+
+.alert.alert-success
+  = render partial: "/bank_account/show"
+.border.px-5.mx-3.pt-3
+  %h4.text-center Reporte de Pago
+
+  = form_for @payment_detail, html: { class: "form-horizontal", role: "form" } do |f|
+    -if @payment_detail.errors.any?
+      .alert.alert-danger.alert-dismissable{role: "alert"}
+        %button.close{type: "button", data: {dismiss: "alert"} }
+          %span{aria: {hidden: "true"} } &times;
+          %span.sr-only Close
+        %h4= "#{pluralize(@payment_detail.errors.count, "error")} impide que este reporte sea guardado:"
+
+        %ul
+          - @payment_detail.errors.full_messages.each do |msg|
+            %li= msg
+    
+    = f.hidden_field :academic_record_id
+    .form-group.row.px-3
+      = f.label :transaction_type, class: 'col-sm-5 control-label', value: 'Forma de Pago:', style: 'text-align: right'
+      =# f.collection_select :transaction_type, Group.all, :id, :name, {prompt: "-- Seleccionar Equipo --"}, {class: 'form-control'}
+      =# f.date_field :transaction_type, class: 'form-control', required: true, autofocus: true
+
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text{style: 'padding: 0px 10px 0px 10px;'}
+              %span.fa.fa-credit-card
+          - PaymentDetail.transaction_types.reject{|k,v| v.eql? 2}.map do |k,v| 
+            %label.btn.btn-secondary.btn-sm.tooltip-btn.m-2{'data_toggle': :tooltip, title: k.titleize}
+              = radio_button_tag '[payment_detail]transaction_type', k, (k.eql? @payment_detail.transaction_type), required: true
+              = k.upcase
+
+    .form-group.row.px-3
+      = f.label :created_at, class: 'col-sm-5 control-label', value: 'Fecha de Transacción:', style: 'text-align: right'
+
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              %span.fa.fa-calendar
+          = f.date_field :created_at, class: 'form-control ', required: true
+
+    .form-group.row.px-3
+      = f.label :transaction_number, class: 'col-sm-5 control-label', value: 'Número de Transacción:', style: 'text-align: right'
+
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              %span.fa.fa-barcode
+          = f.text_field :transaction_number, class: 'form-control onlyNumbers', required: true
+
+    .form-group.row.px-3
+      = f.label :value, class: 'col-sm-5 control-label', value: 'Monto:', style: 'text-align: right'
+
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              %span.fa.fa-money
+          = f.number_field :mount, class: 'form-control', readonly: true, value: @academic_record.agreement.value, step: '0.01'
+
+    .form-group.row.px-3
+      = f.label :source_bank_id, class: 'col-sm-5 control-label', value: 'Banco Origen:', style: 'text-align: right'
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              %span.fa.fa-bank
+          = f.collection_select :source_bank_id, Bank.all, :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control'}
+        =# f.date_field :source_bank_id, class: 'form-control', required: true
+
+    .form-group.row.px-3
+      = f.label :bank_account_id, class: 'col-sm-5 control-label', value: 'Cuenta Destino:', style: 'text-align: right'
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              %span.fa.fa-graduation-cap
+          = f.collection_select :bank_account_id, BankAccount.all, :id, :name, {}, {class: 'form-control', readonly: true}
+
+    .form-group.row.px-3
+      = f.label :url_file, class: 'col-sm-5 control-label', value: 'Archivo de respaldo:', style: 'text-align: right'
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text{style: 'padding: 0px 16px 0px 16px;'}
+              %span.fa.fa-file-image-o
+          = f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
+
+    .form-group.row.px-3
+      .col-sm-5
+      .col-offset-2.col-5
+        = f.submit class: 'btn btn-primary', value: 'Enviar reporte de pago'
+
+  %br
+  %br
+
+
+

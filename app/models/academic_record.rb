@@ -8,7 +8,9 @@ class AcademicRecord < ApplicationRecord
   belongs_to :section, inverse_of: :academic_records
   belongs_to :agreement, inverse_of: :academic_records
   belongs_to :qualification_status, inverse_of: :academic_records
-  belongs_to :payment_detail, optional: true, inverse_of: :academic_records
+  has_one :payment_detail, inverse_of: :academic_record
+
+  # has_one :carrer, through: :student, dependent: :destroy
 
   has_one :course_period, through: :section, dependent: :nullify
   has_one :course, through: :course_period, dependent: :nullify
@@ -17,9 +19,9 @@ class AcademicRecord < ApplicationRecord
   has_one :period, through: :course_period, dependent: :nullify
 
   #============TYPES===============#
-  enum inscription_status: [:preinscrito, :confirmado]
-  SC = -2
-  PI = -1
+  enum inscription_status: [:preinscrito, :confirmado, :asignado]
+  SC = -2.0
+  PI = -1.0
   #============VALIDATIONS=========#
   validates :student_id, uniqueness: {scope: :section_id}
   after_initialize :set_default, :if => :new_record?
@@ -28,10 +30,16 @@ class AcademicRecord < ApplicationRecord
   #============SCOPE===============#
   scope :approved, -> {where(qualification_status_id: :AP)}
   scope :not_qualifiqued, -> {where(qualification_status_id: :SC)}
+  scope :qualified, -> {where("qualification_status_id != ?", :SC)}
   scope :currents, -> {confirmado.where(qualification_status_id: :SC)}
   scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
 
   scope :from_period, lambda{|period_id| joins(:section).joins(:course_period).where("course_periods.period_id = ?", period_id)}
+  scope :from_periods, -> (period_ids){joins(:section).joins(:course_period).where("course_periods.period_id IN (?)", period_ids)}
+  
+  scope :from_periods_language, -> (period_ids, language_id){joins(:section).joins(:course_period).joins(:course).where("course_periods.period_id IN (?) AND courses.language_id = ?", period_ids, language_id)}
+
+
 
   scope :from_course_perido, lambda {|course_period_id| joins(:section).joins(:course_period).where("course_periods.id = ?", course_period_id)}
 
@@ -221,7 +229,7 @@ class AcademicRecord < ApplicationRecord
     aux += "(#{student.personal_identity_document})" if student
     aux += " #{section.number}" if section
     aux += " #{course.language.name} #{course.level.name}" if course
-    aux += " #{period.name}" if periodo
+    aux += " #{period.name}" if period
     return aux
   end
 
@@ -242,7 +250,7 @@ class AcademicRecord < ApplicationRecord
   end
 
   def SC?
-    final_qualification.eql? SC
+    self.final_qualification.eql? SC
   end
 
   def final_desc

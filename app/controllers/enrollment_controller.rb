@@ -2,7 +2,6 @@ class EnrollmentController < ApplicationController
 
 	before_action :authenticate_user!
 
-
 	def regular
 		# params[:student_id] ||= current_user.id
 		student = Student.find(params[:student_id])
@@ -18,23 +17,29 @@ class EnrollmentController < ApplicationController
 			record.section_id = section.id
 			record.agreement_id = agreement_id
 
-			if record.save
-				period_id = section.course_period.period_id
-				language_id = section.course_period.course.language_id
-				student.academic_records.currents.from_language(language_id).from_period(period_id).first.delete
+			record.inscription_status = 'confimado' if career.agreement.value.eql? 0
 
-				# OJO: FORMA CORRECTA DE ELIMINAR HISTORIALES NO ONLINE
-				# currents_course_period_no_online = student.academic_records.currents.from_course_perido(section.course_period_id).first
-				# currents_course_period_no_online.delete if currents_course_period_no_online
-				flash[:success_enrolled] = true
+			if record.save
+				# TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020
+				# period_id = section.course_period.period_id
+				period_ids = [12,25]
+
+				language_id = section.course_period.course.language_id
+				currents_course_period_no_online = student.academic_records.currents.from_language(language_id).from_periods(period_ids).first
+				if currents_course_period_no_online
+					currents_course_period_no_online.delete 
+					flash[:success_enrolled] = true
+					# "<h3> ¡Haz completado el primer paso satisfactoriamente!</h3><p>Te invitamos amablemente a realizar el pago correspondiente siguiendo los datos a continuación:</p>"
+				else
+					flash[:payment_accounts] = true
+				end
 			else
 				flash[:error] = "Error al intentar inscribir: #{record.errors.full_messages.to_sentence}"
 			end
+			redirect_back fallback_location: root_path
 
 		end
-		redirect_back fallback_location: root_path
 	end
-
 
 	# def regular
 	# 	params[:student_id] ||= current_user.id

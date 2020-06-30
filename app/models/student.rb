@@ -14,8 +14,9 @@ class Student < ApplicationRecord
   accepts_nested_attributes_for :careers
 
   has_many :academic_records, inverse_of: :student
-  has_many :sections, through: :academic_records
   accepts_nested_attributes_for :academic_records
+  
+  has_many :sections, through: :academic_records
 
   # ========== VALIDATIONS ============ #
 
@@ -117,6 +118,11 @@ class Student < ApplicationRecord
   end
 
   # ========== FUNCTIONS ============ #
+
+  def language_avaliables
+    enrolled_languages = self.careers.map{|c| c.language.id}
+    Language.where('id != ?', enrolled_languages)
+  end
 
   def ci
     self.personal_identity_document

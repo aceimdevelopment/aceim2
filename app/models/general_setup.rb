@@ -15,6 +15,22 @@ class GeneralSetup < ApplicationRecord
 		(aux and aux.value.eql? 'SI')
 	end
 
+  def self.fundeim_location
+    aux = GeneralSetup.where(id: "UBICACION_FUNDEIM").first
+  end
+
+  def self.fundeim_location_value
+    self.fundeim_location ? self.fundeim_location.value : 'Galpones - Ciudad Universitaria'
+  end
+
+  def self.payment_receive
+    aux = GeneralSetup.where(id: "RECEPCION_PAGOS").first
+  end
+
+  def self.payment_receive_value
+    self.payment_receive ? self.payment_reseive.value : 'Por definir'
+  end
+
 	rails_admin do
       edit do
         field :id do

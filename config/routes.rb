@@ -11,9 +11,17 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :payment_details do
+    member do
+      get 'confirm'
+    end
+
+  end
+
   resources :academic_records, only: [:index] do
     member do
       get 'send_confirmation_mail'
+      get 'show_payments_accounts'
     end
   end
 

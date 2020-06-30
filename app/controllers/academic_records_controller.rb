@@ -1,5 +1,5 @@
 class AcademicRecordsController < ApplicationController
-	# before_action :set_academic_record, except: [:index, :new, :create]
+	before_action :set_academic_record, only: [:show_payments_accounts]
 	before_action :authenticate_user!
 
 	def send_confirmation_mail
@@ -15,12 +15,16 @@ class AcademicRecordsController < ApplicationController
 		redirect_back fallback_location: rails_admin_path
 	end
 
+	# def show_payments_accounts
+	# 	@academic_record
+	# end
+
 	private
 
       # Use callbacks to share common setup or constraints between actions.
-	# def set_academic_record
-	# 	@academic_record = AcademicRecord.find(params[:id])
-	# end
+	def set_academic_record
+		@academic_record = AcademicRecord.find(params[:id])
+	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	# def student_params

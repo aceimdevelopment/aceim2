@@ -10,6 +10,13 @@ class BankAccount < ApplicationRecord
   validates :holder, presence: true
   validates :bank_id, presence: true
 
+
+  # ========== FUNCTIONS ============ #
+
+  def name
+    "#{bank.name}: #{number} (#{holder})"
+  end
+
   # ========== RAILS ADMIN ============ #
   rails_admin do
     edit do

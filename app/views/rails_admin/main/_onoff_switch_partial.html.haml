@@ -2,7 +2,7 @@
 
 = content_tag :b, class: 'tooltip-btn', 'data_toggle': :tooltip, title: titulo do
   .onoffswitch
-    - onChange = "switches('/periods/#{virtual_object.id}/onoff_switch?function_to_switch=#{function_to_switch}');"
+    - onChange = "switches('#{url}');"
     = check_box nil, :activa, checked: to_checked, class: 'onoffswitch-checkbox', id: "idSwitch#{id_html}#{virtual_object.id}", onChange: onChange
     %label.onoffswitch-label{for: "idSwitch#{id_html}#{virtual_object.id}"}
       %span.onoffswitch-inner

@@ -4,6 +4,8 @@ class Bank < ApplicationRecord
 
   has_many :payment_details, foreign_key: :source_bank_id, inverse_of: :bank
 
+  has_many :bank_accounts
+
   # ========== VALIDATIONS ============ #
 
   validates :id, presence: true

@@ -41,19 +41,22 @@ class Period < ApplicationRecord
         field :enrollments do
           label 'Preinscripciones'
           formatted_value do
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Permitir PreInscripcion', function_to_switch: 'enrollment', to_checked: bindings[:object].enrollment, id_html: 'enrollment'})
+            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=enrollment"
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Permitir PreInscripcion', url: url, to_checked: bindings[:object].enrollment, id_html: 'enrollment'})
           end
         end
         field :canvas_autoregister do
           label 'Autometricular Canvas'
           formatted_value do
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', function_to_switch: 'canvas_autoregister', to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister'})
+            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_autoregister"
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', url: url, to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister'})
           end
         end
         field :canvas_login do
           label 'Login Canvas'
           formatted_value do
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', function_to_switch: 'canvas_login', to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin'})
+            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_login"
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', url: url, to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin'})
           end
         end
       end
@@ -76,7 +79,7 @@ class Period < ApplicationRecord
           label 'Año'
           html_attributes do
             {:min => 2005, :max => 2040}
-          end        
+          end
         end
         field :letter do
           label 'Letra'
@@ -92,6 +95,9 @@ class Period < ApplicationRecord
     
     # ============== RAILS ADMIN END ============= #
 
+    def allow_enrollments?
+      self.enrollment
+    end
 
     def total_preenrollment
       academic_records.preinscrito.count
