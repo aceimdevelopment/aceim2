@@ -24,7 +24,7 @@ class GeneralSetup < ApplicationRecord
   end
 
   def self.payment_receive
-    aux = GeneralSetup.where(id: "RECEPCION_PAGOS").first
+    aux = GeneralSetup.where(id: "HORARIO_ATENCION").first
   end
 
   def self.payment_receive_value
@@ -34,7 +34,7 @@ class GeneralSetup < ApplicationRecord
 	rails_admin do
       edit do
         field :id do
-          label 'Identificados'
+          label 'Identificador'
           html_attributes do
             {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|_]/g,''))"}
           end        
