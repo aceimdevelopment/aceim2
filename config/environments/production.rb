@@ -3,6 +3,7 @@ Rails.application.configure do
   # URL Options:
   config.action_mailer.default_url_options = { host: 'fundeim.com' }
 
+  config.active_storage.service = :digitalocean
   # Mailgun Config:
   config.action_mailer.smtp_settings = {
     address: ENV['EMAIL_PROVIDER_ADDRESS'],

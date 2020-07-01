@@ -35,21 +35,21 @@ class PaymentDetailsController < ApplicationController
 	end
 
 	def create
-		begin
-			data = payment_detail_params[:url_file]
-			url = Rails.root.join('public', 'payment_receives', "payment_#{payment_detail_params[:academic_record_id]}.#{data.original_filename.split('.').last}")
-			# data = data.tempfile
-			File.open(url, "wb") do |file| 
-				file.write(data.read) 
-				# file.close
-			end
-		rescue Exception => e
-			flash[:danger] = "Error: #{e.message}"
-		end
+		# begin
+		# 	data = payment_detail_params[:url_file]
+		# 	url = Rails.root.join('public', 'payment_receives', "payment_#{payment_detail_params[:academic_record_id]}.#{data.original_filename.split('.').last}")
+		# 	# data = data.tempfile
+		# 	File.open(url, "wb") do |file| 
+		# 		file.write(data.read) 
+		# 		# file.close
+		# 	end
+		# rescue Exception => e
+		# 	flash[:danger] = "Error: #{e.message}"
+		# end
 
 		# params[:payment_detail][:url_file] = url
 		@payment_detail = PaymentDetail.new(payment_detail_params)
-		@payment_detail.url_file = url
+		# @payment_detail.url_file = url
 		if @payment_detail.save
 			flash[:success] = 'Se ha registrado su información de pago con éxito. Te invitamos a que estes atento a los cambios y confirmación de pago en estas, tu sesión de usuario de Aceim'
 		else
@@ -69,7 +69,7 @@ class PaymentDetailsController < ApplicationController
 	end
 
 	def payment_detail_params
-	params.require(:payment_detail).permit(:id, :created_at, :transaction_number, :mount, :source_bank_id, :bank_account_id, :academic_record_id, :transaction_type, :url_file)
+	params.require(:payment_detail).permit(:id, :created_at, :transaction_number, :mount, :source_bank_id, :bank_account_id, :academic_record_id, :transaction_type, :backup_file)
 	end
 
 end

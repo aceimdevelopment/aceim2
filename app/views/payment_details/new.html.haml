@@ -94,8 +94,8 @@
           .input-group-prepend
             .input-group-text{style: 'padding: 0px 16px 0px 16px;'}
               %span.fa.fa-file-image-o
-          = f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
-
+          =# f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
+          = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
     .form-group.row.px-3
       .col-sm-5
       .col-offset-2.col-5

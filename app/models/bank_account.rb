@@ -3,6 +3,7 @@ class BankAccount < ApplicationRecord
   
   belongs_to :bank, inverse_of: :bank_accounts
 
+  has_many :payment_details, inverse_of: :bank_account
   # ========== VALIDATIONS ============ #
   
   validates :id, presence: true

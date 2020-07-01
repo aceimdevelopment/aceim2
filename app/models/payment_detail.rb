@@ -1,9 +1,12 @@
 class PaymentDetail < ApplicationRecord
 	belongs_to :academic_record, inverse_of: :payment_detail
-	validates :bank_account_id, presence: true
 
+	belongs_to :bank_account, inverse_of: :payment_details
 	belongs_to :source_bank, foreign_key: :source_bank_id, class_name: 'Bank'
 
+	has_one_attached :backup_file
+
+	validates :bank_account_id, presence: true
 	# agregar monto de pago
 	# (.pdf, .png, .jpg) imagen de la transaccion
 
@@ -11,11 +14,11 @@ class PaymentDetail < ApplicationRecord
 
 	enum transaction_type: [:transferencia, :deposito, :efectivo]
 
-	before_destroy :check_for_files#, prepend: true
+	# before_destroy :check_for_files#, prepend: true
 
 	def name
 		aux = transaction_number
-		aux += academic_record.desc_to_pay
+		aux += academic_record.desc_to_pay if academic_record
 	end
 
 
@@ -62,12 +65,16 @@ class PaymentDetail < ApplicationRecord
 
 		show do
 
-	        field :programations do
+	        field :image do
 	          label 'Imagen'
 	          formatted_value do
 	            bindings[:view].render(partial: "rails_admin/main/payment_receives/image", locals: {virtual_object: bindings[:object]})
 	          end
 	        end
+
+			# field :backup_file, :active_storage do
+			# 	label 'Imagen'
+			# end
 
 			field :academic_record do
 				label 'Inscripción'

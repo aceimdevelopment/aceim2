@@ -7,7 +7,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-
+  config.active_storage.service = :digitalocean #:local
   # Mail Config:
   config.action_mailer.smtp_settings = {
     address: ENV['EMAIL_PROVIDER_ADDRESS'],
