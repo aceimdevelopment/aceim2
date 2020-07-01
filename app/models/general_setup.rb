@@ -28,7 +28,7 @@ class GeneralSetup < ApplicationRecord
   end
 
   def self.payment_receive_value
-    self.payment_receive ? self.payment_reseive.value : 'Por definir'
+    self.payment_receive ? self.payment_receive.value : 'Por definir'
   end
 
 	rails_admin do
