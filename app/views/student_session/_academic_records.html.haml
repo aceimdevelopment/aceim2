@@ -29,7 +29,7 @@
       %h4
         = career.language.name 
         - approved = career.last_level_approved
-        = "(#{approved.level.name.capitalize} Aprobado)" if approved
+        = "(#{approved.level.name} Aprobado)" if approved
 
         - if GeneralSetup.permitir_registros_nuevos and period.allow_enrollments? 
           - next_course = career.next_course_available
