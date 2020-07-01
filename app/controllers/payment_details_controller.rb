@@ -28,10 +28,15 @@ class PaymentDetailsController < ApplicationController
 
 
 	def new
-		@payment_detail = PaymentDetail.new
 		@academic_record = AcademicRecord.find params[:academic_record_id]
-		@payment_detail.academic_record_id = @academic_record.id
-		@user = current_user
+		unless @academic_record.payment_detail.nil?
+			flash[:error] = "Ya tienes un pago registrado para el curso seleccionado"
+			redirect_to student_session_index_path
+		else
+			@payment_detail = PaymentDetail.new
+			@payment_detail.academic_record_id = @academic_record.id
+			@user = current_user
+		end
 	end
 
 	def create
