@@ -32,7 +32,7 @@ class Agreement < ApplicationRecord
     end
 
     edit do
-      field :description do
+      field :id do
         label 'Nombre'
       end
       field :value do
