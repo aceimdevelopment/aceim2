@@ -33,6 +33,9 @@ class Agreement < ApplicationRecord
 
     edit do
       field :id do
+        label 'Identificador'
+      end
+      field :name do
         label 'Nombre'
       end
       field :value do

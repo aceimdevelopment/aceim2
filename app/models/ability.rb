@@ -24,12 +24,12 @@ class Ability
         if user.administrator.yo?
             can :manage, :all
         elsif user.administrator.desarrollador?
-            can :manage, [CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator]
+            can :manage, [CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator, PaymentDetail]
             can :cru, [Period, Agreement, PaymentDetail, GeneralSetup]
             can :read, [Course]
         elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
-            can :cru, [Bank, BankAccount]
+            can :cru, [Bank, BankAccount, User]
             can :ru, [PaymentDetail]
         elsif user.administrator.superadmin?
             can :cru, [User, Student, Instructor, Section, AcademicRecord, User]
