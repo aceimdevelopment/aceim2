@@ -31,6 +31,12 @@ class GeneralSetup < ApplicationRecord
     self.payment_receive ? self.payment_receive.value : 'Por definir'
   end
 
+  def self.message_payment_report
+    aux = GeneralSetup.where(id: "MENSAJE_REPORTE_PAGO").first
+    aux ? aux.value : 'Estimado(a) estudiante, usted ha reportado un pago a través de nuestra página web. Hemos enviado a su correo el detalle de la transacción.'
+  end
+
+
 	rails_admin do
       edit do
         field :id do

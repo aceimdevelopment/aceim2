@@ -1,8 +1,10 @@
 class PaymentDetail < ApplicationRecord
 	belongs_to :academic_record, inverse_of: :payment_detail
+	has_one :student, through: :academic_record
+	has_one :user, through: :student
 
 	belongs_to :bank_account, inverse_of: :payment_details
-	belongs_to :source_bank, foreign_key: :source_bank_id, class_name: 'Bank'
+	belongs_to :source_bank, foreign_key: :source_bank_id, class_name: 'Bank', inverse_of: :payment_details
 
 	has_one_attached :backup_file
 
@@ -15,6 +17,10 @@ class PaymentDetail < ApplicationRecord
 	enum transaction_type: [:transferencia, :deposito, :efectivo]
 
 	# before_destroy :check_for_files#, prepend: true
+
+	scope :unread_report, -> {where(read_report: false)}
+	scope :unread_confirmation, -> {where(read_confirmation: false)}
+
 
 	def name
 		aux = transaction_number
@@ -100,6 +106,11 @@ class PaymentDetail < ApplicationRecord
 				label 'Fecha'
 			end
 		end
+	end
+
+	def course_description
+		aux = academic_record.section.course_period
+		"#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"
 	end
 
 

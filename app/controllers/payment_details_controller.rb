@@ -2,7 +2,12 @@ class PaymentDetailsController < ApplicationController
 
 	before_action :authenticate_user!
 
-	before_action :set_payment_detail, only: [:confirm]
+	before_action :set_payment_detail, only: [:confirm, :show, :read_report]
+
+	def read_report
+		@payment_detail.update(read_report: true)
+	end
+
 
 	def confirm
 		ar = @payment_detail.academic_record
@@ -12,7 +17,6 @@ class PaymentDetailsController < ApplicationController
 		elsif ar.confirmado?
 			ar.inscription_status = :preinscrito
 		end
-		
 
 		if ar.save
 			type = 'success'
@@ -39,6 +43,10 @@ class PaymentDetailsController < ApplicationController
 		end
 	end
 
+	def show
+		
+	end
+
 	def create
 		# begin
 		# 	data = payment_detail_params[:url_file]
@@ -56,7 +64,7 @@ class PaymentDetailsController < ApplicationController
 		@payment_detail = PaymentDetail.new(payment_detail_params)
 		# @payment_detail.url_file = url
 		if @payment_detail.save
-			flash[:success] = 'Se ha registrado su información de pago con éxito. Te invitamos a que estes atento a los cambios y confirmación de pago en estas, tu sesión de usuario de Aceim'
+			session[:payment_id] = @payment_detail.id #GeneralSetup.message_payment_report
 		else
 			flash[:danger] = "No se pudo completar el guardado del reporte de pago. Por favor inténtalo de nuevo o concacta al personal calificado: #{@payment_detail.errors.full_messages.to_sentence}"
 		end

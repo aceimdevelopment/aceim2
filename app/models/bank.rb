@@ -40,7 +40,7 @@ class Bank < ApplicationRecord
 
   # ========== FUNTIONS ============ #
   def total_payments
-    payment_details.count
+    # self.payment_details.count
   end
 
 end

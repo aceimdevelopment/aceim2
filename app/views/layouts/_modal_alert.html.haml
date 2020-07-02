@@ -1,0 +1,17 @@
+.modal.fade{'aria-hidden': false, 'aria-labelledby': 'updateModalLabel', id: 'AlertMessage'}
+  .modal-dialog.modal-lg
+    .modal-content
+      .alert.alert-danger.text-center
+        %h3 ¡Atención!
+      .modal-body
+        = content
+      .modal-footer.float-center
+        %a.btn.btn-primary{onclick: "setReadReport()", data: {dismiss: 'modal'}} Aceptar
+
+
+:javascript
+  function setReadReport() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", `#{url}`, true);
+    xhttp.send();
+  }
