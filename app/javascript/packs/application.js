@@ -21,6 +21,7 @@ document.addEventListener("turbolinks:load", () => {
 $(document).ready(function() {
 	$('.tooltip-btn').tooltip();
 	$("#updatePersonalData").modal({ keyboard: false, backdrop: 'static' });
+	$("#AlertMessage").modal({ keyboard: false, backdrop: 'static' });
 	
 	$('.onlyOneCharacter').on('input', function(evt) {
 		var node = $(this);

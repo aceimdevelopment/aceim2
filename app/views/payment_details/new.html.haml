@@ -67,6 +67,7 @@
             .input-group-text
               %span.fa.fa-money
           = f.number_field :mount, class: 'form-control', readonly: true, value: @academic_record.agreement.value, step: '0.01'
+          =# number_to_currency(@academic_record.agreement.value, :unit => "Bs.", :separator => ",", :delimiter => ".")
 
     .form-group.row.px-3
       = f.label :source_bank_id, class: 'col-sm-5 control-label', value: 'Banco Origen:', style: 'text-align: right'

@@ -1,0 +1,44 @@
+- bank_account = BankAccount.first
+
+%p
+  Estimado(a) 
+  = @payment_detail.user.full_name
+  , usted ha reportado un pago a través de nuestro sitio web, con el siguiente detalle:
+
+  %table.table.table-sm
+    %tbody
+      %tr
+        %th Forma de pago: 
+        %td= @payment_detail.transaction_type.upcase
+
+      %tr
+        %th Número de Transf.: 
+        %td= @payment_detail.transaction_number
+
+      %tr
+        %th Banco Origen: 
+        %td= @payment_detail.source_bank.name.upcase
+
+      %tr
+        %th Banco Destino: 
+        %td= bank_account.bank.name.upcase
+
+      %tr
+        %th Cuenta Destino: 
+        %td= bank_account.number 
+
+      %tr
+        %th Concepto: 
+        %td= @payment_detail.course_description
+
+      %tr
+        %th Monto: 
+        %td= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
+
+      %tr
+        %th Fecha: 
+        %td= @payment_detail.created_at
+
+  %p En las próximas 48 horas hábiles estaremos procesando su pago, previa confirmación con el Banco. Hemos enviado a su correo estos detalles de la transacción.
+  %p.text-center
+    %b Gracias por confiar en nosotros para su formación académica.

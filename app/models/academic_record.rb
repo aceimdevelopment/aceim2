@@ -210,6 +210,10 @@ class AcademicRecord < ApplicationRecord
   #   course.level.name if course
   # end
 
+  def online?
+    self.course_period.online?
+  end
+
   def before_import_save(record)
     if (letter_aux, year_aux = record[:period_id].split("-")) && (period_aux = Period.where(year: year_aux, letter: letter_aux).first) && (course_aux = Course.where(language_id: record[:language_id], level_id: record[:level_id]).first) && (course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id).first) && (section_aux = Section.where(course_period_id: course_period_aux.id, number: record[:number]).first)
       self.section_id = section_aux.id

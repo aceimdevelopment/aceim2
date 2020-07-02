@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :payment_details do
     member do
       get 'confirm'
+      get 'read_report'
     end
 
   end

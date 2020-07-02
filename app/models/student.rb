@@ -14,6 +14,7 @@ class Student < ApplicationRecord
   accepts_nested_attributes_for :careers
 
   has_many :academic_records, inverse_of: :student
+  has_many :payment_details, through: :academic_records#, inverse_of: :student
   accepts_nested_attributes_for :academic_records
   
   has_many :sections, through: :academic_records
