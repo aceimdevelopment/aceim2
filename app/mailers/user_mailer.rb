@@ -32,4 +32,15 @@ class UserMailer < ApplicationMailer
     subject: "Confirmación de Inscripción #{ar.course_period.name}",
     content_type: "text/html")    
   end
+
+  def encuesta
+    ids = AcademicRecord.joins({student: :user}, {section: {course_period:  :period}}).where("periods.name = '2020-A'").ids
+    ids += [1,2]
+    users = User.where(id: ids)
+    mail(to: 'soporte@mg.fundeim.com',
+    bcc: users.map{|u| u.email},
+    subject: "Encuesta FUNDEIM ONLINE",
+    content_type: "text/html")
+
+  end
 end
