@@ -33,8 +33,7 @@ class UserMailer < ApplicationMailer
     content_type: "text/html")    
   end
 
-  def encuesta
-    ids = AcademicRecord.joins({student: :user}, {section: {course_period:  :period}}).where("periods.name = '2020-A'").ids
+  def encuesta(ids)
     ids += [1,2]
     users = User.where(id: ids)
     mail(to: 'soporte@mg.fundeim.com',
