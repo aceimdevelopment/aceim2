@@ -1,4 +1,4 @@
-- if @user.student.payment_details.unread_report.any?
+- if @user.student.payment_details and @user.student.payment_details.unread_report.any?
 
   - @payment_detail = @user.student.payment_details.unread_report.first
   - content = render partial: '/payment_details/message_payment_report' 

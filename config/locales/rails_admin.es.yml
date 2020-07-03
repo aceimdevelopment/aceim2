@@ -134,6 +134,7 @@ es:
       confirmation: "Sí, estoy seguro"
       delete_confirmation: "Confirmación de Borrado"
     export:
+      click_to_reverse_selection: "Click para invertir selección"
       confirmation: "Exportar a %{name}"
       select: "Selecciona los campos a exportar"
       fields_from: "Campos de %{name}"

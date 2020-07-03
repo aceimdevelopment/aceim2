@@ -8,7 +8,12 @@ class PaymentDetail < ApplicationRecord
 
 	has_one_attached :backup_file
 
-	validates :bank_account_id, presence: true
+	validates :bank_account, presence: true
+	validates :transaction_type, presence: true
+	validates :transaction_number, presence: true
+	validates :source_bank, presence: true
+	validates :mount, presence: true
+	validates :created_at, presence: true
 	# agregar monto de pago
 	# (.pdf, .png, .jpg) imagen de la transaccion
 
@@ -21,16 +26,103 @@ class PaymentDetail < ApplicationRecord
 	scope :unread_report, -> {where(read_report: false)}
 	scope :unread_confirmation, -> {where(read_confirmation: false)}
 
+	scope :preinscritos, -> {joins(:academic_record).where('academic_records.inscription_status = 0')}
+	scope :confirmados, -> {joins(:academic_record).where('academic_records.inscription_status = 1')}
+
+	scope :todos, -> {where('0 = 0')}
 
 	def name
 		aux = transaction_number
 		aux += academic_record.desc_to_pay if academic_record
 	end
 
+	def preinscrito?
+		(academic_record and academic_record.preinscrito?)
+	end
 
+	def preinscrito
+		(academic_record and academic_record.preinscrito?)
+	end
+
+	def confirmado
+		(academic_record and academic_record.confirmado?)
+	end
+	# def confirmados
+	# 	academic_record.confirmado?
+	# end
 
 	rails_admin do
+
+		export do
+			# field :confirmado do
+			#	label '¿Confirmado?'
+			#	export_value do
+			#		value and value.eql? true ?  'Sí' : 'No' 
+			#	end
+			# end
+			field :transaction_number do
+				label '# Transacción'
+			end
+
+			field :bank_account do 
+				label 'Cuenta Bancaria'
+				export_value do
+					value.name if value
+				end
+			end
+
+			field :source_bank do
+				label 'Banco'
+				export_value do
+					value.name if value
+				end
+			end
+			field :transaction_type do
+				label 'Tipo'
+			end			
+
+			field :mount do
+				label 'Monto'
+			end
+
+			field :created_at do
+				label 'Fecha'
+			end
+
+			field :academic_record do
+				label 'Inscripcion'
+			end
+
+		end
+
+		edit do
+
+
+			field :transaction_number do
+				label '# Transacción'
+			end
+
+			field :transaction_type do
+				label 'Tipo'
+			end
+
+			field :source_bank do
+				label 'Banco'
+			end
+
+			field :mount do
+				label 'Monto'
+			end
+
+			field :created_at do
+				label 'Fecha'
+			end
+
+
+		end
+
 		list do
+			scopes [:todos, :preinscritos, :confirmados]
 			field :transaction_number do
 				label '# Transacción'
 			end
@@ -58,12 +150,24 @@ class PaymentDetail < ApplicationRecord
 				label 'Fecha'
 			end
 
-			field :confirme do
-				label '¿Confirmado?'
-				formatted_value do
-					url = "/payment_details/#{bindings[:object].id}/confirm"
-					bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'Confirmar', url: url, to_checked: bindings[:object].academic_record.confirmado?, id_html: 'confirm'})
+			field :confirm do
+				# label '¿Confirmado?'
+				label do
+					if bindings[:object].preinscrito?
+						'Estado'
+					else
+						false
+					end
 				end
+				formatted_value do
+					if bindings[:object].preinscrito?
+						url = "/payment_details/#{bindings[:object].id}/confirm"
+						bindings[:view].render(partial: "confirmation_button", locals: {title: 'Confirmar Pago', url: url})
+					else
+						false
+					end
+				end
+
 			end
 
 

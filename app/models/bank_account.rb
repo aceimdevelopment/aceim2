@@ -20,6 +20,22 @@ class BankAccount < ApplicationRecord
 
   # ========== RAILS ADMIN ============ #
   rails_admin do
+    export do
+      field :id do
+        label 'Id'
+      end
+      field :number do
+        label 'Número'
+      end
+      field :holder do
+        label 'Titular'
+      end
+      field :bank do
+        label 'Banco'
+      end
+      # exclude_fields :created_at, :updated_at
+    end
+
     edit do
       field :id do
         label 'Identificador'

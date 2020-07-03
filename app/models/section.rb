@@ -43,7 +43,7 @@ class Section < ApplicationRecord
   # end
 
   rails_admin do
-    # inline_add false
+    # inline_add true
     # import do
     #   mapping_key = [:period_id, :language_id, :level_id, :number]
     #   mapping_key_list [:period_id, :language_id, :level_id, :number]
@@ -122,6 +122,7 @@ class Section < ApplicationRecord
 
     end
 
+    # OJO éste es el caso para NEW_RECORDS (new)! 
     edit do
       field :course_period do
         label 'Curso Periodo'
@@ -218,31 +219,29 @@ class Section < ApplicationRecord
         filterable false
       end
 
-      # field :course_period do 
+      field :kind do 
+        label 'Tipo'
+        formatted_value{ bindings[:object].course_period.kind}
+        # queryable "course_periods.kind"
+        sortable "course_periods.kind"
+        filterable "course_periods.kind"
+        searchable "course_periods.kind"
+      end
+      # field :kind, :enum do
       #   label 'Tipo'
-      #   formatted_value{ bindings[:object].course_period.kind}
-      #   queryable true
-      #   sortable "course_periods.kind"
-      #   filterable true
+      #   enum do
+      #     CoursePeriod::kinds
+      #   end
+
+      #   # queryable true
+      #   sortable "course_periods.kind" #CoursePeriod::kinds.keys
+      #   filterable "course_periods.kind"
       #   searchable false
       # end
-      field :course_period_kind, :enum do
-        label 'Tipo'
-        enum do
-          CoursePeriod::kinds
-        end
 
-        # queryable true
-        sortable "course_periods.kind" #CoursePeriod::kinds.keys
-        filterable false # "sections_course_periods.kind"
-        searchable false
-      end
       field :instructor do
         label 'Instructor'
       end
-      # field :evaluator do
-      #   label 'Evaluador'
-      # end
 
       field :open do
         label '¿Abierta?'
@@ -258,7 +257,6 @@ class Section < ApplicationRecord
         label 'Aula Canvas'
         formatted_value{ bindings[:object].url_classroom_canvas.split("/").last if bindings[:object].url_classroom_canvas }
       end
-      # fields :period, :language, :level, :registed, :number, :open, :instructor, :registed, :enrolled
     end
   end
 

@@ -13,6 +13,19 @@ class Bank < ApplicationRecord
 
   # ========== RAILS ADMIN ============ #
   rails_admin do
+
+    export do
+
+      field :id do
+        label 'Id'
+      end
+      field :name do
+        label 'Nombre'
+      end
+
+    end
+
+
     edit do
       field :id do
         label 'Identificador'

@@ -6,7 +6,7 @@ class PaymentDetailMailer < ApplicationMailer
     @user = @payment_detail.user
     mail(to: @user.email,
     bcc: 'moros.daniel@gmail.com, saavedraazuaje73@gmail.com',
-    subject: "Reporte de pago a FUNDEIM recibido ",
+    subject: "Reporte de pago a FUNDEIM recibido",
     content_type: "text/html")
   end
 
@@ -18,7 +18,16 @@ class PaymentDetailMailer < ApplicationMailer
     cc: @administrativos.map{|a| a.user.email},
     subject: "Pago Reportado",
     content_type: "text/html")
-
   end
+
+  def send_payment_confirmed(id)
+    @payment_detail = PaymentDetail.find id
+    @user = @payment_detail.user
+    mail(to: @user.email,
+    # bcc: 'saavedraazuaje73@gmail.com',
+    subject: "Confirmación de pago a FUNDEIM",
+    content_type: "text/html")
+  end
+
 
 end

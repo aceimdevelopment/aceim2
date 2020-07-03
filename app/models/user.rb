@@ -106,6 +106,10 @@ class User < ApplicationRecord
     self.instructor ? true : false
   end
 
+  def admin?
+    administrator?    
+  end
+
   def administrator?
     self.administrator ? true : false
   end

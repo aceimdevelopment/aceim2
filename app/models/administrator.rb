@@ -18,6 +18,10 @@ class Administrator < ApplicationRecord
     self.user.email.eql? 'moros.daniel@gmail.com'
   end
 
+  def super_role?
+    desarrollador? or superadmin?
+  end
+
   rails_admin do
 
 

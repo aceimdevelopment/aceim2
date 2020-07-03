@@ -47,6 +47,43 @@ class AcademicRecord < ApplicationRecord
 
   rails_admin do
 
+    export do
+
+      field :user_desc do
+        label 'Estudiante'
+      end
+
+      field :export_section do
+        label 'Sección'
+      end
+
+      field :export_language do
+        label 'Idioma'
+      end
+
+      field :export_level do
+        label 'Nivel'
+      end
+
+      field :export_kind do
+        label 'Tipo'
+      end
+
+      field :export_agreement do
+        label 'Convenio'
+      end
+
+      field :inscription_status do
+        label 'Estado de Inscripción'
+      end
+
+      field :final_desc do
+        label 'Final'
+      end
+
+
+    end
+
     show do
       field :student do
         label 'Estudiante'
@@ -127,7 +164,7 @@ class AcademicRecord < ApplicationRecord
     list do
       checkboxes false
       items_per_page 60
-      # scopes [:preinscrito, :confirmado, nil]
+      scopes [:preinscrito, :confirmado, nil]
 
       # field :inscription_status do
       #   label 'Estado'
@@ -209,6 +246,27 @@ class AcademicRecord < ApplicationRecord
   # def level
   #   course.level.name if course
   # end
+
+  def export_agreement
+    agreement.name if agreement
+  end
+
+  def export_language
+    language.name if language
+  end
+
+  def export_level
+    level.name if level
+  end
+
+  def export_kind
+    course_period.kind if course_period
+  end
+
+
+  def export_section
+    section.number_to_string if section
+  end
 
   def online?
     self.course_period.online?

@@ -73,6 +73,8 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index do                        # mandatory
       except [User, QualificationStatus, QualificationDetail, Career, Course]
+      # Estudiar comportamiento: https://github.com/sferik/rails_admin/blob/master/lib/rails_admin/config/actions/base.rb
+      # show_in_sidebar [User, Section]
     end
     new
     export

@@ -12,22 +12,33 @@ class PaymentDetailsController < ApplicationController
 	def confirm
 		ar = @payment_detail.academic_record
 
-		if ar.preinscrito?
+		if ar.preinscrito?				
 			ar.inscription_status = :confirmado
 		elsif ar.confirmado?
 			ar.inscription_status = :preinscrito
 		end
 
 		if ar.save
-			type = 'success'
-			msg = '¡Cambio realizado con éxito!'
+			flash[:success] = '¡Cambio realizado con éxito!'
+			begin
+				if PaymentDetailMailer.send_payment_confirmed(@payment_detail.id).deliver
+					flash[:success] += ' Correo enviado al estudiante'
+				else
+					flash[:error] = "Problemas el intentar enviar el correo."
+				end
+			rescue Exception => e
+				flash[:error] = "Problemas el intentar enviar el correo: #{e}"
+			end			
+			# type = 'success'
+			# msg = '¡Cambio realizado con éxito!'
 		else
-			type = 'danger'
-			msg = 'No se puydo guardar el cambio.'
+			flash[:error] = 'No se puydo guardar el cambio. Por favor inténtelo de nuevo'
+			# type = 'danger'
+			# msg = 'No se puydo guardar el cambio.'
 		end
-      render json: {type: type, data: msg}, status: :ok
 
-		
+		# render json: {type: type, data: msg}, status: :ok
+		redirect_back fallback_location: :index
 	end
 
 
