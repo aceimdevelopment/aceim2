@@ -7,4 +7,24 @@
       ul { list-style: none; }
       body {background: #f2f2f2, padding-top: 40px;}
   %body
-    = yield
+
+    %div{style: "background-color: #f2f2f2; padding: 10px; margin: 5px;"}
+      %div{style: 'background: rgb(74,118,184);background: radial-gradient(circle, rgba(74,118,184,1) 0%, rgba(9,9,121,1) 78%); padding: 3px;'}
+        %p{style: 'text-align:center;margin: 15px;'}
+          = image_tag "https://fundeim.sfo2.digitaloceanspaces.com/email_banner_logos.png", style: 'width:100%;height:auto' 
+        %div{style: 'color: #d6e3fc; text-align: center;'} 
+          %h3{style: 'margin: 0px;'} UNIVERSIDAD CENTRAL DE VENEZUELA
+          %h3{style: 'margin: 0px;'} Escuela de Idiomas Modernos
+          %h3{style: 'margin: 0px;'} FUNDEIM
+  
+      %div{style: 'margin:10px'}
+        = yield
+
+      %div{style: 'background: rgba(9,9,121,1) 78%; padding: 1px;'}
+        %div{style: "color: #d6e3fc;text-align: center;"}
+          %h4{style: 'margin: 0px;'} Gracias por confiar en nosotros para su formación académica
+          %h4{style: 'margin: 0px;'} FUNDEIM - UCV #VenciendoLaSombra
+
+      %h4= "IMPORTANTE: No dude en contactarnos  por fundeimucv@gmail.com si requiere de algún tipo de apoyo."
+
+      

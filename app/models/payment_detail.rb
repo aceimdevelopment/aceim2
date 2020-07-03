@@ -62,8 +62,8 @@ class PaymentDetail < ApplicationRecord
 				label '¿Confirmado?'
 				formatted_value do
 					url = "/payment_details/#{bindings[:object].id}/confirm"
-			bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'Confirmar', url: url, to_checked: bindings[:object].academic_record.confirmado?, id_html: 'confirm'})
-			end
+					bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'Confirmar', url: url, to_checked: bindings[:object].academic_record.confirmado?, id_html: 'confirm'})
+				end
 			end
 
 

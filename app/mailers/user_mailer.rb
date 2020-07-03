@@ -42,4 +42,11 @@ class UserMailer < ApplicationMailer
     content_type: "text/html")
 
   end
+
+  def prueba_plantilla
+    user = User.find 2
+    mail(to: user.email,
+    subject: "Prueba de Plantilla FUNDEIM ONLINE",
+    content_type: "text/html")    
+  end
 end
