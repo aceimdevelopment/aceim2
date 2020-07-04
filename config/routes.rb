@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     member do
       get 'send_confirmation_mail'
       get 'show_payments_accounts'
+      get 'certificate'
     end
   end
 

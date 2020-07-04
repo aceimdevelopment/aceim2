@@ -28,6 +28,8 @@ gem 'jbuilder', '~> 2.7'
 
 # GEM INCLUDE BY ME:
 # gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
+gem 'prawn'
+gem 'prawn-table'
 gem "aws-sdk-s3", require: false
 gem "rails_admin_import", "~> 2.2"
 gem 'rails_admin', '~> 2.0'

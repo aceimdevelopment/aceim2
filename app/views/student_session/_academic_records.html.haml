@@ -64,6 +64,10 @@
               %td.col-2
                 %span.badge.badge-info= ar.inscription_status.capitalize
               %td.col-3
+                - if false # ar.confirmado?
+                  = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Ver detalle Planilla de Inscripción', data: {toggle: 'tooltip'}} do
+                    Planilla de Inscripción
+                    %span.fa.fa-certificate
                 - if ar.online? and ar.confirmado? and ar.period.name.eql? '2020-A'
                   = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
                     Encuenta

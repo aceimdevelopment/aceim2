@@ -1,5 +1,5 @@
 class AcademicRecordsController < ApplicationController
-	before_action :set_academic_record, only: [:show_payments_accounts]
+	before_action :set_academic_record, only: [:show_payments_accounts, :certificate]
 	before_action :authenticate_user!
 
 	def send_confirmation_mail
@@ -18,6 +18,14 @@ class AcademicRecordsController < ApplicationController
 	# def show_payments_accounts
 	# 	@academic_record
 	# end
+
+	def certificate
+		pdf = PdfDocs.certificate(@academic_record)
+		unless send_data pdf.render, filename: "planilla_inscripcion_#{params[:id].to_s}.pdf", type: "application/pdf", disposition: "attachment"
+			flash[:error] = "En estos momentos no se pueden descargar el acta, intentelo más tarde."
+		end
+		return
+	end
 
 	private
 
