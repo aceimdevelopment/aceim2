@@ -71,7 +71,7 @@
             .input-group-text
               Bs. (o equivalente en divisas) 
           =# number_to_currency(@academic_record.agreement.value, :unit => "Bs.", :separator => ",", :delimiter => ".")
-    = f.hidden_field :source_bank_id, value: '0001', disabled: true, class: 'form-control', id: 'weCollect'
+    = f.hidden_field :source_bank_id, value: '0000', disabled: true, class: 'form-control', id: 'weCollect'
     #banksData
       .form-group.row.px-3
         = f.label :source_bank_id, class: 'col-sm-5 control-label', value: 'Banco Origen:', style: 'text-align: right'
@@ -80,7 +80,7 @@
             .input-group-prepend
               .input-group-text
                 %span.fa.fa-bank
-            = f.collection_select :source_bank_id, Bank.where('id != 0001'), :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control', id: 'bank', required: true}
+            = f.collection_select :source_bank_id, Bank.where('id != 0000'), :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control', id: 'bank', required: true}
       .form-group.row.px-3
         = f.label :bank_account_id, class: 'col-sm-5 control-label', value: 'Cuenta Destino:', style: 'text-align: right'
         .col-sm-5.my-1
