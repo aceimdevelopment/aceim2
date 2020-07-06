@@ -4,7 +4,8 @@ class PaymentDetail < ApplicationRecord
 	has_one :user, through: :student
 
 	belongs_to :bank_account, inverse_of: :payment_details
-	belongs_to :source_bank, foreign_key: :source_bank_id, class_name: 'Bank', inverse_of: :payment_details
+	# Se comentó el inverse_of porque daba error en el Index y show del RailsAdmin  
+	belongs_to :source_bank, foreign_key: :source_bank_id, class_name: 'Bank'#, inverse_of: :payment_details
 
 	has_one_attached :backup_file
 
@@ -19,7 +20,7 @@ class PaymentDetail < ApplicationRecord
 
 	# belongs_to :pci_escuela, foreign_key: 'pci_escuela_id', class_name: 'Escuela', optional: true
 
-	enum transaction_type: [:transferencia, :deposito, :efectivo]
+	enum transaction_type: [:transferencia, :divisas]
 
 	# before_destroy :check_for_files#, prepend: true
 

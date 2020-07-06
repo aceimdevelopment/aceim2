@@ -8,7 +8,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 class LoginButton extends React.Component {
   render () {
     return (
-		<Button variant="primary" href="/users/sign_in">Ingresa</Button>
+		<Button variant="primary" href="/users/sign_in">Ingresar</Button>
 		);
 	}
 }

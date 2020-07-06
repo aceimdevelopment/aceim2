@@ -10,22 +10,26 @@
       %tr
         %th Forma de pago: 
         %td= @payment_detail.transaction_type.upcase
+      - if @payment_detail.divisas?
+        %tr
+          %th Código del billete.: 
+          %td= @payment_detail.transaction_number
+      - else
+        %tr
+          %th Número de Transf.: 
+          %td= @payment_detail.transaction_number
 
-      %tr
-        %th Número de Transf.: 
-        %td= @payment_detail.transaction_number
+        %tr
+          %th Banco Origen: 
+          %td= @payment_detail.source_bank.name.upcase
 
-      %tr
-        %th Banco Origen: 
-        %td= @payment_detail.source_bank.name.upcase
+        %tr
+          %th Banco Destino: 
+          %td= bank_account.bank.name.upcase
 
-      %tr
-        %th Banco Destino: 
-        %td= bank_account.bank.name.upcase
-
-      %tr
-        %th Cuenta Destino: 
-        %td= bank_account.number 
+        %tr
+          %th Cuenta Destino: 
+          %td= bank_account.number 
 
       %tr
         %th Concepto: 
@@ -33,12 +37,14 @@
 
       %tr
         %th Monto: 
-        %td= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
+        %td
+          = number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
+          (o equivalente en divisas)
 
       %tr
-        %th Fecha: 
-        %td= @payment_detail.created_at
+        %th Fecha de Pago: 
+        %td= @payment_detail.created_at.strftime('%d/%m/%Y')
 
-  %p En las próximas 48 horas hábiles estaremos procesando su pago, previa confirmación con el Banco. Hemos enviado a su correo estos detalles de la transacción.
+  %p En las próximas 48 horas hábiles estaremos procesando su pago y notificándole vía correo electrónico, previa confirmación de la transacción. Hemos enviado a su correo estos detalles de la transacción.
   %p.text-center
     %b Gracias por confiar en nosotros para su formación académica.

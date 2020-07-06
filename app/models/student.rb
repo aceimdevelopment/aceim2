@@ -122,7 +122,7 @@ class Student < ApplicationRecord
 
   def language_avaliables
     enrolled_languages = self.careers.map{|c| c.language.id}
-    Language.where('id != ?', enrolled_languages)
+    enrolled_languages.blank? ? Language.all : Language.where('id != ?', enrolled_languages)
   end
 
   def ci

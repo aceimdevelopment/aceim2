@@ -54,7 +54,7 @@ es:
         breadcrumb: "Detalle %{model_label}"
         menu: "Ver detalle"
       edit:
-        done: "guardado"
+        done: "guardar"
         link: "editar"
         title: "Editar"
         breadcrumb: "Editar %{model_label}"

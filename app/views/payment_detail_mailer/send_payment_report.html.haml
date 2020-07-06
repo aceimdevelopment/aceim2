@@ -5,27 +5,32 @@
   = @user.full_name
   , usted ha reportado un pago a través de nuestro sitio web, con el siguiente detalle:
 
-  %table
+  %table{align: :center}
     %tbody
       %tr
         %th{style: 'text-align:right'} Forma de pago: 
         %td= @payment_detail.transaction_type.upcase
 
-      %tr
-        %th{style: 'text-align:right'} Número de Transf.: 
-        %td= @payment_detail.transaction_number
+      - if @payment_detail.divisas?
+        %tr
+          %th Código del billete.: 
+          %td= @payment_detail.transaction_number
+      - else
+        %tr
+          %th Número de Transf.: 
+          %td= @payment_detail.transaction_number
 
-      %tr
-        %th{style: 'text-align:right'} Banco Origen: 
-        %td= @payment_detail.source_bank.name.upcase
+        %tr
+          %th Banco Origen: 
+          %td= @payment_detail.source_bank.name.upcase
 
-      %tr
-        %th{style: 'text-align:right'} Banco Destino: 
-        %td= bank_account.bank.name.upcase
+        %tr
+          %th Banco Destino: 
+          %td= bank_account.bank.name.upcase
 
-      %tr
-        %th{style: 'text-align:right'} Cuenta Destino: 
-        %td= bank_account.number 
+        %tr
+          %th Cuenta Destino: 
+          %td= bank_account.number 
 
       %tr
         %th{style: 'text-align:right'} Concepto: 
@@ -39,4 +44,4 @@
         %th{style: 'text-align:right'} Fecha: 
         %td= @payment_detail.created_at.strftime('%d/%m/%Y')
 
-  %p En las próximas 48 horas hábiles estaremos procesando su pago, previa confirmación con el Banco.
+  %p En las próximas 48 horas hábiles estaremos procesando su pago y notificándole por ésta vía, previa confirmación de la transacción.

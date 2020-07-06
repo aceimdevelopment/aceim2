@@ -24,6 +24,10 @@ class AcademicRecord < ApplicationRecord
   PI = -1.0
   #============VALIDATIONS=========#
   validates :student_id, uniqueness: {scope: :section_id}
+
+  # validates :student_id, uniqueness: {scope: from_course_perido()}
+  validates_with StudentCoursePeriod, field_name: false, if: :new_record?
+
   after_initialize :set_default, :if => :new_record?
   after_save :add_career
 
@@ -34,14 +38,10 @@ class AcademicRecord < ApplicationRecord
   scope :currents, -> {confirmado.where(qualification_status_id: :SC)}
   scope :from_language, lambda{|language_id| joins(:section).joins(:course_period).joins(:course).where("courses.language_id = ?", language_id).order("created_at DESC")}
 
-  scope :from_period, lambda{|period_id| joins(:section).joins(:course_period).where("course_periods.period_id = ?", period_id)}
-  scope :from_periods, -> (period_ids){joins(:section).joins(:course_period).where("course_periods.period_id IN (?)", period_ids)}
-  
+  scope :from_period, -> (period_id) {joins(:section).joins(:course_period).where("course_periods.period_id = ?", period_id)}
+  scope :from_periods, -> (period_ids) {joins(:section).joins(:course_period).where("course_periods.period_id IN (?)", period_ids)}
   scope :from_periods_language, -> (period_ids, language_id){joins(:section).joins(:course_period).joins(:course).where("course_periods.period_id IN (?) AND courses.language_id = ?", period_ids, language_id)}
-
-
-
-  scope :from_course_perido, lambda {|course_period_id| joins(:section).joins(:course_period).where("course_periods.id = ?", course_period_id)}
+  scope :from_course_perido, -> (course_period_id) {joins(:section).joins(:course_period).where("course_periods.id = ?", course_period_id)}
 
   # ===========RAILS ADMIN ====================#
 

@@ -5,34 +5,29 @@
   = "#{@user.full_name},"
   hemos procesado su pago con éxito.
 
-  %table
+
+%h3{align: :center} Recibo de Pago:
+
+%div{align: :center, style: 'border: 1px solid #e5e5e5;padding: 3em;background-color: white;margin:0em 5em;'}
+  = image_tag "https://fundeim.sfo2.digitaloceanspaces.com/logo_ucv_2_tone.png", style: 'width:8%;height:auto;float:left;paddin-left: 3px;' 
+  %h3{align: :right, style: 'margin:0em;'}= sprintf("%05i",@payment_detail.id)
+  %p{align: :right, style: 'margin:0em;'}= "Fecha: #{@payment_detail.created_at.strftime('%d/%m/%Y')}"
+  %p{style: 'text-align:left;paddin-left: 3px;'}
+    = BankAccount.first.holder
+
+  %table{style: 'width:85%'}
     %tbody
-      %tr
-        %td
-          %b= @payment_detail.transaction_type.upcase
-        %td
-          %b= @payment_detail.transaction_number
-      %tr
-        %th{style: 'text-align:right'} Banco:
-        %td= bank_account.bank.name.upcase
+      %tr{style: 'margin: 3em 0px;border: 1px solid blue;background-color:gainsboro;'}
+        %th{align: :left, style: 'padding-left: 1em;'} Descripción
+        %th{align: :left, style: 'padding-left: 1em;'} Importe
+      %tr{style: 'background-color: ghostwhite;'}
+        %td{style: 'padding-left: 1em;'}= @payment_detail.course_description
+        %td{style: 'text-align:right'}= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
+      %tr{style: 'background-color: ghostwhite;'}
+        %td{style: 'text-align:right;font-size: 20px;'} Total a Pagar: 
+        %td{style: 'text-align:right;font-size: 20px;'}= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
 
-      %tr
-        %th{style: 'text-align:right'} Cuenta Nº: 
-        %td= bank_account.number 
-
-      %tr
-        %th{style: 'text-align:right'} Concepto: 
-        %td= @payment_detail.course_description
-
-      %tr
-        %th{style: 'text-align:right'} Monto: 
-        %td= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
-
-      %tr
-        %th{style: 'text-align:right'} Fecha: 
-        %td= @payment_detail.created_at.strftime('%d/%m/%Y')
-
-  %p 
-    Por favor, ingrese a su sesión en 
-    = link_to 'ACEIM', 'https://fundeim.com/users/sign_in' 
-    para que pueda ver y descargar su planilla de inscripción.
+%p{style: 'margin-top: 2em;'} 
+  Por favor, ingrese a su sesión en 
+  = link_to 'ACEIM', 'https://fundeim.com/users/sign_in' 
+  para que pueda ver y descargar su planilla de inscripción.

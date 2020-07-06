@@ -9,6 +9,10 @@ class Agreement < ApplicationRecord
   validates :value, presence: true
   validates :discount, presence: true
 
+
+  # ========== CONSTANTS ============ #
+  REG = 'REG'
+
   # ========== RAILS ADMIN ============ #
   rails_admin do
 

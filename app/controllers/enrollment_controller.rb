@@ -9,15 +9,17 @@ class EnrollmentController < ApplicationController
 			flash[:error] = "Disculpa, el usuario no se encuentra registrado como estudiante"
 		else
 			section = Section.find params[:id]
+
 			career = student.careers.where(language_id: section.language.id).first
-			agreement_id = career.agreement_id if career
+			agreement_id =  (career and career.agreement and !section.course_period.online?) ? career.agreement_id : Agreement::REG
 
 			record = AcademicRecord.new
 			record.student_id = student.user_id
 			record.section_id = section.id
 			record.agreement_id = agreement_id
 
-			record.inscription_status = 'confimado' if career.agreement.value.eql? 0
+			# Si el precio del convevenio es cero
+			# record.inscription_status = 'confimado' if career and career.agreement and career.agreement.value.eql? 0
 
 			if record.save
 				# TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020

@@ -16,13 +16,13 @@
     = render partial: "/bank_account/show"
 
 -if student
-  - if false #GeneralSetup.permitir_registros_nuevos and period.allow_enrollments?
+  - if GeneralSetup.permitir_registros_nuevos and period.allow_enrollments?
     .text-center
       - student.language_avaliables.each do |lan| 
         - cp = lan.first_course.course_periods.online.from_period(period.id).first
         - if cp.sections.any?
           - section = cp.sections.first
-          = link_to "¡Inscríbite en #{lan.name.capitalize} ahora!", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success mx-2 tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"
+          = link_to "¡Nuevo curso de #{lan.name.capitalize}!", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success mx-2 tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"
 
   - student.careers.each do |career| 
     .border.p-3.m-3

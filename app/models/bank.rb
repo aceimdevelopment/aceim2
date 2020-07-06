@@ -1,10 +1,10 @@
 class Bank < ApplicationRecord
 
   # ========== RELATIONSHIPS ============ #
+  # Se comentó el inverse_of porque daba error en el Index y show del RailsAdmin  
+  has_many :payment_details, foreign_key: :source_bank_id#, inverse_of: :bank
 
-  has_many :payment_details, foreign_key: :source_bank_id, inverse_of: :bank
-
-  has_many :bank_accounts
+  has_many :bank_accounts, inverse_of: :bank
 
   # ========== VALIDATIONS ============ #
 
@@ -53,7 +53,7 @@ class Bank < ApplicationRecord
 
   # ========== FUNTIONS ============ #
   def total_payments
-    # self.payment_details.count
+    self.payment_details.count
   end
 
 end

@@ -16,9 +16,8 @@
 %h4.text-center Pagos en Efectivo o Divisas
 %table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
 	%tbody		
-		%tr.row
-			%th.col-6{style: 'text-align: right;'} Dirigirse a nuestras oficinas ubicadas en:
-			%td.col-6= GeneralSetup.fundeim_location_value
-		%tr.row
-			%th.col-6{style: 'text-align: right;'} En el horario:
-			%td.col-6= raw GeneralSetup.payment_receive_value
+		%tr.text-center
+			%td{style: 'text-align: center;'} 
+				Para pagos en efectivo o divisas favor escribir al correo 
+				= link_to 'fundeimucv@gmail.com', 'mailto:fundeimucv@gmail.com'
+				para plantearle opciones.

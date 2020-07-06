@@ -75,7 +75,7 @@ class PaymentDetailsController < ApplicationController
 		@payment_detail = PaymentDetail.new(payment_detail_params)
 		# @payment_detail.url_file = url
 		if @payment_detail.save
-			PaymentDetailMailer.send_payment_report(@payment_detail.id)
+			PaymentDetailMailer.send_payment_report(@payment_detail.id).deliver
 			session[:payment_id] = @payment_detail.id #GeneralSetup.message_payment_report
 		else
 			flash[:danger] = "No se pudo completar el guardado del reporte de pago. Por favor inténtalo de nuevo o concacta al personal calificado: #{@payment_detail.errors.full_messages.to_sentence}"

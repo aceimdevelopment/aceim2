@@ -17,7 +17,7 @@ class MainTitle extends React.Component {
       <h5 className=' mb-0'> FUNDEIM </h5>
       <br/>
       {/*<a className="mr-2 btn btn-success" href="/users/sign_up">¡Regístrate!</a>*/}
-      <a className="ml-2 btn btn-primary" href="/users/sign_in">Ingresa</a>
+      {/*<a className="ml-2 btn btn-primary" href="/users/sign_in">Ingresar</a>*/}
       <br/>
       </div>
     );
