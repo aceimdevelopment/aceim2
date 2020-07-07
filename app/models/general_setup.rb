@@ -36,6 +36,11 @@ class GeneralSetup < ApplicationRecord
     aux ? aux.value : 'Estimado(a) estudiante, usted ha reportado un pago a través de nuestra página web. Hemos enviado a su correo el detalle de la transacción.'
   end
 
+  def self.amount_divisa_date
+    aux = GeneralSetup.where(id: "FECHA_MONTO_DIVISA").first
+    aux ? aux.value : 'Este monto es válido si realiza la transferencia antes de las 6:00pm del día de hoy. Luego de esa hora deberá consultar aquí si ha habido algún cambio en el monto del arancel del inscripción.'
+  end
+
 
 	rails_admin do
       edit do
