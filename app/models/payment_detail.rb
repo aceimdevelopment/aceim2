@@ -12,6 +12,7 @@ class PaymentDetail < ApplicationRecord
 	validates :bank_account, presence: true
 	validates :transaction_type, presence: true
 	validates :transaction_number, presence: true
+	validates :transaction_number, presence: true, uniqueness: true
 	validates :source_bank, presence: true
 	validates :mount, presence: true
 	validates :created_at, presence: true

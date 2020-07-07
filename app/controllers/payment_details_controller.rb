@@ -78,7 +78,7 @@ class PaymentDetailsController < ApplicationController
 			PaymentDetailMailer.send_payment_report(@payment_detail.id).deliver
 			session[:payment_id] = @payment_detail.id #GeneralSetup.message_payment_report
 		else
-			flash[:danger] = "No se pudo completar el guardado del reporte de pago. Por favor inténtalo de nuevo o concacta al personal calificado: #{@payment_detail.errors.full_messages.to_sentence}"
+			flash[:error] = "No se pudo completar el guardado del reporte de pago. Por favor inténtalo de nuevo o concacta al personal calificado: #{@payment_detail.errors.full_messages.to_sentence}"
 		end
 		redirect_to student_session_index_path
 	end
