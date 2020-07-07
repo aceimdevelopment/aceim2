@@ -13,6 +13,8 @@
 			%th Idioma
 			%th Nivel
 			%th Tipo
+			%th Status
+			%th Cal
 			%th Sección
 	%tbody
 		- field.bindings[:object].academic_records.includes({student: :user}).order('users.last_name').each do |ar| 
@@ -23,4 +25,6 @@
 				%td= ar.language.name
 				%td= ar.level.name
 				%td= ar.course_period.kind
+				%td= ar.inscription_status.capitalize
+				%td= ar.final_desc
 				%td= link_to_if autorize, ar.section.number, "/admin/section/#{ar.section.id}"
