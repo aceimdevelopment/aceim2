@@ -24,7 +24,7 @@ class PaymentDetailMailer < ApplicationMailer
     @payment_detail = PaymentDetail.find id
     @user = @payment_detail.user
     mail(to: @user.email,
-    bcc: 'saavedraazuaje73@gmail.com',
+    bcc: 'fundeimucv@gmail.com',
     subject: "Confirmación de pago a FUNDEIM",
     content_type: "text/html")
   end
