@@ -20,6 +20,7 @@ class CoursePeriod < ApplicationRecord
   validates :course, presence: true
   validates :period, presence: true
   validates :kind, presence: true
+  validates :capacity, presence: true
   enum kind: [:online, :interdiario, :sabatino, :mixtos]
 
   after_create :create_first_section
@@ -49,8 +50,11 @@ class CoursePeriod < ApplicationRecord
       field :kind do
         label 'Tipo'
       end
+      field :capacity do
+        label 'Capacidad del Curso'
+      end      
       field :sections do
-        label 'secciones'
+        label 'Secciones'
       end
 
       field :canvas_enrollemnets do
@@ -90,6 +94,14 @@ class CoursePeriod < ApplicationRecord
         searchable false #:name
       end
 
+      field :capacity do
+        label 'Capacidad'
+      end
+
+      field :enrollments_confirmed do
+        label 'Ins/Confir'
+      end
+
       # field :course do
       #   label 'curso'
       # end
@@ -121,6 +133,11 @@ class CoursePeriod < ApplicationRecord
       field :period do
         label 'periodo'
       end
+
+      field :capacity do
+        label 'Capacidad'
+      end
+
       field :kind do
         label 'Tipo'
       end
@@ -137,6 +154,10 @@ class CoursePeriod < ApplicationRecord
   
 
   #========== FUNCTIONS =============#
+  def enrollments_confirmed
+    "#{academic_records.preinscrito.count}/#{academic_records.confirmado.count}"
+  end
+
   def next_section_number
     self.sections.map{|s| s.number}.max.to_i+1
   end

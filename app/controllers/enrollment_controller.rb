@@ -9,37 +9,44 @@ class EnrollmentController < ApplicationController
 			flash[:error] = "Disculpa, el usuario no se encuentra registrado como estudiante"
 		else
 			section = Section.find params[:id]
+			cp = section.course_period
 
-			career = student.careers.where(language_id: section.language.id).first
-			agreement_id =  (career and career.agreement and !section.course_period.online?) ? career.agreement_id : Agreement::REG
+          	total_enrolls = cp.academic_records.preinscrito.count
+          	availables = cp.capacity - total_enrolls
+          	# disabled = (availables <= 0)
+          	if (availables > 0)
+				career = student.careers.where(language_id: section.language.id).first
+				agreement_id =  (career and career.agreement and !section.course_period.online?) ? career.agreement_id : Agreement::REG
 
-			record = AcademicRecord.new
-			record.student_id = student.user_id
-			record.section_id = section.id
-			record.agreement_id = agreement_id
+				record = AcademicRecord.new
+				record.student_id = student.user_id
+				record.section_id = section.id
+				record.agreement_id = agreement_id
 
-			# Si el precio del convevenio es cero
-			# record.inscription_status = 'confimado' if career and career.agreement and career.agreement.value.eql? 0
+				# Si el precio del convevenio es cero
+				# record.inscription_status = 'confimado' if career and career.agreement and career.agreement.value.eql? 0
 
-			if record.save
-				# TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020
-				# period_id = section.course_period.period_id
-				period_ids = [12,25]
+				if record.save
+					# TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020
+					# period_id = section.course_period.period_id
+					period_ids = [12,25]
 
-				language_id = section.course_period.course.language_id
-				currents_course_period_no_online = student.academic_records.currents.from_language(language_id).from_periods(period_ids).first
-				if currents_course_period_no_online
-					currents_course_period_no_online.delete 
-					flash[:success_enrolled] = true
-					# "<h3> ¡Haz completado el primer paso satisfactoriamente!</h3><p>Te invitamos amablemente a realizar el pago correspondiente siguiendo los datos a continuación:</p>"
+					language_id = section.course_period.course.language_id
+					currents_course_period_no_online = student.academic_records.currents.from_language(language_id).from_periods(period_ids).first
+					if currents_course_period_no_online
+						currents_course_period_no_online.delete 
+						flash[:success_enrolled] = true
+						# "<h3> ¡Haz completado el primer paso satisfactoriamente!</h3><p>Te invitamos amablemente a realizar el pago correspondiente siguiendo los datos a continuación:</p>"
+					else
+						flash[:payment_accounts] = true
+					end
 				else
-					flash[:payment_accounts] = true
+					flash[:error] = "Error al intentar inscribir: #{record.errors.full_messages.to_sentence}"
 				end
 			else
-				flash[:error] = "Error al intentar inscribir: #{record.errors.full_messages.to_sentence}"
+				flash[:error] = "¡Se terminaron los cupos para éste idiama por éste período! Te invitamos a estar atento a nuevas inscripciones"
 			end
 			redirect_back fallback_location: root_path
-
 		end
 	end
 

@@ -21,8 +21,15 @@
       - student.language_avaliables.each do |lan| 
         - cp = lan.first_course.course_periods.online.from_period(period.id).first
         - if cp.sections.any?
+          - total_enrolls = cp.academic_records.preinscrito.count
+          - availables = cp.capacity - total_enrolls
+          - disabled = (availables <= 0)
+          - class_disadled = disabled ? 'disabled' : ''
+
           - section = cp.sections.first
-          = link_to "¡Nuevo curso de #{lan.name.capitalize}!", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success mx-2 tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"
+          = link_to "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: "#{class_disadled} btn btn-success m-2 tooltip-btn", 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", 'aria-disabled': disabled do
+            = "¡Nuevo curso de #{lan.name.capitalize}!"
+            = "(cupos: #{availables})"
 
   - student.careers.each do |career| 
     .border.p-3.m-3
@@ -34,15 +41,16 @@
         - if GeneralSetup.permitir_registros_nuevos and period.allow_enrollments? 
           - next_course = career.next_course_available
           - if next_course
-            - 
             - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
             - if cp  and !student.enrolled_course_period?(cp.id)
-              - section = cp.sections.first
-              - if section
-                %td
-                  %b= " Nivel Online Disponible: "
+              - total_enrolls = cp.academic_records.preinscrito.count
+              - if total_enrolls <= cp.capacity
+                - section = cp.sections.first
+                - if section
+                  %td
+                    %b= " Nivel Online Disponible: "
 
-                  = link_to "¡Inscríbite ahora! (#{period.name})", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"
+                    = link_to "¡Inscríbite ahora! (#{period.name})", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"
 
       %table.table.table-sm.table-striped.table-hover.table-responsable
         %thead

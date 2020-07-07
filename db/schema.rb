@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_02_221350) do
+ActiveRecord::Schema.define(version: 2020_07_07_015533) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_07_02_221350) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "id_canvas"
+    t.integer "capacity", default: 25
     t.index ["course_id"], name: "index_course_periods_on_course_id"
     t.index ["period_id", "course_id", "kind"], name: "index_course_periods_on_period_id_and_course_id_and_kind", unique: true
     t.index ["period_id"], name: "index_course_periods_on_period_id"
