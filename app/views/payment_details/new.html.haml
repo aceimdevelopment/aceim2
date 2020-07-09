@@ -5,8 +5,8 @@
     Atrás
   = "Reporte de Pago para: #{@academic_record.course_period.description_inscription}"
 
-.alert.alert-success
-  = render partial: "/bank_account/show"
+
+= render partial: "/bank_account/show", locals: {ar: @academic_record}
 .border.px-5.mx-3.pt-3
   %h4.text-center Reporte de Pago
 

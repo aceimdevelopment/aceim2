@@ -11,9 +11,9 @@
       = link_to '@fundeim', 'https://twitter.com/Fundeim' 
       sobre el siguiente paso: 
       %b la automatriculación en su curso ONLINE en la plataforma CANVAS.
-- if flash[:payment_accounts]
-  .alert.alert-success
-    = render partial: "/bank_account/show"
+- ar = student.academic_records.preinscrito.reject{|ar| !ar.payment_detail.nil?}.first
+- if ar
+  = render partial: "/bank_account/show", locals: {ar: ar}
 
 -if student
   - if GeneralSetup.permitir_registros_nuevos and period.allow_enrollments?

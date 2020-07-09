@@ -27,6 +27,7 @@ class EnrollmentController < ApplicationController
 				# record.inscription_status = 'confimado' if career and career.agreement and career.agreement.value.eql? 0
 
 				if record.save
+					flash[:success] = '¡Inscripción realizada con éxito!'
 					# TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020
 					# period_id = section.course_period.period_id
 					period_ids = [12,25]
