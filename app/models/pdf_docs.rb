@@ -48,8 +48,6 @@ class PdfDocs
     # data << ['<b>Monto: <b>', "#{number_to_currency(payment.mount, unit: 'Bs.', separator: ",", delimiter: ".")}"]
     data << ['<b>Monto: <b>', "#{payment.mount},00 Bs."] if payment
     data << ["<b>#{payment.transaction_type.capitalize}: <b>", payment.transaction_number ] if payment
-    data << ['<b>Transacción: <b>', payment.transaction_number ] if payment
-
 
     # t = pdf.make_table(data, header: true, row_colors: ["F0F0F0", "FFFFFF"], width: 300, position: :center, cell_style: { inline_format: true, size: 9, align: :center, padding: 3, border_color: '818284'}, :column_widths => {0 => 5, 2 => 120})
 
