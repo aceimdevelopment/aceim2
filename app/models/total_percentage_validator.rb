@@ -7,7 +7,7 @@ class TotalPercentageValidator < ActiveModel::Validator
 
   private
     def more_that_onehunder(record)
-      total_percentage = record.period.qualification_schemas.sum(:percentage)
+      total_percentage = record.period.qualification_schemas.where('id != ?', record.id).sum(:percentage)
       record.percentage+total_percentage > 100
     end
 end
