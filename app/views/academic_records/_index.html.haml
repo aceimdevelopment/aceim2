@@ -1,18 +1,19 @@
 - course_period = section.course_period
 - enrollments = section.academic_records
-%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
-  %thead
-    %tr.row
-      %th.col-md-1 CI
-      %th.col-md-1 Apellidos
-      %th.col-md-1 Nombre
-      %th.col-md-1 Corrreo
-      %th.col-md-1 Status
-      - course_period.period.qualification_schemas.each do |qs| 
-        %th.col-md-1.text-center
-          .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
-      %th.col-md-1.text-center Final
+%table.table
   %tbody
+    %tr.row.scrolling
+      %td.col-md-1 CI
+      %td.col-md-1 Apellidos
+      %td.col-md-1 Nombre
+      %td.col-md-1 Corrreo
+      %td.col-md-1 Status
+      - course_period.period.qualification_schemas.each do |qs| 
+        %td.col-md-1.text-center
+          .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
+      %td.col-md-1.text-center Final
+%table.table.table-striped.table-sm.table-hover.mt-3      
+  %tbody.scrolling
     - enrollments.includes({student: :user}).order('users.last_name').each do |enrolled| 
       - user = enrolled.student.user
       %tr.row
