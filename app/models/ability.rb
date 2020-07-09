@@ -25,7 +25,7 @@ class Ability
             can :manage, :all
         elsif user.administrator.desarrollador?
             can :manage, [CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator, PaymentDetail]
-            can :cru, [Period, Agreement, GeneralSetup]
+            can :cru, [Period, Agreement, GeneralSetup, PartialQualification, QualificationSchema]
             can :read, [Course]
         elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
@@ -33,7 +33,7 @@ class Ability
             can :cru, [PaymentDetail]
             can :read, [Student]
         elsif user.administrator.superadmin?
-            can :cru, [User, Student, Instructor, Section, AcademicRecord, User]
+            can :cru, [User, Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema]
             can :read, [Period, CoursePeriod]
             # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
             # can :create, [Bank, Period, CoursePeriod, Agreement]
