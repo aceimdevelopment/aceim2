@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_07_015533) do
+ActiveRecord::Schema.define(version: 2020_07_08_161153) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -151,6 +151,17 @@ ActiveRecord::Schema.define(version: 2020_07_07_015533) do
     t.index ["id"], name: "index_levels_on_id"
   end
 
+  create_table "partial_qualifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.decimal "value", precision: 10, null: false
+    t.bigint "qualification_schema_id", null: false
+    t.bigint "academic_record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["academic_record_id", "qualification_schema_id"], name: "unique_record_qualification", unique: true
+    t.index ["academic_record_id"], name: "index_partial_qualifications_on_academic_record_id"
+    t.index ["qualification_schema_id"], name: "index_partial_qualifications_on_qualification_schema_id"
+  end
+
   create_table "payment_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "transaction_number", null: false
     t.string "bank_account_id", null: false
@@ -187,6 +198,17 @@ ActiveRecord::Schema.define(version: 2020_07_07_015533) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["qualifier_id"], name: "index_qualification_details_on_qualifier_id"
     t.index ["section_id"], name: "index_qualification_details_on_section_id"
+  end
+
+  create_table "qualification_schemas", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "percentage", default: 0, null: false
+    t.bigint "period_id", null: false
+    t.integer "sequence", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["period_id", "sequence"], name: "index_qualification_schemas_on_period_id_and_sequence", unique: true
+    t.index ["period_id"], name: "index_qualification_schemas_on_period_id"
   end
 
   create_table "qualification_statuses", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -255,11 +277,14 @@ ActiveRecord::Schema.define(version: 2020_07_07_015533) do
   add_foreign_key "courses", "languages", on_update: :cascade, on_delete: :cascade
   add_foreign_key "courses", "levels", on_update: :cascade, on_delete: :cascade
   add_foreign_key "instructors", "users", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "partial_qualifications", "academic_records", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "partial_qualifications", "qualification_schemas", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "academic_records", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "bank_accounts", on_update: :cascade, on_delete: :cascade
   add_foreign_key "payment_details", "banks", column: "source_bank_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "qualification_details", "instructors", column: "qualifier_id", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "qualification_details", "sections", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "qualification_schemas", "periods"
   add_foreign_key "sections", "course_periods", on_update: :cascade, on_delete: :cascade
   add_foreign_key "sections", "instructors", column: "evaluator_id", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "sections", "instructors", primary_key: "user_id", on_update: :cascade, on_delete: :cascade

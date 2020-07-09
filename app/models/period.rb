@@ -7,6 +7,7 @@ class Period < ApplicationRecord
 
     validates_uniqueness_of :year, scope: :letter, message: 'Período ya creado', field_name: false 
 
+    has_many :qualification_schemas, inverse_of: :period
     has_many :course_periods
     accepts_nested_attributes_for :course_periods
     has_many :courses, through: :course_periods
@@ -66,6 +67,10 @@ class Period < ApplicationRecord
           label 'Id'
         end
 
+        field :qualification_schemas do 
+          label 'Esquemas de caificaciones'
+        end
+
         field :programations do
           label 'Programaciones en éste período'
           formatted_value do
@@ -88,6 +93,10 @@ class Period < ApplicationRecord
           end
         # help 'Solo un caracter permitido'
         end
+        # field :qualification_schemas do 
+        #   label 'Esquemas de caificaciones'
+        # end
+        
         # exclude_fields :created_at, :updated_at
       end
     end

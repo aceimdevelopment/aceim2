@@ -264,6 +264,9 @@ es:
       academic_record:
         one: "Inscripción"
         other: "Inscripciones"
+      qualification_schema:
+        one: "Esquema de Calificación"
+        other: "Esquemas de calificaciones"
 
     errors:
       models:

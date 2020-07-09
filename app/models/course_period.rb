@@ -18,6 +18,7 @@ class CoursePeriod < ApplicationRecord
 
   #========== VALIDATIONS ==========#
   validates :course, presence: true
+  validates_with StudentCoursePeriod, field_name: false, if: :new_record?
   validates :period, presence: true
   validates :kind, presence: true
   validates :capacity, presence: true
@@ -60,7 +61,7 @@ class CoursePeriod < ApplicationRecord
       field :canvas_enrollemnets do
         label 'Inscritos en Canvas'
         formatted_value do
-          bindings[:view].render(partial: 'canvas_enrollemnets_partial', locals: {course_period: bindings[:object]})
+          bindings[:view].render(partial: 'academic_records/canvas_enrollments_index', locals: {course_period: bindings[:object]})
         end
       end
     end

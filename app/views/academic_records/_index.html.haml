@@ -1,0 +1,16 @@
+
+%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th CI
+			%th Apellidos
+			%th Nombre
+			%th Corrreo
+	%tbody
+		- enrollments.includes({student: :user}).order('users.last_name').each do |ar| 
+			- user = ar.student.user
+			%tr
+				%td= link_to ar.student.ci, "/admin/student/#{ar.student_id}"
+				%td= user.last_name
+				%td= user.name
+				%td= user.email

@@ -66,7 +66,7 @@ class Section < ApplicationRecord
 
           # bindings[:object].academic_records.map{|ar| "<p>#{ar.student.personal_identity_document},#{ar.student.user.name},#{ar.student.user.last_name}#{ar.student.user.email} </p>".html_safe}
 
-          bindings[:view].render(partial: "table_academic_records_partial", locals: {field: self})
+          bindings[:view].render(partial: "table_academic_records_partial", locals: {section: self.bindings[:object]})
 
           # field = bindings[:object]
 

@@ -31,6 +31,8 @@ class ApplicationController < ActionController::Base
 			select_role_home_index_path(roles: roles)
 		elsif current_user.student?
 			student_session_index_path
+		elsif current_user.instructor?
+			instructor_session_index_path
 		elsif current_user.administrator?
 			rails_admin_path
 		else

@@ -1,0 +1,27 @@
+%h1 Listing partial_qualifications
+
+%table
+  %thead
+    %tr
+      %th Value
+      %th Value
+      %th Qualification schema
+      %th Academic record
+      %th
+      %th
+      %th
+
+  %tbody
+    - @partial_qualifications.each do |partial_qualification|
+      %tr
+        %td= partial_qualification.value
+        %td= partial_qualification.value
+        %td= partial_qualification.qualification_schema
+        %td= partial_qualification.academic_record
+        %td= link_to 'Show', partial_qualification
+        %td= link_to 'Edit', edit_partial_qualification_path(partial_qualification)
+        %td= link_to 'Destroy', partial_qualification, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Partial qualification', new_partial_qualification_path

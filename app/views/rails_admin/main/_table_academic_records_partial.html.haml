@@ -1,32 +1,19 @@
-- cutable = field.bindings[:object].academic_records.count < 2
-
+- cutable = section.academic_records.count < 2
 - if cutable
-	- msg = 'No tiene suficiantes inscritos para dividirlos'
+	- msg = 'No tiene suficiantes inscritos para distribuirlos'
 - else
+	- msg = 'Distribuir Estudiantes en el la cantidad de secciones indicadas'
 .label.label-success.ml-5.p-3
 	Total Inscritos: 
-	= field.bindings[:object].academic_records.count
+	= section.academic_records.count
 .pull-right.tooltip-btn{"data-toggle": :tooltip, title: msg}
-	= form_tag("/sections/#{field.bindings[:object].id}/split", class: 'form-inline', method: :get) do
+	= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
 		.input-group
 			= number_field_tag :number_split, 2, class: 'form-control input-small mr-3', in: 2...20, step: 1, required: true, placeholder: 'Total Secciones', autofocus: true, disabled: cutable
 			%span.input-group-btn
-				= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea picar esta sessión?'}) do
+				= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
 					%i.fa.fa-cut
-					Picar Sección
+					Distribuir Sección
+- # No incluimos si la section está open ya qué es para otros fines
 
-%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
-	%thead
-		%tr
-			%th CI
-			%th Apellidos
-			%th Nombre
-			%th Corrreo
-	%tbody
-		- field.bindings[:object].academic_records.includes({student: :user}).order('users.last_name').each do |ar| 
-			- user = ar.student.user
-			%tr
-				%td= link_to ar.student.ci, "/admin/student/#{ar.student_id}"
-				%td= user.last_name
-				%td= user.name
-				%td= user.email
+= render partial: '/academic_records/index', locals: {enrollments: section.academic_records}

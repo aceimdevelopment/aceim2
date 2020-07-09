@@ -1,0 +1,25 @@
+- begin
+	- enrollments.each do |enroll| 
+		%tr
+			%td= k
+			%td= enroll['user_id']
+			%td= enroll['user']['name'].to_s.split.map{|w| w.capitalize}.join(" ")
+			- email = enroll['user']['login_id']
+			%td= email
+			%td= "#{sec['name']} (#{sec['id']})"
+			- user = User.where(email: email).first
+			%td 
+				- if user and es = user.student
+					- enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period.id}").first
+					- if enrolled
+						.label.label-info= enrolled.inscription_status.capitalize if enrolled.inscription_status
+					- else
+						.label.label-warning No inscrito en el curso
+
+						= link_to "/admin/student/#{es.id}", {type: 'button', class: 'tooltip-btn label label-info', title: 'Ir al detalle', data: {toggle: 'tooltip', placement: 'bottom'}} do
+							%span.fa.fa-search-plus
+				- else
+					.label.label-danger Usuario no encontrado
+
+		- k+=1
+- end while enrollments and enrollments.more? and enrollments = enrollments.next_page!

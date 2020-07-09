@@ -1,0 +1,87 @@
+- unless course_period.id_canvas.blank?
+  - begin
+    - course_id = course_period.id_canvas
+    - require 'canvas-api'
+    - canvas = MyCanvas.connect
+    -# enrollments = canvas.get("/api/v1/courses/#{course_id}/enrollments", {per_page: 50, role: "StudentEnrollment"})
+    - course = canvas.get("/api/v1/courses/#{course_id}")
+    - sections = canvas.get("/api/v1/courses/#{course_id}/sections")
+
+  - rescue Exception => e
+    :javascript
+      console.log(`No se pudo cargar el recurso en Canvas: #{e}`)
+      alert(`No se pudo cargar el recurso en Canvas: #{e.to_s}`)
+
+
+  %h3= course['name'] if course
+  - if sections
+    %h4
+      = "#{sections.length} Secciones:"
+      .label.label-info= "#{sections.map{|sec| sec['name']}.to_sentence}"
+  - k = 1
+  %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+    %thead
+      %tr
+        %th #
+        %th Nombres
+        %th Email
+        %th Sec
+        %th Status Aceim
+        - course_period.period.qualification_schemas.each do |qs| 
+          %th= qs.desc
+        %th Final
+
+    %tbody
+      - if sections
+        - sections.each do |sec| 
+          - begin
+            - enrollments = canvas.get("/api/v1/sections/#{sec['id']}/enrollments", {per_page: 50, role: "StudentEnrollment"})
+            -# enrollments = canvas.get("/api/v1/courses/#{course_id}/sections/#{sec}/students")#, {per_page: 50, role: "StudentEnrollment"})
+            =# render partial: '/academic_records/canvas_enrollments_rows', locals: {enrollments: enrollments, k:k}
+
+          - rescue Exception => e
+            :javascript
+              console.log(`No se pudo cargar el recurso en Canvas: #{e}`)
+              alert(`No se pudo cargar el recurso en Canvas: #{e.to_s}`)
+
+          - if enrollments
+            - begin
+              - enrollments.each do |enroll| 
+                %tr
+                  %td= k
+                  // %td=# enroll['user_id']
+                  %td= enroll['user']['name'].to_s.split.map{|w| w.capitalize}.join(" ")
+                  - email = enroll['user']['login_id']
+                  %td= email
+                  %td= "#{sec['name']} (#{sec['id']})"
+                  - user = User.where(email: email).first
+                  - if user and es = user.student
+                    - if enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period.id}").first
+                      %td
+                        - if enrolled.inscription_status
+                          .label.label-info= enrolled.inscription_status.capitalize
+                          = link_to "/admin/academic_record/#{enrolled.id}", {type: 'button', class: 'tooltip-btn label label-info', title: 'Ir al detalle', data: {toggle: 'tooltip', placement: 'bottom'}} do
+                            %span.fa.fa-search-plus
+                      - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
+
+                        -# @partial_qualification = PartialQualification.where(academic_record_id: enrolled.id, qualification_schema_id: qs.id).first #_or_initialize
+                        -# @partial_qualification = PartialQualification.new(academic_record_id: enrolled.id, qualification_schema_id: qs.id)
+                        %td
+                          =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
+                      %td
+                        .form-group
+                          - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
+                          = text_field_tag "final#{enrolled.id}", enrolled.final_desc, class: "form-control form-control-sm mr-2 #{clase}", disabled: true, readonly: true, style: 'width:5em;'
+
+                    - else
+                      %td
+                        .label.label-warning No inscrito en el curso
+
+                        = link_to "/admin/student/#{es.id}", {type: 'button', class: 'tooltip-btn label label-info', title: 'Ir al detalle', data: {toggle: 'tooltip', placement: 'bottom'}} do
+                          %span.fa.fa-search-plus
+                  - else
+                    %td
+                      .label.label-danger Usuario no encontrado
+
+                - k+=1
+            - end while enrollments.more? and enrollments = enrollments.next_page!

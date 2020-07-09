@@ -10,6 +10,8 @@ class AcademicRecord < ApplicationRecord
   belongs_to :qualification_status, inverse_of: :academic_records
   has_one :payment_detail, inverse_of: :academic_record
 
+  has_many :partial_qualifications, inverse_of: :academic_record
+
   # has_one :carrer, through: :student, dependent: :destroy
 
   has_one :course_period, through: :section, dependent: :nullify
@@ -324,6 +326,19 @@ class AcademicRecord < ApplicationRecord
       else
         sprintf("%02i",final_qualification)
     end
+  end
+
+  def calculate_final
+    final = 0
+    self.partial_qualifications.each do |pq|
+      percent = pq.qualification_schema ? pq.qualification_schema.percentage*(0.01) : 0
+      final += percent*pq.value
+    end
+    return final.round
+  end
+
+  def update_final
+    self.update(final_qualification: calculate_final)
   end
 
   protected
