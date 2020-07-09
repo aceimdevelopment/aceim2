@@ -10,25 +10,44 @@ class QualificationSchema < ApplicationRecord
   validates_with TotalPercentageValidator
 
   def desc
-  	"#{name} (#{percentage}%)"
+    "#{name} (#{percentage}%)"
+  end
+
+  def eva
+    "EVA-#{sprintf("%02i",self.sequence)}"
   end
 
   rails_admin do
+    list do
+      field :period do 
+        label 'Periodo' 
+      end
+      field :name do
+        label 'Nombre'
+      end
+      field :sequence do
+        label 'Orden'
+      end
+      field :percentage do
+        label 'Porcentaje'
+      end
+    end
 
-  	edit do
-  		field :period do 
-  			label 'Periodo'
-  		end
-  		field :sequence do
-  			label 'Orden'
-  		end
-  		field :percentage do
-  			label 'Porcentaje'
-  		end
-  		field :name do
-  			label 'Nombre'
-  		end
-  	end
+
+    edit do
+      field :period do 
+        label 'Periodo'
+      end
+      field :sequence do
+        label 'Orden'
+      end
+      field :percentage do
+        label 'Porcentaje'
+      end
+      field :name do
+        label 'Nombre'
+      end
+    end
   end
 
 end

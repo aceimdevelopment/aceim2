@@ -1,16 +1,39 @@
-
+- course_period = section.course_period
+- enrollments = section.academic_records
 %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
-	%thead
-		%tr
-			%th CI
-			%th Apellidos
-			%th Nombre
-			%th Corrreo
-	%tbody
-		- enrollments.includes({student: :user}).order('users.last_name').each do |ar| 
-			- user = ar.student.user
-			%tr
-				%td= link_to ar.student.ci, "/admin/student/#{ar.student_id}"
-				%td= user.last_name
-				%td= user.name
-				%td= user.email
+  %thead
+    %tr.row
+      %th.col-md-1 CI
+      %th.col-md-1 Apellidos
+      %th.col-md-1 Nombre
+      %th.col-md-1 Corrreo
+      %th.col-md-1 Status
+      - course_period.period.qualification_schemas.each do |qs| 
+        %th.col-md-1.text-center
+          .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
+      %th.col-md-1.text-center Final
+  %tbody
+    - enrollments.includes({student: :user}).order('users.last_name').each do |enrolled| 
+      - user = enrolled.student.user
+      %tr.row
+        %td.col-md-1= link_to enrolled.student.ci, "/admin/student/#{enrolled.student_id}"
+        %td.col-md-1
+          .tooltip-btn{"data-toggle": :tooltip, title: user.last_name}= user.last_name.truncate(20)
+        %td.col-md-1
+          .tooltip-btn{"data-toggle": :tooltip, title: user.name}= user.name.truncate(20)
+        %td.col-md-1
+          .tooltip-btn{"data-toggle": :tooltip, title: user.email}= user.email.truncate(20)
+
+        - if enrolled.inscription_status
+          %td.col-md-1
+            .label.label-info= enrolled.inscription_status.capitalize
+
+        - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
+          %td.col-md-1
+            =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
+        %td.col-md-1
+          .form-group
+            - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
+            = text_field_tag "final#{enrolled.id}", enrolled.final_desc, class: "form-control form-control-sm mr-2 #{clase}", disabled: true, readonly: true, style: 'width:5em;'
+
+

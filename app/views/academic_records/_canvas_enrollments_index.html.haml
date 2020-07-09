@@ -21,15 +21,15 @@
   - k = 1
   %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
     %thead
-      %tr
-        %th #
-        %th Nombres
-        %th Email
-        %th Sec
-        %th Status Aceim
+      %tr.row
+        %th.col-md-1 #
+        %th.col-md-1 Nombres
+        %th.col-md-1 Email
+        %th.col-md-1 Sec
+        %th.col-md-1.text-center Status Aceim
         - course_period.period.qualification_schemas.each do |qs| 
-          %th= qs.desc
-        %th Final
+          %th.col-md-1.text-center= qs.desc
+        %th.col-md-1.text-center Final
 
     %tbody
       - if sections
@@ -47,17 +47,25 @@
           - if enrollments
             - begin
               - enrollments.each do |enroll| 
-                %tr
-                  %td= k
-                  // %td=# enroll['user_id']
-                  %td= enroll['user']['name'].to_s.split.map{|w| w.capitalize}.join(" ")
+                %tr.row
+                  %td.col-md-1= k
+                  // %td.col-md-1=# enroll['user_id']
+                  %td.col-md-1
+                    - name = enroll['user']['name'].to_s.split.map{|w| w.capitalize}.join(" ")
+                    .tooltip-btn{"data-toggle": :tooltip, title: name}
+                      = name
                   - email = enroll['user']['login_id']
-                  %td= email
-                  %td= "#{sec['name']} (#{sec['id']})"
+                  %td.col-md-1
+                    .tooltip-btn{"data-toggle": :tooltip, title: email}
+                      = email
+                  %td.col-md-1
+                    - sec_name = "#{sec['name']} (#{sec['id']})"
+                    .tooltip-btn{"data-toggle": :tooltip, title: sec_name}
+                      = sec_name
                   - user = User.where(email: email).first
                   - if user and es = user.student
                     - if enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period.id}").first
-                      %td
+                      %td.col-md-1
                         - if enrolled.inscription_status
                           .label.label-info= enrolled.inscription_status.capitalize
                           = link_to "/admin/academic_record/#{enrolled.id}", {type: 'button', class: 'tooltip-btn label label-info', title: 'Ir al detalle', data: {toggle: 'tooltip', placement: 'bottom'}} do
@@ -66,21 +74,21 @@
 
                         -# @partial_qualification = PartialQualification.where(academic_record_id: enrolled.id, qualification_schema_id: qs.id).first #_or_initialize
                         -# @partial_qualification = PartialQualification.new(academic_record_id: enrolled.id, qualification_schema_id: qs.id)
-                        %td
+                        %td.col-md-1
                           =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
-                      %td
+                      %td.col-md-1
                         .form-group
                           - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
                           = text_field_tag "final#{enrolled.id}", enrolled.final_desc, class: "form-control form-control-sm mr-2 #{clase}", disabled: true, readonly: true, style: 'width:5em;'
 
                     - else
-                      %td
+                      %td.col-md-1
                         .label.label-warning No inscrito en el curso
 
                         = link_to "/admin/student/#{es.id}", {type: 'button', class: 'tooltip-btn label label-info', title: 'Ir al detalle', data: {toggle: 'tooltip', placement: 'bottom'}} do
                           %span.fa.fa-search-plus
                   - else
-                    %td
+                    %td.col-md-1
                       .label.label-danger Usuario no encontrado
 
                 - k+=1
