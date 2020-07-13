@@ -16,7 +16,7 @@
   = render partial: "/bank_account/show", locals: {ar: ar}
 
 -if student
-  - if GeneralSetup.permitir_registros_nuevos and period.allow_enrollments?
+  - if GeneralSetup.permitir_registros_nuevos and period and period.allow_enrollments?
     .text-center
       - student.language_avaliables.each do |lan| 
         - cp = lan.first_course.course_periods.online.from_period(period.id).first
@@ -38,7 +38,7 @@
         - approved = career.last_level_approved
         = "(#{approved.level.name} Aprobado)" if approved
 
-        - if period.allow_enrollments? 
+        - if period and period.allow_enrollments? 
           - next_course = career.next_course_available
           - if next_course
             - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
