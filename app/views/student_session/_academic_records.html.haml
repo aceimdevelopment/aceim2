@@ -68,7 +68,8 @@
               %td.col-3= "#{ar.section.course.level.name} (#{ar.section.course_period.kind})"
               %td.col-1= ar.period_desc
               %td.col-1= ar.final_desc
-              %td.col-2= ar.qualification_status.name
+
+              %td.col-2= raw ar.label_fq
               %td.col-2
                 %span.badge.badge-info= ar.inscription_status.capitalize
               %td.col-3

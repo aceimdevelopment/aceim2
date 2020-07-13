@@ -9,7 +9,7 @@ class PartialQualification < ApplicationRecord
   private
 
   def set_final
-    self.academic_record.update_final
+    self.academic_record.update(final_qualification: self.academic_record.calculate_final)
   end
 
 end

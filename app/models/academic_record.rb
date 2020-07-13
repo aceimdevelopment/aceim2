@@ -45,6 +45,10 @@ class AcademicRecord < ApplicationRecord
   scope :from_periods_language, -> (period_ids, language_id){joins(:section).joins(:course_period).joins(:course).where("course_periods.period_id IN (?) AND courses.language_id = ?", period_ids, language_id)}
   scope :from_course_perido, -> (course_period_id) {joins(:section).joins(:course_period).where("course_periods.id = ?", course_period_id)}
 
+  # =========== CALLBACKS ====================#
+
+  before_update :set_qualification_status, :if => :final_qualification_changed?
+
   # ===========RAILS ADMIN ====================#
 
   rails_admin do
@@ -337,11 +341,42 @@ class AcademicRecord < ApplicationRecord
     return final.round
   end
 
-  def update_final
-    self.update(final_qualification: calculate_final)
+  def label_fq
+    if qualification_status_id.eql? PI or qualification_status_id.eql? 'RE'
+      aux = 'danger' 
+    elsif qualification_status_id.eql? 'AP'
+      aux = 'success'
+    else
+      aux = 'info'
+    end
+    "<span class='badge badge-#{aux}'>#{qualification_status.name}</span>"
+  end
+
+
+  def build_qualification_status_id
+    # aux = calculate_final
+    aux = self.final_qualification
+    aux_approved = 'SC'
+    if aux.eql? PI
+      aux_approved = 'PI'
+    elsif aux >= 15
+      aux_approved = 'AP'
+    elsif aux > 0 and aux < 15
+      aux_approved = 'RE'
+    end
+    return aux_approved
   end
 
   protected
+
+  def set_qualification_status
+    self.qualification_status_id = build_qualification_status_id
+  end
+
+  # OJO: ¡¡¡ATENCIÓN!!! AL INTENTAR REALIZAR LA ACCIÓN DEBAJO SE GENERA UN ABRAZO MORTAL, YA QUE SE ACTUALIZAN PARCIALES Y SE VUELVE A ACTUALIZAR FINAL. SOLUCIÓN: AGREGAR EN LA EDICIÓN DE ACADEMIC RECORD SOLO CALIFICACIONES PARCIALES Y NO FINAL
+  def set_partials_qualifications
+    self.partial_qualifications.each{|partial| partial.update(value: final_qualification.to_i)}
+  end
 
   def add_career
     unless Career.where(student_id: self.student_id, language_id: self.language.id).any?
