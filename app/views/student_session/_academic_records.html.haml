@@ -25,11 +25,11 @@
           - availables = cp.capacity - total_enrolls
           - disabled = (availables <= 0)
           - class_disadled = disabled ? 'disabled' : ''
-
+          - msg = disabled ? 'Sin cupos' : "#{availables}"
           - section = cp.sections.first
           = link_to "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: "#{class_disadled} btn btn-success m-2 tooltip-btn", 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", 'aria-disabled': disabled do
             = "¡Nuevo curso de #{lan.name.capitalize}!"
-            = "(cupos: #{availables})"
+            = "(cupos: #{msg})"
 
   - student.careers.each do |career| 
     .border.p-3.m-3
@@ -77,7 +77,7 @@
                     Planilla de Inscripción
                     %span.fa.fa-certificate
                 - if ar.online? and ar.confirmado? and ar.period.name.eql? '2020-A'
-                  = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+                  = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success ml-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
                     Encuenta
                     %span.fa.fa-external-link
                 - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
@@ -89,7 +89,7 @@
                   = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
                     Entrar a mi curso ONLINE
                     %span.fa.fa-external-link
-                - if ar.period.allow_enrollments? and ar.preinscrito? and ar.SC? and ar.payment_detail.nil?
+                - if ar.preinscrito? and ar.SC? and ar.payment_detail.nil?
                   = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning' do
                     %span.fa.fa-money
                     Reportar Pago
@@ -100,6 +100,7 @@
               - period_aux = current.period
               - if period_aux.enrollment?
                 -# period_aux = Period.where(year: '2020', letter: 'A').first
+
                 - online_course_period = CoursePeriod.online.where(period_id: period_aux.id, course_id: course_id_aux).first
                 - if online_course_period and !student.enrolled_course_period?(online_course_period.id)
                   - section = online_course_period.sections.first
