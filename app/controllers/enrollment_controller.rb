@@ -30,17 +30,17 @@ class EnrollmentController < ApplicationController
 					flash[:success] = '¡Inscripción realizada con éxito!'
 					# TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020
 					# period_id = section.course_period.period_id
-					period_ids = [12,25]
+					flash[:payment_accounts] = true
+					# period_ids = [12,25]
 
-					language_id = section.course_period.course.language_id
-					currents_course_period_no_online = student.academic_records.currents.from_language(language_id).from_periods(period_ids).first
-					if currents_course_period_no_online
-						currents_course_period_no_online.delete 
-						flash[:success_enrolled] = true
-						# "<h3> ¡Haz completado el primer paso satisfactoriamente!</h3><p>Te invitamos amablemente a realizar el pago correspondiente siguiendo los datos a continuación:</p>"
-					else
-						flash[:payment_accounts] = true
-					end
+					# language_id = section.course_period.course.language_id
+					# currents_course_period_no_online = student.academic_records.currents.from_language(language_id).from_periods(period_ids).first
+					# if currents_course_period_no_online
+					# 	currents_course_period_no_online.delete 
+					# 	flash[:success_enrolled] = true
+					# 	# "<h3> ¡Haz completado el primer paso satisfactoriamente!</h3><p>Te invitamos amablemente a realizar el pago correspondiente siguiendo los datos a continuación:</p>"
+					# else
+					# end
 				else
 					flash[:error] = "Error al intentar inscribir: #{record.errors.full_messages.to_sentence}"
 				end
