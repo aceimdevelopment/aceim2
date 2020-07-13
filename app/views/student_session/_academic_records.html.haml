@@ -25,11 +25,11 @@
           - availables = cp.capacity - total_enrolls
           - disabled = (availables <= 0)
           - class_disadled = disabled ? 'disabled' : ''
-          - msg = disabled ? 'Sin cupos' : "#{availables}"
+          - msg = disabled ? 'Sin cupos' : "#{availables} #{"cupo".pluralize(availables)}"
           - section = cp.sections.first
           = link_to "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: "#{class_disadled} btn btn-success m-2 tooltip-btn", 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", 'aria-disabled': disabled do
             = "¡Nuevo curso de #{lan.name.capitalize}!"
-            = "(cupos: #{msg})"
+            = "(#{msg})"
 
   - student.careers.each do |career| 
     .border.p-3.m-3
@@ -38,7 +38,7 @@
         - approved = career.last_level_approved
         = "(#{approved.level.name} Aprobado)" if approved
 
-        - if GeneralSetup.permitir_registros_nuevos and period.allow_enrollments? 
+        - if period.allow_enrollments? 
           - next_course = career.next_course_available
           - if next_course
             - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
