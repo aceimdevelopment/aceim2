@@ -38,16 +38,7 @@ class Section < ApplicationRecord
 
   # ========== RAILS ADMIN ============ #
 
-  # def render_partial(elements)
-  #   partial "user_state_partial", locals: {field: self}
-  # end
-
   rails_admin do
-    # inline_add true
-    # import do
-    #   mapping_key = [:period_id, :language_id, :level_id, :number]
-    #   mapping_key_list [:period_id, :language_id, :level_id, :number]
-    # end
 
     show do
       field :description do
@@ -63,35 +54,7 @@ class Section < ApplicationRecord
       field :records do
         label 'Inscripciones'
         formatted_value do
-
-          # bindings[:object].academic_records.map{|ar| "<p>#{ar.student.personal_identity_document},#{ar.student.user.name},#{ar.student.user.last_name}#{ar.student.user.email} </p>".html_safe}
-
           bindings[:view].render(partial: "table_academic_records_partial", locals: {section: self.bindings[:object]})
-
-          # field = bindings[:object]
-
-          # view.concat "HOLA MUNDO"
-          # view.content_tag :table, {class: 'table table table-striped table-sm table-hover table-bordered table-responsive-md mt-3'} do
-          #   view.content_tag :thead do
-          #     view.content_tag :tr do
-          #       view.content_tag( :th, 'CI' ) + 
-          #       view.content_tag( :th, 'Nombres' ) + 
-          #       view.content_tag( :th, 'Apellidos' ) + 
-          #       view.content_tag( :th, 'emails' )
-          #     end
-          #   end
-          #   view.content_tag :tbody do
-          #     view.content_tag :tr do
-          #       bindings[:object].academic_records.collect do |ar|
-          #         view.content_tag( :td, ar.student.personal_identity_document ) + 
-          #         view.content_tag( :td, ar.student.user.name ) + 
-          #         view.content_tag( :td, ar.student.user.last_name ) + 
-          #         view.content_tag( :td, ar.student.user.email )
-          #       end
-          #     end
-          #   end
-          # end
-
         end
       end
     end
@@ -115,10 +78,6 @@ class Section < ApplicationRecord
           Instructor.all.map{|inst| [inst.name, inst.id]}
         end
       end
-      # field :academic_records do
-      #   label 'Inscripciones'
-      #   partial "user_state_partial", locals: {field: self}
-      # end
 
     end
 
