@@ -73,7 +73,7 @@
               %td.col-2
                 %span.badge.badge-info= ar.inscription_status.capitalize
               %td.col-3
-                - if ar.confirmado?
+                - if ar.confirmado? and ar.SC?
                   = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Ver detalle Planilla de Inscripción', data: {toggle: 'tooltip'}} do
                     Planilla de Inscripción
                     %span.fa.fa-certificate
