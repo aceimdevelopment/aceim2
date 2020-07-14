@@ -37,7 +37,7 @@ class PaymentDetail < ApplicationRecord
 	# 	where("MATCH(ci, nombres, apellidos, email, telefono_habitacion, telefono_movil) AGAINST('#{clave}')")
 	# }
 
-	scope :my_custom_search, -> (keyword) {joins(academic_record: {student: :user}).where("students.personal_identity_document LIKE ? or users.name LIKE ? or users.email LIKE ? or users.last_name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%")}
+	scope :my_custom_search, -> (keyword) {joins(academic_record: {student: :user}).where("transaction_number LIKE ? or students.personal_identity_document LIKE ? or users.name LIKE ? or users.email LIKE ? or users.last_name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%")}
 	scope :unread_report, -> {where(read_report: false)}
 	scope :unread_confirmation, -> {where(read_confirmation: false)}
 
