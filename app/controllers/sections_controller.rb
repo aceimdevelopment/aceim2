@@ -3,6 +3,21 @@ class SectionsController < ApplicationController
 	before_action :authenticate_user!
 
 	def split 
+		require 'canvas-api'
+		begin
+    		canvas = MyCanvas.connect
+		rescue Exception => e
+			flash[:danger] = 'No es posible conectarse con Canvas'
+		end
+
+		begin
+			# section_canvas = canvas.create_section_on_canvas(@section)
+			sections = canvas.get("/api/v1/courses/#{@section.course_period.id_canvas}/sections").first
+			# @section
+		rescue Exception => e
+			flash[:errors] = "No fue posible crear la sección en Canvas: #{e}"
+		end
+
 		number_split = params[:number_split].to_i
 		total_groups = @section.academic_records.count/number_split
 		remainder = @section.academic_records.count%number_split
@@ -15,8 +30,16 @@ class SectionsController < ApplicationController
 			section_aux.number = @section.course_period.next_section_number
 
 			if section_aux.save
+				
 				total_new_sections += 1
 				@section.reload
+				begin
+					section_canvas = canvas.create_section_on_canvas(@section)
+					
+				rescue Exception => e
+					flash[:errors] = "No fue posible crear la sección en Canvas: #{e}"
+				end
+
 				if remainder > 0
 					aux = total_groups+1
 					remainder -=1
@@ -38,8 +61,9 @@ class SectionsController < ApplicationController
 		redirect_back fallback_location: rails_admin_path
 	end
 
-	private
 
+
+	private
       # Use callbacks to share common setup or constraints between actions.
 	def set_section
 		@section = Section.find(params[:id])

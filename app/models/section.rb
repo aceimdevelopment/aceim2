@@ -106,7 +106,7 @@ class Section < ApplicationRecord
       end
 
       field :url_classroom_canvas do
-        label 'Url Aula de Canvas'
+        label 'Url Automatricula Canvas'
       end
 
       field :open do
@@ -213,7 +213,7 @@ class Section < ApplicationRecord
       end
 
       field :aula do
-        label 'Aula Canvas'
+        label 'Url Automatricula Canvas'
         formatted_value{ bindings[:object].url_classroom_canvas.split("/").last if bindings[:object].url_classroom_canvas }
       end
     end
@@ -259,6 +259,14 @@ class Section < ApplicationRecord
   end
   def desc_short
     self.course_period ? "#{course_period.desc_short} #{number}" : self.id.to_s
+  end
+
+  def name_canvas
+    if course_period and course and number and course_period.kind
+      "#{course.language_id}-#{course.level_id}-#{number_to_string}-#{course_period.kind[0]}"
+    else
+      id
+    end
   end
 
   def name

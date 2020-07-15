@@ -47,7 +47,7 @@ class Period < ApplicationRecord
           end
         end
         field :canvas_autoregister do
-          label 'Autometricular Canvas'
+          label 'Automatricular Canvas'
           formatted_value do
             url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_autoregister"
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', url: url, to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister'})
