@@ -24,17 +24,17 @@ class ApplicationController < ActionController::Base
 		roles = []
 		roles << :administrador if current_user.administrator
 		roles << :student if current_user.student
-		# roles << :instructor if current_user.instructor
+		roles << :instructor if current_user.instructor
 
 		if roles.count > 1
 			params[:roles] = roles
 			select_role_home_index_path(roles: roles)
+		elsif current_user.administrator?
+			rails_admin_path
 		elsif current_user.student?
 			student_session_index_path
 		elsif current_user.instructor?
 			instructor_session_index_path
-		elsif current_user.administrator?
-			rails_admin_path
 		else
 			flash[:warning] = "No posee rol asignado. Por favor diríjase a un Administrador para cambiar dicha situación"
 			root_path 

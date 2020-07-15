@@ -4,6 +4,10 @@
 .content.p-5
 	%h2 Seleccione Rol:
 
-	%ol 
-		%li= link_to 'Administrador', rails_admin_path if current_user.administrator?
-		%li= link_to 'Estudiante', student_session_index_path if current_user.student?
+	%ol
+		- if current_user.administrator?
+			%li= link_to 'Administrador', rails_admin_path
+		- if current_user.student?
+			%li= link_to 'Estudiante', student_session_index_path 
+		- if current_user.instructor?
+			%li= link_to 'Instructor', instructor_session_index_path

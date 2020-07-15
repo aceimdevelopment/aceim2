@@ -1,3 +1,4 @@
+
 - cutable = section.academic_records.count < 2
 - if cutable
 	- msg = 'No tiene suficiantes inscritos para distribuirlos'
@@ -6,14 +7,15 @@
 .label.label-success.ml-5.p-3
 	Total Inscritos: 
 	= section.academic_records.count
-.pull-right.tooltip-btn{"data-toggle": :tooltip, title: msg}
-	= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
-		.input-group
-			= number_field_tag :number_split, 2, class: 'form-control input-small mr-3', in: 2...20, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable
-			%span.input-group-btn
-				= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
-					%i.fa.fa-cut
-					Distribuir Sección
+- if current_user.administrator? and current_user.administrator.high_authotization?
+	.pull-right.tooltip-btn{"data-toggle": :tooltip, title: msg}
+		= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
+			.input-group
+				= number_field_tag :number_split, 2, class: 'form-control input-small mr-3', in: 2...20, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable
+				%span.input-group-btn
+					= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
+						%i.fa.fa-cut
+						Distribuir Sección
 - # No incluimos si la section está open ya qué es para otros fines
 
 = render partial: '/academic_records/index', locals: {section: section}

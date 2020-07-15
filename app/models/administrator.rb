@@ -13,6 +13,10 @@ class Administrator < ApplicationRecord
   validates :role, presence: true
   after_destroy :check_user_for_destroy
 
+  def high_authotization?
+    yo? or super_role?
+  end
+
 
   def yo?
     self.user.email.eql? 'moros.daniel@gmail.com'

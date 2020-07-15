@@ -1,38 +1,38 @@
 - course_period = section.course_period
 - enrollments = section.academic_records
-%table.table
+
+%table.table.table-striped.table-sm.table-hover{style: 'width: 100%;overflow: scroll;', align: :center}
+  %thead
+    %tr
+      %th CI
+      %th Apellidos
+      %th Nombre
+      %th{style: 'width:auto'} Corrreo
+      %th Status
+      - if current_user.administrator? and current_user.administrator.high_authotization?
+        - course_period.period.qualification_schemas.each do |qs| 
+          %th.text-center
+            .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
+      %th.text-center Final
   %tbody
-    %tr.row.scrolling
-      %td.col-md-1 CI
-      %td.col-md-1 Apellidos
-      %td.col-md-1 Nombre
-      %td.col-md-1 Corrreo
-      %td.col-md-1 Status
-      - course_period.period.qualification_schemas.each do |qs| 
-        %td.col-md-1.text-center
-          .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
-      %td.col-md-1.text-center Final
-%table.table.table-striped.table-sm.table-hover.mt-3      
-  %tbody.scrolling
     - enrollments.includes({student: :user}).order('users.last_name').each do |enrolled| 
       - user = enrolled.student.user
-      %tr.row
-        %td.col-md-1= link_to enrolled.student.ci, "/admin/student/#{enrolled.student_id}"
-        %td.col-md-1
-          .tooltip-btn{"data-toggle": :tooltip, title: user.last_name}= user.last_name.truncate(20)
-        %td.col-md-1
-          .tooltip-btn{"data-toggle": :tooltip, title: user.name}= user.name.truncate(20)
-        %td.col-md-1
-          .tooltip-btn{"data-toggle": :tooltip, title: user.email}= user.email.truncate(20)
-
+      %tr
+        %td= link_to enrolled.student.ci, "/admin/student/#{enrolled.student_id}"
+        %td
+          .tooltip-btn{"data-toggle": :tooltip, title: user.last_name}= user.last_name
+        %td
+          .tooltip-btn{"data-toggle": :tooltip, title: user.name}= user.name
+        %td{style: 'width:auto'}
+          .tooltip-btn{"data-toggle": :tooltip, title: user.email}=user.email
         - if enrolled.inscription_status
-          %td.col-md-1
+          %td
             .label.label-info= enrolled.inscription_status.capitalize
-
-        - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
-          %td.col-md-1
-            =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
-        %td.col-md-1
+        - if current_user.administrator? and current_user.administrator.high_authotization?
+          - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
+            %td
+              =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
+        %td
           .form-group
             - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
             = text_field_tag "final#{enrolled.id}", enrolled.final_desc, class: "form-control form-control-sm mr-2 #{clase}", disabled: true, readonly: true, style: 'width:5em;'

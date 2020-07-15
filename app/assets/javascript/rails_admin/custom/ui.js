@@ -4,6 +4,7 @@
 $(document).ready(function() {
 	$('[rel="tooltip"]').tooltip()
 	$('.tooltip-btn').tooltip()
+	$('.popover').popover()
 });
 
 function sendForm(id, responseFieldId) {

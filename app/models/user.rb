@@ -46,6 +46,31 @@ class User < ApplicationRecord
     #   # field :password
     # end
 
+    list do
+      checkboxes false
+      sort_by :name
+      field :last_name do
+        label 'Apellidos'
+      end
+      field :name do
+        label 'Nombre'
+      end
+      field :email do
+        label 'Correo'
+      end
+      field :number_phone do
+        label 'Número Telefónico'
+      end
+      field :administrator do
+        label 'Administrador'
+      end
+      field :student do
+        label 'Estudiante'
+      end
+      field :instructor do
+        label 'Instructor'
+      end
+    end
     show do
       field :description do
         label 'Descripción'

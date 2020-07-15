@@ -170,7 +170,7 @@ class AcademicRecord < ApplicationRecord
     list do
       checkboxes false
       items_per_page 60
-      scopes [:preinscrito, :confirmado, nil]
+      # scopes [:preinscrito, :confirmado, nil]
 
       # field :inscription_status do
       #   label 'Estado'

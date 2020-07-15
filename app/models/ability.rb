@@ -17,6 +17,7 @@ class Ability
 
     alias_action :create, :read, :update, :export, to: :cru
     alias_action :read, :update, to: :ru
+    alias_action :create, :read, to: :cr
 
     if user.administrator?
         can :access, :rails_admin
@@ -29,12 +30,12 @@ class Ability
             can :read, [Course]
         elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
-            can :cru, [Bank, BankAccount, User]
-            can :cru, [PaymentDetail]
-            can :read, [Student]
+            can :cru, [Bank, BankAccount, PaymentDetail]
+            can :read, [Student, User]
         elsif user.administrator.superadmin?
-            can :cru, [User, Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema]
+            can :cru, [Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema]
             can :read, [Period, CoursePeriod, Agreement]
+            can :cr, [User]
             # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
             # can :create, [Bank, Period, CoursePeriod, Agreement]
             # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]

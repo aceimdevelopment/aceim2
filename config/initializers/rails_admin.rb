@@ -30,10 +30,22 @@ RailsAdmin.config do |config|
   end
 
 
+  # ActiveRecord::Base.connection.tables.each do |model|
+    
+  #   config.model "#{model.capitalize.singularize.camelize}" do
+  #     list do
+  #       checkboxes false
+  #       exclude_fields :created_at, :updated_at
+  #     end
+  #   end
+
+  # end
+
 
   # ActiveRecord::Base.descendants.each do |imodel| 
   #   config.model "#{imodel.name}" do
   #     list do
+  #       checkboxes false
   #       exclude_fields :created_at, :updated_at
   #     end
   #   end
@@ -72,7 +84,7 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index do                        # mandatory
-      except [User, QualificationStatus, QualificationDetail, Career, Course, PartialQualification]
+      except [QualificationStatus, QualificationDetail, Career, Course, PartialQualification]
       # Estudiar comportamiento: https://github.com/sferik/rails_admin/blob/master/lib/rails_admin/config/actions/base.rb
       # show_in_sidebar [User, Section]
     end
