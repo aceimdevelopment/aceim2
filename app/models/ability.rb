@@ -33,8 +33,8 @@ class Ability
             can :cru, [Bank, BankAccount, PaymentDetail]
             can :read, [Student, User]
         elsif user.administrator.superadmin?
-            can :cru, [Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema]
-            can :read, [Period, CoursePeriod, Agreement]
+            can :cru, [Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema, CoursePeriod]
+            can :read, [Period, Agreement]
             can :cr, [User]
             # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
             # can :create, [Bank, Period, CoursePeriod, Agreement]
