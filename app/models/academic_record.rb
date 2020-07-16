@@ -253,6 +253,10 @@ class AcademicRecord < ApplicationRecord
   #   course.level.name if course
   # end
 
+  def user
+    student.user
+  end
+
   def export_agreement
     agreement.name if agreement
   end

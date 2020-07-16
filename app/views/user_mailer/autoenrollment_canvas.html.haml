@@ -1,0 +1,20 @@
+
+
+%h3{style: 'color: #6F9BED;'}
+  Estimado(a)
+  = @ar.user.name
+
+.content{style: 'text-align: justify;'}
+  %p 
+    Gusto en saludarle, por favor, ingrese a su usuario de 
+    = link_to 'ACEIM', 'https://fundeim.com/users/sign_in'
+    para realizar su registro en su aula de CANVAS correspondiente a su curso
+%h2{style: 'text-align: center;'}= "#{@ar.course_period.description_inscription}."
+.content{style: 'text-align: justify;'}
+  %p 
+    Para mayores detalles puede ver el 
+    %b
+      %i video tutorial para CANVAS
+    que aparece en su usuario de ACEIM
+
+  %p Saludos cordiales.

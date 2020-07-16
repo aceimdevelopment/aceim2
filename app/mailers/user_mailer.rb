@@ -12,6 +12,15 @@ class UserMailer < ApplicationMailer
 
   end
 
+  def autoenrollment_canvas(enrollment)
+    # @ar = AcademicRecord.find enrollment_id
+    @ar = enrollment
+    mail(to: @ar.user.email,
+    # bcc: 'saavedraazuaje73@gmail.com',
+    subject: "Automatricularse en Canvas",
+    content_type: "text/html")
+  end
+
   def general_email(ids)
     ids += [1,2]
     @users = User.find(ids)

@@ -6,7 +6,11 @@ class PeriodsController < ApplicationController
 	def onoff_switch
 		case params[:function_to_switch]
 		when 'canvas_autoregister' 
-			@period.enabled_autoregister_canvas_link = !@period.enabled_autoregister_canvas_link 	
+			@period.enabled_autoregister_canvas_link = !@period.enabled_autoregister_canvas_link
+
+			@period.academic_records.confirmado.each do |ar|
+				UserMailer.autoenrollment_canvas(ar).deliver
+			end
 		when 'canvas_login' 
 			@period.enabled_login_canvas_link = !@period.enabled_login_canvas_link
 		when 'enrollment'

@@ -1,0 +1,15 @@
+- if GeneralSetup.permitir_registros_nuevos and period and period.allow_enrollments?
+  .text-center
+    - student.language_avaliables.each do |lan| 
+      - cp = lan.first_course.course_periods.online.from_period(period.id).first
+      - if cp.sections.any?
+        - total_enrolls = cp.academic_records.preinscrito.count
+        - availables = cp.capacity - total_enrolls
+        - disabled = (availables <= 0)
+        - class_disadled = disabled ? 'disabled' : ''
+        - msg = disabled ? 'Sin cupos' : "#{availables} #{"cupo".pluralize(availables)}"
+        - section = cp.sections.first
+        = link_to "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: "#{class_disadled} btn btn-success m-2 tooltip-btn", 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", 'aria-disabled': disabled do
+          = "¡Nuevo curso de #{lan.name.capitalize}!"
+          = "(#{msg})"
+

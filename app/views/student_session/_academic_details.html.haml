@@ -1,0 +1,25 @@
+- #OJO: REEMPLAZAR POR PERIOD DE INSCRIPCION
+- period = Period.where(enrollment: true).last
+%h5.p-2.my-5.bg-dark.text-white.text-center= "Dashboard - #{@user.description}"
+- student = @user.student
+
+- if flash[:success_enrolled]
+  .alert.alert-success
+    %h3 ¡Haz completado el primer paso satisfactoriamente!
+    %p 
+      Te invitamos amablemente a estar pendiente de las publicaciones que haremos en nuestra cuenta en twitter 
+      = link_to '@fundeim', 'https://twitter.com/Fundeim' 
+      sobre el siguiente paso: 
+      %b la automatriculación en su curso ONLINE en la plataforma CANVAS.
+- ar = student.academic_records.preinscrito.reject{|ar| !ar.payment_detail.nil?}.first
+- if ar
+  = render partial: "/bank_account/show", locals: {ar: ar}
+
+-if student
+  = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
+  
+
+  - student.careers.each do |career| 
+    .border.p-3.m-3
+      = render partial: "/student_session/enrollment_to_level", locals: {career: career, period: period, student: student}
+      = render partial: "/student_session/academic_records", locals: {career: career}

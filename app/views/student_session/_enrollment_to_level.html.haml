@@ -1,0 +1,18 @@
+%h4
+  = career.language.name 
+  - approved = career.last_level_approved
+  = "(#{approved.level.name} Aprobado)" if approved
+
+  - if period and period.allow_enrollments? 
+    - next_course = career.next_course_available
+    - if next_course
+      - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
+      - if cp  and !student.enrolled_course_period?(cp.id)
+        - total_enrolls = cp.academic_records.preinscrito.count
+        - if total_enrolls <= cp.capacity
+          - section = cp.sections.first
+          - if section
+            %td
+              %b= " Nivel Online Disponible: "
+
+              = link_to "¡Inscríbite ahora! (#{period.name})", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"

@@ -20,19 +20,25 @@ class PaymentDetailsController < ApplicationController
 
 		if ar.save
 			flash[:success] = '¡Cambio realizado con éxito!'
+			
+
 			begin
+				if ar.section.period.enabled_autoregister_canvas_link and ar.confirmado? and UserMailer.autoenrollment_canvas(ar).deliver
+					flash[:success] += 'Correo de automatriculación en Canvas enviado al estudiante.'
+				end
+
 				if PaymentDetailMailer.send_payment_confirmed(@payment_detail.id).deliver
-					flash[:success] += ' Correo enviado al estudiante'
+					flash[:success] += ' Correo de pago enviado al estudiante.'
 				else
 					flash[:error] = "Problemas el intentar enviar el correo."
 				end
 			rescue Exception => e
-				flash[:error] = "Problemas el intentar enviar el correo: #{e}"
+				flash[:error] = "Problemas el intentar enviar el correo: #{e}."
 			end			
 			# type = 'success'
 			# msg = '¡Cambio realizado con éxito!'
 		else
-			flash[:error] = 'No se puydo guardar el cambio. Por favor inténtelo de nuevo'
+			flash[:error] = 'No se puydo guardar el cambio. Por favor inténtelo de nuevo.'
 			# type = 'danger'
 			# msg = 'No se puydo guardar el cambio.'
 		end

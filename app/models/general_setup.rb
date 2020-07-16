@@ -1,5 +1,11 @@
 class GeneralSetup < ApplicationRecord
 
+  def self.video_tuto_canvas
+    aux = GeneralSetup.where(id: "VIDEO_TUTORIAL_CANVAS").first
+    aux.value ? aux.value : '#'
+  end
+
+
 	def self.permitir_registros_nuevos
 		aux = GeneralSetup.where(id: "PERMITIR_NUEVOS_REGISTROS").first
 		(aux and aux.value.eql? 'SI')

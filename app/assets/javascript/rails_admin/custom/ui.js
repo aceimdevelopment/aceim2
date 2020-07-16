@@ -35,8 +35,23 @@ function sendForm(id, responseFieldId) {
 // }
 
 
-function switches(url) {
+function switches(url, alert=false) {
+	var send = true
+	if (alert != false) {
+		send = confirm(alert);
+	}
 
+	if (send == true){
+		sendData(url);
+		console.log(alert)
+	} else {
+		// console.log('Pa tras')
+		// this.preventDefault()
+		// this.stopPropagation()
+	}
+}
+
+function sendData(url){
 	toastr.options.timeOut = 1500;
 	$.ajax({
 		url: url,
@@ -51,8 +66,8 @@ function switches(url) {
 			if (json.type == 'error') {
 				obj.prop('checked', !obj[0].checked)
 				toastr.error(json.data)
-			} else { 
-				toastr.success(json.data) 
+			} else {
+				toastr.success(json.data)
 			}
 		},
 		error: function(json) {
