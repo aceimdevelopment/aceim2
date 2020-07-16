@@ -29,16 +29,15 @@
               %span.fa.fa-external-link
           - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
 
-            = link_to GeneralSetup.video_tuto_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success btn-circle mb-3 mr-2', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip, placement: :buttom}, targat: '_black'} do
+            = link_to GeneralSetup.video_tuto_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success my-3 mr-2', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
               Video Tutorial para Canvas
               %span.fa.fa-play-circle
-              %span.fa.fa-external-link
-            = link_to ar.section.url_classroom_canvas, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle mb-3', title: 'Haz clíc aquí para automatricularte a tu curso en CANVAS', data: {toggle: :tooltip, placement: :bottom}, target: "_blank"} do
-              Automatricúlarme a mi curso ONLINE
+            = link_to ar.section.url_classroom_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success', title: 'Haz clíc aquí para automatricularse a tu curso en CANVAS', data: {toggle: :tooltip, placement: :bottom}, target: "_blank"} do
+              Automatricularme a mi curso ONLINE
               %span.fa.fa-external-link
           - if ar.period.enabled_login_canvas_link and ar.confirmado? and ar.course_period.online? and ar.SC?
             - url = GeneralSetup.url_canvas_login
-            = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success btn-circle', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+            = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
               Entrar a mi curso ONLINE
               %span.fa.fa-external-link
           - if ar.preinscrito? and ar.SC? and ar.payment_detail.nil?
