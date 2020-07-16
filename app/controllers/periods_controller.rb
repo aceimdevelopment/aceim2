@@ -14,9 +14,9 @@ class PeriodsController < ApplicationController
 		end
 
 		if @period.save
-			if params[:function_to_switch]
+			if @period.enabled_autoregister_canvas_link
 				@period.academic_records.confirmado.each do |ar|
-					UserMailer.autoenrollment_canvas(ar).deliver
+					UserMailer.autoenrollment_canvas(ar)#.deliver
 				end
 			end
 			type = 'success'

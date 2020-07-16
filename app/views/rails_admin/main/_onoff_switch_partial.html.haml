@@ -1,9 +1,9 @@
-= render 'layouts/toastr_alert'
+=# render 'layouts/toastr_alert'
 
 = content_tag :b, class: 'tooltip-btn', 'data_toggle': :tooltip, title: titulo do
   .onoffswitch
-    - onChange = "switches('#{url}', '#{alert}');"
-    = check_box nil, :activa, checked: to_checked, class: 'onoffswitch-checkbox', id: "idSwitch#{id_html}#{virtual_object.id}", onChange: onChange
+    = check_box nil, :activa, checked: to_checked, class: 'onoffswitch-checkbox', id: "idSwitch#{id_html}#{virtual_object.id}", alert: alert, url: url
     %label.onoffswitch-label{for: "idSwitch#{id_html}#{virtual_object.id}"}
       %span.onoffswitch-inner
       %span.onoffswitch-switch
+.div{id: "message#{id_html}#{virtual_object.id}"}
