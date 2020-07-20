@@ -1,6 +1,17 @@
 - course_period = section.course_period
 - enrollments = section.academic_records
 
+- begin
+  - if section.course_period.id_canvas
+    - canvas = MyCanvas.connect
+    - enrollments_canvas = canvas.get("/api/v1/courses/2019062/enrollments", {per_page: 50, role: "StudentEnrollment"})
+    - emails = enrollments_canvas.map{|ele| ele['user']['login_id']}
+- rescue Exception => e
+  :javascript
+    console.log(`No se pudo cargar el recurso en Canvas: #{e}`)
+    alert(`No se pudo cargar el recurso en Canvas: #{e.to_s}`)
+
+%h1.label.label-info= emails.join(" | ")
 %table.table.table-striped.table-sm.table-hover{style: 'width: 100%;overflow: scroll;', align: :center}
   %thead
     %tr
@@ -10,6 +21,8 @@
       %th{style: 'width:auto'} Corrreo
       %th Status
       - if current_user.administrator? and current_user.administrator.high_authotization?
+        - if emails and emails.any?
+          %th Canvas
         - course_period.period.qualification_schemas.each do |qs| 
           %th.text-center
             .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
@@ -29,6 +42,17 @@
           %td
             .label.label-info= enrolled.inscription_status.capitalize
         - if current_user.administrator? and current_user.administrator.high_authotization?
+          - if emails and emails.any?
+            %td
+              - if emails.include? user.email
+                .tooltip-btn{"data-toggle": :tooltip, title: 'Inscrito en el curso de Canvas'}
+                  %span.label.label-success
+                    .fa.fa-check
+              - else
+                .tooltip-btn{"data-toggle": :tooltip, title: 'No encontrado en el curso de Canvas'}
+                  %span.label.label-danger
+                    .fa.fa-times
+
           - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
             %td
               =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
