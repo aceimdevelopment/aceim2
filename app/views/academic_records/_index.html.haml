@@ -5,7 +5,7 @@
   - id = section.course_period.id_canvas
   - if id
     - canvas = MyCanvas.connect
-    - enrollments_canvas = canvas.get("/api/v1/courses/#{id}/enrollments", {per_page: 50, role: "StudentEnrollment"})
+    - enrollments_canvas = canvas.get("/api/v1/courses/#{id}/enrollments", {per_page: 150, role: "StudentEnrollment"})
     - emails = enrollments_canvas.map{|ele| ele['user']['login_id']}
 - rescue Exception => e
   :javascript
