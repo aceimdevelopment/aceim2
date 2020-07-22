@@ -1,0 +1,16 @@
+
+%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th CI
+			%th Nombre
+			%th Email
+			%th Teléfono
+			%th Ubicación
+	%tbody
+		%tr
+			%td= object.ci
+			%td= object.user.full_name_invert
+			%td= object.user.email
+			%td= object.user.number_phone
+			%td= object.location

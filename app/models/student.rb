@@ -55,13 +55,12 @@ class Student < ApplicationRecord
     end
 
     show do
-      field :name do
+      field :description do
         label 'Descripción'
         # css_class 'bg-dark text-white'
-      end
-      
-      field :location do
-        label 'Ubicación'
+        formatted_value do
+          bindings[:view].render(partial: "table_personal_info", locals: {object: self.bindings[:object]})
+        end
       end
 
       field :careers do
