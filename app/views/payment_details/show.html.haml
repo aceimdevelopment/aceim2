@@ -1,0 +1,11 @@
+%br
+%h5.p-2.mt-5.bg-dark.text-white.text-center= "Dashboard - #{@user.description}"
+.d-flex.justify-content-center
+  = link_to student_session_index_path(@payment_detail.student.id), class: 'btn btn-sm btn-secondary m-3' do
+    %span.fa.fa-backward
+    Volver
+  = link_to payment_detail_path(@payment_detail.id, format: :pdf), class: 'btn btn-sm btn-primary m-3' do
+    %span.fa.fa-file-pdf-o
+    Pdf
+.d-flex.justify-content-center
+  = render '/payment_details/bill_detail'

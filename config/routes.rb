@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       get 'confirm'
       get 'read_report'
+      get 'generate_pdf'
     end
 
   end

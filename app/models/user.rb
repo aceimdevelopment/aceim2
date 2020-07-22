@@ -151,8 +151,12 @@ class User < ApplicationRecord
     "#{name} #{last_name}"
   end
 
+  def full_name_invert
+    "#{last_name}, #{name}"
+  end
+
   def description
-    "#{last_name}, #{name} (#{email})"
+    "#{full_name_invert} (#{email})"
   end
 
   def password_required?

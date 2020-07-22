@@ -21,7 +21,7 @@ class AcademicRecordsController < ApplicationController
 
 	def certificate
 		pdf = PdfDocs.certificate(@academic_record)
-		unless send_data pdf.render, filename: "planilla_inscripcion_#{params[:id].to_s}.pdf", type: "application/pdf", disposition: "attachment"
+		unless send_data pdf.render, filename: "planilla_inscripcion_#{params[:id].to_s}.pdf", type: "application/pdf", disposition: "inline"
 			flash[:error] = "En estos momentos no se pueden descargar el acta, intentelo más tarde."
 		end
 		return

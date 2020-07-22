@@ -2,6 +2,61 @@ class PdfDocs
   include ActionView::Helpers::NumberHelper
   include Prawn::View
 
+  def self.bill_payment payment_detail
+    pdf = Prawn::Document.new(top_margin: 50)
+
+    pdf.image "app/assets/images/logo_ucv.png", height: 60, valign: :top, at: [10,710]
+    pdf.text "<b>FACTURA PROFORMA</b>", align: :right, size: 15,inline_format: true
+    pdf.move_down 20
+    pdf.text "<b>#{sprintf('%05i', payment_detail.id)}</b>", align: :right, size: 14, inline_format: true
+    pdf.move_down 20
+    data = [["<b>#{BankAccount.first.holder}<b>", "<b>Fecha: </b> #{payment_detail.created_at.strftime('%d/%m/%Y')}"]]
+
+    data << ["<b>#{GeneralSetup.fundeim_location_value}<b>", "<b>Cliente: </b> #{payment_detail.client_description}"]
+    pdf.table data do |t|
+      t.width = 540
+      t.header = false
+      t.cell_style = {inline_format: true, size: 12, padding: 2, padding: 3, border_color: 'FFFFFF'}
+      # t.column(2).style(:align => :justify)
+      t.column(0).style(align: :left)
+      t.column(1).style(align: :right)
+      t.column(1).width = 200
+      # t.column(1).style(:font_style => :bold)
+    end
+
+    pdf.move_down 80
+
+    data = [["<b>Descripción<b>", "<b>Importe </b>"]]
+
+    total_bs = ActionController::Base.helpers.number_to_currency(payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
+
+    data << [payment_detail.course_description, total_bs]
+
+    data << ['<b>TOTAL PROFORMA (Bs.S):</b>', "<b>#{total_bs}</b>"]
+
+    pdf.table data do |t|
+      t.position = :center
+      t.width = 450
+      t.header = true
+      t.row_colors = ["F8F8FE", nil, nil]
+      t.cell_style = {inline_format: true, size: 12, padding: 2, padding: 10, border_color: 'FFFFFF', valign: :center}
+      # t.column(2).style(:align => :justify)
+      t.row(0).style(background_color: "DCDCDC")
+      t.column(0).style(align: :left)
+      t.column(1).row(0).style(align: :center)
+      t.column(1).row(1).style(align: :right)
+      t.column(1).width = 150
+      t.row(2).style(size: 14, align: :right, border_color: 'FFFFFF')
+
+      # t.column_widths = {0 => 5, 2 => 120}
+      # t.column(1).style(:font_style => :bold)
+    end
+
+
+    return pdf
+
+  end
+
   def self.certificate academic_record
     pdf = Prawn::Document.new(top_margin: 20)
     content_academic pdf, academic_record

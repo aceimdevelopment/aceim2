@@ -230,6 +230,13 @@ class PaymentDetail < ApplicationRecord
 		end
 	end
 
+	def client_description
+		aux = ''
+		aux += "(#{student.ci}) " if student and !student.ci.blank?
+		aux += "#{user.full_name_invert}"
+		return aux
+	end
+
 	def course_description
 		aux = academic_record.section.course_period
 		"#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"

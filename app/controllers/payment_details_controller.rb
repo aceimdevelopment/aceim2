@@ -2,7 +2,7 @@ class PaymentDetailsController < ApplicationController
 
 	before_action :authenticate_user!
 
-	before_action :set_payment_detail, only: [:confirm, :show, :read_report]
+	before_action :set_payment_detail, only: [:confirm, :show, :read_report, :generate_pdf]
 
 	def read_report
 		@payment_detail.update(read_report: true)
@@ -56,12 +56,19 @@ class PaymentDetailsController < ApplicationController
 		else
 			@payment_detail = PaymentDetail.new
 			@payment_detail.academic_record_id = @academic_record.id
-			@user = current_user
+			@user = @academic_record.user
 		end
 	end
 
 	def show
-		
+		@user = @payment_detail.user
+		respond_to do |format|
+			format.html
+			format.pdf do 
+				pdf = PdfDocs.bill_payment(@payment_detail)
+				send_data pdf.render, filename: "factura_#{params[:id].to_s}.pdf", type: "application/pdf", disposition: "inline"
+			end
+		end
 	end
 
 	def create
