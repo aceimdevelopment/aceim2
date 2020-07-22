@@ -14,6 +14,7 @@ class PdfDocs
 
     data << ["<b>#{GeneralSetup.fundeim_location_value}<b>", "<b>Cliente: </b> #{payment_detail.client_description}"]
     data << ["<b>#{GeneralSetup.fundeim_phone_value}<b>", ]
+    data << ["<b>#{GeneralSetup.fundeim_email_value}<b>", ]
 
     pdf.table data do |t|
       t.width = 540
@@ -24,7 +25,8 @@ class PdfDocs
       t.column(1).style(align: :right)
       t.row(1).style(size: 10)
       t.row(2).style(size: 10)
-      t.column(1).width = 200
+      t.row(3).style(size: 10)
+      t.column(1).width = 270
       # t.column(1).style(:font_style => :bold)
     end
 

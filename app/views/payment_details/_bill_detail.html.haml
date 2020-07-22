@@ -8,15 +8,18 @@
     %tbody
       %tr
         %th{style: 'text-align:left;paddin-left: 3px;font-weight: bold;'}= BankAccount.first.holder
-        %td{align: :right, style: 'width: 39%;font-size: 12px;'}
+        %td{align: :right, style: 'width: 50%;font-size: 12px;'}
           %b Fecha:
           = @payment_detail.created_at.strftime('%d/%m/%Y')
       %tr
-        %th{style: 'text-align:left;padding-right: 50px;font-size: 10px;'}
+        %th{style: 'text-align:left;padding-right: 20px;font-size: 10px;'}
           = GeneralSetup.fundeim_location_value
           %br
           = GeneralSetup.fundeim_phone_value
-        %td{align: :right, style: 'width: 39%;font-size: 12px;'}
+          %br
+          = GeneralSetup.fundeim_email_value
+
+        %td{align: :right, style: 'width: 50%;font-size: 12px;'}
           %b Cliente:
           = @payment_detail.client_description
   %br
