@@ -20,12 +20,11 @@
         %td.col-2
           %span.badge.badge-info= ar.inscription_status.capitalize
         %td.col-3
-          - if ar.confirmado? and ar.SC?
+          - if !ar.preinscrito? and ar.SC?
             = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Generar y Descargar Planilla de Inscripción', data: {toggle: 'tooltip'}} do
               Planilla de Inscripción
               %span.fa.fa-certificate
             - if ar.payment_detail
-
               = link_to ar.payment_detail,{type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Ver Factura Proforma', data: {toggle: 'tooltip'}} do
                 Factura
                 %span.fa.fa-money
@@ -33,15 +32,17 @@
             = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success ml-2 mb-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
               Encuenta
               %span.fa.fa-external-link
-          - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
-
+          - if ar.period.enabled_autoregister_canvas_link and !ar.preinscrito? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
             = link_to GeneralSetup.video_tuto_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
               Video Tutorial para Canvas
               %span.fa.fa-play-circle
+
+          - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
+
             = link_to ar.section.url_classroom_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Haz clíc aquí para automatricularse a tu curso en CANVAS', data: {toggle: :tooltip, placement: :bottom}, target: "_blank"} do
               Automatricularme a mi curso ONLINE
               %span.fa.fa-external-link
-          - if ar.period.enabled_login_canvas_link and ar.confirmado? and ar.course_period.online? and ar.SC?
+          - if ar.period.enabled_login_canvas_link and ar.asignado? and ar.course_period.online? and ar.SC?
             - url = GeneralSetup.url_canvas_login
             = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
               Entrar a mi curso ONLINE
