@@ -212,6 +212,10 @@ class Section < ApplicationRecord
         label 'CONF'
       end
 
+      field :canvas do
+        label 'CANVAS'
+      end
+
       field :aula do
         label 'Url Automatricula Canvas'
         formatted_value{ bindings[:object].url_classroom_canvas.split("/").last if bindings[:object].url_classroom_canvas }
@@ -232,6 +236,11 @@ class Section < ApplicationRecord
   def enrolled
     academic_records.confirmado.count
   end
+
+  def canvas
+    academic_records.asignado.count
+  end
+
 
   def course_period_kind
     course_period.kind if course_period

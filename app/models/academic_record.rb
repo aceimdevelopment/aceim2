@@ -371,6 +371,15 @@ class AcademicRecord < ApplicationRecord
     return aux_approved
   end
 
+  def check_canvas_enrollment
+    begin
+      emails = self.course_period.canvas_email_list
+      self.update(inscription_status: :asignado) if (emails.any? and (emails.include? self.user.email))
+    rescue Exception => e
+      e
+    end
+  end
+
   protected
 
   def set_qualification_status

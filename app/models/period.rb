@@ -38,6 +38,9 @@ class Period < ApplicationRecord
         field :total_enrollment do
           label 'Confirmados'
         end
+        field :total_assigned do
+          label 'Regi Canvas'
+        end
 
         field :enrollments do
           label 'Preinscripciones'
@@ -115,6 +118,10 @@ class Period < ApplicationRecord
 
     def total_enrollment
       academic_records.confirmado.count
+    end
+
+    def total_assigned
+      academic_records.asignado.count
     end
 
 

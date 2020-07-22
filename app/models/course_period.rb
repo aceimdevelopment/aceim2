@@ -100,7 +100,19 @@ class CoursePeriod < ApplicationRecord
       end
 
       field :enrollments_confirmed do
-        label 'Ins/Confir'
+        label 'Ins/Confir/RegCanvas'
+      end
+
+      field :enrolled do
+        label 'PRE'
+      end
+
+      field :confirmed do
+        label 'CONF'
+      end
+
+      field :reg_canvas do
+        label 'CANVAS'
       end
 
       # field :course do
@@ -155,8 +167,31 @@ class CoursePeriod < ApplicationRecord
   
 
   #========== FUNCTIONS =============#
+  def canvas_email_list
+    emails = []
+    if self.id_canvas
+      canvas = MyCanvas.connect
+      enrollments_canvas = canvas.get("/api/v1/courses/#{self.id_canvas}/enrollments", {per_page: 200, role: "StudentEnrollment"})
+      emails_list = enrollments_canvas.map{|ele| ele['user']['login_id']}
+    end
+    emails_list
+  end
+
+
   def enrollments_confirmed
-    "#{academic_records.preinscrito.count}/#{academic_records.confirmado.count}"
+    "#{academic_records.preinscrito.count}/#{academic_records.confirmado.count}/#{academic_records.asignado.count}"
+  end
+
+  def enrolled
+    academic_records.preinscrito.count
+  end
+
+  def confirmed
+    academic_records.confirmado.count
+  end
+
+  def reg_canvas
+    academic_records.asignado.count
   end
 
   def next_section_number

@@ -10,6 +10,7 @@
   %tbody
     - records = career.academic_records 
     - records.each do |ar|
+      - ar.check_canvas_enrollment if (ar.period.enabled_autoregister_canvas_link and ar.confirmado?)
       %tr.row
         %td.col-3= "#{ar.section.course.level.name} (#{ar.section.course_period.kind})"
         %td.col-1= ar.period_desc
@@ -20,28 +21,28 @@
           %span.badge.badge-info= ar.inscription_status.capitalize
         %td.col-3
           - if ar.confirmado? and ar.SC?
-            = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Ver detalle Planilla de Inscripción', data: {toggle: 'tooltip'}} do
+            = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Ver detalle Planilla de Inscripción', data: {toggle: 'tooltip'}} do
               Planilla de Inscripción
               %span.fa.fa-certificate
           - if false #ar.online? and ar.confirmado? and ar.period.name.eql? '2020-A'
-            = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success ml-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+            = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success ml-2 mb-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
               Encuenta
               %span.fa.fa-external-link
           - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
 
-            = link_to GeneralSetup.video_tuto_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success my-3 mr-2', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
+            = link_to GeneralSetup.video_tuto_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
               Video Tutorial para Canvas
               %span.fa.fa-play-circle
-            = link_to ar.section.url_classroom_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success', title: 'Haz clíc aquí para automatricularse a tu curso en CANVAS', data: {toggle: :tooltip, placement: :bottom}, target: "_blank"} do
+            = link_to ar.section.url_classroom_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Haz clíc aquí para automatricularse a tu curso en CANVAS', data: {toggle: :tooltip, placement: :bottom}, target: "_blank"} do
               Automatricularme a mi curso ONLINE
               %span.fa.fa-external-link
           - if ar.period.enabled_login_canvas_link and ar.confirmado? and ar.course_period.online? and ar.SC?
             - url = GeneralSetup.url_canvas_login
-            = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
+            = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
               Entrar a mi curso ONLINE
               %span.fa.fa-external-link
           - if ar.preinscrito? and ar.SC? and ar.payment_detail.nil?
-            = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning' do
+            = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning mb-2 ml-2' do
               %span.fa.fa-money
               Reportar Pago
               %span.fa.fa-angle-right
