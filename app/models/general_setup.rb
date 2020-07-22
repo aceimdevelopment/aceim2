@@ -29,6 +29,11 @@ class GeneralSetup < ApplicationRecord
     self.fundeim_location ? self.fundeim_location.value : 'Galpones - Ciudad Universitaria'
   end
 
+  def self.fundeim_phone_value
+    aux = GeneralSetup.where(id: "TELEFONOS_FUNDEIM").first
+    aux ? aux : 'Tlfs: (0212) 605-1802 / 605-2982'
+  end
+
   def self.payment_receive
     aux = GeneralSetup.where(id: "HORARIO_ATENCION").first
   end

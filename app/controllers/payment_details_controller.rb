@@ -64,6 +64,19 @@ class PaymentDetailsController < ApplicationController
 		@user = @payment_detail.user
 		respond_to do |format|
 			format.html
+
+
+            # format.pdf do
+            #     render pdf: "Invoice No. #{@payment_detail.id}",
+            #     page_size: 'A4',
+            #     template: "/payment_details/show.html.haml",
+            #     layout: "pdf.html",
+            #     orientation: "Landscape",
+            #     lowquality: true,
+            #     zoom: 1,
+            #     dpi: 75
+            # end
+
 			format.pdf do 
 				pdf = PdfDocs.bill_payment(@payment_detail)
 				send_data pdf.render, filename: "factura_#{params[:id].to_s}.pdf", type: "application/pdf", disposition: "inline"

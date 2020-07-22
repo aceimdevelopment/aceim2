@@ -13,6 +13,8 @@ class PdfDocs
     data = [["<b>#{BankAccount.first.holder}<b>", "<b>Fecha: </b> #{payment_detail.created_at.strftime('%d/%m/%Y')}"]]
 
     data << ["<b>#{GeneralSetup.fundeim_location_value}<b>", "<b>Cliente: </b> #{payment_detail.client_description}"]
+    data << ["<b>#{GeneralSetup.fundeim_phone_value}<b>", ]
+
     pdf.table data do |t|
       t.width = 540
       t.header = false
@@ -20,6 +22,8 @@ class PdfDocs
       # t.column(2).style(:align => :justify)
       t.column(0).style(align: :left)
       t.column(1).style(align: :right)
+      t.row(1).style(size: 10)
+      t.row(2).style(size: 10)
       t.column(1).width = 200
       # t.column(1).style(:font_style => :bold)
     end
@@ -31,14 +35,14 @@ class PdfDocs
     total_bs = ActionController::Base.helpers.number_to_currency(payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
 
     data << [payment_detail.course_description, total_bs]
-
+    data << ['IVA (16%)', '0 Bs.']
     data << ['<b>TOTAL PROFORMA (Bs.S):</b>', "<b>#{total_bs}</b>"]
 
     pdf.table data do |t|
       t.position = :center
       t.width = 450
       t.header = true
-      t.row_colors = ["F8F8FE", nil, nil]
+      t.row_colors = ["F8F8FE","F8F8FE"]
       t.cell_style = {inline_format: true, size: 12, padding: 2, padding: 10, border_color: 'FFFFFF', valign: :center}
       # t.column(2).style(:align => :justify)
       t.row(0).style(background_color: "DCDCDC")
@@ -46,7 +50,8 @@ class PdfDocs
       t.column(1).row(0).style(align: :center)
       t.column(1).row(1).style(align: :right)
       t.column(1).width = 150
-      t.row(2).style(size: 14, align: :right, border_color: 'FFFFFF')
+      t.row(2).style(align: :right)
+      t.row(3).style(size: 14, align: :right, border_color: 'FFFFFF', background_color: "FFFFFF")
 
       # t.column_widths = {0 => 5, 2 => 120}
       # t.column(1).style(:font_style => :bold)

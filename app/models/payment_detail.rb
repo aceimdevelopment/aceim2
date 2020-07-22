@@ -200,6 +200,14 @@ class PaymentDetail < ApplicationRecord
 	          end
 	        end
 
+	        field :invoice do
+	          label 'Factura'
+
+	          formatted_value do
+	            bindings[:view].render(partial: '/payment_details/bill_detail', locals: {id: bindings[:object].id})
+	          end
+	        end
+
 			# field :backup_file, :active_storage do
 			# 	label 'Imagen'
 			# end

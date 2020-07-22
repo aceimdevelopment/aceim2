@@ -1,4 +1,5 @@
-%div{align: :center, style: 'border: 1px solid #e5e5e5;padding: 3em;background-color: white;margin:0em 5em 2em 5em;height: 550px;max-width: 600px'}
+- @payment_detail ||= PaymentDetail.find id
+%div{align: :center, style: 'border: 1px solid #e5e5e5;padding: 3em;background-color: white;margin:0em 5em 2em 5em;height: 550px;max-width: 650px'}
   = image_tag "https://fundeim.sfo2.digitaloceanspaces.com/logo_ucv.png", style: 'width:12%;height:auto;float:left;paddin-left: 3px;' 
   %div
     %p{style: 'text-align: right;font-size: 1.5em;'} FACTURA PROFORMA
@@ -7,12 +8,15 @@
     %tbody
       %tr
         %th{style: 'text-align:left;paddin-left: 3px;font-weight: bold;'}= BankAccount.first.holder
-        %td{align: :right, style: 'width: 39%;'}
+        %td{align: :right, style: 'width: 39%;font-size: 12px;'}
           %b Fecha:
           = @payment_detail.created_at.strftime('%d/%m/%Y')
       %tr
-        %th{style: 'text-align:left;paddin-left: 3px;font-weight: bold;padding-right: 50px'}= GeneralSetup.fundeim_location_value
-        %td{align: :right, style: 'width: 39%;'}
+        %th{style: 'text-align:left;padding-right: 50px;font-size: 10px;'}
+          = GeneralSetup.fundeim_location_value
+          %br
+          = GeneralSetup.fundeim_phone_value
+        %td{align: :right, style: 'width: 39%;font-size: 12px;'}
           %b Cliente:
           = @payment_detail.client_description
   %br
@@ -21,10 +25,13 @@
     %tbody
       %tr{style: 'margin: 3em 0px;border: 1px solid blue;background-color:gainsboro;'}
         %th{align: :left, style: 'padding-left: 1em;'} Descripción
-        %th{align: :center, style: 'padding-left: 1em;'} Importe
+        %th{align: :center, style: 'text-align: center;'} Importe
       %tr{style: 'background-color: ghostwhite;'}
         %td{style: 'padding-left: 1em;'}= @payment_detail.course_description
         %td{style: 'text-align:right'}= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
       %tr{style: 'background-color: ghostwhite;'}
-        %td{style: 'text-align:right;font-size: 18px;'} TOTAL PROFORMA (Bs.S): 
-        %td{style: 'text-align:right;font-size: 18px;'}= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
+        %td{style: 'padding-left: 1em;text-align:right'} IVA (16%)
+        %td{style: 'text-align:right'} 0 Bs.
+      %tr{style: 'background-color: white;'}
+        %td{style: 'text-align:right;font-size: 18px;font-weight: bold;'} TOTAL PROFORMA (Bs.S): 
+        %td{style: 'text-align:right;font-size: 18px;font-weight: bold;'}= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
