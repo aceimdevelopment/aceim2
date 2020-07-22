@@ -178,6 +178,17 @@ class CoursePeriod < ApplicationRecord
   end
 
 
+  # def canvas_get_course
+  #   if id_canvas
+  #     canvas = MyCanvas.connect
+  #     cp = canvas.get("/api/v1/courses/#{self.id_canvas}")
+  #     # OJO: A priori no se conoce la seccion
+  #   else
+  #     return '--'
+  #   end
+
+  # end
+
   def enrollments_confirmed
     "#{academic_records.preinscrito.count}/#{academic_records.confirmado.count}/#{academic_records.asignado.count}"
   end
