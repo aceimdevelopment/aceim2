@@ -14,11 +14,15 @@
 - ar = student.academic_records.preinscrito.reject{|ar| !ar.payment_detail.nil?}.first
 - if ar
   = render partial: "/bank_account/show", locals: {ar: ar}
+  
+- unless GeneralSetup.video_tuto_canvas_value.blank?
+  .text-center.align-middle
+    = link_to GeneralSetup.video_tuto_canvas_value, {type: :button, class: 'tooltip-btn btn btn-sm btn-outline-success', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
+      Video Tutorial para Canvas
+      %span.fa.fa-play-circle
 
 -if student
   = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
-  
-
   - student.careers.each do |career| 
     .border.p-3.m-3
       = render partial: "/student_session/enrollment_to_level", locals: {career: career, period: period, student: student}

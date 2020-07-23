@@ -1,3 +1,5 @@
+- records = career.academic_records 
+
 %table.table.table-sm.table-striped.table-hover.table-responsable
   %thead
     %tr.row
@@ -8,7 +10,6 @@
       %th.col-2 Inscripción
       %th.col-3 Opciones
   %tbody
-    - records = career.academic_records 
     - records.each do |ar|
       - ar.check_canvas_enrollment if ar.confirmado?
       %tr.row
@@ -32,11 +33,6 @@
             = link_to 'https://forms.gle/htyFNhGHoT4qbcBn9', {type: 'button', class: 'tooltip-btn btn btn-sm btn-success ml-2 mb-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
               Encuenta
               %span.fa.fa-external-link
-          - if ar.period.enabled_autoregister_canvas_link and !ar.preinscrito? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
-            = link_to GeneralSetup.video_tuto_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
-              Video Tutorial para Canvas
-              %span.fa.fa-play-circle
-
           - if ar.period.enabled_autoregister_canvas_link and ar.confirmado? and ar.course_period.online? and !ar.section.url_classroom_canvas.blank?
 
             = link_to ar.section.url_classroom_canvas, {type: :button, class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Haz clíc aquí para automatricularse a tu curso en CANVAS', data: {toggle: :tooltip, placement: :bottom}, target: "_blank"} do

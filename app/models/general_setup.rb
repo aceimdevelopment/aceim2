@@ -1,8 +1,9 @@
 class GeneralSetup < ApplicationRecord
 
-  def self.video_tuto_canvas
+  validates :id, presence: true
+  def self.video_tuto_canvas_value
     aux = GeneralSetup.where(id: "VIDEO_TUTORIAL_CANVAS").first
-    aux.value ? aux.value : '#'
+    (aux and aux.value) ? aux.value : ''
   end
 
 
@@ -59,6 +60,27 @@ class GeneralSetup < ApplicationRecord
 
 
 	rails_admin do
+
+      show do
+        field :id do
+          read_only true
+          label 'Identificador'
+        end
+        field :value do
+          label 'Valor'
+        end
+      end
+
+      update do
+        field :id do
+          read_only true
+          label 'Identificador'
+        end
+        field :value do
+          label 'Valor'
+        end
+      end
+
       edit do
         field :id do
           label 'Identificador'
@@ -73,7 +95,6 @@ class GeneralSetup < ApplicationRecord
           # end
         # help 'Solo un caracter permitido'
         end
-        # exclude_fields :created_at, :updated_at
       end
 	end
 
