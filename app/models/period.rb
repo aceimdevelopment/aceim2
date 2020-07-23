@@ -27,6 +27,8 @@ class Period < ApplicationRecord
       label 'Periodo'
       list do
         sort_by :name
+        checkboxes false
+        items_per_page 10
         field :name do
           label 'Id'
           sort_reverse true

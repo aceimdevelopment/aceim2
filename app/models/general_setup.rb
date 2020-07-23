@@ -57,45 +57,54 @@ class GeneralSetup < ApplicationRecord
     aux = GeneralSetup.where(id: "FECHA_MONTO_DIVISA").first
     aux ? aux.value : 'Este monto es válido si realiza la transferencia antes de las 6:00pm del día de hoy. Luego de esa hora deberá consultar aquí si ha habido algún cambio en el monto del arancel del inscripción.'
   end
-
-
+  
 	rails_admin do
-
-      show do
-        field :id do
-          read_only true
-          label 'Identificador'
-        end
-        field :value do
-          label 'Valor'
-        end
+    list do
+      checkboxes false
+      field :id do
+        read_only true
+        label 'Identificador'
       end
-
-      update do
-        field :id do
-          read_only true
-          label 'Identificador'
-        end
-        field :value do
-          label 'Valor'
-        end
+      field :value do
+        label 'Valor'
+        column_width 700
       end
-
-      edit do
-        field :id do
-          label 'Identificador'
-          html_attributes do
-            {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|_]/g,''))"}
-          end        
-        end
-        field :value do
-          label 'Valor'
-          # html_attributes do
-          #   {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|]/g,''))"}
-          # end
-        # help 'Solo un caracter permitido'
-        end
+    end     
+    show do
+      field :id do
+        read_only true
+        label 'Identificador'
       end
+      field :value do
+        label 'Valor'
+      end
+    end
+
+    update do
+      field :id do
+        read_only true
+        label 'Identificador'
+      end
+      field :value do
+        label 'Valor'
+      end
+    end
+
+    edit do
+      field :id do
+        label 'Identificador'
+        html_attributes do
+          {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|_]/g,''))"}
+        end        
+      end
+      field :value do
+        label 'Valor'
+        # html_attributes do
+        #   {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9|]/g,''))"}
+        # end
+      # help 'Solo un caracter permitido'
+      end
+    end
 	end
 
 

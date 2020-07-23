@@ -267,6 +267,9 @@ es:
       qualification_schema:
         one: "Esquema de Calificación"
         other: "Esquemas de calificaciones"
+      general_setup:
+        one: "Parámetro General"
+        other: "Parámetros Generales"
 
     errors:
       models:
