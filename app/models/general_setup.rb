@@ -31,12 +31,12 @@ class GeneralSetup < ApplicationRecord
 
   def self.fundeim_phone_value
     aux = GeneralSetup.where(id: "TELEFONOS_FUNDEIM").first
-    aux ? aux : 'Tlfs: (0212) 605-1802 / 605-2982'
+    aux ? aux.value : 'Tlfs: (0212) 605-1802 / 605-2982'
   end
 
   def self.fundeim_email_value
     aux = GeneralSetup.where(id: "EMAIL_FUNDEIM").first
-    aux ? aux : 'fundeimucv@gmail.com'
+    aux ? aux.value : 'fundeimucv@gmail.com'
   end
 
   def self.payment_receive
