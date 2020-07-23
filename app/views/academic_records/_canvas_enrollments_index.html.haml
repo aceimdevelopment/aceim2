@@ -64,7 +64,9 @@
                       = sec_name
                   - user = User.where(email: email).first
                   - if user and es = user.student
+
                     - if enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period.id}").first
+                      - enrolled.update(inscription_status: :asignado) if enrolled.confirmado?
                       %td.col-md-1
                         - if enrolled.inscription_status
                           .label.label-info= enrolled.inscription_status.capitalize

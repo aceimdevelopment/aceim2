@@ -10,7 +10,7 @@
   %tbody
     - records = career.academic_records 
     - records.each do |ar|
-      - ar.check_canvas_enrollment if (ar.period.enabled_autoregister_canvas_link and ar.confirmado?)
+      - ar.check_canvas_enrollment if ar.confirmado?
       %tr.row
         %td.col-3= "#{ar.section.course.level.name} (#{ar.section.course_period.kind})"
         %td.col-1= ar.period_desc
