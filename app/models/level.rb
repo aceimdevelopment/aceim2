@@ -13,6 +13,38 @@ class Level < ApplicationRecord
   validates :id, presence: true, uniqueness: true
   validates :grade, presence: true, uniqueness: true
 
+
+  def self.nivel_to_level_id nivel_id
+    aux = ''
+    case nivel_id
+    when 'BI'
+      aux = 'BASI'
+    when 'BII'
+      aux = 'BASII'
+    when 'BIII'
+      aux = 'BASIII'
+    when 'CB'
+      aux = 'CONVBA'
+    when 'MI'
+      aux = 'INTI'
+    when 'MII'
+      aux = 'INTII'
+    when 'MIII'
+      aux = 'INTIII'
+    when 'CM'
+      aux = 'CONVINT'
+    when 'AI'
+      aux = 'AVANI'
+    when 'AII'
+      aux = 'AVANII'
+    when 'AIII'
+      aux = 'AVANIII'
+    when 'CA'
+      aux = 'CONVAVA'      
+    end
+    return aux
+  end
+
   # ========== RAILS_ADMIN ================== #
 
   rails_admin do 

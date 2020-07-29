@@ -253,6 +253,18 @@ class AcademicRecord < ApplicationRecord
   # def level
   #   course.level.name if course
   # end
+  def career
+    Career.where(student_id: self.student_id, language_id: self.language.id).first
+  end
+
+  def approved?
+    self.qualification_status_id.eql? 'AP'
+  end
+
+  def is_last_level_approved?
+    last_approved = career.last_level_approved
+    last_approved and self.level.id.eql?(last_approved.level.id)
+  end
 
   def user
     student.user
@@ -347,7 +359,7 @@ class AcademicRecord < ApplicationRecord
   end
 
   def label_fq
-    if qualification_status_id.eql? PI or qualification_status_id.eql? 'RE'
+    if qualification_status_id.eql? 'PI' or qualification_status_id.eql? 'RE'
       aux = 'danger' 
     elsif qualification_status_id.eql? 'AP'
       aux = 'success'
@@ -393,9 +405,7 @@ class AcademicRecord < ApplicationRecord
   end
 
   def add_career
-    unless Career.where(student_id: self.student_id, language_id: self.language.id).any?
-      Career.create(student_id: self.student_id, language_id: self.language.id)
-    end
+    Career.create(student_id: self.student_id, language_id: self.language.id) if self.career.nil?
   end
 
 

@@ -17,6 +17,24 @@ class Language < ApplicationRecord
 
   # ========== RAILS_ADMIN ================== #
 
+    def self.idioma_to_language_id idioma_id
+    aux = ''
+    case idioma_id
+    when 'IN'
+      aux = 'ING'
+    when 'IT'
+      aux = 'ITA'
+    when 'AL'
+      aux = 'ALE'
+    when 'FR'
+      aux = 'FRA'
+    when 'PG'
+      aux = 'POR'
+    end
+    return aux
+  end
+
+
   rails_admin do 
     list do
       field :id do

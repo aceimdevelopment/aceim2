@@ -23,7 +23,4 @@
 
 -if student
   = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
-  - student.careers.each do |career| 
-    .border.p-3.m-3
-      = render partial: "/student_session/enrollment_to_level", locals: {career: career, period: period, student: student}
-      = render partial: "/student_session/academic_records", locals: {career: career}
+  = render partial: '/careers/index_to_student', locals: {careers: student.careers}

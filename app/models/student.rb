@@ -73,7 +73,14 @@ class Student < ApplicationRecord
       field :records do
         label 'Inscripciones'
         formatted_value do
-          bindings[:view].render(partial: "table_personal_academic_records_partial", locals: {field: self})
+          bindings[:view].render(partial: "rails_admin/main/careers/index_student_careers", locals: {field: self})
+        end
+      end
+
+      field :aceim_oldest_records do
+        label 'Inscripciones ACEIM.UCV.VE (Anterior)'
+        formatted_value do
+          bindings[:view].render(partial: "aceim_old_academic_records_partial", locals: {student: self.bindings[:object]})
         end
       end
 
@@ -141,6 +148,57 @@ class Student < ApplicationRecord
   def upcase_location
     self.location = location.strip.upcase if self.location
   end
+
+  def import_from_aceim
+    begin
+      total = 0
+      url = "http://aceim.ucv.ve/aceim_dev/aceim/inscripcion/show/#{self.ci}.json"
+      uri = URI(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'application/json'})
+      response = http.request(request)
+      body = JSON.parse(response.body)
+      historiales = body['historiales']
+      if historiales and historiales.any?
+        historiales.reject{|h| h['tipo_estado_calificacion_id'].eql? 'SC'}.each do |ar|
+          language_id = Language.idioma_to_language_id ar['idioma_id']
+          level_id = Level.nivel_to_level_id ar['tipo_nivel_id']
+          letter,year = ar['periodo_id'].split('-') 
+          period_aux = Period.where(letter: letter, year: year).first
+          course_aux = Course.where(language_id: language_id, level_id: level_id).first
+          if course_aux and period_aux
+            course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id, kind: :mixtos).first
+            if course_period_aux and !course_period_aux.academic_records.where(student_id: self.id).any?
+              section = course_period_aux.sections.where(number: ar['seccion_numero']).first
+              section = course_period_aux.sections.first if section.nil?
+              if section
+                agreement = Agreement.where(id: ar['tipo_convenio_id']).first
+                ar_aux = AcademicRecord.new
+                ar_aux.student_id = self.id
+                ar_aux.section_id = section.id
+                ar_aux.final_qualification = ar['nota_final']
+                ar_aux.qualification_status_id = ar['tipo_estado_calificacion_id']
+                ar_aux.agreement = agreement
+                ar_aux.inscription_status = :confirmado if ar['tipo_estado_inscripcion_id'].eql? "INS"
+                total += 1 if ar_aux.save
+              end
+            end
+          end
+        end
+        self.update(imported: true)
+        return ['success', "Total inscripciones importadas de aceim.ucv.ve: #{total}"]
+      end
+    rescue Exception => e
+      return ['error', "Error intentando importar desde aceim.ucv.ve: #{e}"]
+    end
+
+
+
+
+
+
+  end
+
 
   protected
 

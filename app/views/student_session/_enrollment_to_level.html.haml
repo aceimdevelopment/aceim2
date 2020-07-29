@@ -1,8 +1,6 @@
+- period = Period.where(enrollment: true).last
+- student = career.student
 %h4
-  = career.language.name 
-  - approved = career.last_level_approved
-  = "(#{approved.level.name} Aprobado)" if approved
-
   - if period and period.allow_enrollments? 
     - next_course = career.next_course_available
     - if next_course

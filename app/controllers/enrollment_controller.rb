@@ -2,6 +2,14 @@ class EnrollmentController < ApplicationController
 
 	before_action :authenticate_user!
 
+	def import_aceim_old
+		@student = Student.find params[:id]
+		type, msg = @student.import_from_aceim
+		flash[type] = msg
+		redirect_back fallback_location: root_path
+	end
+
+
 	def regular
 		# params[:student_id] ||= current_user.id
 		student = Student.find(params[:student_id])

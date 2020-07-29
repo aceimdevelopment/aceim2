@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   resources :enrollment, only: [:index] do
     member do
       get 'regular'
+      get 'import_aceim_old'
     end
   end
 

@@ -1,0 +1,24 @@
+%nav
+  %ul#navTabStudent.nav.nav-tabs{role: :tablist}
+    - careers.each_with_index do |career, i| 
+      - if (i.eql? 0)
+        - active = ' active'
+        - selected = true
+      - else
+        - active = ''
+        - selected = false
+      
+      %li= link_to career.language.name, "#tabContent#{career.language_id}", "data-toggle": :tab, class: "nav-item nav-link #{active}", role: :tab, 'aria-controls': "tabContent#{career.language_id}", id: "tab#{career.language_id}", "aria-selected": selected
+
+#navTabStudentContent.tab-content
+  - careers.each_with_index do |career, i| 
+    - active = (i.eql? 0) ? ' active show' : ''
+
+    .tab-pane.fade{id: "tabContent#{career.language_id}", class: active, "aria-labelledby": "tab#{career.language_id}", role: "tabpanel"}
+      .p-3.bg-white
+        = render partial: "/student_session/enrollment_to_level", locals: {career: career} if controller_name.eql? 'student_session'
+        - if approved = career.last_level_approved
+          %h6
+            Último nivel aprovado: 
+            .badge.badge-success= approved.level.name
+        = render partial: '/academic_records/index_to_student', locals: {records: career.academic_records}

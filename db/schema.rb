@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_08_161153) do
+ActiveRecord::Schema.define(version: 2020_07_29_132532) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_161153) do
     t.index ["student_id"], name: "index_academic_records_on_student_id"
   end
 
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_161153) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_161153) do
     t.index ["id"], name: "index_levels_on_id"
   end
 
-  create_table "partial_qualifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "partial_qualifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.decimal "value", precision: 10, null: false
     t.bigint "qualification_schema_id", null: false
     t.bigint "academic_record_id", null: false
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_161153) do
     t.index ["section_id"], name: "index_qualification_details_on_section_id"
   end
 
-  create_table "qualification_schemas", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "qualification_schemas", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "percentage", default: 0, null: false
     t.bigint "period_id", null: false
     t.integer "sequence", null: false
@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_161153) do
     t.string "source_country"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "imported", default: false, null: false
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 

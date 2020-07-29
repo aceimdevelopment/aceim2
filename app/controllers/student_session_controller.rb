@@ -7,6 +7,11 @@ class StudentSessionController < ApplicationController
 			@user =  User.find(params[:id])
 		else
 			@user = current_user
+			session[:student] = @user.student
+			if @user.student and !@user.student.imported?
+				type, msg = @user.student.import_from_aceim
+				flash[type] = msg
+			end
 		end
 	end
 

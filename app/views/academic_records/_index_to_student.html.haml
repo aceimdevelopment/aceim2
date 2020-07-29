@@ -1,0 +1,37 @@
+
+%table.table.table-striped.table-sm.table-hover.table-responsive-md.m-3
+	%thead
+		%tr
+			%th #
+			%th Periodo
+			%th Nivel
+			%th Modalidad
+			%th Status
+			%th Cal
+			%th Convenio
+			%th Sección
+			%th Opciones
+
+	%tbody
+		-# career.academic_records.order(created_at: :desc).each_with_index do |ar, i| 
+		- records.joins({section: {course_period: [{course: :level}, :period]}}).order(['periods.id': :asc]).each_with_index do |ar, i| 
+			-# user = ar.student.user
+			%tr
+				%td= i+1
+				%td= ar.period.name
+				%td 
+					=ar.level.name
+					- if ar.approved?
+						- if ar.is_last_level_approved?
+							%span.fa.fa-star.text-warning.tooltip-btn{"data-toggle": :tooltip, title: 'Último nivel aprobado'}
+				%td= ar.course_period.kind
+				%td= raw ar.label_fq
+				%td= ar.final_desc
+				%td= ar.agreement.name
+				%td= ar.section.number_to_string
+				%td= render partial: '/academic_records/options_to_student', locals: {ar: ar} if controller_name.eql? 'student_session'
+
+
+
+
+

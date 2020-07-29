@@ -1,0 +1,19 @@
+
+- autorize = (current_user and current_user.admin? and current_user.administrator.super_role?)
+- if autorize
+	= link_to "/student_session?id=#{field.bindings[:object].id}", class: 'btn btn-sm btn-success pull-right' do
+		%span.fa.fa-eye
+		Vista Estudiante
+
+%nav
+	%ul.nav.nav-tabs
+		- field.bindings[:object].careers.each_with_index do |career, i| 
+			- active = (i.eql? 0) ? ' active' : ''
+			%li{class: active}= link_to career.language.name, "#tab-#{career.language_id}", "data-toggle": "tab", class: "nav-item nav-link"
+
+.tab-content
+	- field.bindings[:object].careers.each_with_index do |career, i| 
+		- active = (i.eql? 0) ? ' active' : ''
+		.tab-pane{id: "tab-#{career.language_id}", class: active}
+			.border.mt-3.p-3
+				= render partial: '/academic_records/index_to_student', locals: {records: career.academic_records}
