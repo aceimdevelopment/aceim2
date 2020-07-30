@@ -16,4 +16,6 @@
 		- active = (i.eql? 0) ? ' active' : ''
 		.tab-pane{id: "tab-#{career.language_id}", class: active}
 			.border.mt-3.p-3
+				= link_to "/careers/#{career.id}/constance", class: 'btn btn-sm btn-info' do
+					Constancia Notas Aprobadas
 				= render partial: '/academic_records/index_to_student', locals: {records: career.academic_records}

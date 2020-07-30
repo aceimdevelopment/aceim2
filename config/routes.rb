@@ -22,6 +22,12 @@ Rails.application.routes.draw do
 
   end
 
+  resources :careers, only: [:index] do
+    member do
+      get 'constance'
+    end
+  end
+
   resources :academic_records, only: [:index] do
     member do
       get 'send_confirmation_mail'

@@ -86,6 +86,78 @@ class PdfDocs
   end
 
 
+  def self.constance career
+    pdf = Prawn::Document.new(top_margin: 20, left_margin: 60, right_margin: 60, bottom_margin: 10)
+
+    banner_width_logo pdf, nil, 10
+    pdf.move_down 20
+
+    pdf.text '<b>CONSTANCIA</b>', size: 16, align: :center, inline_format: true
+
+    pdf.move_down 15
+
+    pdf.text 'Quien suscribe, Prof. Carlos A. Saavedra A., Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela, hace constar por medio de la presente que el ciudadano:', size: 11, align: :justify
+    pdf.move_down 15
+
+    pdf.text "<b>#{career.student.constance_name}</b>", size: 13, align: :center, inline_format: true 
+    pdf.move_down 15
+
+    pdf.text "Aprobó del curso <b>#{career.language.name}</b> los niveles que se indican a continuación:", size: 11, align: :justify, inline_format: true
+
+    approved_records pdf, career.academic_records.approved
+    
+    pdf.text "Cada nivel tiene una duración de 54 horas académicas (9 semanas aproximadamente).", size: 11, align: :justify, inline_format: true
+
+    t = Time.new
+    pdf.move_down 15
+
+    pdf.text "Esta constancia se expide a solicitud de la parte interesada.  En Caracas, a los #{t.day} días del mes de #{t.month} de #{t.year}.", size: 11, align: :justify, inline_format: true
+
+    pdf.move_down 35
+    pdf.text "____________________________" , align: :center, size: 10
+
+    pdf.move_down 5
+    pdf.text "Prof. Carlos A. Saavedra A." , align: :center, size: 11
+    pdf.move_down 50
+
+    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO INGRESE A LA SIGUIENTE DIRECCIÓN: https://fundeim.com/careers/#{career.id}/constance" , align: :justify, size: 11, inline_format: true
+
+
+    pdf.bounding_box [pdf.bounds.left, pdf.bounds.bottom + 35], :width  => pdf.bounds.width do
+        pdf.font "Helvetica"
+        pdf.stroke_horizontal_rule
+        pdf.move_down(5)
+        pdf.text 'Cuidad Universitaria de Caracas - FUNDEIM - UCV #VenciendoLaSombra', size: 8, align: :center
+        pdf.text GeneralSetup.fundeim_location_value, size: 8, align: :center
+        pdf.text GeneralSetup.fundeim_phone_value, size: 8, align: :center
+
+    end
+    return pdf
+
+  end
+
+
+  def self.approved_records pdf, academic_records
+    pdf.move_down 25
+    data = [['Nivel', 'Período', 'Calificación']]
+    academic_records.each do |ar|
+      data << ["<b>#{ar.level.name}<b>", "<b>#{ar.period.name}</b>", "<b>#{ar.final_qualification}</b>"]
+    end
+
+    # pdf.table([[t,v]], width: 560, cell_style: {border_width: 0})
+
+    pdf.table data do |t|
+      t.width = 500
+      t.position = :center
+      t.header = true
+      t.cell_style = {inline_format: true, size: 10, padding: 2, padding: 3, border_color: 'FFFFFF', align: :center}
+
+    end
+    pdf.move_down 25
+  end
+
+
+
   def self.content_academic pdf, academic_record
     student = academic_record.student
     user = student.user
@@ -137,11 +209,11 @@ class PdfDocs
     size_logo = size ? size*4 : 50 
     size ||= 12
     pdf.image "app/assets/images/banner_logos_dark.png", position: :center, height: size_logo, valign: :top
-    pdf.move_down 5
+    pdf.move_down 3
     pdf.text "UNIVERSIDAD CENTRAL DE VENEZUELA", align: :center, size: size 
-    pdf.move_down 5
+    pdf.move_down 3
     pdf.text "Escuela de Idiomas Modernos", align: :center, size: size
-    pdf.move_down 5
+    pdf.move_down 3
     pdf.text "FUNDEIM", align: :center, size: size
 
     pdf.move_down 5
@@ -183,7 +255,3 @@ class PdfDocs
   end
 
 end
-
-
-
-

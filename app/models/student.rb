@@ -63,13 +63,6 @@ class Student < ApplicationRecord
         end
       end
 
-      field :careers do
-        label 'Idiomas Cursados'
-      end
-      # field :academic_records do
-      #   label 'Registros Academicos'
-      # end
-
       field :records do
         label 'Inscripciones'
         formatted_value do
@@ -133,6 +126,10 @@ class Student < ApplicationRecord
 
   def ci
     self.personal_identity_document
+  end
+
+  def constance_name
+    "#{user.full_name } (#{ci})"
   end
 
   def any_blank?
