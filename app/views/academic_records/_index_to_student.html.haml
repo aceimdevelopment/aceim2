@@ -29,7 +29,11 @@
 				%td= ar.final_desc
 				%td= ar.agreement.name
 				%td= ar.section.number_to_string
-				%td= render partial: '/academic_records/options_to_student', locals: {ar: ar} if controller_name.eql? 'student_session'
+				%td
+					- if current_user.administrator? and current_user.administrator.high_authotization?
+						= render partial: '/academic_records/options_to_admin', locals: {ar: ar} if controller_name.eql? 'main'
+					- if current_user.student and controller_name.eql? 'student_session'
+						= render partial: '/academic_records/options_to_student', locals: {ar: ar} if controller_name.eql? 'student_session'
 
 
 
