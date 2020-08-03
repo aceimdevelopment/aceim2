@@ -113,14 +113,34 @@ class PdfDocs
 
     pdf.text "Esta constancia se expide a solicitud de la parte interesada.  En Caracas, a los #{t.day} días del mes de #{t.month} de #{t.year}.", size: 11, align: :justify, inline_format: true
 
-    pdf.move_down 35
-    pdf.text "____________________________" , align: :center, size: 10
+    pdf.move_down 70
 
-    pdf.move_down 5
     pdf.text "Prof. Carlos A. Saavedra A." , align: :center, size: 11
-    pdf.move_down 50
+    pdf.move_down 30
 
-    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO INGRESE A LA SIGUIENTE DIRECCIÓN: https://fundeim.com/careers/#{career.id}/constance" , align: :justify, size: 11, inline_format: true
+    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANEÉ EL SIGUIENTE CÓDIGO QR CON SU SMARTPHONE:" , align: :justify, size: 11, inline_format: true
+
+    require 'rqrcode'
+
+    qrcode = RQRCode::QRCode.new("https://fundeim.com/careers/#{career.id}/constance")
+
+    png = qrcode.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: 'black',
+      file: "tmp/barcode.png",
+      fill: 'white',
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 150
+    )
+
+    pdf.image "#{Rails.root.to_s}/tmp/barcode.png", image_width: 50, image_height: 50, position: :center
+
+    # pdf.image png, position: :center
+
 
 
     pdf.bounding_box [pdf.bounds.left, pdf.bounds.bottom + 35], :width  => pdf.bounds.width do
