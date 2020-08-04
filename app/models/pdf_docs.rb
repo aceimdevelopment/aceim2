@@ -122,7 +122,7 @@ class PdfDocs
 
     require 'rqrcode'
 
-    link = "/careers/#{career.id}/constance_verify"
+    link = "https://fundeim.com/careers/#{career.id}/constance_verify"
     qrcode = RQRCode::QRCode.new(link)
 
     png = qrcode.as_png(
