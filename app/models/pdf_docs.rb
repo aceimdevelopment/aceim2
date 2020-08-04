@@ -94,13 +94,13 @@ class PdfDocs
 
     pdf.text '<b>CONSTANCIA</b>', size: 16, align: :center, inline_format: true
 
-    pdf.move_down 15
+    pdf.move_down 10
 
     pdf.text 'Quien suscribe, Prof. Carlos A. Saavedra A., Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela, hace constar por medio de la presente que el ciudadano:', size: 11, align: :justify
-    pdf.move_down 15
+    pdf.move_down 10
 
     pdf.text "<b>#{career.student.constance_name}</b>", size: 13, align: :center, inline_format: true 
-    pdf.move_down 15
+    pdf.move_down 10
 
     pdf.text "Aprobó del curso <b>#{career.language.name}</b> los niveles que se indican a continuación:", size: 11, align: :justify, inline_format: true
 
@@ -109,20 +109,21 @@ class PdfDocs
     pdf.text "Cada nivel tiene una duración de 54 horas académicas (9 semanas aproximadamente).", size: 11, align: :justify, inline_format: true
 
     t = Time.new
-    pdf.move_down 15
+    pdf.move_down 10
 
     pdf.text "Esta constancia se expide a solicitud de la parte interesada.  En Caracas, a los #{t.day} días del mes de #{t.month} de #{t.year}.", size: 11, align: :justify, inline_format: true
 
-    pdf.move_down 70
+    pdf.move_down 40
 
     pdf.text "Prof. Carlos A. Saavedra A." , align: :center, size: 11
-    pdf.move_down 30
+    pdf.move_down 20
 
     pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANEÉ EL SIGUIENTE CÓDIGO QR CON SU SMARTPHONE:" , align: :justify, size: 11, inline_format: true
 
     require 'rqrcode'
 
-    qrcode = RQRCode::QRCode.new("https://fundeim.com/careers/#{career.id}/constance")
+    link = "/careers/#{career.id}/constance_verify"
+    qrcode = RQRCode::QRCode.new(link)
 
     png = qrcode.as_png(
       bit_depth: 1,
@@ -138,8 +139,7 @@ class PdfDocs
     )
 
     pdf.image "#{Rails.root.to_s}/tmp/barcode.png", image_width: 50, image_height: 50, position: :center
-
-    # pdf.image png, position: :center
+    pdf.text "o haga clíc <a href='#{link}' target='_blank'>aquí</a>", align: :center, size: 8, inline_format: true
 
 
 

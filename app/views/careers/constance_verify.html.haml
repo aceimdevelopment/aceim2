@@ -1,0 +1,38 @@
+.text-center
+
+  %p.mt-3= image_tag "banner_logos_dark.png", style: 'width:80%'
+  %p UNIVERSIDAD CENTRAL DE VENEZUELA
+  %p Escuela de Idiomas Modernos
+  %p FUNDEIM
+
+  %h3 CONSTANCIA
+.mx-5.px-5.mt-5
+  %p.text-justify 
+    Quien suscribe, Prof. 
+    %b Carlos A. Saavedra A., 
+    Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela, hace constar por medio de la presente que el ciudadano:
+
+  %h5.my-5.text-center= @career.student.constance_name 
+  %p.text-justify.mt-3
+    Aprobó del curso 
+    %b= @career.language.name
+    los niveles que se indican a continuación:
+
+  - t = Time.new
+  %table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
+    %thead
+      %tr
+        %th Nivel
+        %th Período
+        %th Calificación
+    %tbody
+      - @career.academic_records.each do |ar| 
+        %tr
+          %td= ar.level.name
+          %td= ar.period.name
+          %td= ar.final_qualification
+
+  %p.text-justify.mt-3 Cada nivel tiene una duración de 54 horas académicas (9 semanas aproximadamente).
+%br
+%br
+%br

@@ -14,7 +14,7 @@ class Career < ApplicationRecord
 
   # =============== FUNCTIONS =================# 
   def academic_records
-    self.student.academic_records.from_language(language_id)
+    self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
   end
 
   def last_academic_record
@@ -29,7 +29,7 @@ class Career < ApplicationRecord
     self.academic_records.approved.first
   end
 
-  #====== LA IDEA ES QUE NO SE LE OFERTE PARA PREINSCRIBIR UN CURSO QUE YA TIENE PREINSCRITO O APROBADO   ======#
+  #====== LA IDEA ES QUE NO SE LE OFERTE PARA PREINSCRIBIR UN CURSO QUE YA TIENE PREINSCRITO O APROBADO ======#
   def last_course_enrollment
     aux = academic_records.preinscrito.last
     return aux ? aux.course : nil

@@ -1,7 +1,8 @@
 class CareersController < ApplicationController
-	before_action :set_carrer, only: [:constance]
-	before_action :authenticate_user!, except: [:constance]
+	before_action :set_carrer, only: [:constance, :constance_verify]
+	before_action :authenticate_user!, except: [:constance_verify]
 
+	layout 'pdf'
 
 	def constance
 		pdf = PdfDocs.constance(@career)
@@ -9,6 +10,9 @@ class CareersController < ApplicationController
 			flash[:error] = "En estos momentos no se pueden descargar el acta, intentelo más tarde."
 		end
 		return
+	end
+
+	def constance_verify
 	end
 
 	private

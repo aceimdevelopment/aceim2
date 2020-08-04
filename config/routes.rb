@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :careers, only: [:index] do
     member do
       get 'constance'
+      get 'constance_verify'
     end
   end
 
