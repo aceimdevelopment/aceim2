@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     member do
       get 'regular'
       get 'import_aceim_old'
+      get 'sync_up_width_canvas'
     end
   end
 

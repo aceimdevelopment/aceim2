@@ -17,7 +17,12 @@
   - if sections
     %h4
       = "#{sections.length} Secciones:"
-      .label.label-info= "#{sections.map{|sec| sec['name']}.to_sentence}"
+      .label.label-info= "#{sections.map{|sec| sec['name'].last 2}.to_sentence}"
+    .pull-right.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
+      = link_to "/enrollment/#{course_period.id}/sync_up_width_canvas", class: 'btn btn-sm btn-success' do
+        .fa.fa-sliders
+        Sincronizar
+
   - k = 1
   %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
     %thead
@@ -25,7 +30,7 @@
         %th.col-md-1 #
         %th.col-md-1 Nombres
         %th.col-md-1 Email
-        %th.col-md-1 Sec
+        %th.col-md-1 Sec (id_canvas)
         %th.col-md-1.text-center Status Aceim
         - course_period.period.qualification_schemas.each do |qs| 
           %th.col-md-1.text-center= qs.desc
@@ -59,7 +64,7 @@
                     .tooltip-btn{"data-toggle": :tooltip, title: email}
                       = email
                   %td.col-md-1
-                    - sec_name = "#{sec['name']} (#{sec['id']})"
+                    - sec_name = "#{sec['name'].last 2} (#{sec['id']})"
                     .tooltip-btn{"data-toggle": :tooltip, title: sec_name}
                       = sec_name
                   - user = User.where(email: email).first

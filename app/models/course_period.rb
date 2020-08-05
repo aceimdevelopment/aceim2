@@ -54,8 +54,11 @@ class CoursePeriod < ApplicationRecord
       field :capacity do
         label 'Capacidad del Curso'
       end      
-      field :sections do
+      field :resumen_sections do
         label 'Secciones'
+        formatted_value do
+          bindings[:view].render(partial: 'course_periods/sections_index', locals: {course_period: bindings[:object]})
+        end        
       end
 
       field :canvas_enrollemnets do

@@ -1,0 +1,12 @@
+%nav
+  %ul.nav.nav-tabs
+    - course_period.sections.each_with_index do |s,i| 
+      - active = (i.eql? 0) ? ' active' : ''
+      %li{class: active}= link_to s.number_to_string, "#tab-#{s.id}", "data-toggle": "tab", class: "nav-item nav-link"
+
+.tab-content
+  - course_period.sections.each_with_index do |s,i| 
+    - active = (i.eql? 0) ? ' active' : ''
+    .tab-pane{id: "tab-#{s.id}", class: active}
+      .border.mt-3.p-3
+        = render partial: '/academic_records/index', locals: {section: s}
