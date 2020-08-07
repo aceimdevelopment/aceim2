@@ -221,7 +221,7 @@ class CoursePeriod < ApplicationRecord
 
   def canvas_format_response(list, type)
       tipo = (type.eql? 'unfinded') ? 'Estudiantes no encontrados' : 'Estudiantes encontrados pero no inscritos en el curso'
-      aux = "<a href='/enrollment/#{self.id}/sync_up_width_canvas' class= 'btn btn-success pull-right mb-0 p-1' style='margin-bottom: 0px; padding: 6px;'>Sincronizar nuevamente</a>"
+      aux = "<a href='/enrollment/#{self.id}/sync_up_width_canvas' class= 'btn btn-success pull-right mb-0 p-1' style='margin-bottom: 0px; padding: 6px;'><div class='fa fa-sliders'></div>Sincronizar nuevamente</a>"
       aux += "</br><b>#{tipo}</b>"
       aux += "<table class='table table-striped table-sm table-hover table-condensed'>"
       aux += "<thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Opciones</th></tr></thead>"
