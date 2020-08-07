@@ -15,7 +15,7 @@
           %th
           - course_period.period.qualification_schemas.each do |qs| 
             %th.text-center
-              .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.eva
+              .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.name
         %th.text-center Final
     %tbody
       - enrollments.includes({student: :user}).order('users.last_name').each_with_index do |enrolled, i| 
