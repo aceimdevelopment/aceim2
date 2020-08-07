@@ -42,7 +42,7 @@ class EnrollmentController < ApplicationController
           # enrollments = canvas.get_enrollments_to_section(id_canvas, 'StudentEnrollment')
           enrollments = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 50, role: 'StudentEnrollment'})
 
-          enrollments.reject{|enrolled| enrolled['user']['name'].eql? 'Test Student' or enrolled['user']['name'].eql? 'Estudiante de prueba' or enrolled['user']['name'].blank? }.each do |ele|
+          enrollments.reject{|enrolled| enrolled['user']['name'].eql? 'Test Student' or enrolled['user']['name'].eql? 'Estudiante de prueba'}.each do |ele|
             email = ele['user']['login_id']
             user = User.where(email: email).first
 
