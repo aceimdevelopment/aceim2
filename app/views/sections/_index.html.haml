@@ -1,0 +1,18 @@
+%table.table.table-sm.table-hover.table-striped.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th #
+			%th Idioma
+			%th Nivel
+			%th Sección
+			%th Estudiantes
+			%th Opciones
+	%tbody
+		- sections.each_with_index do |s,i| 
+			%tr
+				%td= i+1
+				%td= s.language.name
+				%td= s.level.name
+				%td= s.number_to_string
+				%td= s.academic_records.count
+				%th= link_to 'Calificar', '#', class: 'btn btn-sm btn-success'

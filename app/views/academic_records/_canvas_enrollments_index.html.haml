@@ -13,15 +13,18 @@
       alert(`No se pudo cargar el recurso en Canvas: #{e.to_s}`)
 
 
-  %h3= course['name'] if course
-  - if sections
-    %h4
-      = "#{sections.length} Secciones:"
-      .label.label-info= "#{sections.map{|sec| sec['name'].last 2}.to_sentence}"
-    .pull-right.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
-      = link_to "/enrollment/#{course_period.id}/sync_up_width_canvas", class: 'btn btn-sm btn-success' do
-        .fa.fa-sliders
-        Sincronizar
+  - if course
+    %h3= link_to course['name'], "https://canvas.instructure.com/courses/#{course['id']}/settings", target: '_blank'
+    - if sections
+      %h4
+        = "#{sections.length} Secciones:"
+        .label.label-info= "#{sections.map{|sec| sec['name'].last 2}.to_sentence}"
+        .pull-right.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
+          = link_to "/enrollment/#{course_period.id}/sync_up_width_canvas", class: 'btn btn-sm btn-success' do
+            .fa.fa-sliders
+            Sincronizar
+    - else
+      %h3.alert.alert-warning Sin Secciones encontradas
 
   - k = 1
   %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3

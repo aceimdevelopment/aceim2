@@ -369,6 +369,19 @@ class AcademicRecord < ApplicationRecord
     "<span class='badge badge-#{aux}'>#{qualification_status.name}</span>"
   end
 
+  def label_insc_status(view=nil)
+    if asignado? 
+      aux = 'success' 
+    elsif confirmado?
+      aux = 'warning'
+    else
+      aux = 'info'
+    end
+
+    label = (view and view.eql? 'admin') ? 'label' : 'badge'
+
+    "<span class='#{label} #{label}-#{aux}'>#{inscription_status}</span>"
+  end
 
   def build_qualification_status_id
     # aux = calculate_final

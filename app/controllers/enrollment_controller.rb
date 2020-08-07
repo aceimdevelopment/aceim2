@@ -12,52 +12,75 @@ class EnrollmentController < ApplicationController
 
   def sync_up_width_canvas
     begin
+      unfinded = []
+      unenrolled = []
       course_period = CoursePeriod.find params[:id]
       course_period_id = course_period.id
       course_id_canvas = course_period.id_canvas
       canvas = MyCanvas.connect
       sections = canvas.get("/api/v1/courses/#{course_id_canvas}/sections") #get_sections_of_course(course_id_canvas)
+
       sections.each do |s|
         section_id_canvas = s['id']
         number_aceim = (s['name'].last 2).to_i
-        s2 = Section.where("id_canvas = #{section_id_canvas} | (number = #{number_aceim} & course_period_id = #{course_period_id})").first
+        s2 = Section.where(id_canvas: section_id_canvas).first
+        s2 ||= Section.where(number: number_aceim, course_period_id: course_period_id).first
         s2 ||= Section.new
         s2.course_period_id = course_period_id
         s2.number = number_aceim
         s2.id_canvas = section_id_canvas
 
         # instructor = canvas.get_enrollments_to_section(id_canvas, 'TaEnrollment').first
-        instructor = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 80, role: 'TaEnrollment'}).first
+        instructor = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 10, role: 'TaEnrollment'}).first
 
-        if instructor 
-          i_aux = User.where(email: instructor['email']).first
+        if instructor
+          i_aux = User.where(email: instructor['user']['login_id']).first
           s2.instructor_id = i_aux.id if i_aux
         end
 
-        s2.save
+        if s2.save
+          # enrollments = canvas.get_enrollments_to_section(id_canvas, 'StudentEnrollment')
+          enrollments = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 50, role: 'StudentEnrollment'})
 
-        # enrollments = canvas.get_enrollments_to_section(id_canvas, 'StudentEnrollment')
-        enrollments = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 80, role: 'StudentEnrollment'})
+          enrollments.reject{|enrolled| enrolled['user']['name'].eql? 'Test Student' or enrolled['user']['name'].eql? 'Estudiante de prueba' or enrolled['user']['name'].blank? }.each do |ele|
+            email = ele['user']['login_id']
+            user = User.where(email: email).first
 
-        enrollments.each do |e|
-          email = e['user']['login_id']
-          user = User.where(email: email).first
-
-          if user and es = user.student
-            user.update(id_canvas: e['user']['id'])
-            #if enrolled = es.academic_records.joins(:course_period).where("course_periods.id = #{course_period_id}").first
-            if enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period_id}").first
-              enrolled.update(inscription_status: :asignado) if enrolled.confirmado?
+            if user and es = user.student
+              user.update(id_canvas: ele['user']['id'])
+              if enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period_id}").first
+              # if enrolled = es.academic_records.joins(:course_period).where("course_periods.id = #{course_period_id}").first
+                enrolled.section_id = s2.id
+                enrolled.inscription_status = :asignado if enrolled.confirmado?
+                enrolled.save!
+              else
+                unenrolled << [ele['user']['id'], ele['user']['login_id'], ele['user']['name']]
+              end
+            else
+              unfinded << [ele['user']['id'], ele['user']['login_id'], ele['user']['name']]
             end
           end
+        else
+          flash[:error] = 'No se pudo guardar la sección'
         end
       end
       
+      flash[:success] = 'Sincronización realizada con éxito'
     rescue Exception => e
       flash[:error] = "Error: #{e}"
     end
 
-    flash[:success] = 'Migraación realizada con éxito'
+    if unenrolled.any?
+      session[:course_period_id] = course_period.id
+      flash[:warning] = "Algunos estudiantes no están inscritos. Revise el área de las secciones para mayor detalle."
+      session[:unenrolled] = unenrolled.first(21) #course_period.canvas_format_response(unenrolled, 'unenrolled')
+    end
+    if unfinded.any?
+      session[:course_period_id] = course_period.id
+      flash[:danger] = "Algunos estudiantes no fueron encontrados. Revise el área de las secciones para mayor detalle."
+      session[:unfinded] = unfinded.first(21) #course_period.canvas_format_response(unfinded, 'unfinded')
+    end
+
     redirect_back fallback_location: '/admin/course_period'
   end
 

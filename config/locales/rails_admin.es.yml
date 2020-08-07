@@ -30,6 +30,7 @@ es:
       optional: "<span class='label label-default'>Opcional</span>"
       required: "<span class='label label-danger'>Requerido</span>"
       char_length_up_to: "máximos caracteres permitidos "
+      cancel: "Cancelar"
     actions:
       import:
         done: "guardar"

@@ -45,6 +45,8 @@ class Section < ApplicationRecord
         label 'Descripción'
         read_only true
       end
+      field :instructor
+
       field :open do
         label '¿Abierta?'
       end
@@ -173,7 +175,7 @@ class Section < ApplicationRecord
         filterable :name
         searchable :name
       end
-      field :number do
+      field :number_to_string do
         label 'número'
         filterable false
       end

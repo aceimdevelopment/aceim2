@@ -1,0 +1,18 @@
+%table.table
+  %thead
+    %tr
+      %th Curso
+      %th Periodo
+      %th Tipo
+      %th Id Canvas
+      %th Capacidad
+      %th INS/CONF/ASIG(Canvas)
+
+  %tbody
+    %tr
+      %th= link_to cp.course.name, "/admin/courses/#{cp.course_id}"
+      %th= link_to cp.period.name, "/admin/period/#{cp.period_id}"
+      %th= cp.kind.capitalize
+      %th= link_to cp.id_canvas, "https://canvas.instructure.com/courses/#{cp.id_canvas}/settings", target: '_blank'
+      %th= cp.capacity
+      %th= cp.enrollments_confirmed

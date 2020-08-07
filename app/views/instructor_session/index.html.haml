@@ -1,8 +1,5 @@
 %br
 %br
-.text-center
-  %h1.mt-5
-    %span.fa.fa-bicycle
-    Sessión en Construcción
-    %span.fa.fa-bicycle
-  %h3.text-muted.alert.alert-warning Por favor salga de la sesión actual y seleccione otro rol
+.border.mt-3.p-3
+	%h3 Secciones:
+	= render partial: '/sections/index', locals: {sections: @instructor.sections}

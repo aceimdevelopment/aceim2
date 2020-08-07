@@ -39,6 +39,19 @@ class Instructor < ApplicationRecord
     #   mapping_key :user_id
     #   mapping_key_list [:active]
     # end
+    show do
+
+      field :user do
+        label 'usuario'
+      end
+      field :active do
+        label 'Activo'
+      end
+      field :sections do
+        label 'Secciones'
+      end
+
+    end
 
     edit do
 

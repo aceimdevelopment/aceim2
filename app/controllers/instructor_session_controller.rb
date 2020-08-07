@@ -8,6 +8,7 @@ class InstructorSessionController < ApplicationController
 		else
 			@user = current_user
 		end
+		@instructor = @user.instructor
 	end
 
 end

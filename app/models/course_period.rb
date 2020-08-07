@@ -42,31 +42,34 @@ class CoursePeriod < ApplicationRecord
     # end
 
     show do
-      field :course do
-        label 'Curso'
+      # field :id_canvas do 
+      #   label 'Id Canvas'
+      #   formatted_value do
+      #     path = "https://canvas.instructure.com/courses/#{bindings[:object].id_canvas}/settings"
+      #     bindings[:view].link_to(bindings[:object].id_canvas, path, {target: '_blank'} )
+      #   end
+      # end
+
+      field :desc_show do
+        label 'Descripción'
+        formatted_value do
+          bindings[:view].render(partial: 'course_periods/desc_show', locals: {cp: bindings[:object]})
+        end
+
       end
-      field :period do
-        label 'Period'
-      end
-      field :kind do
-        label 'Tipo'
-      end
-      field :capacity do
-        label 'Capacidad del Curso'
-      end      
       field :resumen_sections do
         label 'Secciones'
         formatted_value do
           bindings[:view].render(partial: 'course_periods/sections_index', locals: {course_period: bindings[:object]})
-        end        
-      end
-
-      field :canvas_enrollemnets do
-        label 'Inscritos en Canvas'
-        formatted_value do
-          bindings[:view].render(partial: 'academic_records/canvas_enrollments_index', locals: {course_period: bindings[:object]})
         end
       end
+
+      # field :canvas_enrollemnets do
+      #   label 'Inscritos en Canvas'
+      #   formatted_value do
+      #     bindings[:view].render(partial: 'academic_records/canvas_enrollments_index', locals: {course_period: bindings[:object]})
+      #   end
+      # end
     end
 
     list do
@@ -100,10 +103,6 @@ class CoursePeriod < ApplicationRecord
 
       field :capacity do
         label 'Capacidad'
-      end
-
-      field :enrollments_confirmed do
-        label 'Ins/Confir/RegCanvas'
       end
 
       field :enrolled do
@@ -218,6 +217,21 @@ class CoursePeriod < ApplicationRecord
 
   def level
     course.level if course
+  end
+
+  def canvas_format_response(list, type)
+      tipo = (type.eql? 'unfinded') ? 'Estudiantes no encontrados' : 'Estudiantes encontrados pero no inscritos en el curso'
+      aux = "<a href='/enrollment/#{self.id}/sync_up_width_canvas' class= 'btn btn-success pull-right mb-0 p-1' style='margin-bottom: 0px; padding: 6px;'>Sincronizar nuevamente</a>"
+      aux += "</br><b>#{tipo}</b>"
+      aux += "<table class='table table-striped table-sm table-hover table-condensed'>"
+      aux += "<thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Opciones</th></tr></thead>"
+
+      list.each_with_index do |u, i|
+        href = "https://canvas.instructure.com/courses/#{self.id_canvas}/users/#{u[0]}"
+        aux += "<tbody><tr><td>#{i+1}</td><td>#{u[2]}</td><td>#{u[1]}</td><td><a target='_blank' href='#{href}' target='_blank'>Ver en Canvas</a><td></tr>"
+      end
+      aux += "</tbody></table>"
+      return aux
   end
 
   def before_import_save(record)
