@@ -44,7 +44,7 @@ class EnrollmentController < ApplicationController
 
           enrollments.reject{|enrolled| enrolled['user']['name'].eql? 'Test Student' or enrolled['user']['name'].eql? 'Estudiante de prueba'}.each do |ele|
             email = ele['user']['login_id']
-            user = User.where(email: email).first
+            user = User.where("email = '#{email}' OR login_id_canvas = '#{email}'").first
 
             if user and es = user.student
               user.update(id_canvas: ele['user']['id'])
@@ -54,10 +54,10 @@ class EnrollmentController < ApplicationController
                 enrolled.inscription_status = :asignado if enrolled.confirmado?
                 enrolled.save!
               else
-                unenrolled << [ele['user']['id'], ele['user']['login_id'], ele['user']['name']]
+                unenrolled << [ele['user']['id'], email, ele['user']['name']]
               end
             else
-              unfinded << [ele['user']['id'], ele['user']['login_id'], ele['user']['name']]
+              unfinded << [ele['user']['id'], email, ele['user']['name']]
             end
           end
         else

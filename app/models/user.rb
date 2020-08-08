@@ -98,12 +98,21 @@ class User < ApplicationRecord
       field :email do
         label 'Correo'
       end
+      field :login_id_canvas do
+        label 'Login Id Canvas'
+      end
+
+      field :id_canvas do
+        label 'Id Canvas'
+      end
+
       field :number_phone do
         label 'Número Telefónico'
         html_attributes do
           {:length => 12, :size => 12, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^0-9]/g,''))"}
         end        
       end
+
       field :password do
         label 'Contraseña'
       end
