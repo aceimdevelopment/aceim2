@@ -1,0 +1,20 @@
+.container-fluid.middle-box.text-center.loginscreen.animated.fadeInDown.mt-1
+	%table.table.table-responsive-md.border
+		%thead
+			%tr
+				%th Periodo
+				%th Idioma
+				%th Nivel
+				%th Tipo
+				%th Numero
+				%th Total
+				%th Instructor
+		%tbody
+			%tr
+				%th= section.period.name
+				%th= section.language.name
+				%th= section.level.name
+				%th= section.course_period_kind
+				%th= section.number_to_string
+				%th= section.asigned
+				%th= section.instructor.user.name

@@ -1,7 +1,7 @@
 - course_period = section.course_period
 - enrollments = section.academic_records
-
-.table-responsive
+- enabled_qua = ((controller_name.eql? 'main' and !current_page?(model_name: 'course_period', action: 'show')) and (current_user.administrator? and current_user.administrator.high_authotization?) or (course_period.period.enabled_qualification and section.instructor_id.eql?(current_user.id)))
+.table-responsive.border
   %table.table.table-striped.table-condensed.table-hover{align: :center}
     %thead
       %tr
@@ -10,10 +10,10 @@
         %th Apellidos
         %th Nombre
         %th Corrreo
-        %th 
-          Status
-
-        - if !current_page?(model_name: 'course_period', action: 'show') and (current_user.administrator? and current_user.administrator.high_authotization? or (course_period.period.enabled_qualification and section.instructor_id.eql? current_user.id and section.qualification_detail and !section.qualification_detail.qualified))
+        - if (controller_name.eql? 'main')
+          %th 
+            Status
+        - if enabled_qua
           %th
           - course_period.period.qualification_schemas.each do |qs| 
             %th.text-center
@@ -24,17 +24,18 @@
         - user = enrolled.student.user
         %tr
           %td= i+1
-          %td= link_to enrolled.student.ci, "/admin/student/#{enrolled.student_id}"
+          %td= link_to_if (controller_name.eql? 'main'),  enrolled.student.ci, "/admin/student/#{enrolled.student_id}"
           %td
             .tooltip-btn{"data-toggle": :tooltip, title: user.last_name}= user.last_name
           %td
             .tooltip-btn{"data-toggle": :tooltip, title: user.name}= user.name
           %td
             .tooltip-btn{"data-toggle": :tooltip, title: user.email}=user.email
-          %td
-            .tooltip-btn{"data-toggle": :tooltip, title: enrolled.inscription_status.capitalize}=raw enrolled.label_insc_status('admin')
+          - if (controller_name.eql? 'main')
+            %td
+              .tooltip-btn{"data-toggle": :tooltip, title: enrolled.inscription_status.capitalize}=raw enrolled.label_insc_status('admin')
 
-          - if !current_page?(model_name: 'course_period', action: 'show') and (current_user.administrator? and current_user.administrator.high_authotization?or (course_period.period.enabled_qualification and section.instructor_id.eql? current_user.id and section.qualification_detail and !section.qualification_detail.qualified))
+          - if enabled_qua
             %td
               - if  enrolled.preinscrito?
                 .tooltip-btn{"data-toggle": :tooltip, title: 'Eliminar Registro'}
@@ -48,4 +49,28 @@
               - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
               = text_field_tag "final#{enrolled.id}", enrolled.final_desc, class: "form-control form-control-sm mr-2 #{clase}", disabled: true, readonly: true, style: 'width:5em;'
 
+:javascript
 
+
+  function sendForm(id, responseFieldId) {
+
+    var xhr = new XMLHttpRequest();
+    var form = document.getElementById(id)
+    var formData = new FormData(form);
+    xhr.open("POST", form.action);
+    xhr.onload = function(event) {
+      var resp = JSON.parse(event.target.response)
+      // console.log(resp)
+      var responseField = document.getElementById(responseFieldId)
+      responseField.value = resp.data;
+      if (resp.data == 'PI' | parseInt(resp.data) < 15) {
+        responseField.className = 'form-control form-control-sm mr-2 alert-danger';
+      } else if (parseInt(resp.data) > 14) {
+        responseField.className = 'form-control form-control-sm mr-2 alert-success';
+      } else { responseField.className = 'form-control form-control-sm mr-2'; }
+      toastr.success('Calificación Guardada')
+
+    };
+    // or onerror, onabort
+    xhr.send(formData);
+  }

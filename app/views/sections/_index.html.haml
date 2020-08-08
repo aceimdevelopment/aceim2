@@ -15,4 +15,6 @@
 				%td= s.level.name
 				%td= s.number_to_string
 				%td= s.academic_records.count
-				%th= link_to 'Calificar', '#', class: 'btn btn-sm btn-success'
+				- aux = s.period.enabled_qualification? ? 'Calificar' : 'Ver Detalle'
+
+				%th= link_to aux, show_sections_instructor_session_path(s.id), class: 'btn btn-sm btn-success'

@@ -239,6 +239,10 @@ class Section < ApplicationRecord
     academic_records.confirmado.count
   end
 
+  def asigned
+    academic_records.asignado.count
+  end
+
   def canvas
     academic_records.asignado.count
   end

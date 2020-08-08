@@ -60,7 +60,11 @@ Rails.application.routes.draw do
   end
 
   resources :student_session, only: [:index]
-  resources :instructor_session, only: [:index]
+  resources :instructor_session, only: [:index] do
+    member do
+      get 'show_sections'
+    end
+  end
   resources :enrollment, only: [:index] do
     member do
       get 'regular'

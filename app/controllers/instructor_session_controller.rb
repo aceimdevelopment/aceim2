@@ -11,4 +11,8 @@ class InstructorSessionController < ApplicationController
 		@instructor = @user.instructor
 	end
 
+
+	def show_sections
+		@section = Section.find params[:id]
+	end
 end
