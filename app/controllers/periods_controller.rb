@@ -11,6 +11,8 @@ class PeriodsController < ApplicationController
 			@period.enabled_login_canvas_link = !@period.enabled_login_canvas_link
 		when 'enrollment'
 			@period.enrollment = !@period.enrollment
+		when 'enabled_qualification'
+			@period.enabled_qualification = !@period.enabled_qualification
 		end
 
 		if @period.save

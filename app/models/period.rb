@@ -66,6 +66,15 @@ class Period < ApplicationRecord
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', url: url, to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin', alert: false})
           end
         end
+
+        field :qualification do
+          label 'Calificar'
+          formatted_value do
+            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=enabled_qualification"
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Calificación', url: url, to_checked: bindings[:object].enabled_qualification, id_html: 'calification', alert: false})
+          end
+        end
+
       end
 
       show do

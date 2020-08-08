@@ -73,7 +73,9 @@ class CoursePeriod < ApplicationRecord
     end
 
     list do
-
+      # sort_by 'periods.created_at DESC'
+      checkboxes false
+      items_per_page 35
       field :period do
         label 'Periodo'
         formatted_value do

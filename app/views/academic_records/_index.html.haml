@@ -10,8 +10,10 @@
         %th Apellidos
         %th Nombre
         %th Corrreo
-        %th Status
-        - if current_user.administrator? and current_user.administrator.high_authotization?
+        %th 
+          Status
+
+        - if !current_page?(model_name: 'course_period', action: 'show') and (current_user.administrator? and current_user.administrator.high_authotization? or (course_period.period.enabled_qualification and section.instructor_id.eql? current_user.id and section.qualification_detail and !section.qualification_detail.qualified))
           %th
           - course_period.period.qualification_schemas.each do |qs| 
             %th.text-center
@@ -32,7 +34,7 @@
           %td
             .tooltip-btn{"data-toggle": :tooltip, title: enrolled.inscription_status.capitalize}=raw enrolled.label_insc_status('admin')
 
-          - if current_user.administrator? and current_user.administrator.high_authotization?
+          - if !current_page?(model_name: 'course_period', action: 'show') and (current_user.administrator? and current_user.administrator.high_authotization?or (course_period.period.enabled_qualification and section.instructor_id.eql? current_user.id and section.qualification_detail and !section.qualification_detail.qualified))
             %td
               - if  enrolled.preinscrito?
                 .tooltip-btn{"data-toggle": :tooltip, title: 'Eliminar Registro'}

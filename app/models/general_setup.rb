@@ -1,11 +1,11 @@
 class GeneralSetup < ApplicationRecord
 
   validates :id, presence: true
+
   def self.video_tuto_canvas_value
     aux = GeneralSetup.where(id: "VIDEO_TUTORIAL_CANVAS").first
     (aux and aux.value) ? aux.value : ''
   end
-
 
 	def self.permitir_registros_nuevos
 		aux = GeneralSetup.where(id: "PERMITIR_NUEVOS_REGISTROS").first
