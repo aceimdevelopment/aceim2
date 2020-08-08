@@ -34,7 +34,7 @@ class EnrollmentController < ApplicationController
         instructor = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 10, role: 'TaEnrollment'}).first
 
         if instructor
-          i_aux = User.where(email: instructor['user']['login_id']).first
+          i_aux = User.where("email = '#{email}' OR login_id_canvas = '#{email}'").first
           s2.instructor_id = i_aux.id if i_aux
         end
 
