@@ -223,7 +223,8 @@ class CoursePeriod < ApplicationRecord
 
   def canvas_format_response(list, type)
       tipo = (type.eql? 'unfinded') ? 'Estudiantes no encontrados' : 'Estudiantes encontrados pero no inscritos en el curso'
-      time = "<b>Fecha de Última Sincronización:</b> #{I18n.l(Time.now, format: '%a, %d / %B / %Y (%I:%M%p)')}"
+      t = Time.now - 4.hours
+      time = "<b>Fecha de Última Sincronización:</b> #{I18n.l(t, format: '%a, %d / %B / %Y (%I:%M%p)')}"
       aux = "<a href='/enrollment/#{self.id}/sync_up_width_canvas' class= 'btn btn-success pull-right mb-0 p-1' style='margin-bottom: 0px; padding: 6px;'><div class='fa fa-sliders'></div>Sincronizar nuevamente</a>"
       aux += "<p class= 'pull-right' style='margin-bottom: 0px; padding: 6px;'>#{time}</p>"
       aux += "</br><b>#{tipo}</b>"
