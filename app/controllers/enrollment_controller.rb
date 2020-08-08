@@ -74,12 +74,18 @@ class EnrollmentController < ApplicationController
     if unenrolled.any?
       session[:course_period_id] = course_period.id
       flash[:warning] = "Algunos estudiantes no están inscritos. Revise el área de las secciones para mayor detalle."
-      session[:unenrolled] = unenrolled.first(21) #course_period.canvas_format_response(unenrolled, 'unenrolled')
+      # session[:unenrolled] = unenrolled.first(21) #course_period.canvas_format_response(unenrolled, 'unenrolled')
+      course_period.update(response_unenrolled_canvas: course_period.canvas_format_response(unenrolled, 'unenrolled'))
+    else
+      course_period.update(response_unenrolled_canvas: nil)
     end
     if unfinded.any?
       session[:course_period_id] = course_period.id
       flash[:danger] = "Algunos estudiantes no fueron encontrados. Revise el área de las secciones para mayor detalle."
-      session[:unfinded] = unfinded.first(21) #course_period.canvas_format_response(unfinded, 'unfinded')
+      # session[:unfinded] = unfinded.first(21) #course_period.canvas_format_response(unfinded, 'unfinded')
+      course_period.update(response_unfinded_canvas: course_period.canvas_format_response(unfinded, 'unfinded'))
+    else
+      course_period.update(response_unfinded_canvas: nil)
     end
 
     redirect_back fallback_location: '/admin/course_period'

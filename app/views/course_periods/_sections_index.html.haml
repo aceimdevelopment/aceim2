@@ -1,14 +1,9 @@
-- if session[:course_period_id].eql? course_period.id
-  - if session[:unfinded]
-    .alert.alert-danger.border.border-danger
-      - if (session[:unfinded].count > 20)
-        %h5.alert.alert-danger= 'ATENCIÓN: Hay más de 20 registros. Le recomendamos limpiar la data para ver completamente los registros encontrados.'
-      = raw (course_period.canvas_format_response(session[:unfinded], 'unfinded'))
-  - if session[:unenrolled]
-    .alert.alert-warning.border.border-warning
-      - if (session[:unenrolled].count > 20)
-        %h5.alert.alert-danger= 'ATENCIÓN: Hay más de 20 registros. Le recomendamos limpiar la data para ver completamente los registros encontrados'    
-      = raw (course_period.canvas_format_response(session[:unenrolled], 'unfinded'))
+- if course_period.response_unfinded_canvas
+  .alert.alert-danger
+    = raw (course_period.response_unfinded_canvas)
+- if course_period.response_unenrolled_canvas
+  .alert.alert-warning
+    = raw (course_period.response_unenrolled_canvas)
 %nav
   %ul.nav.nav-tabs
     - course_period.sections.each_with_index do |s,i| 
