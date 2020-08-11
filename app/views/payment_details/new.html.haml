@@ -100,7 +100,7 @@
           = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
 
     .form-group.row.px-3
-      = f.label :customer, class: 'col-sm-5 control-label', value: 'Nombre Cliente:', style: 'text-align: right'
+      = f.label :customer, class: 'col-sm-5 control-label', value: 'A Nombre De:', style: 'text-align: right'
 
       .col-sm-5.my-1.alert.alert-warning 
         .input-group
@@ -110,7 +110,7 @@
           = f.text_field :customer_name, class: 'form-control', placeholder: 'Nombre Empresa C.A.'
           .btn.bg-light
             Opcional
-        Escriba aquí el nombre del cliente si desea que la factura sea emitida a nombre de un tercero
+        Escriba aquí el nombre del cliente si desea que la factura sea emitida a nombre de un tercero.
 
 
     .form-group.row.px-3
