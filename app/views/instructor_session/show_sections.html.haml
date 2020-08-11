@@ -1,6 +1,8 @@
-%br
-%br
-.p-3= render partial: '/sections/description_table', locals: {section: @section}
+.p-3
+	= link_to instructor_session_index_path, class: 'm-3 btn btn-sm btn-secondary' do
+		.fa.fa-chevron-left
+		Atrás
+	= render partial: '/sections/description_table', locals: {section: @section}
 	
 
 .m-3.p-3= render partial: '/academic_records/index', locals: {section: @section}

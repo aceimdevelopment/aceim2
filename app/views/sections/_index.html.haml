@@ -2,6 +2,7 @@
 	%thead
 		%tr
 			%th #
+			%th Periodo
 			%th Idioma
 			%th Nivel
 			%th Sección
@@ -11,6 +12,7 @@
 		- sections.each_with_index do |s,i| 
 			%tr
 				%td= i+1
+				%td= s.period.name
 				%td= s.language.name
 				%td= s.level.name
 				%td= s.number_to_string

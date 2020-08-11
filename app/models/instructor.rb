@@ -41,8 +41,12 @@ class Instructor < ApplicationRecord
     # end
     show do
 
-      field :user do
+      field :description do
         label 'usuario'
+        formatted_value do
+          path = bindings[:view].show_path(model_name: 'User', id: bindings[:object].user_id)
+          bindings[:view].link_to(bindings[:object].user.description, path )
+        end
       end
       field :active do
         label 'Activo'
