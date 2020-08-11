@@ -120,7 +120,7 @@ class PaymentDetailsController < ApplicationController
 	end
 
 	def payment_detail_params
-	params.require(:payment_detail).permit(:id, :created_at, :transaction_number, :mount, :source_bank_id, :bank_account_id, :academic_record_id, :transaction_type, :backup_file)
+	params.require(:payment_detail).permit(:id, :created_at, :transaction_number, :mount, :source_bank_id, :bank_account_id, :academic_record_id, :transaction_type, :backup_file, :customer_name)
 	end
 
 end

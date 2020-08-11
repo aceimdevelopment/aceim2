@@ -335,7 +335,7 @@ class AcademicRecord < ApplicationRecord
   end
 
   def SC?
-    self.final_qualification.eql? SC
+    self.qualification_status_id.eql? 'SC'
   end
 
   def final_desc

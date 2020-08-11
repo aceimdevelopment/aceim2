@@ -5,7 +5,6 @@
     Atrás
   = "Reporte de Pago para: #{@academic_record.course_period.description_inscription}"
 
-
 = render partial: "/bank_account/show", locals: {ar: @academic_record}
 .border.px-5.mx-3.pt-3
   %h4.text-center Reporte de Pago
@@ -99,6 +98,20 @@
               %span.fa.fa-file-image-o
           =# f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
           = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
+
+    .form-group.row.px-3
+      = f.label :customer, class: 'col-sm-5 control-label', value: 'Nombre Cliente:', style: 'text-align: right'
+
+      .col-sm-5.my-1
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              %span.fa.fa-user
+          = f.text_field :customer_name, class: 'form-control', placeholder: 'Si desea que sea a nombre de un particular'
+          .btn.bg-light
+            Opcional
+
+
     .form-group.row.px-3
       .col-sm-5
       .col-offset-2.col-5

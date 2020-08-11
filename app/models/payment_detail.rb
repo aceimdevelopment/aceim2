@@ -134,7 +134,9 @@ class PaymentDetail < ApplicationRecord
 				label 'Fecha'
 			end
 
-
+			field :customer_name do
+				label 'A Nombre de'
+			end
 		end
 
 		list do
@@ -211,6 +213,10 @@ class PaymentDetail < ApplicationRecord
 			# field :backup_file, :active_storage do
 			# 	label 'Imagen'
 			# end
+			field :customer_name do
+				label 'A Nombre de'
+			end
+
 
 			field :academic_record do
 				label 'Inscripción'
@@ -249,6 +255,13 @@ class PaymentDetail < ApplicationRecord
 		aux = academic_record.section.course_period
 		"#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"
 	end
+
+	def course_description_with_student
+		aux = academic_record.section.course_period
+		aux = "#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"
+		"#{client_description}: #{aux}"
+	end
+
 
 
 	private

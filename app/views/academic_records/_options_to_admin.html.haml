@@ -1,2 +1,6 @@
-= link_to "/admin/academic_record/#{ar.id}",{type: 'button', class: 'tooltip-btn btn btn-sm btn-info mb-2 ml-2', title: 'Ir al registro de inscripción', data: {toggle: :tooltip}} do
+= link_to "/admin/academic_record/#{ar.id}",{type: 'button', class: 'tooltip-btn btn btn-sm btn-info', title: 'Ir al registro de inscripción', data: {toggle: :tooltip}} do
   %span.fa.fa-search
+
+- unless ar.payment_detail.nil?
+  = link_to "/admin/payment_detail/#{ar.payment_detail.id}",{type: 'button', class: 'tooltip-btn btn btn-sm btn-success', title: 'Ir al detalle de pago de inscripción', data: {toggle: :tooltip}, style: "margin-left: 10px"} do
+    %span.fa.fa-money
