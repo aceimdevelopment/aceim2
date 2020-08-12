@@ -20,7 +20,7 @@
   = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Haz clíc aquí para entrar a tu curso en CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
     Entrar a mi curso ONLINE
     %span.fa.fa-external-link
-- if ar.SC? and ar.payment_detail.nil?
+- if ar.preinscrito? and ar.SC? and ar.payment_detail.nil?
   = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning mb-2 ml-2' do
     %span.fa.fa-money
     Reportar Pago
