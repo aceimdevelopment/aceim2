@@ -6,8 +6,10 @@
 			%th Periodo
 			%th Nivel
 			%th Modalidad
-			%th Status
-			%th Cal
+			%th Insc. Estado
+			%th Insc. Calif.
+			%th Valor Calif.
+
 			%th Convenio
 			%th Sección
 			%th Opciones
@@ -24,7 +26,9 @@
 					- if ar.approved?
 						- if ar.is_last_level_approved?
 							%span.fa.fa-star.text-warning.tooltip-btn{"data-toggle": :tooltip, title: 'Último nivel aprobado'}
-				%td= ar.course_period.kind
+				%td
+					.label.label-info= ar.course_period.kind.upcase
+				%td= raw ar.label_insc_status('admin')
 				%td= raw ar.label_fq
 				%td= ar.final_desc
 				%td= ar.agreement.name

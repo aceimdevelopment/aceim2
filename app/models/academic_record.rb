@@ -366,7 +366,7 @@ class AcademicRecord < ApplicationRecord
     else
       aux = 'info'
     end
-    "<span class='badge badge-#{aux}'>#{qualification_status.name}</span>"
+    "<span class='label label-#{aux}'>#{qualification_status.name}</span>"
   end
 
   def label_insc_status(view=nil)
