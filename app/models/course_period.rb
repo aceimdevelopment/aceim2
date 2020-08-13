@@ -18,7 +18,6 @@ class CoursePeriod < ApplicationRecord
 
   #========== VALIDATIONS ==========#
   validates :course, presence: true
-  validates_with StudentCoursePeriod, field_name: false, if: :new_record?
   validates :period, presence: true
   validates :kind, presence: true
   validates :capacity, presence: true
