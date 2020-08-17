@@ -8,7 +8,7 @@ class Period < ApplicationRecord
     validates_uniqueness_of :year, scope: :letter, message: 'Período ya creado', field_name: false 
 
     has_many :qualification_schemas, inverse_of: :period
-    has_many :course_periods
+    has_many :course_periods, inverse_of: :period
     accepts_nested_attributes_for :course_periods
     has_many :courses, through: :course_periods
     accepts_nested_attributes_for :courses
@@ -82,8 +82,11 @@ class Period < ApplicationRecord
           label 'Id'
         end
 
-        field :qualification_schemas do 
-          label 'Esquemas de caificaciones'
+        field :qualification_report do 
+          label 'Reporte de caificaciones'
+          formatted_value do
+            bindings[:view].render(partial: "rails_admin/main/qualification_schemas/index", locals: {qa_schemas: bindings[:object].qualification_schemas})
+          end
         end
 
         field :programations do

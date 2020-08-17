@@ -1,14 +1,25 @@
+- qa_schs = virtual_object.qualification_schemas.order(:sequence)
+
+.badge.badge-info
+	Total Cursos (Programaciones)
+	= virtual_object.course_periods.count
 %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
 	%thead
 		%tr
-			%th #
 			%th Idioma
 			%th Nivel
 			%th Tipo
+			- qa_schs.each do |qs| 
+				%th= qs.desc
 	%tbody
-		- virtual_object.course_periods.each do |cp| 
+		- virtual_object.course_periods.joins(course: [:language, :level]).order([:kind, 'languages.name', 'levels.grade']).each do |cp| 
 			%tr
-				%td= cp.id
 				%td= cp.language.name
 				%td= cp.level.name
 				%td= cp.kind
+				- qa_schs.each do |qs| 
+					%td
+						.tooltip-btn.label.label-success{'data-toggle': :tolltip, title: 'Calificados'}
+							= PartialQualification.from_qualification_schema_and_course_period_qualified(qs.id, cp.id).count
+						.tooltip-btn.label.label-danger{'data-toggle': :tolltip, title: 'Pendientes'}
+							= PartialQualification.from_qualification_schema_and_course_period_not_qualified(qs.id, cp.id).count

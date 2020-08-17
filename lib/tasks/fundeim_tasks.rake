@@ -1,3 +1,12 @@
+desc "Actualizar valores de las calificaciones"
+task update_value_qualifications: :environment do
+  p 'Iniciando...'
+  PartialQualification.joins(academic_record: {section: {course_period: :period}}).where("periods.name = '2020-B' and value = 0").update_all(value: nil)
+  AcademicRecord.where(final_qualification: 0).update_all(final_qualification: -2, qualification_status_id: 'SC')
+
+end
+
+
 desc "Confirmar y enviar correo de confirmación"
 task confirm_and_send_mail: :environment do
   puts 'Iniciando...'

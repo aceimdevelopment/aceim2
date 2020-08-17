@@ -351,7 +351,7 @@ class AcademicRecord < ApplicationRecord
 
   def calculate_final
     final = 0
-    self.partial_qualifications.each do |pq|
+    self.partial_qualifications.where('value IS NOT NULL').each do |pq|
       percent = pq.qualification_schema ? pq.qualification_schema.percentage*(0.01) : 0
       final += percent*pq.value
     end

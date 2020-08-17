@@ -1,0 +1,17 @@
+%table.table.table-sm.table-hover.table-striped.table-responsive-md.mt-3
+	%thead
+		%tr
+			%th Calificación
+			- Language.all.each do |l| 
+				%th= l.name
+
+	%tbody
+		- qa_schemas.order(:sequence).each do |qs| 
+			%tr
+				%td= qs.desc
+				- Language.all.each do |l| 
+					%td
+						.tooltip-btn.label.label-success{'data-toggle': :tolltip, title: 'Calificados'}
+							= PartialQualification.from_qualification_schema_and_language_qualified(qs.id, l.id).count
+						.tooltip-btn.label.label-danger{'data-toggle': :tolltip, title: 'Pendientes'}
+							= PartialQualification.from_qualification_schema_and_language_not_qualified(qs.id, l.id).count

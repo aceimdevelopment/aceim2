@@ -75,6 +75,7 @@ class CoursePeriod < ApplicationRecord
       # sort_by 'periods.created_at DESC'
       checkboxes false
       items_per_page 33
+
       field :period do
         label 'Periodo'
         formatted_value do
@@ -132,7 +133,9 @@ class CoursePeriod < ApplicationRecord
       field :numbers do
         label 'secciones'
         formatted_value do
-          bindings[:object].sections.map { |s| s.number_to_string }.to_sentence
+          #bindings[:object].sections.map{ |s| bindings[:view].link_to(s.number_to_string, "/admin/section/#{s.id}") }.to_sentence
+          bindings[:object].sections.map{ |s| s.number_to_string }.to_sentence
+
         end
       end
 
