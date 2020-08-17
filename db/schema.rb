@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_17_155801) do
+ActiveRecord::Schema.define(version: 2020_08_17_234503) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_155801) do
   end
 
   create_table "partial_qualifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.decimal "value", precision: 10
+    t.decimal "value", precision: 10, scale: 2
     t.bigint "qualification_schema_id", null: false
     t.bigint "academic_record_id", null: false
     t.datetime "created_at", precision: 6, null: false
