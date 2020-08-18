@@ -1,18 +1,13 @@
-
+- readonly = current_user.administrator && current_user.administrator.supervisor?
 - @partial_qualification = PartialQualification.where(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id).first
-- if @partial_qualification
-- else
-  - @partial_qualification = PartialQualification.create(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id, value: 0)
-  -# action_aux = '/partial_qualifications'
-  -# @partial_qualification.academic_record_id = academic_record_id
-  -# @partial_qualification.qualification_schema_id = qualification_schema_id
+
+- @partial_qualification ||= PartialQualification.create(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id, value: 0)
+
 - action_aux = "/partial_qualifications/#{@partial_qualification.id}"
 
 = form_for @partial_qualification, url: action_aux, html: { role: "form", id: "formToPQ#{@partial_qualification.id}"}, authenticity_token: true, remote: true, type: :json do |f|
-  - if false #action_aux.eql? "/partial_qualifications/#{@partial_qualification.id}"
-    = f.hidden_field '_method', value: :patch
   = f.hidden_field :qualification_schema_id, id: "qualification_schema_id#{@partial_qualification.id}"
   = f.hidden_field :academic_record_id, id: "academic_record_id#{@partial_qualification.id}"
   .form-group
-    = f.number_field :value, class: 'form-control form-control-sm mr-1', onChange: "sendForm('formToPQ#{@partial_qualification.id}', 'final#{academic_record_id}');", id: "value#{@partial_qualification.id}", style: 'width:5em;', in: -2...21, step: 0.5
+    = f.number_field :value, class: 'form-control form-control-sm mr-1', onChange: "sendForm('formToPQ#{@partial_qualification.id}', 'final#{academic_record_id}');", id: "value#{@partial_qualification.id}", style: 'width:5em;', in: -2...21, step: 0.5, readonly: readonly
     
