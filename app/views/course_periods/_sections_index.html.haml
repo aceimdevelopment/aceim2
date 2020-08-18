@@ -17,7 +17,7 @@
         %span.label.label-success.border.border-success
           .fa.fa-sliders
           Sincronizar
-
+- qa_schs = course_period.period.qualification_schemas.order(:sequence)
 .tab-content
   - course_period.sections.each_with_index do |s,i| 
     - active = (i.eql? 0) ? ' active' : ''
@@ -28,11 +28,11 @@
         %table.table
           %thead
             %tr.text-center
-              - course_period.period.qualification_schemas.each do |qs| 
+              - qa_schs.each do |qs| 
                 %th= qs.desc
           %tbody
             %tr.text-center
-              - course_period.period.qualification_schemas.each do |qs| 
+              - qa_schs.each do |qs| 
                 %td
                   .tooltip-btn.label.label-success{'data-toggle': :tolltip, title: 'Calificados'}
                     = PartialQualification.from_qualification_schema_and_section_qualified(qs.id, s.id).count
