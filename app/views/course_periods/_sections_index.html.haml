@@ -24,9 +24,23 @@
     .tab-pane{id: "tab-#{s.id}", class: active}
       .border.mt-3.p-3
         %b= "Total Inscritos Aceim: #{s.academic_records.count}"
-        .pull-right
-          
+        
+        %table.table
+          %thead
+            %tr.text-center
+              - course_period.period.qualification_schemas.each do |qs| 
+                %th= qs.desc
+          %tbody
+            %tr.text-center
+              - course_period.period.qualification_schemas.each do |qs| 
+                %td
+                  .tooltip-btn.label.label-success{'data-toggle': :tolltip, title: 'Calificados'}
+                    = PartialQualification.from_qualification_schema_and_section_qualified(qs.id, s.id).count
+                  .tooltip-btn.label.label-danger{'data-toggle': :tolltip, title: 'Pendientes'}
+                    = PartialQualification.from_qualification_schema_and_section_not_qualified(qs.id, s.id).count
 
+
+        .pull-right
           - if s.id_canvas and s.course_period.id_canvas
             = link_to "https://canvas.instructure.com/courses/#{s.course_period.id_canvas}/sections/#{s.id_canvas}", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir a la sección en Canvas #{s.number_to_string}", style: 'margin-right: 10px;', target: '_blank'  do
               .fa.fa-external-link

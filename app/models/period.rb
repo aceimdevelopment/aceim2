@@ -83,7 +83,7 @@ class Period < ApplicationRecord
         end
 
         field :qualification_report do 
-          label 'Reporte de caificaciones'
+          label 'Reporte de calificaciones'
           formatted_value do
             bindings[:view].render(partial: "rails_admin/main/qualification_schemas/index", locals: {qa_schemas: bindings[:object].qualification_schemas})
           end

@@ -16,6 +16,13 @@ class PartialQualification < ApplicationRecord
   scope :from_qualification_schema_and_course_period_not_qualified, -> (qs_id, cp_id) {joins(academic_record: {section: :course_period}).where('qualification_schema_id = ? AND course_periods.id = ? AND value IS NULL', qs_id, cp_id)}
   scope :from_qualification_schema_and_course_period_qualified, -> (qs_id, cp_id) {joins(academic_record: {section: :course_period}).where('qualification_schema_id = ? AND course_periods.id = ? AND value IS NOT NULL', qs_id, cp_id)}
 
+  # ========== qualification_schema_and_section  ===============#
+  scope :from_qualification_schema_and_section, -> (qs_id, s_id) {joins(academic_record: :section).where('qualification_schema_id = ? AND sections.id = ?', qs_id, s_id)}
+  
+  scope :from_qualification_schema_and_section_not_qualified, -> (qs_id, s_id) {joins(academic_record: :section).where('qualification_schema_id = ? AND sections.id = ? AND value IS NULL', qs_id, s_id)}
+  
+  scope :from_qualification_schema_and_section_qualified, -> (qs_id, s_id) {joins(academic_record: {section: :course_period}).where('qualification_schema_id = ? AND sections.id = ? AND value IS NOT NULL', qs_id, s_id)}
+
   private
 
   def set_final
