@@ -10,6 +10,7 @@ class Agreement < ApplicationRecord
   validates :discount, presence: true
 
 
+  after_save :update_percents_and_values
   # ========== CONSTANTS ============ #
   REG = 'REG'
 
@@ -55,11 +56,11 @@ class Agreement < ApplicationRecord
       field :name do
         label 'Nombre'
       end
-      field :value do
-        label 'Valor'
+      field :amount do
+        label 'Total A Pagar'
       end
-      field :discount do
-        label 'Descuento (%)'
+      field :discount_percent do
+        label 'Descuento'
       end
       field :enrollment do
         label 'Inscripciones'
@@ -70,6 +71,14 @@ class Agreement < ApplicationRecord
     end
   end
 
+  def discount_percent
+    "#{discount} %"
+  end
+
+  def amount
+    ActionController::Base.helpers.number_to_currency(value, unit: 'Bs.', separator: ",", delimiter: ".")
+  end
+
   def description
     "#{id}: #{name}"
   end
@@ -78,4 +87,18 @@ class Agreement < ApplicationRecord
     # Agregar valor en función a period actual
     academic_records.confirmado.count
   end
+
+  private
+
+  def update_percents_and_values
+
+    if (id.eql? 'REG')
+      Agreement.where("id != 'REG'").each do |ag|
+        aux_value = (ag.discount) ? (value*((100-ag.discount.to_f)/100)).to_i : value 
+        ag.update(value: aux_value)
+      end
+    end
+    
+  end
+
 end
