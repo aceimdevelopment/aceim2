@@ -4,6 +4,7 @@
       - if false #flash[:canvas]
         .alert.alert-info
           %p= flash[:canvas]
+      = render 'layouts/message_alert'
       - if msg
         .alert.alert-info.text-center
           %h5= raw msg
