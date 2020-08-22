@@ -8,7 +8,7 @@ class StudentSessionController < ApplicationController
 		else
 			@user = current_user
 			session[:student] = @user.student
-			if @user.student and !@user.student.imported?
+			if @user.student and @user.student.ci and !@user.student.imported?
 				type, msg = @user.student.import_from_aceim
 				flash[type] = msg
 			end
