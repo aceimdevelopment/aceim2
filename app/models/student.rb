@@ -186,7 +186,7 @@ class Student < ApplicationRecord
         return ['success', "Total inscripciones importadas de aceim.ucv.ve: #{total}"]
       end
     rescue Exception => e
-      return ['error', "Error intentando importar desde aceim.ucv.ve: #{e}"]
+      return ['notice', "Error intentando importar desde aceim.ucv.ve: #{e}"]
     end
 
 
