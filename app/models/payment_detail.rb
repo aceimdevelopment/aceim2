@@ -19,6 +19,27 @@ class PaymentDetail < ApplicationRecord
 	validates :source_bank, presence: true
 	validates :mount, presence: true
 	validates :created_at, presence: true
+
+
+	validate :acceptable_image
+
+	def acceptable_image
+		return unless backup_file.attached?
+
+		unless backup_file.byte_size <= 800.kilobyte
+			errors.add(:backup_file, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
+		end
+
+		acceptable_types = ["image/jpeg", "image/png"]
+		
+		unless acceptable_types.include?(backup_file.content_type)
+			errors.add(:backup_file, "Las imágenes deben ser en formato JPEG o PNG")
+		end
+
+	end
+
+
+
 	# agregar monto de pago
 	# (.pdf, .png, .jpg) imagen de la transaccion
 
