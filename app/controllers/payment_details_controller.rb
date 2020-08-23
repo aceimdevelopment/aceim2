@@ -5,7 +5,9 @@ class PaymentDetailsController < ApplicationController
 	before_action :set_payment_detail, only: [:confirm, :show, :read_report, :generate_pdf]
 
 	def read_report
-		@payment_detail.update(read_report: true)
+		if @payment_detail.update(read_report: true)
+			flash[:success] = 'Recuerde que usamos CANVAS para sus clases y debe tener el mismo correo (gmail) registrado en ACEIM y en CANVAS. Por favor, escriba a fundeimucv@gmail.com si necesita apoyo con ese tema'
+		end
 	end
 
 

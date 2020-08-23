@@ -52,6 +52,7 @@ class Agreement < ApplicationRecord
     end
 
     list do
+      checkboxes false
       field :id
       field :name do
         label 'Nombre'

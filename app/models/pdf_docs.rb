@@ -64,10 +64,28 @@ class PdfDocs
 
   end
 
+  def self.normative pdf
+    
+    pdf.move_down 10
+    pdf.text "<b>IMPORTANTE:</b>" , align: :center, size: 12, inline_format: true
+    pdf.move_down 10
+    pdf.text "1.  Es obligatorio leer con detenimiento toda la información suministrada en el mensaje de inicio y en el módulo introductorio de su aula en CANVAS. Si tienen alguna duda sobre ACEIM o CANVAS,  o presentan algún inconveniente con el programa en general, deben contactar de inmediato a su instructor o a FUNDEIM por el correo fundeimucv@gmail.com" , align: :justify, size: 11
+    pdf.move_down 10
+    pdf.text "2.  La participación de los estudiantes en las actividades del foro es obligatoria y será tomada como asistencia a clase. La ausencia en el foro por 2 semanas, no necesariamente de manera consecutiva, tendrá como consecuencia la pérdida del curso por inasistencia." , align: :justify, size: 11
+    pdf.move_down 10
+    pdf.text "3.  La calificación mínima aprobatoria es de 15 puntos. La evaluación será continua y dinámica. Encontrará mayor información en el cronograma del curso incluido en el módulo introductorio del nivel." , align: :justify, size: 11
+    pdf.move_down 10
+    pdf.text "4.  El programa ONLINE consta de solo actividades asíncronas, es decir, no serán clases en vivo,  para que cada estudiante pueda organizarse y buscar el tiempo y la conexión para seguir formándose a su ritmo y en el horario de su preferencia; sin embargo, cada estudiante debe completar dos clases por semana, además de realizar las tareas asignadas y los exámenes semanales programados." , align: :justify, size: 11
+  end
+
   def self.certificate academic_record
     pdf = Prawn::Document.new(top_margin: 20)
     content_academic pdf, academic_record
     pdf.move_down 10
+    normative pdf
+
+
+
 
     # t = pdf.make_table(data, header: false, width: 540, position: :center, cell_style: { inline_format: true, size: 9, align: :center, padding: 1, border_color: 'FFFFFF'})
     
