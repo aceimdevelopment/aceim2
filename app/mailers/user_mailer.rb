@@ -3,8 +3,8 @@ class UserMailer < ApplicationMailer
 
   def last_weeks_2020b(ids)
     @users = User.find(ids)
-    mail(to: @users.map{|u| u.email},
-    # bcc: @users.map{|u| u.email},
+    mail(to: 'soporte@fundeim.com',
+    bcc: @users.map{|u| u.email},
     subject: "Estudiantes 2020-B FUNDEIM ONLINE",
     content_type: "text/html")
     
