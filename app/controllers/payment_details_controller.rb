@@ -7,7 +7,10 @@ class PaymentDetailsController < ApplicationController
 	def read_report
 		if @payment_detail.update(read_report: true)
 			flash[:success] = 'Recuerde que usamos CANVAS para sus clases y debe tener el mismo correo (gmail) registrado en ACEIM y en CANVAS. Por favor, escriba a fundeimucv@gmail.com si necesita apoyo con ese tema'
+		else
+			flash[:error] = "Reporte no leido"
 		end
+		redirect_back fallback_location: student_session_index_path 
 	end
 
 

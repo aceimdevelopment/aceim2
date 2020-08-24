@@ -13,6 +13,7 @@ class StudentSessionController < ApplicationController
 				flash[type] = msg
 			end
 		end
+
 	end
 
 	def regular_enrollment

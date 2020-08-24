@@ -12,5 +12,7 @@
           - if section
             %td
               %b= " Nivel Online Disponible: "
+              - textConfirm = "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}' y de que acepta la siguiente normativa?"
 
-              = link_to "¡Inscríbite ahora! (#{period.name})", "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", class: 'btn btn-success tooltip-btn', 'data-confirm': "¿Confirma que deseas completar la preinscripcion de '#{@user.description}' en el curso: '#{cp.description_inscription}'?", 'data_toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}"
+              = link_to 'javascript:void(0)', class: "btn btn-success m-2 tooltip-btn confirmBtn", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", url: "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", desc_user: @user.description, desc_inscrip: cp.description_inscription do
+                = "¡Inscríbite ahora! (#{period.name})"
