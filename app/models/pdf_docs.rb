@@ -19,7 +19,7 @@ class PdfDocs
     pdf.table data do |t|
       t.width = 540
       t.header = false
-      t.cell_style = {inline_format: true, size: 12, padding: 2, padding: 3, border_color: 'FFFFFF'}
+      t.cell_style = {inline_format: true, size: 12, padding: 3, border_color: 'FFFFFF'}
       # t.column(2).style(:align => :justify)
       t.column(0).style(align: :left)
       t.column(1).style(align: :right)
@@ -45,7 +45,7 @@ class PdfDocs
       t.width = 450
       t.header = true
       t.row_colors = ["F8F8FE","F8F8FE"]
-      t.cell_style = {inline_format: true, size: 12, padding: 2, padding: 10, border_color: 'FFFFFF', valign: :center}
+      t.cell_style = {inline_format: true, size: 12, padding: 10, border_color: 'FFFFFF', valign: :center}
       # t.column(2).style(:align => :justify)
       t.row(0).style(background_color: "DCDCDC")
       t.column(0).style(align: :left)
@@ -190,7 +190,7 @@ class PdfDocs
       t.width = 500
       t.position = :center
       t.header = true
-      t.cell_style = {inline_format: true, size: 10, padding: 2, padding: 3, border_color: 'FFFFFF', align: :center}
+      t.cell_style = {inline_format: true, size: 10, padding: 3, border_color: 'FFFFFF', align: :center}
 
     end
     pdf.move_down 25
@@ -236,7 +236,7 @@ class PdfDocs
       t.header = false
       # t.row_colors = ["F0F0F0", "FFFFFF"]
       # t.column_widths = {1 => 60, 2 => 220, 5 => 30, 7 => 70}
-      t.cell_style = {inline_format: true, size: 9, padding: 2, padding: 3, border_color: 'FFFFFF'}
+      t.cell_style = {inline_format: true, size: 9, padding: 3, border_color: 'FFFFFF'}
       # t.column(2).style(:align => :justify)
       t.column(0).style(:align => :right)
       # t.column(1).style(:font_style => :bold)
