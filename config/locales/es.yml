@@ -232,8 +232,8 @@ es:
         one: "Programación"
         other: "Programaciones"
       payment_detail:
-        one: "Detalle de Pago"
-        other: "Detalles de Pagos"
+        one: "Reporte de Pago"
+        other: "Reportes de Pagos"
       section:
         one: "Sección"
         other: "Secciones"
