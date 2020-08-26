@@ -23,6 +23,12 @@ class PartialQualification < ApplicationRecord
   
   scope :from_qualification_schema_and_section_qualified, -> (qs_id, s_id) {joins(academic_record: {section: :course_period}).where('qualification_schema_id = ? AND sections.id = ? AND value IS NOT NULL', qs_id, s_id)}
 
+  def name
+    aux = "#{qualification_schema.desc} :"
+    aux += value ? "#{value}" : '--'
+    return aux
+  end
+
   private
 
   def set_final

@@ -22,6 +22,8 @@ class Period < ApplicationRecord
 
     # validates_uniqueness_of :horario_id, scope: [:dia, :entrada], message: 'Ya existe un horario con una hora de entrada igual para la sección.', field_name: false
 
+    default_scope { order([year: :desc, letter: :desc]) }
+
     # ============== RAILS ADMIN ================= #
     rails_admin do
       label 'Periodo'
@@ -121,6 +123,22 @@ class Period < ApplicationRecord
 
     
     # ============== RAILS ADMIN END ============= #
+
+    def preview  
+      pes = Period.all#.reverse
+      aux_index = pes.index self
+      aux_index += 1
+
+      if (aux_index >= pes.size)
+        return nil
+      else
+        return pes[aux_index]
+      end
+    end
+
+    def self.ordered_by_year_and_letter
+       Period.all.order([year: :desc, letter: :desc])
+    end
 
     def allow_enrollments?
       self.enrollment

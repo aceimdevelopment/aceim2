@@ -125,8 +125,6 @@ class AcademicRecord < ApplicationRecord
         end
       end
 
-
-
     end
 
     edit do
@@ -410,6 +408,10 @@ class AcademicRecord < ApplicationRecord
 
   def set_qualification_status
     self.qualification_status_id = build_qualification_status_id
+    # if partial_qualifications.where('value IS NULL').count == 0
+    # else
+    #   self.qualification_status_id = 'SC'
+    # end
   end
 
   # OJO: ¡¡¡ATENCIÓN!!! AL INTENTAR REALIZAR LA ACCIÓN DEBAJO SE GENERA UN ABRAZO MORTAL, YA QUE SE ACTUALIZAN PARCIALES Y SE VUELVE A ACTUALIZAR FINAL. SOLUCIÓN: AGREGAR EN LA EDICIÓN DE ACADEMIC RECORD SOLO CALIFICACIONES PARCIALES Y NO FINAL

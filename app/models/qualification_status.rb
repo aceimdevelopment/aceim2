@@ -6,5 +6,9 @@ class QualificationStatus < ApplicationRecord
 			field :id
 			field :name
 		end
+		list do
+			field :id
+			field :name
+		end
 	end
 end

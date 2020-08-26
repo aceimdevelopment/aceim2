@@ -1,7 +1,8 @@
 - period = Period.where(enrollment: true).last
 - student = career.student
 %h4
-  - if period and period.allow_enrollments? 
+  = period.preview.name
+  - if period and period.allow_enrollments? and !period.preview.enabled_qualification?
     - next_course = career.next_course_available
     - if next_course
       - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
