@@ -97,8 +97,8 @@
             .input-group-text{style: 'padding: 0px 16px 0px 16px;'}
               %span.fa.fa-file-image-o
           =# f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
-          = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
-
+          = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/jpeg,image/jpg,image/png,application/pdf"}
+        .text-muted= "Solo se perimiten archivos de los tipo: jpg, jpeg, png y pdf"
     .form-group.row.px-3
       = f.label :customer, class: 'col-sm-5 control-label', value: 'A Nombre De:', style: 'text-align: right'
 
