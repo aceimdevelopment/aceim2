@@ -1,9 +1,12 @@
 .border
 
-	= image_tag Rails.application.routes.url_helpers.rails_blob_path(virtual_object.backup_file, only_path: true), style: 'max-height: 500px;' #virtual_object.backup_file #'payment_3087'
+	=# image_tag Rails.application.routes.url_helpers.rails_blob_path(virtual_object.backup_file, only_path: true), style: 'max-height: 500px;' #virtual_object.backup_file #'payment_3087'
+
+	=# image_tag url_for(virtual_object.backup_file)
+	= image_tag main_app.url_for(virtual_object.backup_file.variant(resize: '400x400'))
 	=# image_tag Rails.application.routes.url_helpers.rails_blob_path(virtual_object.backup_file.variant(resize_to_fit: [200, 200]), only_path: true) #virtual_object.backup_file #'payment_3087'
 	=# image_path virtual_object.backup_file
 	=# image_path '/public/payment_receives/payment_3087' 
 	=# virtual_object.backup_file.service_url
-	= image_tag (virtual_object.backup_file)
+	=# image_tag virtual_object.backup_file.variant(resize: '100x100').processed.service_url 
 	=# url_for(virtual_object.backup_file)

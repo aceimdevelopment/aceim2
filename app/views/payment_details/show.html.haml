@@ -1,3 +1,4 @@
+
 %br
 %h5.p-2.mt-5.bg-dark.text-white.text-center= "Dashboard - #{@user.description}"
 .d-flex.justify-content-center
@@ -9,3 +10,6 @@
     Pdf
 .d-flex.justify-content-center
   = render '/payment_details/bill_detail'
+.d-flex.justify-content-center
+  %h2 Imagen recibida
+  = render partial: "rails_admin/main/payment_receives/image", locals: {virtual_object: @payment_detail}
