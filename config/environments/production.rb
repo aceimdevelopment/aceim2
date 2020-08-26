@@ -3,7 +3,7 @@ Rails.application.configure do
   # URL Options:
   config.action_mailer.default_url_options = { host: 'fundeim.com' }
 
-  config.active_storage.service = :digitalocean
+  config.active_storage.service = :digitalocean #:local
   # Mailgun Config:
   config.action_mailer.smtp_settings = {
     address: ENV['EMAIL_PROVIDER_ADDRESS'],
@@ -51,7 +51,6 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil

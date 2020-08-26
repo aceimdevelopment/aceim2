@@ -9,15 +9,16 @@ Rails.application.configure do
 
   config.active_storage.service = :digitalocean #:local
   # Mail Config:
-  config.action_mailer.smtp_settings = {
-    address: ENV['EMAIL_PROVIDER_ADDRESS'],
-    port: 587,
-    domain: ENV['EMAIL_PROVIDER_DOMAIN_NAME'],
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: ENV['EMAIL_PROVEDER_USER_NAME'],
-    password: ENV['EMAIL_PROVIDER_PASSWORD']
-  }
+
+  # config.action_mailer.smtp_settings = {
+  #   address: ENV['EMAIL_PROVIDER_ADDRESS'],
+  #   port: 587,
+  #   domain: ENV['EMAIL_PROVIDER_DOMAIN_NAME'],
+  #   authentication: "plain",
+  #   enable_starttls_auto: true,
+  #   user_name: ENV['EMAIL_PROVEDER_USER_NAME'],
+  #   password: ENV['EMAIL_PROVIDER_PASSWORD']
+  # }
 
   config.cache_classes = false
 
@@ -44,7 +45,6 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
