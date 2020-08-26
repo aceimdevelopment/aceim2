@@ -206,7 +206,7 @@ class PdfDocs
     banner_width_logo pdf, "CONSTANCIA DE INSCRIPCIÓN"
 
 
-    pdf.text "<b>Datos de la Inscripción:</b>", size: 11, inline_format: true, padding: 3
+    pdf.text "<b>Datos de la Inscripción:</b>", size: 11, inline_format: true
 
     # pdf.text "El departamento de Control de Estudios de la Facultad de HUMANIDADES Y EDUCACIÓN, por medio de la presente hace constar que #{usuario.la_el} BR. <b>#{estudiante.usuario.apellido_nombre}</b>, titular de la Cédula de Identidad <b>#{estudiante.id}</b> está <b>preinscrit#{usuario.genero}</b> en la Escuela de <b>#{escuela.descripcion.upcase}</b> de la Universidad Central de Venezuela.", size: 10, inline_format: true, align: :justify
     # Opcion 1:
@@ -215,10 +215,12 @@ class PdfDocs
     pdf.move_down 20
 
     data = [['<b>Fecha Registro: <b>', academic_record.created_at.strftime('%d/%m/%Y')]]
+    data << ['<b>Período: <b>', academic_record.period.name]
     data << ['<b>Estudiante: <b>', user.description]
     data << ['<b>Curso: <b>', academic_record.course_period.course.name]
     data << ['<b>Modalidad: <b>', academic_record.course_period.kind.capitalize]
     data << ['<b>Convenio: <b>', academic_record.agreement.name]
+
     # data << ['<b>Monto: <b>', "#{number_to_currency(payment.mount, unit: 'Bs.', separator: ",", delimiter: ".")}"]
     data << ['<b>Monto: <b>', "#{payment.mount},00 Bs."] if payment
     data << ["<b>#{payment.transaction_type.capitalize}: <b>", payment.transaction_number ] if payment
@@ -236,7 +238,7 @@ class PdfDocs
       t.header = false
       # t.row_colors = ["F0F0F0", "FFFFFF"]
       # t.column_widths = {1 => 60, 2 => 220, 5 => 30, 7 => 70}
-      t.cell_style = {inline_format: true, size: 9, padding: 3, border_color: 'FFFFFF'}
+      t.cell_style = {inline_format: true, size: 11, padding: 3, border_color: 'FFFFFF'}
       # t.column(2).style(:align => :justify)
       t.column(0).style(:align => :right)
       # t.column(1).style(:font_style => :bold)
