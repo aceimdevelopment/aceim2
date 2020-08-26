@@ -16,7 +16,7 @@ class PeriodsController < ApplicationController
 		end
 
 		if @period.save
-			if @period.enabled_autoregister_canvas_link
+			if params[:function_to_switch].eql? 'canvas_autoregister' and @period.enabled_autoregister_canvas_link
 				@period.academic_records.confirmado.each do |ar|
 					UserMailer.autoenrollment_canvas(ar).deliver
 				end
@@ -25,7 +25,7 @@ class PeriodsController < ApplicationController
 			msg = '¡Cambio realizado con éxito!'
 		else
 			type = 'danger'
-			msg = 'No se puydo guardar el cambio.'
+			msg = 'No fue posible realizar el cambio solicitado.'
 		end
 
       # head :no_content
