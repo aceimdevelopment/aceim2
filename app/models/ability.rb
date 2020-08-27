@@ -26,7 +26,7 @@ class Ability
             can :manage, :all
         elsif user.administrator.desarrollador?
             can :manage, [CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator, PaymentDetail]
-            can :cru, [Bank, Period, Agreement, GeneralSetup, PartialQualification, QualificationSchema]
+            can :cru, [Bank, BankAccount, Period, Agreement, GeneralSetup, PartialQualification, QualificationSchema]
             can :read, [Course]
         elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
