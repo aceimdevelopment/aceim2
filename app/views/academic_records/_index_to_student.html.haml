@@ -16,7 +16,7 @@
 
 	%tbody
 		-# career.academic_records.order(created_at: :desc).each_with_index do |ar, i| 
-		- records.joins({section: {course_period: [{course: :level}, :period]}}).order(['periods.id': :asc]).each_with_index do |ar, i| 
+		- records.each_with_index do |ar, i| 
 			-# user = ar.student.user
 			%tr
 				%td= i+1

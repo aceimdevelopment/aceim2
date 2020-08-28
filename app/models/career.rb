@@ -13,8 +13,12 @@ class Career < ApplicationRecord
   validates :student_id, presence: true
 
   # =============== FUNCTIONS =================# 
+  # def academic_records
+  #   self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
+  # end
   def academic_records
-    self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
+    # self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
+    self.student.academic_records.joins({section: {course_period: [{course: :level}, :period]}}).order(['periods.year': :desc, 'periods.letter': :desc, 'levels.grade': :desc]).from_language(language_id)
   end
 
   def last_academic_record
