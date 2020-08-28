@@ -174,6 +174,8 @@ class PaymentDetail < ApplicationRecord
     list do
       scopes [:todos, :preinscritos, :confirmados]
       search_by :my_custom_search
+      checkboxes false
+      items_per_page 20
       field :transaction_number do
         label '# Transacción'
       end
@@ -195,6 +197,18 @@ class PaymentDetail < ApplicationRecord
 
       field :mount do
         label 'Monto'
+      end
+
+      field :attached do
+        label 'Adjunto'
+
+        pretty_value do
+          if bindings[:object].backup_file and bindings[:object].backup_file.attached?
+            %{<span class='fa fa-check text-success'></span>}.html_safe
+          else
+            %{<span class="fa fa-remove text-danger"></span>}.html_safe
+          end
+        end
       end
 
       field :created_at do
@@ -308,8 +322,6 @@ class PaymentDetail < ApplicationRecord
     aux = "#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"
     "#{client_description}: #{aux}"
   end
-
-
 
   private
 
