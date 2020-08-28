@@ -13,6 +13,8 @@ class PeriodsController < ApplicationController
 			@period.enrollment = !@period.enrollment
 		when 'enabled_qualification'
 			@period.enabled_qualification = !@period.enabled_qualification
+		when 'show_survey'
+			@period.show_survey = !@period.show_survey
 		end
 
 		if @period.save

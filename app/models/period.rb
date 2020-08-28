@@ -77,6 +77,14 @@ class Period < ApplicationRecord
           end
         end
 
+        field :survey do
+          label 'Encuesta'
+          formatted_value do
+            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=show_survey"
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Calificación', url: url, to_checked: bindings[:object].show_survey, id_html: 'survey', alert: false})
+          end
+        end
+
       end
 
       show do

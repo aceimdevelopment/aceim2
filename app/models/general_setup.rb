@@ -58,6 +58,11 @@ class GeneralSetup < ApplicationRecord
     aux ? aux.value : 'Este monto es válido si realiza la transferencia antes de las 6:00pm del día de hoy. Luego de esa hora deberá consultar aquí si ha habido algún cambio en el monto del arancel del inscripción.'
   end
   
+  def self.link_survey
+    aux = GeneralSetup.where(id: "ENLACE_ENCUESTA").first
+    aux ? aux.value : 'https://docs.google.com/forms/d/1BMpk8P1MsO8G8N8lzhhCG2hfsH9yr3u0_j_Sbk73LIY/edit?usp=sharing'
+  end
+
 	rails_admin do
     list do
       checkboxes false

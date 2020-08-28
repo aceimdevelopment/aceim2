@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_17_234503) do
+ActiveRecord::Schema.define(version: 2020_08_28_015615) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_234503) do
     t.boolean "enabled_login_canvas_link", default: false
     t.boolean "enrollment", default: false
     t.boolean "enabled_qualification", default: false
+    t.boolean "show_survey", default: false
   end
 
   create_table "qualification_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
