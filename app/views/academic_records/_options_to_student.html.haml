@@ -1,6 +1,6 @@
 - if ar.online? and ar.asignado? and ar.period.show_survey
   = link_to GeneralSetup.link_survey, {type: 'button', class: 'tooltip-btn btn btn-sm btn-primary ml-2 mb-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
-    Encuenta
+    Encuesta
     %span.fa.fa-external-link
 - if !ar.preinscrito? and ar.SC?
   = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Generar y Descargar Planilla de Inscripción', data: {toggle: 'tooltip'}} do
