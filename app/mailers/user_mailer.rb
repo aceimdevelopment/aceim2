@@ -1,6 +1,14 @@
 class UserMailer < ApplicationMailer
   layout 'mailer'
 
+  def asigneds_2020b(user)
+    @user = user
+    mail(to: user.email,
+    subject: "INSCRIPCIONES PARA EL PROGRAMA FUNDEIM ONLINE 2020-C",
+    content_type: "text/html")
+    
+  end
+
   def last_weeks_2020b(ids)
     @users = User.find(ids)
     mail(to: 'soporte@fundeim.com',

@@ -188,14 +188,7 @@ class Student < ApplicationRecord
     rescue Exception => e
       return ['notice', "Error intentando importar desde aceim.ucv.ve: #{e}"]
     end
-
-
-
-
-
-
   end
-
 
   protected
 

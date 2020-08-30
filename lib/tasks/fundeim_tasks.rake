@@ -6,6 +6,22 @@ task update_value_qualifications: :environment do
 
 end
 
+desc "Envío correos asignados 2020-B"
+task send_email_asignados2020b: :environment do
+  p 'iniciando...'
+
+  AcademicRecord.asignado.from_period(25).map{|a| a.user}.uniq.each do |u|
+    if UserMailer.asigneds_2020b(u).deliver
+      p '  ENVIADO  '.center(200, "#") 
+    else
+      p '  NO ENVIADO  '.center(200, "*") 
+    end
+  end
+  # UserMailer.asigneds_2020b(User.find 1).deliver
+  p '  FIN  '.center(200, "*") if UserMailer.asigneds_2020b(User.find 1).deliver
+  p '  FIN2  '.center(200, "*") if UserMailer.asigneds_2020b(User.find 2).deliver
+  
+end
 
 desc "Confirmar y enviar correo de confirmación"
 task confirm_and_send_mail: :environment do
