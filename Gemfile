@@ -33,6 +33,7 @@ gem 'prawn-table'
 gem "aws-sdk-s3", require: false
 gem "rails_admin_import", "~> 2.2"
 gem 'rails_admin', '~> 2.0'
+gem 'rails_admin_actiontext'
 gem 'cancancan'
 gem 'devise'
 gem 'font-awesome-rails'

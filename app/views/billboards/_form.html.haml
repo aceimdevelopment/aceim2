@@ -1,0 +1,13 @@
+= form_for @billboard do |f|
+  - if @billboard.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@billboard.errors.count, "error")} prohibited this billboard from being saved:"
+      %ul
+        - @billboard.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .actions
+    = f.submit 'Save'

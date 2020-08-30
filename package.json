@@ -7,6 +7,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@rails/actioncable": "^6.0.0",
+    "@rails/actiontext": "^6.0.3",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
@@ -21,6 +22,7 @@
     "react-dom": "^16.13.1",
     "react_ujs": "^2.6.1",
     "toastr": "^2.1.4",
+    "trix": "^1.2.0",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

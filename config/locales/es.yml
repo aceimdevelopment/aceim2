@@ -216,6 +216,9 @@ es:
       <<: *errors
   activerecord:
     models:
+      billboard:
+        one: 'Cartelera'
+        other: 'Carteleras'
       instructor:
         one: "Instructor"
         other: "Instructores"
