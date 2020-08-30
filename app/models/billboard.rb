@@ -19,9 +19,13 @@ class Billboard < ApplicationRecord
 			field :sequence do
 				label 'Orden'
 			end
-			field :content, :actiontext do
-				label 'Contenido'
-			end
+			# field :content, :actiontext do
+			# 	label 'Contenido'
+			# end
+
+			field :content do
+				js_location { bindings[:view].asset_pack_path 'actiontext.js' }
+			end			
 		end
 
 		list do
