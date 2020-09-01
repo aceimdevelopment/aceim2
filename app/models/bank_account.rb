@@ -50,6 +50,22 @@ class BankAccount < ApplicationRecord
         label 'Banco'
       end
     end
+
+    list do
+      field :id do
+        label 'Identificador'
+      end
+      field :number do
+        label 'Número'
+      end
+      field :holder do
+        label 'Titular'
+      end
+      field :bank do
+        label 'Banco'
+      end
+      
+    end
   end
 
 end

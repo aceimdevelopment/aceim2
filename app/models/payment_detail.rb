@@ -11,7 +11,7 @@ class PaymentDetail < ApplicationRecord
 
   has_one_attached :backup_file
   attr_accessor :remove_backup_file
-  after_save { backup_file.purge if remove_backup_file.present? }
+  after_save { backup_file.purge if remove_backup_file.eql? '1' }
 
 
   # ========== VALIDATIONS ============ #
@@ -175,6 +175,7 @@ class PaymentDetail < ApplicationRecord
       scopes [:todos, :preinscritos, :confirmados]
       search_by :my_custom_search
       checkboxes false
+      # sidescroll false
       items_per_page 20
       field :transaction_number do
         label '# Transacción'

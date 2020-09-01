@@ -11,7 +11,8 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
-  config.sidescroll = {num_frozen_columns: 0}
+  config.sidescroll = {num_frozen_columns: false}
+
   # Details sidescroll:
   # https://github.com/sferik/rails_admin/wiki/Horizontally-scrolling-table-with-frozen-columns-in-list-view
 
