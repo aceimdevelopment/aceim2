@@ -3,6 +3,6 @@
   .form-group
     = label_tag 'user[canvas_email]', 'Correo de Canvas:'
     = email_field_tag 'user[canvas_email]', @user.email, autofocus: true, placeholder: 'Correo Canvas', class: 'form-control', required: true
-    .text-muted * Solo modifíquelo si no es el mismo de Aceim
+    .text-muted * Solo modifíquelo si no es el mismo que usa para ingresar a esa plataforma
 
   %button.btn.btn-primary.btn-lg.btn-block{:type => "submit"} Guardar
