@@ -25,7 +25,7 @@ class Ability
         if user.administrator.yo?
             can :manage, :all
         elsif user.administrator.desarrollador?
-            can :manage, [CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator, PaymentDetail]
+            can :manage, [Billboard, CoursePeriod, Section, AcademicRecord, User, Student, Instructor, Administrator, PaymentDetail]
             can :cru, [Bank, BankAccount, Period, Agreement, GeneralSetup, PartialQualification, QualificationSchema]
             can :read, [Course]
         elsif user.administrator.administrativo?
