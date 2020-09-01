@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_30_154327) do
+ActiveRecord::Schema.define(version: 2020_09_01_001337) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_154327) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "id_canvas"
     t.string "login_id_canvas"
+    t.string "canvas_email"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

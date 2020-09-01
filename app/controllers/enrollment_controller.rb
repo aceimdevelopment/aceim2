@@ -45,7 +45,7 @@ class EnrollmentController < ApplicationController
 
           enrollments.reject{|enrolled| enrolled['user']['name'].eql? 'Test Student' or enrolled['user']['name'].eql? 'Estudiante de prueba'}.each do |ele|
             email = ele['user']['login_id']
-            user = User.where("email = '#{email}' OR login_id_canvas = '#{email}'").first
+            user = User.where("email = '#{email}' OR canvas_email = '#{email}' OR login_id_canvas = '#{email}'").first
 
             if user and es = user.student
               user.update(id_canvas: ele['user']['id'])

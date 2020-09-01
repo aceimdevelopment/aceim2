@@ -2,6 +2,16 @@ class UsersController < ApplicationController
 	before_action :set_user, except: [:index, :new, :create]
 	before_action :authenticate_user!, except: [:update]
 	before_action :setup_data, only: :update
+
+	def update_canvas_email
+
+		if @user.update(user_params)
+			flash[:success] = "Email de Canvas actualizado con éxito"
+		else
+			flash[:danger] = "Error: #{@user.errors.full_messages.to_sentence}"
+		end
+		redirect_to student_session_index_path
+	end
 	def update
 		# AVANCES EN EL AUTOREGISTRO EN CANVAS Y LA CONEXIÓN CON LA API
 		# require 'canvas-api'
@@ -54,19 +64,19 @@ class UsersController < ApplicationController
 	end
 
 	def setup_data
-		params[:user][:number_phone] = "#{params[:oparator_code]}#{params[:user][:number_phone]}"
+		params[:user][:number_phone] = "#{params[:oparator_code]}#{params[:user][:number_phone]}" if (params[:user][:number_phone] and params[:oparator_code])
 		aux = params[:user][:sign_in_count].to_i
-		params[:user][:sign_in_count] = aux+1
-		params[:student][:source_country] = "Venezuela"
+		params[:user][:sign_in_count] = aux+1 if (aux.eql? 0)
+		params[:student][:source_country] = "Venezuela" if params[:student]
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def student_params
-		params.require(:student).permit(:personal_identity_document, :location, :source_country)
+		params.require(:student).permit(:personal_identity_document, :location, :source_country) if params.require(:student)
 	end
 
 	def user_params
-		params.require(:user).permit(:name, :last_name, :email, :number_phone, :sign_in_count, :password, :password_confirmation)
+		params.require(:user).permit(:name, :last_name, :email, :number_phone, :sign_in_count, :password, :password_confirmation, :canvas_email)
 	end
 
 end

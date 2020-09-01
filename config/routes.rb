@@ -77,7 +77,12 @@ Rails.application.routes.draw do
 
 
 
-  resources :users, only: [:update]
+  resources :users, only: [:update] do
+    member do
+      post 'update_canvas_email'
+    end
+  end
+
   
   root to: 'home#index'
 end

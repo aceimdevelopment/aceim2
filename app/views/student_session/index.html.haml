@@ -13,7 +13,10 @@
   - msg2 = "<strong>Los datos suministrados en el siguiente formulario serán usados para tu cuenta de Canvas</strong>"
   - id = "updatePersonalData"
   = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, msg2: msg2 }
-
+- elsif @user.id_canvas.blank? and @user.canvas_email.blank?
+  - content = render '/users/canvas_email_form'
+  - msg = "<strong>Atención</strong>: Para mejorar la integración de su cuenta con Canvas, por favor indíquenos el correo que usa para dicha plataforma."
+  = render partial: '/layouts/modal', locals: {content: content, id: 'email_canvas', msg: msg, title: nil, msg2: nil }
 
 - if (!@user.id.eql? current_user.id) and @user.student? # session[:admin] 
   .border.border-danger

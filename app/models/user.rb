@@ -98,6 +98,10 @@ class User < ApplicationRecord
       field :email do
         label 'Correo'
       end
+      field :canvas_email do
+        label 'Correo de Canvas'
+      end
+
       field :login_id_canvas do
         label 'Login Id Canvas'
       end
