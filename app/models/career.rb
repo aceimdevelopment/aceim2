@@ -4,6 +4,7 @@ class Career < ApplicationRecord
   belongs_to :agreement, inverse_of: :careers
   belongs_to :language, inverse_of: :careers
   belongs_to :student, inverse_of: :careers
+  has_one :user, through: :student
 
   # has_many :academic_records, through: :student 
 
@@ -12,6 +13,8 @@ class Career < ApplicationRecord
   validates :language_id, presence: true
   validates :student_id, presence: true
 
+
+
   # =============== FUNCTIONS =================# 
   # def academic_records
   #   self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
@@ -19,6 +22,12 @@ class Career < ApplicationRecord
   def academic_records
     # self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
     self.student.academic_records.joins({section: {course_period: [{course: :level}, :period]}}).order(['periods.year': :desc, 'periods.letter': :desc, 'levels.grade': :desc]).from_language(language_id)
+  end
+
+  def finished?
+    final_level = language.last_level
+
+    last_level_approved and (final_level.eql? last_level_approved.course.grade)
   end
 
   def last_academic_record

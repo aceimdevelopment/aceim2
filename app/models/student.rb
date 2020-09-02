@@ -132,6 +132,10 @@ class Student < ApplicationRecord
     "#{user.full_name } (#{ci})"
   end
 
+  def certificate_desc
+    "#{user.full_name_invert } (#{ci})"
+  end
+
   def any_blank?
     personal_identity_document.blank? or location.blank? or source_country.blank?
   end

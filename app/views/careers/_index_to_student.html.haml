@@ -16,5 +16,12 @@
 
     .tab-pane.fade{id: "tabContent#{career.language_id}", class: active, "aria-labelledby": "tab#{career.language_id}", role: "tabpanel"}
       .p-3.bg-white
+        - if false #career.finished?
+          .align-items-center.justify-content-center
+            = link_to career_finished_certificate_career_path(career), class: 'btn-tooltip btn btn-lg', 'data-toggle': :tooltip, title: "Certifiado de culminación de Curso de #{career.language.name.upcase}", style: '    background-color: darkgoldenrod;border-color: yellow;color: yellow;'  do
+              .fa.fa-graduation-cap
+              Certificado
+              .fa.fa-certificate
+
         = render partial: "/student_session/enrollment_to_level", locals: {career: career} if controller_name.eql? 'student_session'
         = render partial: '/academic_records/index_to_student', locals: {records: career.academic_records}

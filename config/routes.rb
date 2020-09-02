@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     member do
       get 'constance'
       get 'constance_verify'
+      get 'career_finished_certificate'
     end
   end
 

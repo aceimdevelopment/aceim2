@@ -2,6 +2,78 @@ class PdfDocs
   include ActionView::Helpers::NumberHelper
   include Prawn::View
 
+  def self.career_finished_certificate career
+    color_base = '6F9BED'
+    pdf = Prawn::Document.new(top_margin: 20, page_layout: :landscape, background: "app/assets/images/finished_certificate.png")
+
+    # Rails.root.join("app/assets/fonts/diploma.ttf")
+    pdf.font_families.update( "DiplomaFamily" => {:normal => "app/assets/fonts/diploma.ttf"})
+
+
+    pdf.image "app/assets/images/banner_logos_dark.png", width: pdf.bounds.width
+
+    pdf.move_down 10
+    pdf.text "UNIVERSIDAD CENTRAL DE VENEZUELA", align: :center
+    pdf.move_down 3
+    pdf.text "Escuela de Idiomas Modernos", align: :center
+    pdf.move_down 3
+    pdf.text "FUNDEIM", align: :center
+    pdf.image "app/assets/images/detail_down_title.png", position: :center, height: 30
+
+    pdf.move_down 10
+    pdf.text "Otorga el presente certificado a", align: :center, size: 12
+    pdf.move_down 10
+    pdf.font("DiplomaFamily") do
+      pdf.text career.user.full_name_invert, align: :center, color: color_base, size: 60
+    end
+    pdf.move_down 5
+    pdf.text "CI: #{career.student.ci}", align: :center, color: color_base, size: 20
+    pdf.move_down 10
+    pdf.text "por haber aprobado el curso de", align: :center, size: 12
+    pdf.move_down 10
+    pdf.text  "<b>#{career.language.name.upcase} COMO LENGUA EXTRANJERA</b>", align: :center, size: 20, inline_format: true
+    pdf.move_down 10
+
+    pdf.text "#{career.language.total_levels*54} Horas académicas", align: :center, size: 12
+    pdf.move_down 10
+    t = Time.new
+    pdf.text "Caracas, #{t.day} de #{t.month} de #{t.year}", align: :center, size: 12
+    pdf.move_down 50
+
+    require 'rqrcode'
+
+    # link = "http://localhost:3000/careers/#{career.id}/career_finished_certificate"
+    link = "https://fundeim.com/careers/#{career.id}/career_finished_certificate"
+    qrcode = RQRCode::QRCode.new(link)
+
+    png = qrcode.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: 'black',
+      file: "tmp/barcode.png",
+      fill: 'white',
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 150
+    )
+
+    # pdf.text "#{pdf.bounds.width}" # 720
+    pdf.image "#{Rails.root.to_s}/tmp/barcode.png", image_width: 50, image_height: 50, at: [290, 150]
+
+    pdf.text "<b>Prof. Carlos A. Saavedra A.</b>                                                                <b>Gustavo Santamaría</b>" , align: :center, size: 12, inline_format: true
+    pdf.text "Director                                                                                              Coordinador De Cursos" , align: :center, size: 12, inline_format: true
+    pdf.move_down 10
+
+
+
+    return pdf
+
+  end
+
+
+
   def self.bill_payment payment_detail
     pdf = Prawn::Document.new(top_margin: 50)
 
@@ -86,20 +158,12 @@ class PdfDocs
     pdf.move_down 10
     normative pdf
 
-
-
-
-    # t = pdf.make_table(data, header: false, width: 540, position: :center, cell_style: { inline_format: true, size: 9, align: :center, padding: 1, border_color: 'FFFFFF'})
-    
-    # pdf.move_down 20
-
     pdf.bounding_box [pdf.bounds.left, pdf.bounds.bottom + 25], :width  => pdf.bounds.width do
         pdf.font "Helvetica"
         pdf.stroke_horizontal_rule
         pdf.move_down(5)
         pdf.text 'Cuidad Universitaria de Caracas - FUNDEIM - UCV #VenciendoLaSombra', size: 11, align: :center
     end
-
 
     return pdf
 

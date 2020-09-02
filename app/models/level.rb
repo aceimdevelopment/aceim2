@@ -14,6 +14,11 @@ class Level < ApplicationRecord
   validates :grade, presence: true, uniqueness: true
 
 
+  # ========== SCOPES ======================#
+
+  default_scope { order(grade: :asc) }
+
+
   def self.nivel_to_level_id nivel_id
     aux = ''
     case nivel_id
