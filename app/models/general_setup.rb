@@ -2,6 +2,16 @@ class GeneralSetup < ApplicationRecord
 
   validates :id, presence: true
 
+  def self.director_value
+    aux = GeneralSetup.where(id: "DIRECTOR").first
+    (aux and aux.value) ? aux.value : 'Prof. Carlos A. Saavedra A.'
+  end
+
+  def self.academic_director_value
+    aux = GeneralSetup.where(id: "DIRECTOR_ACADEMICO").first
+    (aux and aux.value) ? aux.value : 'Prof. Gustavo Santamaría'
+  end
+
   def self.video_tuto_canvas_value
     aux = GeneralSetup.where(id: "VIDEO_TUTORIAL_CANVAS").first
     (aux and aux.value) ? aux.value : ''

@@ -16,7 +16,7 @@
 
     .tab-pane.fade{id: "tabContent#{career.language_id}", class: active, "aria-labelledby": "tab#{career.language_id}", role: "tabpanel"}
       .p-3.bg-white
-        - if false #career.finished?
+        - if career.finished?
           .align-items-center.justify-content-center
             = link_to career_finished_certificate_career_path(career), class: 'btn-tooltip btn btn-lg', 'data-toggle': :tooltip, title: "Certifiado de culminación de Curso de #{career.language.name.upcase}", style: '    background-color: darkgoldenrod;border-color: yellow;color: yellow;'  do
               .fa.fa-graduation-cap

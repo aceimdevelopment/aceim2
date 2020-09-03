@@ -92,6 +92,9 @@ class Period < ApplicationRecord
           label 'Id'
         end
 
+        field :academic_hours do
+          label 'Horas Académicas'
+        end
         field :qualification_report do 
           label 'Reporte de calificaciones'
           formatted_value do
@@ -120,6 +123,10 @@ class Period < ApplicationRecord
             {:length => 1, :size => 1, :onInput => "$(this).val($(this).val().toUpperCase().replace(/[^A-Z|0-9]/g,'').charAt($(this).val().length-1))"}
           end
         # help 'Solo un caracter permitido'
+        end
+        
+        field :academic_hours do
+          label 'Horas Académicas'
         end
         # field :qualification_schemas do 
         #   label 'Esquemas de caificaciones'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_01_001337) do
+ActiveRecord::Schema.define(version: 2020_09_02_225308) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2020_09_01_001337) do
     t.index ["student_id"], name: "index_academic_records_on_student_id"
   end
 
-  create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
     t.string "record_type", null: false
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 2020_09_01_001337) do
     t.index ["id"], name: "index_banks_on_id"
   end
 
-  create_table "billboards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "billboards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.boolean "enabled", default: false, null: false
     t.integer "sequence"
@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 2020_09_01_001337) do
     t.boolean "enrollment", default: false
     t.boolean "enabled_qualification", default: false
     t.boolean "show_survey", default: false
+    t.integer "academic_hours", default: 54
   end
 
   create_table "qualification_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

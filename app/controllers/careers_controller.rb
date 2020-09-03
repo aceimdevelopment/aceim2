@@ -15,10 +15,23 @@ class CareersController < ApplicationController
 	def constance_verify
 	end
 
+	def career_finished_certificate_verify
+		
+		if @career.finished?
+			pdf = PdfDocs.career_finished_certificate(@career, true)
+			unless send_data pdf.render, filename: "certificado#{@career.student.ci.to_s}-#{@career.language_id}.pdf", type: "application/pdf", disposition: "inline"
+				flash[:error] = "En estos momentos no se pueden descargar el certificado, inténtelo más tarde."
+			end
+			return
+		else
+			flash[:danger] = 'No se cumplen con los requisitos para acceder al certificado solitado'
+		end
+		return
+	end
+
 	def career_finished_certificate
 		if @career.finished?
 			pdf = PdfDocs.career_finished_certificate(@career)
-			# Hacer Documento pdf
 			unless send_data pdf.render, filename: "certificado#{@career.student.ci.to_s}-#{@career.language_id}.pdf", type: "application/pdf", disposition: "inline"
 				flash[:error] = "En estos momentos no se pueden descargar el certificado, inténtelo más tarde."
 			end

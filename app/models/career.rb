@@ -24,6 +24,16 @@ class Career < ApplicationRecord
     self.student.academic_records.joins({section: {course_period: [{course: :level}, :period]}}).order(['periods.year': :desc, 'periods.letter': :desc, 'levels.grade': :desc]).from_language(language_id)
   end
 
+  def academic_record_approved
+    academic_records.approved
+  end
+
+  def total_academic_hours_approved
+    aux = 0
+    academic_records.approved.map{|ar| aux += ar.period.academic_hours}
+    return aux
+  end
+
   def finished?
     final_level = language.last_level
 

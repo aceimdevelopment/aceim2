@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get 'constance'
       get 'constance_verify'
       get 'career_finished_certificate'
+      get 'career_finished_certificate_verify'
     end
   end
 

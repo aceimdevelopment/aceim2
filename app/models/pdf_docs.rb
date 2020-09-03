@@ -2,15 +2,16 @@ class PdfDocs
   include ActionView::Helpers::NumberHelper
   include Prawn::View
 
-  def self.career_finished_certificate career
-    color_base = '6F9BED'
-    pdf = Prawn::Document.new(top_margin: 20, page_layout: :landscape, background: "app/assets/images/finished_certificate.png")
+  def self.career_finished_certificate career, verified=false
+    # color_base = '001549'
+    color_base = 'c88513'
+    pdf = Prawn::Document.new(top_margin: 20, bottom_margin: 10, page_layout: :landscape, background: "app/assets/images/finished_certificate4.png")
 
     # Rails.root.join("app/assets/fonts/diploma.ttf")
     pdf.font_families.update( "DiplomaFamily" => {:normal => "app/assets/fonts/diploma.ttf"})
 
 
-    pdf.image "app/assets/images/banner_logos_dark.png", width: pdf.bounds.width
+    pdf.image "app/assets/images/banner_logos.png", width: pdf.bounds.width
 
     pdf.move_down 10
     pdf.text "UNIVERSIDAD CENTRAL DE VENEZUELA", align: :center
@@ -24,7 +25,7 @@ class PdfDocs
     pdf.text "Otorga el presente certificado a", align: :center, size: 12
     pdf.move_down 10
     pdf.font("DiplomaFamily") do
-      pdf.text career.user.full_name_invert, align: :center, color: color_base, size: 60
+      pdf.text career.user.full_name_invert, align: :center, color: color_base, size: 45
     end
     pdf.move_down 5
     pdf.text "CI: #{career.student.ci}", align: :center, color: color_base, size: 20
@@ -34,39 +35,62 @@ class PdfDocs
     pdf.text  "<b>#{career.language.name.upcase} COMO LENGUA EXTRANJERA</b>", align: :center, size: 20, inline_format: true
     pdf.move_down 10
 
-    pdf.text "#{career.language.total_levels*54} Horas académicas", align: :center, size: 12
+    pdf.text "#{career.total_academic_hours_approved} horas académicas", align: :center, size: 12
     pdf.move_down 10
-    t = Time.new
-    pdf.text "Caracas, #{t.day} de #{t.month} de #{t.year}", align: :center, size: 12
-    pdf.move_down 50
+    pdf.text "Caracas, #{I18n.l(Time.now, format: '%d de %B de %Y')}", align: :center, size: 12
 
-    require 'rqrcode'
+    pdf.move_down 10
 
-    # link = "http://localhost:3000/careers/#{career.id}/career_finished_certificate"
-    link = "https://fundeim.com/careers/#{career.id}/career_finished_certificate"
-    qrcode = RQRCode::QRCode.new(link)
+    unless verified
+      link = "https://fundeim.com/careers/#{career.id}/career_finished_certificate_verify"
+    
+      pdf.text "<a href='#{link}' style='margin-right:100px' target='_blank'>clic para verificar</a>", align: :center, size: 8, inline_format: true, color: color_base
+    else
+      pdf.move_down 5
 
-    png = qrcode.as_png(
-      bit_depth: 1,
-      border_modules: 4,
-      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
-      color: 'black',
-      file: "tmp/barcode.png",
-      fill: 'white',
-      module_px_size: 6,
-      resize_exactly_to: false,
-      resize_gte_to: false,
-      size: 150
-    )
+    end
+
+    pdf.move_down 40
+
+    unless verified
+      require 'rqrcode'
+
+      qrcode = RQRCode::QRCode.new(link)
+
+      png = qrcode.as_png(
+        bit_depth: 1,
+        border_modules: 4,
+        color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+        color: 'black',
+        file: "tmp/barcode.png",
+        fill: 'white',
+        module_px_size: 6,
+        resize_exactly_to: false,
+        resize_gte_to: false,
+        size: 150
+      )
+      pdf.image "#{Rails.root.to_s}/tmp/barcode.png", width: 120, at: [300, 150]
+    else
+      pdf.image "app/assets/images/school_stamp.png", width: 120, at: [300, 150]
+    end
 
     # pdf.text "#{pdf.bounds.width}" # 720
-    pdf.image "#{Rails.root.to_s}/tmp/barcode.png", image_width: 50, image_height: 50, at: [290, 150]
 
-    pdf.text "<b>Prof. Carlos A. Saavedra A.</b>                                                                <b>Gustavo Santamaría</b>" , align: :center, size: 12, inline_format: true
-    pdf.text "Director                                                                                              Coordinador De Cursos" , align: :center, size: 12, inline_format: true
-    pdf.move_down 10
+    dir_value = GeneralSetup.director_value
+    aca_dir_value = GeneralSetup.academic_director_value
 
+    if verified
+      pdf.image "app/assets/images/signature_director.png", width: 150, at: [100, 150]
+      pdf.image "app/assets/images/signature_aca_dir.png", width: 150, at: [470, 150]
+    end
 
+    pdf.text "<b>#{dir_value}</b>                                                                <b>#{aca_dir_value}</b>" , align: :center, size: 12, inline_format: true
+    pdf.text "Director                                                                                              Coordinador Académico" , align: :center, size: 12, inline_format: true
+
+  
+    pdf.move_down 70
+
+    pdf.text "<a href='https://www.freepik.es/vectores/certificado' style='margin-right:100px' target='_blank'>Vector de Certificado creado por freepik</a>", align: :right, size: 8, inline_format: true, color: 'EEEEEE'
 
     return pdf
 
@@ -190,7 +214,7 @@ class PdfDocs
 
     approved_records pdf, career.academic_records.approved
     
-    pdf.text "Cada nivel tiene una duración de 54 horas académicas (9 semanas aproximadamente).", size: 11, align: :justify, inline_format: true
+    pdf.text "Cada nivel tiene una duración de #{career.academic_records.last.period.academic_hours} horas académicas (9 semanas aproximadamente).", size: 11, align: :justify, inline_format: true
 
     t = Time.new
     pdf.move_down 10
