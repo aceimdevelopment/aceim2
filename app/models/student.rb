@@ -156,22 +156,29 @@ class Student < ApplicationRecord
       url = "http://aceim.ucv.ve/aceim_dev/aceim/inscripcion/show/#{self.ci}.json"
       uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
+      http.read_timeout = 5
+      http.open_timeout = 5
       request = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'application/json'})
       response = http.request(request)
       body = JSON.parse(response.body)
       historiales = body['historiales']
       if historiales and historiales.any?
-        historiales.reject{|h| h['tipo_estado_calificacion_id'].eql? 'SC'}.each do |ar|
+        historiales.reject{|h| h['tipo_estado_inscripcion_id'].eql? 'PRE' and h['tipo_estado_calificacion_id'].eql? 'SC' }.each do |ar|
           language_id = Language.idioma_to_language_id ar['idioma_id']
           level_id = Level.nivel_to_level_id ar['tipo_nivel_id']
+          p "    <#{level_id}> <#{ar['tipo_nivel_id']}>   ".center(200, "#")
+          level = Level.find(level_id) if level_id
           letter,year = ar['periodo_id'].split('-') 
           period_aux = Period.where(letter: letter, year: year).first
           course_aux = Course.where(language_id: language_id, level_id: level_id).first
+          period_aux ||= Period.create(letter: letter, year: year)
+          course_aux ||= Course.create(language_id: language_id, level_id: level_id, grade: level.grade)
           if course_aux and period_aux
             course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id, kind: :mixtos).first
+            course_period_aux ||= CoursePeriod.create(period_id: period_aux.id, course_id: course_aux.id, kind: :mixtos)
             if course_period_aux and !course_period_aux.academic_records.where(student_id: self.id).any?
               section = course_period_aux.sections.where(number: ar['seccion_numero']).first
-              section = course_period_aux.sections.first if section.nil?
+              section ||= course_period_aux.sections.first
               if section
                 agreement = Agreement.where(id: ar['tipo_convenio_id']).first
                 ar_aux = AcademicRecord.new

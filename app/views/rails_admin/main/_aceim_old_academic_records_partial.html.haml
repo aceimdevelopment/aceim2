@@ -22,7 +22,7 @@
 		- msg = '¡Estudiante con registros de inscripciones en aceim.ucv.ve (pendiente por migrar)!'
 	.alert{class: type_alert}
 		= msg
-		= link_to "/enrollment/#{student.id}/import_aceim_old", class: 'btn btn-sm btn-success pull-right', 'data-confirm': "¿Está completamente seguro de realizar la acción? Para efectos de cargar contenido útil al sistema sólo se migrarán registros ausentes y calificados en aceim.ucv.ve (status No SC)." do
+		= link_to "/enrollment/#{student.id}/import_aceim_old", class: 'btn btn-sm btn-success pull-right', 'data-confirm': "¿Está completamente seguro de realizar la acción? Para efectos de cargar contenido útil al sistema sólo se migrarán registros calificados en aceim.ucv.ve (status No SC)." do
 			.fa.fa-database
 			.fa.fa-angle-double-down
 			Importar Todo el Historial
@@ -33,7 +33,7 @@
 				%th Idioma
 				%th Periodo
 				%th Nivel
-				%th Status
+				%th Status (Cal-Insc)
 				%th Sección
 				%th Nota
 		%tbody
@@ -43,6 +43,6 @@
 					%td= ar['idioma_id']
 					%td= ar['periodo_id']
 					%td= ar['tipo_nivel_id']
-					%td= ar['tipo_estado_calificacion_id']
+					%td= "#{ar['tipo_estado_calificacion_id']}-#{ar['tipo_estado_inscripcion_id']}"
 					%td= ar['seccion_numero']
 					%td= ar['nota_final']

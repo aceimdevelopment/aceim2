@@ -36,7 +36,7 @@ class Level < ApplicationRecord
       aux = 'INTII'
     when 'MIII'
       aux = 'INTIII'
-    when 'CM'
+    when 'CI'
       aux = 'CONVINT'
     when 'AI'
       aux = 'AVANI'
