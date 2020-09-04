@@ -4,7 +4,7 @@ class EnrollmentController < ApplicationController
 
   def import_aceim_old
     @student = Student.find params[:id]
-    type, msg = @student.import_from_aceim
+    type, msg = @student.import_from_aceim_local
     flash[type] = msg
     redirect_back fallback_location: root_path
   end

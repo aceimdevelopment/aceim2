@@ -150,6 +150,54 @@ class Student < ApplicationRecord
     self.location = location.strip.upcase if self.location
   end
 
+
+
+  def import_from_aceim_local
+    begin
+      total = 0
+
+      historiales = HistorialAcademico.where(usuario_ci: self.ci)
+      if historiales and historiales.any?
+        historiales.reject{|h| h.tipo_estado_inscripcion_id.eql? 'PRE' or h.tipo_estado_calificacion_id.eql? 'SC' or h.periodo_id.eql? 'B-2020' or h.periodo_id.eql? 'A-2020'}.each do |ar|
+          language_id = Language.idioma_to_language_id ar.idioma_id
+          level_id = Level.nivel_to_level_id ar.tipo_nivel_id
+          p "    <#{level_id}> <#{ar.tipo_nivel_id}>   ".center(200, "#")
+          level = Level.find(level_id) if level_id
+          letter,year = ar.periodo_id.split('-') 
+          period_aux = Period.where(letter: letter, year: year).first
+          course_aux = Course.where(language_id: language_id, level_id: level_id).first
+          period_aux ||= Period.create(letter: letter, year: year)
+          course_aux ||= Course.create(language_id: language_id, level_id: level_id, grade: level.grade)
+          if course_aux and period_aux
+            course_period_aux = CoursePeriod.where(period_id: period_aux.id, course_id: course_aux.id, kind: :mixtos).first
+            course_period_aux ||= CoursePeriod.create(period_id: period_aux.id, course_id: course_aux.id, kind: :mixtos)
+            if course_period_aux and !course_period_aux.academic_records.where(student_id: self.id).any?
+              section = course_period_aux.sections.where(number: ar.seccion_numero).first
+              section ||= course_period_aux.sections.first
+              if section
+                agreement = Agreement.where(id: ar.tipo_convenio_id).first
+                ar_aux = AcademicRecord.new
+                ar_aux.student_id = self.id
+                ar_aux.section_id = section.id
+                ar_aux.final_qualification = ar.nota_final
+                ar_aux.qualification_status_id = ar.tipo_estado_calificacion_id
+                ar_aux.agreement = agreement
+                ar_aux.inscription_status = :confirmado if ar.tipo_estado_inscripcion_id.eql? "INS"
+                total += 1 if ar_aux.save
+              end
+            end
+          end
+        end
+        self.update(imported: true)
+        return ['success', "Total inscripciones importadas de aceim.ucv.ve: #{total}"]
+      end
+    rescue Exception => e
+      return ['notice', "Error intentando importar desde aceim.ucv.ve: #{e}"]
+    end
+  end
+
+
+
   def import_from_aceim
     begin
       total = 0

@@ -1,18 +1,5 @@
 
-- begin
-	- url = "http://aceim.ucv.ve/aceim_dev/aceim/inscripcion/show/#{student.ci}.json"
-	- uri = URI(url)
-	- http = Net::HTTP.new(uri.host, uri.port)
-	- http.read_timeout = 3
-	- http.open_timeout = 3
-	- request = Net::HTTP::Post.new(uri.path, {'Content-Type' => 'application/json'})
-	- response = http.request(request)
-	- body = JSON.parse(response.body)
-	- historiales = body['historiales']
-- rescue Exception => e
-	.alert.alert-warning
-		= "No se pudo conectar con aceim.ucv.ve: #{e}"
-
+- historiales = HistorialAcademico.where(usuario_ci: student.ci)
 - if historiales and historiales.any?
 	- if student.imported
 		- type_alert = 'alert-success'
@@ -40,9 +27,9 @@
 			- historiales.each_with_index do |ar, i| 
 				%tr
 					%td= i+1
-					%td= ar['idioma_id']
-					%td= ar['periodo_id']
-					%td= ar['tipo_nivel_id']
-					%td= "#{ar['tipo_estado_calificacion_id']}-#{ar['tipo_estado_inscripcion_id']}"
-					%td= ar['seccion_numero']
-					%td= ar['nota_final']
+					%td= ar.idioma_id
+					%td= ar.periodo_id
+					%td= ar.tipo_nivel_id
+					%td= "#{ar.tipo_estado_calificacion_id}-#{ar.tipo_estado_inscripcion_id}"
+					%td= ar.seccion_numero
+					%td= ar.nota_final
