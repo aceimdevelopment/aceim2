@@ -52,6 +52,22 @@ class PdfDocs
 
     pdf.move_down 40
 
+    dir_value = GeneralSetup.director_value
+    aca_dir_value = GeneralSetup.academic_director_value
+    data = [["<b>#{dir_value}</b>", "<b>#{aca_dir_value}</b>"]] 
+
+    # align: :center, size: 12, inline_format: true, background_color: 'EEEEEE'
+    data << ["Director", "Coordinador"] # align: :center, size: 12, inline_format: true
+
+    pdf.table data do |t|
+      t.position = :center
+      t.width = 500
+      t.header = false
+      t.cell_style = {inline_format: true, size: 12, border_color: 'f8f8f8', background_color: "f8f8f8", align: :center}
+      t.column(0).style(:padding => [5, 60, 5, 0])
+      t.column(1).style(:padding => [5, 0, 5, 60])
+    end
+
     unless verified
       require 'rqrcode'
 
@@ -76,19 +92,17 @@ class PdfDocs
 
     # pdf.text "#{pdf.bounds.width}" # 720
 
-    dir_value = GeneralSetup.director_value
-    aca_dir_value = GeneralSetup.academic_director_value
 
     if verified
-      pdf.image "app/assets/images/signature_director.png", width: 150, at: [100, 150]
-      pdf.image "app/assets/images/signature_aca_dir.png", width: 150, at: [470, 150]
+      pdf.image "app/assets/images/signature_director.png", width: 150, at: [130, 170]
+      pdf.image "app/assets/images/signature_aca_dir.png", width: 150, at: [445, 170]
+      pdf.move_down 30
     end
 
-    pdf.text "<b>#{dir_value}</b>                                                                <b>#{aca_dir_value}</b>" , align: :center, size: 12, inline_format: true
-    pdf.text "Director                                                                                              Coordinador Académico" , align: :center, size: 12, inline_format: true
 
-  
-    pdf.move_down 70
+
+
+    pdf.move_down 50
 
     pdf.text "<a href='https://www.freepik.es/vectores/certificado' style='margin-right:100px' target='_blank'>Vector de Certificado creado por freepik</a>", align: :right, size: 8, inline_format: true, color: 'EEEEEE'
 
