@@ -163,7 +163,7 @@ class Student < ApplicationRecord
       body = JSON.parse(response.body)
       historiales = body['historiales']
       if historiales and historiales.any?
-        historiales.reject{|h| h['tipo_estado_inscripcion_id'].eql? 'PRE' and h['tipo_estado_calificacion_id'].eql? 'SC' }.each do |ar|
+        historiales.reject{|h| h['tipo_estado_inscripcion_id'].eql? 'PRE' or h['tipo_estado_calificacion_id'].eql? 'SC' or (h['periodo_id'].eql? 'B-2020' or h['periodo_id'].eql? 'A-2020')}.each do |ar|
           language_id = Language.idioma_to_language_id ar['idioma_id']
           level_id = Level.nivel_to_level_id ar['tipo_nivel_id']
           p "    <#{level_id}> <#{ar['tipo_nivel_id']}>   ".center(200, "#")
