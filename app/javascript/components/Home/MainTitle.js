@@ -2,15 +2,16 @@ import React, {useRef} from 'react'
 import LogoEIM from 'images/logo_eim.png';
 import LogoUCV from 'images/logo_ucv.png';
 import LogoFHE from 'images/logo_fhye.png';
+import Banner from 'images/banner_logos_dark.png';
 import Image from 'react-bootstrap/Image'
 
 class MainTitle extends React.Component {
   render() {
     return (
 		<div className='text-center text-info pt-4 align-middle'>
-		  <Image src={LogoUCV} width='100px' className='float-left m-5' rounded />
-		  <Image src={LogoFHE} width='100px' className='float-right m-5' rounded />
-		  <Image src={LogoEIM} rounded className='mt-5 mb-3'/>
+
+      <Image src={Banner} width='70%' className='align-items-center justify-content-center mt-5' rounded />
+
       <h5 className=' mb-0'> Universidad Central de Venezuela </h5>
       <h5 className=' mb-0'> Facultad de Humanidades y Educación</h5>
       <h5 className=' mb-0'> Escuela de Idiomas Modernos</h5>
