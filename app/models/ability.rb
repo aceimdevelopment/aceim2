@@ -34,7 +34,7 @@ class Ability
             can :read, [Student, User]
         elsif user.administrator.superadmin?
             can :cru, [Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema, CoursePeriod]
-            can :read, [Period, Agreement]
+            can :read, [Period, Agreement, Course]
             can :cr, [User]
             # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
             # can :create, [Bank, Period, CoursePeriod, Agreement]
