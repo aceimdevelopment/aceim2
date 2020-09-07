@@ -1,3 +1,19 @@
+desc "Preinscritos 2020C"
+task send_email_pre_2020C: :environment do
+  p 'iniciando...'
+
+  pe = Period.where(name: '2020-C').first
+  AcademicRecord.preinscrito.from_period(pe.id).uniq.each do |ar|
+
+    if UserMailer.preenrollment_2020c(ar.user).deliver
+      p '  ENVIADO  '.center(200, "#") 
+    else
+      p '  NO ENVIADO  '.center(200, "*") 
+    end
+
+  end
+end
+
 desc "Actualizar valores de las calificaciones"
 task update_value_qualifications: :environment do
   p 'Iniciando...'

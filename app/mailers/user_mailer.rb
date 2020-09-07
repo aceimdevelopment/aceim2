@@ -1,6 +1,13 @@
 class UserMailer < ApplicationMailer
   layout 'mailer'
 
+  def preenrollment_2020c(user)
+    @user = user
+    mail(to: user.email,
+    subject: "ATENCIÓN PREINSCRITOS 2020-C",
+    content_type: "text/html")    
+  end
+
   def asigneds_2020b(user)
     @user = user
     mail(to: user.email,
