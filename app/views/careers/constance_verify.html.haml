@@ -34,7 +34,7 @@
 
   %br
   %br
-  %p.text-justify.mt-3 Cada nivel tiene una duración de 54 horas académicas (9 semanas aproximadamente).
+  %p.text-justify.mt-3= "Cada nivel tiene una duración de #{@career.academic_records.last.period.academic_hours} horas académicas (9 semanas aproximadamente)."
   %br
   %p.text-justify.mt-3 
     Para mayor información puede escribirnos al correo:
