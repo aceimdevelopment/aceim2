@@ -10,6 +10,9 @@
 	.fa.fa-search
 	Ir a la programación
 
+- unless section.id_canvas and section.course_period.id_canvas
+	= link_to "/sections/#{section.id}/create_on_canvas", class: 'btn btn-info tooltip-btn pull-right', 'data-toggle': :tooltip, title: "Crear ésta sección en Canvas", style: 'margin-right: 10px;' do
+		.fa.fa-paper-plane
 
 - if section.id_canvas and section.course_period.id_canvas
 	= link_to "/sections/#{section.id}/enrollments_to_canvas", class: 'btn btn-info tooltip-btn pull-right', 'data-toggle': :tooltip, title: "Asignar Estudiantes a Canvas", style: 'margin-right: 10px;' do

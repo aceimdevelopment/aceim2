@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     member do
       get 'split'
       get 'enrollments_to_canvas'
+      get 'create_on_canvas'
     end
   end
 

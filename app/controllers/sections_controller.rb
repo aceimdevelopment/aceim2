@@ -54,6 +54,19 @@ class SectionsController < ApplicationController
 		redirect_to "/admin/course_period/#{@section.course_period.id}"
 	end
 
+	def create_on_canvas
+		begin
+			if @section.create_section_on_canvas
+				flash[:success] = "Sección creada en Canvas" 
+			else
+				flash[:danger] = "No se pudo crear la sección en Canvas"
+			end
+		rescue Exception => e
+			flash[:danger] = "Error: #{e}"
+		end
+		redirect_back fallback_location: "/admin/section/#{@section.id}"
+	end
+
 
 	def enrollments_to_canvas
 		begin
