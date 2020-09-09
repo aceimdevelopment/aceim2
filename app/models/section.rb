@@ -72,6 +72,9 @@ class Section < ApplicationRecord
       field :open do
         label '¿Abierta?'
       end
+
+      field :id_canvas
+
       field :url_classroom_canvas do
         label 'Url de Aula en Canvas'
       end
@@ -106,6 +109,7 @@ class Section < ApplicationRecord
           Instructor.all.map{|inst| [inst.name, inst.id]}
         end
       end
+      field :id_canvas
 
       field :url_classroom_canvas do
         label 'Url Automatricula Canvas'
@@ -227,6 +231,23 @@ class Section < ApplicationRecord
 
   # ========== FUNCTIONS ============ #
 
+  def create_section_on_canvas (canvas = MyCanvas.connect)
+    section_canvas = canvas.post("/api/v1/courses/#{self.course_period.id_canvas}/sections", {'course_section' => {'name' => "#{title_for_create_canvas}"}})
+
+    self.update(id_canvas: section_canvas['id']) if section_canvas
+  end
+
+  def enrollments_to_canvas(canvas = MyCanvas.connect)
+    total_enrolled = 0
+    academic_records.confirmado.each do |ar|
+      if ar.student.user.id_canvas
+        new_enrolled_canvas = canvas.post("/api/v1/sections/#{self.id_canvas}/enrollments", {'enrollment' => {'user_id' => ar.user.id_canvas, 'type' => 'StudentEnrollment', 'limit_privileges_to_course_section' => true, 'notify' => true, 'enrollment_state' => 'active'}})
+         total_enrolled += 1 if (new_enrolled_canvas and ar.update(inscription_status: :asignado))
+      end
+    end
+    return total_enrolled
+  end
+
   def number_to_string
     sprintf("%02i",self.number)
   end
@@ -282,6 +303,15 @@ class Section < ApplicationRecord
     else
       id
     end
+  end
+
+  def title_for_create_canvas
+    if course_period and course and number and course_period.kind
+      "#{course.language_id} - #{course.level.name.capitalize} #{course_period.kind[0].upcase} - #{number_to_string}"
+    else
+      id
+    end
+
   end
 
   def name

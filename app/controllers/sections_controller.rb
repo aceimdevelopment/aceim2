@@ -3,64 +3,70 @@ class SectionsController < ApplicationController
 	before_action :authenticate_user!
 
 	def split 
-		# require 'canvas-api'
-		# begin
-		# 	canvas = MyCanvas.connect
-		# rescue Exception => e
-		# 	flash[:danger] = 'No es posible conectarse con Canvas'
-		# end
 
-		# begin
-		# 	# section_canvas = canvas.create_section_on_canvas(@section)
-		# 	sections = canvas.get("/api/v1/courses/#{@section.course_period.id_canvas}/sections").first
-		# 	# @section
-		# rescue Exception => e
-		# 	flash[:errors] = "No fue posible crear la sección en Canvas: #{e}"
-		# end
+		begin
+			number_split = params[:number_split].to_i
+			total_groups = @section.academic_records.count/number_split
+			remainder = @section.academic_records.count%number_split
 
-		number_split = params[:number_split].to_i
-		total_groups = @section.academic_records.count/number_split
-		remainder = @section.academic_records.count%number_split
+			course_period = @section.course_period
+			flash[:info] = ""
+			total_new_sections = 0
+			total_challenge = 0
+			canvas = MyCanvas.connect
 
-		flash[:info] = ""
-		total_new_sections = 0
-		total_challenge = 0
-		for i in 1..number_split-1
-			section_aux = @section.dup
-			section_aux.number = @section.course_period.next_section_number
-
-			if section_aux.save
-				
-				total_new_sections += 1
-				@section.reload
-				# begin
-				# 	section_canvas = canvas.create_section_on_canvas(@section)
+			for i in 1..number_split-1
+				new_section = @section.dup
+				new_section.number = course_period.next_section_number
+				if new_section.save
 					
-				# rescue Exception => e
-				# 	flash[:errors] = "No fue posible crear la sección en Canvas: #{e}"
-				# end
+					new_section.create_section_on_canvas canvas
+					
+					total_new_sections += 1
+					@section.reload
 
-				if remainder > 0
-					aux = total_groups+1
-					remainder -=1
+					if remainder > 0
+						aux = total_groups+1
+						remainder -=1
+					else
+						aux = total_groups
+					end
+					@section.academic_records.limit(aux).each do |ar|
+						ar.section = new_section
+						total_challenge += 1 if ar.save
+					end
+					new_section.reload
+					new_section.enrollments_to_canvas canvas
 				else
-					aux = total_groups
+					flash[:info] += "No fue posible crear la nueva sección #{new_section.errors.full_messages.to_sentence}"
 				end
-				@section.academic_records.limit(aux).each do |ar|
-					ar.section = section_aux
-					total_challenge += 1 if ar.save
-				end
-			else
-				flash[:info] += "No fue posible crear la nueva sección #{section_aux.errors.full_messages.to_sentence}"
 			end
-		end
 
-		flash[:info] += "Se crearon un total de #{total_new_sections} nuevas secciones"
-		flash[:info] += "Se cambiaron de sección un total de #{total_challenge} estudiantes"
+			if @section.id_canvas.nil?
+				@section.create_section_on_canvas canvas
+				@section.enrollments_to_canvas canvas
+			end
+
+			flash[:info] += "Se crearon un total de #{total_new_sections} nuevas secciones"
+			flash[:info] += "Se cambiaron de sección un total de #{total_challenge} estudiantes"
+
+
+		rescue Exception => e
+			flash[:danger] = "Error al intentar distribuir las secciones: #{e}"
+		end
 
 		redirect_back fallback_location: rails_admin_path
 	end
 
+
+	def enrollments_to_canvas
+		begin
+			flash[:success] = "Total asignados en Candas: #{@section.enrollments_to_canvas}"	
+		rescue Exception => e
+			flash[:danger] = "Error: #{e}"
+		end
+		redirect_back fallback_location: "/admin/section/#{@section.id}"
+	end
 
 
 	private

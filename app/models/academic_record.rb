@@ -34,7 +34,8 @@ class AcademicRecord < ApplicationRecord
   after_save :add_career
 
   #============SCOPE===============#
-  scope :not_preinscrito, -> {where('inscription_status != 0')}
+  # scope :not_preinscrito, -> {where('inscription_status != 0')}
+  # OJO: El scope anterior ya está por defecto para los enum ej: not_
   scope :approved, -> {where(qualification_status_id: :AP)}
   scope :not_qualifiqued, -> {where(qualification_status_id: :SC)}
   scope :qualified, -> {where("qualification_status_id != ?", :SC)}

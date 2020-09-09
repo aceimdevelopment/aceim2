@@ -75,14 +75,17 @@ class CoursePeriod < ApplicationRecord
       # sort_by 'periods.created_at DESC'
       checkboxes false
       items_per_page 33
+      filters [:period]
 
       field :period do
         label 'Periodo'
         formatted_value do
           bindings[:object].period.name
         end
-        filterable true
-        searchable true
+        queryable true
+        sortable true
+        searchable :name
+        filterable :name
       end
 
       field :language do
@@ -90,8 +93,10 @@ class CoursePeriod < ApplicationRecord
         formatted_value do
           bindings[:object].course.language.name
         end
-        filterable :name
-        searchable false #:name
+        # queryable true
+        # sortable true
+        # searchable 'course_periods.courses.languages.name'
+        # filterable 'course_periods.courses.languages.name'
       end
 
       field :level do
@@ -161,7 +166,6 @@ class CoursePeriod < ApplicationRecord
         label 'Tipo'
       end
       field :id_canvas do
-        label 'Identificador Canvas'
         html_attributes do
           {:onInput => "$(this).val($(this).val().toUpperCase().replace(/[^0-9|]/g,''))"}
         end

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   resources :sections, only: [:index] do
     member do
       get 'split'
+      get 'enrollments_to_canvas'
     end
   end
 

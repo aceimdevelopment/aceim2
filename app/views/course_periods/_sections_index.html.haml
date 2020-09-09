@@ -10,20 +10,20 @@
       - active = (i.eql? 0) ? ' active' : ''
       %li{class: active}
         = link_to s.number_to_string, "#tab-#{s.id}", "data-toggle": "tab", class: "nav-item nav-link"
-
     
     %li.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
       = link_to "/enrollment/#{course_period.id}/sync_up_width_canvas", class: 'text-success' do
         %span.label.label-success.border.border-success
           .fa.fa-sliders
-          Sincronizar
+          .fa.fa-arrow-down
+          Sincronizar          
 - qa_schs = course_period.period.qualification_schemas.order(:sequence)
 .tab-content
   - course_period.sections.each_with_index do |s,i| 
     - active = (i.eql? 0) ? ' active' : ''
     .tab-pane{id: "tab-#{s.id}", class: active}
       .border.mt-3.p-3
-        %b= "Total Inscritos Aceim: #{s.academic_records.count}"
+        %b= "Total Inscritos: #{s.academic_records.count}"
         
         %table.table
           %thead
@@ -44,6 +44,9 @@
           - if s.id_canvas and s.course_period.id_canvas
             = link_to "https://canvas.instructure.com/courses/#{s.course_period.id_canvas}/sections/#{s.id_canvas}", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir a la sección en Canvas #{s.number_to_string}", style: 'margin-right: 10px;', target: '_blank'  do
               .fa.fa-external-link
+
+            = link_to "/sections/#{s.id}/enrollments_to_canvas", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Asignar Estudiantes a Canvas", style: 'margin-right: 10px;' do
+              .fa.fa-graduation-cap
           = link_to "/admin/section/#{s.id}", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir al detalle de esta sección #{s.number_to_string}"  do
             .fa.fa-search
           = link_to "Instructor: #{s.instructor.user.full_name}", "/admin/instructor/#{s.instructor.id}", class: 'btn btn-sm btn-info', style: 'margin-left: 10px;' if s.instructor

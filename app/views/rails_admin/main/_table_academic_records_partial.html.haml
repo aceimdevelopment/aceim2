@@ -1,5 +1,5 @@
 
-- cutable = true #section.academic_records.count < 2
+- cutable = section.academic_records.count < 2
 - if cutable
 	- msg = 'No tiene suficiantes inscritos para distribuirlos'
 - else
@@ -7,6 +7,8 @@
 .label.label-success.ml-5.p-3
 	Total Inscritos: 
 	= section.academic_records.count
+
+
 - if current_user.administrator? and current_user.administrator.high_authotization?
 	.pull-right.tooltip-btn{"data-toggle": :tooltip, title: msg}
 		= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
@@ -16,6 +18,16 @@
 					= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
 						%i.fa.fa-cut
 						Distribuir Sección
+= link_to "/admin/course_period/#{section.course_period.id}", class: 'btn btn-info pull-right', style: 'margin-right:20px' do
+	.fa.fa-search
+	Ir a la programación
+
+
+- if section.id_canvas and section.course_period.id_canvas
+	= link_to "/sections/#{section.id}/enrollments_to_canvas", class: 'btn btn-info tooltip-btn pull-right', 'data-toggle': :tooltip, title: "Asignar Estudiantes a Canvas", style: 'margin-right: 10px;' do
+		.fa.fa-graduation-cap
+
+
 - # No incluimos si la section está open ya qué es para otros fines
 
 = render partial: '/academic_records/index', locals: {section: section}
