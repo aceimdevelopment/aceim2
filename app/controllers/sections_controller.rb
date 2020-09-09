@@ -15,13 +15,13 @@ class SectionsController < ApplicationController
 			total_challenge = 0
 			canvas = MyCanvas.connect
 
-			for i in 1..number_split-1
+			for i in 1..number_split
 				new_section = @section.dup
 				new_section.number = course_period.next_section_number
 				if new_section.save
 					
 					new_section.create_section_on_canvas canvas
-					
+
 					total_new_sections += 1
 					@section.reload
 
@@ -36,15 +36,11 @@ class SectionsController < ApplicationController
 						total_challenge += 1 if ar.save
 					end
 					new_section.reload
+					course_period.reload
 					new_section.enrollments_to_canvas canvas
 				else
 					flash[:info] += "No fue posible crear la nueva sección #{new_section.errors.full_messages.to_sentence}"
 				end
-			end
-
-			if @section.id_canvas.nil?
-				@section.create_section_on_canvas canvas
-				@section.enrollments_to_canvas canvas
 			end
 
 			flash[:info] += "Se crearon un total de #{total_new_sections} nuevas secciones"
@@ -55,7 +51,7 @@ class SectionsController < ApplicationController
 			flash[:danger] = "Error al intentar distribuir las secciones: #{e}"
 		end
 
-		redirect_back fallback_location: rails_admin_path
+		redirect_to "/admin/course_period/#{@section.course_period.id}"
 	end
 
 

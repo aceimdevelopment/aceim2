@@ -4,6 +4,8 @@
 - if course_period.response_unenrolled_canvas
   .alert.alert-warning
     = raw (course_period.response_unenrolled_canvas)
+- sec_split = course_period.sections.where(number: 0).first
+= (render partial: "sections/split", locals: {section: sec_split}) if sec_split
 %nav
   %ul.nav.nav-tabs
     - course_period.sections.each_with_index do |s,i| 
@@ -16,7 +18,9 @@
         %span.label.label-success.border.border-success
           .fa.fa-sliders
           .fa.fa-arrow-down
-          Sincronizar          
+          Sincronizar
+
+  
 - qa_schs = course_period.period.qualification_schemas.order(:sequence)
 .tab-content
   - course_period.sections.each_with_index do |s,i| 
