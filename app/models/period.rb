@@ -92,6 +92,16 @@ class Period < ApplicationRecord
           label 'Id'
         end
 
+        field :clean_not_reported do
+          label 'Preinscritos No Reportados'
+          formatted_value do
+            bindings[:view].render(partial: "/periods/clean_not_reported", locals: {period: bindings[:object]})            
+            # bindings[:view].content_tag(:a, "<i class='fa fa-trash'></i> Remover No Preinscritos Reportados", href: "/periods/clean_not_reported")
+
+          end
+
+        end
+
         field :academic_hours do
           label 'Horas Académicas'
         end

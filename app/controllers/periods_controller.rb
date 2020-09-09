@@ -1,7 +1,23 @@
 class PeriodsController < ApplicationController
 
 	before_action :authenticate_user!
-	before_action :set_period, only: :onoff_switch
+	before_action :set_period
+
+	def clean_not_reported
+		ids = @period.academic_records.preinscrito.reject{ |ar| ar.payment_detail}.map{ |ar| ar.id }
+		total = ids.count
+		if total > 0
+			if	AcademicRecord.where("id IN (?)", ids).destroy_all
+				flash[:info] = "#{total} registros de preinscripciones sin reporte de pago"
+			else
+				flash[:danger] = "Error al intentar eliminar preinscripciones. Por favor inténtelo nuevamente"
+			end
+		else
+			flash[:info] = "Sin registros por eliminar"
+		end
+
+		redirect_back fallback_location: '/admin/period'
+	end
 
 	def onoff_switch
 		case params[:function_to_switch]
