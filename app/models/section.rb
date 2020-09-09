@@ -307,7 +307,7 @@ class Section < ApplicationRecord
 
   def title_for_create_canvas
     if course_period and course and number and course_period.kind
-      "#{course.language_id} - #{course.level.name.capitalize} #{course_period.kind[0].upcase} - #{number_to_string}"
+      "#{course.language_id} - #{course.level.name} #{course_period.kind.upcase} - #{number_to_string}"
     else
       id
     end
