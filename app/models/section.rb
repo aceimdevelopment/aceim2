@@ -222,6 +222,8 @@ class Section < ApplicationRecord
         label 'CANVAS'
       end
 
+      field :id_canvas
+
       field :aula do
         label 'Url Automatricula Canvas'
         formatted_value{ bindings[:object].url_classroom_canvas.split("/").last if bindings[:object].url_classroom_canvas }
