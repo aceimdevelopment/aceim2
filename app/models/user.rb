@@ -127,6 +127,13 @@ class User < ApplicationRecord
   end
 
   # ========== FUNCTIONS ============ #
+  def name_for_email_canvas
+    aux = canvas_email
+    aux ||= email
+
+    "#{name} #{last_name} <#{aux}>"
+  end
+
   def number_phone_style
     number_phone ? self.split_phone.join(" - ") : ""
   end

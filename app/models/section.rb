@@ -49,15 +49,13 @@ class Section < ApplicationRecord
         end
 
       end
-
-      field :instructor
-
-      field :open do
-        label '¿Abierta?'
+      field :emails do
+        label 'Emails'
+        formatted_value do
+          bindings[:view].render(partial: "sections/emails_section", locals: {section: self.bindings[:object]})
+        end
       end
-      field :url_classroom_canvas do
-        label 'Url de Aula en Canvas'
-      end
+
       field :records do
         label 'Inscripciones'
         formatted_value do
@@ -237,6 +235,10 @@ class Section < ApplicationRecord
   end
 
   # ========== FUNCTIONS ============ #
+  def list_of_emails_canvas
+    academic_records.map{|ar| ar.user.name_for_email_canvas}.join(", ")
+  end
+
 
   def create_section_on_canvas (canvas = MyCanvas.connect)
     section_canvas = canvas.post("/api/v1/courses/#{self.course_period.id_canvas}/sections", {'course_section' => {'name' => "#{title_for_create_canvas}"}})
