@@ -218,8 +218,8 @@ class Section < ApplicationRecord
         label 'CONF'
       end
 
-      field :canvas do
-        label 'CANVAS'
+      field :asigned do
+        label 'ASIG'
       end
 
       field :id_canvas
@@ -269,7 +269,6 @@ class Section < ApplicationRecord
   def canvas
     academic_records.asignado.count
   end
-
 
   def course_period_kind
     course_period.kind if course_period
