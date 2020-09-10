@@ -62,7 +62,7 @@ class EnrollmentController < ApplicationController
             end
           end
         else
-          flash[:error] = 'No se pudo guardar la sección'
+          flash[:error] = "No se pudo guardar la sección: #{s2.errors.full_messages.to_sentence}. #{s2.attributes}"
         end
       end
       

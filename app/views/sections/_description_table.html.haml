@@ -9,6 +9,9 @@
 				%th Numero
 				%th Total
 				%th Instructor
+				- if current_user.admin?
+					%th.text-center ¿Abierta?
+					%th Id Canvas
 		%tbody
 			%tr
 				%th= section.period.name
@@ -18,3 +21,8 @@
 				%th= section.number_to_string
 				%th= section.asigned
 				%th= section.instructor.user.name
+				- if current_user.admin?
+					%th.text-center
+						= raw (section.open ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-remove text-danger' ></i>")
+					%th= section.id_canvas
+

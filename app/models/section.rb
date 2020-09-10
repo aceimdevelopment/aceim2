@@ -41,10 +41,15 @@ class Section < ApplicationRecord
   rails_admin do
 
     show do
-      field :description do
+
+      field :desc_show do
         label 'Descripción'
-        read_only true
+        formatted_value do
+          bindings[:view].render(partial: 'sections/description_table', locals: {section: bindings[:object]})
+        end
+
       end
+
       field :instructor
 
       field :open do
