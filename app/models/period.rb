@@ -27,6 +27,29 @@ class Period < ApplicationRecord
     # ============== RAILS ADMIN ================= #
     rails_admin do
       label 'Periodo'
+
+
+      export do
+        field :name do
+          label 'id'
+        end
+        field :year do
+          label 'Año'
+        end
+        field :letter do 
+          label 'Letra'
+        end
+        field :total_preenrollment do
+          label 'Preinscritos'
+        end
+        field :total_enrollment do
+          label 'Confirmados'
+        end
+        field :total_assigned do
+          label 'Regi Canvas'
+        end
+
+      end
       list do
         sort_by :name
         checkboxes false

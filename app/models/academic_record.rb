@@ -19,6 +19,7 @@ class AcademicRecord < ApplicationRecord
   has_one :language, through: :course, dependent: :nullify
   has_one :level, through: :course, dependent: :nullify
   has_one :period, through: :course_period, dependent: :nullify
+  has_one :user, through: :student#, dependent: :nullify
 
   #============TYPES===============#
   enum inscription_status: [:preinscrito, :confirmado, :asignado]
@@ -57,24 +58,32 @@ class AcademicRecord < ApplicationRecord
 
     export do
 
-      field :user_desc do
-        label 'Estudiante'
+      field :period do
+        label 'Periodo'
+      end
+
+      field :course_period do
+        label 'Programación'
+      end
+
+      field :language do
+        label 'Idioma'
+      end
+
+      field :level do
+        label 'Nivel'
       end
 
       field :export_section do
         label 'Sección'
       end
 
-      field :export_language do
-        label 'Idioma'
+      field :student do
+        label 'Estudiante'
       end
 
-      field :export_level do
-        label 'Nivel'
-      end
-
-      field :export_kind do
-        label 'Tipo'
+      field :user do
+        label 'Usuario'
       end
 
       field :export_agreement do
@@ -82,13 +91,12 @@ class AcademicRecord < ApplicationRecord
       end
 
       field :inscription_status do
-        label 'Estado de Inscripción'
+        label 'Estado'
       end
 
       field :final_desc do
         label 'Final'
       end
-
 
     end
 
@@ -252,6 +260,10 @@ class AcademicRecord < ApplicationRecord
   # def level
   #   course.level.name if course
   # end
+  def ci
+    student.ci
+  end
+
   def career
     Career.where(student_id: self.student_id, language_id: self.language.id).first
   end

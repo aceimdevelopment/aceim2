@@ -36,6 +36,12 @@ class Language < ApplicationRecord
 
 
   rails_admin do 
+    export do
+      field :id
+      field :name do
+        label 'Nombre'
+      end
+    end
     list do
       field :id do
         label 'Identificador'

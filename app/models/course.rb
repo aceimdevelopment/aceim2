@@ -24,4 +24,15 @@ class Course < ApplicationRecord
   def name
   	self.language and self.level ? "#{self.language.name}-#{self.level.name}" : "#{self.id}"
   end
+
+  rails_admin do
+    export do
+      field :language do
+        label 'Iidoma'
+      end
+      field :level do
+        label 'Nivel'
+      end
+    end
+  end
 end

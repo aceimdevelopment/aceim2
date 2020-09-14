@@ -47,6 +47,21 @@ class Student < ApplicationRecord
 
   rails_admin do
 
+    export do
+      field :personal_identity_document do
+        label 'CI'
+      end
+      field :user do
+        label 'Usuario'
+      end
+      field :location do 
+        label 'Ubicación'
+      end
+      field :active do
+        label '¿activo?'
+      end
+    end
+
     import do
       mapping_key :user_id
       # for multiple values, use mapping_key [:first_name, :last_name]

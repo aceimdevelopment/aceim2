@@ -40,6 +40,19 @@ class CoursePeriod < ApplicationRecord
     #   mapping_key_list [:period_id, :language_id, :level_id]
     # end
 
+    export do
+      field :kind do
+        label 'Tipo'
+      end
+      field :period do 
+        label 'Periodo'
+      end
+      field :id_canvas
+      field :capacity do
+        label 'Capacidad'
+      end
+    end
+
     show do
       # field :id_canvas do 
       #   label 'Id Canvas'

@@ -53,6 +53,17 @@ class Level < ApplicationRecord
   # ========== RAILS_ADMIN ================== #
 
   rails_admin do 
+
+    export do
+      field :id
+      field :name do
+        label 'Nombre'
+      end
+      field :grade do
+        label 'Grado'
+      end
+    end
+
     list do
       field :id do
         label 'Identificador'

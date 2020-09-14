@@ -46,6 +46,21 @@ class User < ApplicationRecord
     #   # field :password
     # end
 
+    export do
+      field :email
+      field :name do
+        label 'Nombres'
+      end
+      field :last_name do
+        label 'Apellidos'
+      end
+      field :number_phone do
+        label 'Teléfono'
+      end
+      field :id_canvas
+      field :canvas_email
+    end
+
     list do
       checkboxes false
       sort_by :name
