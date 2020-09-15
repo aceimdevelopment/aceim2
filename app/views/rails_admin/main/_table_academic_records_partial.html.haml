@@ -6,15 +6,16 @@
 - if current_user.administrator? and current_user.administrator.high_authotization?
 	= render partial: "sections/split", locals: {section: section}
 
-= link_to "/admin/course_period/#{section.course_period.id}", class: 'btn btn-info pull-right', style: 'margin-right:20px' do
-	.fa.fa-search
-	Ir a la programación
+- if can? :manage, CoursePeriod
+	= link_to "/admin/course_period/#{section.course_period.id}", class: 'btn btn-info pull-right', style: 'margin-right:20px' do
+		.fa.fa-search
+		Ir a la programación
 
-- unless section.id_canvas and section.course_period.id_canvas
+- if section.id_canvas.blank? and section.course_period.id_canvas and can? :manage, Section
 	= link_to "/sections/#{section.id}/create_on_canvas", class: 'btn btn-info tooltip-btn pull-right', 'data-toggle': :tooltip, title: "Crear ésta sección en Canvas", style: 'margin-right: 10px;' do
 		.fa.fa-paper-plane
 
-- if section.id_canvas and section.course_period.id_canvas
+- if section.id_canvas and section.course_period.id_canvas and can? :manage, Section
 	= link_to "/sections/#{section.id}/enrollments_to_canvas", class: 'btn btn-info tooltip-btn pull-right', 'data-toggle': :tooltip, title: "Asignar Estudiantes a Canvas", style: 'margin-right: 10px;' do
 		.fa.fa-graduation-cap
 

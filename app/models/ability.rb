@@ -31,7 +31,7 @@ class Ability
         elsif user.administrator.administrativo?
         # Agregar vista de Guedez y Mendez
             can :cru, [Bank, BankAccount, PaymentDetail]
-            can :read, [Student, User]
+            can :read, [Student, User, AcademicRecord, Section]
         elsif user.administrator.superadmin?
             can :cru, [Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema, CoursePeriod]
             can :read, [Period, Agreement, Course]

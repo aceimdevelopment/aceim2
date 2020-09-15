@@ -20,7 +20,7 @@
 				%th= section.course_period_kind
 				%th= section.number_to_string
 				%th= section.asigned
-				%th= link_to_if current_user.admin?, section.instructor.user.name, "/admin/instructor/#{section.instructor.id}"
+				%th= link_to_if (current_user.admin? and (can? :manage, Instructor)), section.instructor.user.name, "/admin/instructor/#{section.instructor.id}"
 				- if current_user.admin?
 					%th.text-center
 						= raw (section.open ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-remove text-danger' ></i>")

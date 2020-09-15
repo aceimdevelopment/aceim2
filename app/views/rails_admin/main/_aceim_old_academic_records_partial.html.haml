@@ -9,10 +9,11 @@
 		- msg = '¡Estudiante con registros de inscripciones en aceim.ucv.ve (pendiente por migrar)!'
 	.alert{class: type_alert}
 		= msg
-		= link_to "/enrollment/#{student.id}/import_aceim_old", class: 'btn btn-sm btn-success pull-right', 'data-confirm': "¿Está completamente seguro de realizar la acción? Para efectos de cargar contenido útil al sistema sólo se migrarán registros calificados en aceim.ucv.ve (status No SC)." do
-			.fa.fa-database
-			.fa.fa-angle-double-down
-			Importar Todo el Historial
+		- if current_user.administrator? and current_user.administrator.super_role?
+			= link_to "/enrollment/#{student.id}/import_aceim_old", class: 'btn btn-sm btn-success pull-right', 'data-confirm': "¿Está completamente seguro de realizar la acción? Para efectos de cargar contenido útil al sistema sólo se migrarán registros calificados en aceim.ucv.ve (status No SC)." do
+				.fa.fa-database
+				.fa.fa-angle-double-down
+				Importar Todo el Historial
 	%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
 		%thead
 			%tr

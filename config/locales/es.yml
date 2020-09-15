@@ -216,6 +216,9 @@ es:
       <<: *errors
   activerecord:
     models:
+      administrator:
+        one: 'Administrador'
+        other: 'Administradores'
       billboard:
         one: 'Cartelera'
         other: 'Carteleras'
