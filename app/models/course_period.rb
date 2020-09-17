@@ -10,10 +10,10 @@ class CoursePeriod < ApplicationRecord
   has_many :academic_records, through: :sections, inverse_of: :course_period
   accepts_nested_attributes_for :academic_records
 
-  # has_one :language, through: :course
+  has_one :language, through: :course
   # accepts_nested_attributes_for :language
 
-  # has_one :level, through: :course
+  has_one :level, through: :course
   # accepts_nested_attributes_for :level
 
   #========== VALIDATIONS ==========#
@@ -88,21 +88,24 @@ class CoursePeriod < ApplicationRecord
       # sort_by 'periods.created_at DESC'
       checkboxes false
       items_per_page 33
-      filters [:period]
+      filters [:period, :language, :level]
 
       field :period do
         label 'Periodo'
         formatted_value do
           bindings[:object].period.name
         end
-        queryable true
-        sortable true
         searchable :name
         filterable :name
+        sortable true
       end
 
       field :language do
         label 'Idioma'
+        searchable :name
+        filterable :name
+        sortable true
+
         formatted_value do
           bindings[:object].course.language.name
         end
@@ -114,27 +117,32 @@ class CoursePeriod < ApplicationRecord
 
       field :level do
         label 'Nivel'
+        searchable :name
+        filterable :name
+        sortable true
         formatted_value do
           bindings[:object].course.level.name
         end
-        filterable false #:name
-        searchable false #:name
       end
 
       field :capacity do
+        searchable false
         label 'Capacidad'
       end
 
       field :enrolled do
         label 'PRE'
+        sortable true
       end
 
       field :confirmed do
         label 'CONF'
+        sortable true
       end
 
       field :reg_canvas do
         label 'CANVAS'
+        sortable true
       end
 
       # field :course do
@@ -147,6 +155,7 @@ class CoursePeriod < ApplicationRecord
       # end
       field :kind do
         label 'tipo'
+        sortable true
       end
       field :numbers do
         label 'secciones'
@@ -158,6 +167,8 @@ class CoursePeriod < ApplicationRecord
       end
 
       field :id_canvas do
+        searchable false
+
         label 'Canvas'
       end
 

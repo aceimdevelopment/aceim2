@@ -48,6 +48,10 @@ class AcademicRecord < ApplicationRecord
   scope :from_periods_language, -> (period_ids, language_id){joins(:section).joins(:course_period).joins(:course).where("course_periods.period_id IN (?) AND courses.language_id = ?", period_ids, language_id)}
   scope :from_course_perido, -> (course_period_id) {joins(:section).joins(:course_period).where("course_periods.id = ?", course_period_id)}
 
+  scope :todos, -> {where('0 = 0')}
+
+  scope :my_custom_search, -> (keyword) {joins({student: :user}, {section: {course_period: [{course: [:language, :level]}, :period]}}).where("students.personal_identity_document LIKE ? or users.name LIKE ? or users.email LIKE ? or users.last_name LIKE ? or periods.name LIKE ? or languages.name LIKE ? or levels.name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "#{keyword}")}
+
   # =========== CALLBACKS ====================#
 
   before_update :set_qualification_status, :if => :final_qualification_changed?
@@ -176,6 +180,9 @@ class AcademicRecord < ApplicationRecord
 
 
     list do
+      scopes [:todos, :preinscrito, :confirmado, :asignado]
+      filters [:period, :language, :level]
+      # search_by :my_custom_search
       checkboxes false
       items_per_page 60
       # scopes [:preinscrito, :confirmado, nil]
