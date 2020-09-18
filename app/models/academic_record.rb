@@ -182,7 +182,7 @@ class AcademicRecord < ApplicationRecord
     list do
       scopes [:todos, :preinscrito, :confirmado, :asignado]
       filters [:period, :language, :level]
-      # search_by :my_custom_search
+      search_by :my_custom_search
       checkboxes false
       items_per_page 60
       # scopes [:preinscrito, :confirmado, nil]

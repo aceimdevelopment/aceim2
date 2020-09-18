@@ -29,6 +29,9 @@ class CoursePeriod < ApplicationRecord
   scope :from_period, -> (period_id) {where(period_id: period_id)}
   scope :from_language, -> (language_id) {joins(:course).where("courses.language_id = ?", language_id)}
 
+  scope :my_custom_search, -> (keyword) {joins({course: [:language, :level]}, :period).where("periods.name LIKE ? or languages.name LIKE ? or levels.name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%")}
+
+
   # scope :approved, -> {where(qualification_status_id: :AP)}
   #========== RAILS ADMIN ============= #
 
@@ -86,6 +89,7 @@ class CoursePeriod < ApplicationRecord
 
     list do
       # sort_by 'periods.created_at DESC'
+      search_by :my_custom_search
       checkboxes false
       items_per_page 33
       filters [:period, :language, :level]

@@ -34,7 +34,7 @@ class Section < ApplicationRecord
   # validates_uniqueness_of :number, scope: [:course_period_id], message: 'La sección ya existe para el período seleccionado', field_name: false, case_sensitive: true
 
   # ========== SCOPE ============ #
-
+  scope :my_custom_search, -> (keyword) {joins({course_period: [{course: [:language, :level]}, :period]}).where("periods.name LIKE ? or languages.name LIKE ? or levels.name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%")}
 
   # ========== RAILS ADMIN ============ #
 
@@ -125,6 +125,7 @@ class Section < ApplicationRecord
 
     list do
       limited_pagination true
+      search_by :my_custom_search
       filters [:period, :language, :level]
 
       field :period do
