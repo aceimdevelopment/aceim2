@@ -1,6 +1,8 @@
 - course_period = section.course_period
 - enrollments = section.academic_records
 - enabled_qua = ((controller_name.eql? 'main' and !current_page?(model_name: 'course_period', action: 'show')) and (current_user.administrator? and (current_user.administrator.high_authotization? or current_user.administrator.supervisor?)) or (course_period.period.enabled_qualification and section.instructor_id.eql?(current_user.id)))
+= course_period.period.enabled_qualification
+= section.instructor_id.eql?(current_user.id)
 .table-responsive.border
   %table.table.table-striped.table-condensed.table-hover{align: :center}
     %thead
@@ -45,7 +47,7 @@
                     .text-danger.fa.fa-trash
             - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
               %td
-                =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id}
+                =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id, section: section}
           %td
             .form-group
               - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'

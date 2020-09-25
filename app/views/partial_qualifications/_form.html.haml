@@ -1,4 +1,4 @@
-- readonly = current_user.administrator && current_user.administrator.supervisor?
+- readonly = current_user.administrator && current_user.administrator.supervisor? && !section.instructor_id.eql?(current_user.id)
 - @partial_qualification = PartialQualification.where(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id).first
 
 - @partial_qualification ||= PartialQualification.create(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id, value: 0)
