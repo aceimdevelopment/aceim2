@@ -299,6 +299,14 @@ class Section < ApplicationRecord
 
   end
 
+  def full_url_canvas_section
+    if (course_period.id_canvas and id_canvas)
+      "https://canvas.instructure.com/courses/#{course_period.id_canvas}/sections/#{id_canvas}"
+    else
+      "#"
+    end
+  end
+
   def description
     self.course_period ? "#{number}|#{course_period.name}" : self.id.to_s
   end

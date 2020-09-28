@@ -109,17 +109,15 @@ class AcademicRecord < ApplicationRecord
         label 'Estudiante'
       end
 
-      field :section do
-        label 'Sección'
 
+      field :desc_show do
+        label 'Sección'
         formatted_value do
-          bindings[:object].section.description if bindings[:object].section
+          bindings[:view].render(partial: 'sections/description_table', locals: {section: bindings[:object].section})
         end
 
-
-        # orderable true
-        # N funciona
       end
+
       field :inscription_status do
         label 'Estado de Inscripción'
       end
@@ -225,28 +223,41 @@ class AcademicRecord < ApplicationRecord
       end
 
       field :number do
-        label 'Sección'
+        label 'Sec #'
         formatted_value do
           bindings[:object].section.number
         end
 
         searchable false
-        column_width 80
       end
+
+      field :canvas_course_id do
+        label 'Id Canvas'
+        formatted_value do
+          bindings[:view].content_tag(:a, bindings[:object].section.id_canvas, {href: bindings[:object].section.full_url_canvas_section, target: '_blank'})
+        end
+        column_width 80
+
+      end
+
+      field :label_status_enroll do
+        label 'Estado Insc.'
+        formatted_value do
+          bindings[:view].render(partial: 'academic_records/label_status', locals: {ar: bindings[:object]})
+        end
+        column_width 100
+
+      end
+
+      field :qualification_status do
+        label 'Estado Calif.'
+        column_width 100
+      end
+      
       field :final_qualification do
         label 'Final'
-        column_width 50
       end
-      field :inscription_status do
-        label 'INS'
-        column_width 50
-      end
-      field :qualification_status do
-        label 'Est Cal.'
-        filterable :name
-        searchable :name
-        column_width 50
-      end
+
       field :agreement_id do
         label 'Conv'
         column_width 50

@@ -14,15 +14,24 @@
 					%th Id Canvas
 		%tbody
 			%tr
-				%th= section.period.name
-				%th= section.language.name
-				%th= section.level.name
-				%th= section.course_period_kind
-				%th= section.number_to_string
-				%th= section.asigned
-				%th= link_to_if (current_user.admin? and (can? :manage, Instructor)), section.instructor.user.name, "/admin/instructor/#{section.instructor.id}"
+				%td= section.period.name
+				%td= section.language.name
+				%td= section.level.name
+				%td= section.course_period_kind
+				%td= section.number_to_string
+				%td= section.asigned
+				%td
+					- if section.instructor
+						= link_to_if (current_user.admin? and (can? :manage, Instructor) and section.instructor), section.instructor.user.name, "/admin/instructor/#{section.instructor.id}"
+					- else
+						No Asignado
+
 				- if current_user.admin?
-					%th.text-center
+					%td.text-center
 						= raw (section.open ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-remove text-danger' ></i>")
-					%th= link_to section.id_canvas, "https://canvas.instructure.com/courses/#{section.course_period.id_canvas}/sections/#{section.id_canvas}", target: '_blank'
+					%td
+						- if (section.id_canvas and section.course_period.id_canvas)
+							= link_to section.id_canvas, section.full_url_canvas_section, target: '_blank'
+						- else
+							No asignado
 
