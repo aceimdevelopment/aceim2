@@ -36,7 +36,7 @@
 				%td
 					- if current_user.administrator? and current_user.administrator.high_authotization?
 						= render partial: '/academic_records/options_to_admin', locals: {ar: ar} if controller_name.eql? 'main'
-					- if current_user.student and controller_name.eql? 'student_session'
+					- if (current_user.eql? ar.user or (current_user.administrator? and current_user.administrator.desarrollador?)) and controller_name.eql? 'student_session'
 						= render partial: '/academic_records/options_to_student', locals: {ar: ar} if controller_name.eql? 'student_session'
 
 
