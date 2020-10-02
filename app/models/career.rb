@@ -34,6 +34,12 @@ class Career < ApplicationRecord
     return aux
   end
 
+  def total_hours_career
+    hours_period = self.last_academic_record.period.academic_hours
+    total_level_language = self.language.total_levels
+    hours_period.to_i*total_level_language.to_i
+  end
+
   def finished?
     final_level = language.last_level
 

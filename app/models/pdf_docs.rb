@@ -35,7 +35,7 @@ class PdfDocs
     pdf.text  "<b>#{career.language.name.upcase} COMO LENGUA EXTRANJERA</b>", align: :center, size: 20, inline_format: true
     pdf.move_down 10
 
-    pdf.text "#{career.total_academic_hours_approved} horas académicas", align: :center, size: 12
+    pdf.text "#{career.total_hours_career} horas académicas", align: :center, size: 12
     pdf.move_down 10
     pdf.text "Caracas, #{I18n.l(Time.now, format: '%d de %B de %Y')}", align: :center, size: 12
 

@@ -69,7 +69,7 @@ class Language < ApplicationRecord
   end
 
   def total_levels
-    self.courses.where("level_id != 'NI'").count
+    self.courses.where("level_id != 'NIVE'").count
   end
 
   def last_level

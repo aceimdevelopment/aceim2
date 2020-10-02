@@ -22,7 +22,7 @@
             Constancia
 
         - if career.finished?
-          .align-items-center.justify-content-center
+          .align-items-center.justify-content-center.text-center
             = link_to career_finished_certificate_career_path(career), class: 'btn-tooltip btn btn-lg', 'data-toggle': :tooltip, title: "Certifiado de culminación de Curso de #{career.language.name.upcase}", style: '    background-color: darkgoldenrod;border-color: yellow;color: yellow;'  do
               .fa.fa-graduation-cap
               Certificado
