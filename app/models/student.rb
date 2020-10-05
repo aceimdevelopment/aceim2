@@ -176,7 +176,6 @@ class Student < ApplicationRecord
         historiales.reject{|h| h.tipo_estado_inscripcion_id.eql? 'PRE' or h.tipo_estado_calificacion_id.eql? 'SC' or h.periodo_id.eql? 'B-2020' or h.periodo_id.eql? 'A-2020'}.each do |ar|
           language_id = Language.idioma_to_language_id ar.idioma_id
           level_id = Level.nivel_to_level_id ar.tipo_nivel_id
-          p "    <#{level_id}> <#{ar.tipo_nivel_id}>   ".center(200, "#")
           level = Level.find(level_id) if level_id
           letter,year = ar.periodo_id.split('-') 
           period_aux = Period.where(letter: letter, year: year).first
@@ -189,6 +188,7 @@ class Student < ApplicationRecord
             if course_period_aux and !course_period_aux.academic_records.where(student_id: self.id).any?
               section = course_period_aux.sections.where(number: ar.seccion_numero).first
               section ||= course_period_aux.sections.first
+              section ||= course_period_aux.sections.create(number: '1')
               if section
                 agreement = Agreement.where(id: ar.tipo_convenio_id).first
                 ar_aux = AcademicRecord.new
