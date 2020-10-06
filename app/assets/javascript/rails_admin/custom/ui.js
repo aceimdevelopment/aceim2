@@ -1,5 +1,18 @@
 //= require "toastr"
 //= require_tree .
+
+// ready = function() {
+// 	if ($('body').attr('data-loaded') == 'T') {
+// 		return
+// 	}
+// 	alert('¡Cargado!');
+// }
+// $('body').attr('data-loaded', 'T')
+// $(document).ready(ready)
+// $(document).on('turbolinks:load', ready)
+
+
+
 $(document).ready(function() {
 
 	$('[rel="tooltip"]').tooltip()

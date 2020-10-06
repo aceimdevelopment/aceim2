@@ -13,8 +13,8 @@ import "bootstrap";
 import "../stylesheets/application"
 
 document.addEventListener("turbolinks:load", () => {
-	$('[data-toggle="tooltip"]').tooltip()
-	$('[data-toggle="popover"]').popover()
+	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="popover"]').popover();
 	$('.confirmBtn').on('click', function() {
 		let ele = $(this);
 		let url = ele.attr('url');

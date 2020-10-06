@@ -86,7 +86,7 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index do                        # mandatory
       # except [QualificationDetail, Career, Course]
-      except [QualificationStatus, QualificationDetail, Career, PartialQualification, HistorialAcademico]
+      except [QualificationStatus, QualificationDetail, Career, Course, PartialQualification, HistorialAcademico]
       # Estudiar comportamiento: https://github.com/sferik/rails_admin/blob/master/lib/rails_admin/config/actions/base.rb
       # show_in_sidebar [User, Section]
     end
