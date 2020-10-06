@@ -29,12 +29,14 @@ class Section < ApplicationRecord
 
   validates :number, uniqueness: { scope: :course_period_id }
 
+  before_save :set_name
+
   # validates_uniqueness_of :horario_id, scope: [:dia, :entrada], message: 'Ya existe un horario con una hora de entrada igual para la sección.', field_name: false
 
   # validates_uniqueness_of :number, scope: [:course_period_id], message: 'La sección ya existe para el período seleccionado', field_name: false, case_sensitive: true
 
   # ========== SCOPE ============ #
-  scope :my_custom_search, -> (keyword) {joins({course_period: [{course: [:language, :level]}, :period]}).where("periods.name LIKE ? or languages.name LIKE ? or levels.name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%")}
+  scope :section_search, -> (keyword) {where("sections.name LIKE ?", "%#{keyword}%")}
 
   # ========== RAILS ADMIN ============ #
 
@@ -124,8 +126,8 @@ class Section < ApplicationRecord
     end
 
     list do
-      limited_pagination true
-      search_by :my_custom_search
+      search_by :section_search
+      # items_per_page 10
       filters [:period, :language, :level]
 
       field :period do
@@ -331,11 +333,17 @@ class Section < ApplicationRecord
 
   end
 
-  def name
-    # if controller_name.eql? 'academic_record' and action_name.eql? 'new'
-    # else
-    #   self.number
-    # end
-    self.course_period ? "#{course_period.name}-#{number}" : number
+  # def name
+  #   # if controller_name.eql? 'academic_record' and action_name.eql? 'new'
+  #   # else
+  #   #   self.number
+  #   # end
+  #   self.course_period ? "#{course_period.name} #{number}" : number
+  # end
+
+  protected
+
+  def set_name
+    self.name = "#{course_period.name} #{number_to_string}" if course_period
   end
 end

@@ -22,7 +22,7 @@ class Course < ApplicationRecord
   end
 
   def name
-  	self.language and self.level ? "#{self.language.name}-#{self.level.name}" : "#{self.id}"
+  	self.language and self.level ? "#{self.language.name} #{self.level.name}" : "#{self.id}"
   end
 
   rails_admin do

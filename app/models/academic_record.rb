@@ -50,7 +50,7 @@ class AcademicRecord < ApplicationRecord
 
   scope :todos, -> {where('0 = 0')}
 
-  scope :my_custom_search, -> (keyword) {joins({student: :user}, {section: {course_period: [{course: [:language, :level]}, :period]}}).where("students.personal_identity_document LIKE ? or users.name LIKE ? or users.email LIKE ? or users.last_name LIKE ? or periods.name LIKE ? or languages.name LIKE ? or levels.name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "#{keyword}")}
+  scope :academic_record_search, -> (keyword) {joins({student: :user}, {section: {course_period: [{course: [:language, :level]}, :period]}}).where("students.personal_identity_document LIKE ? or users.name LIKE ? or users.email LIKE ? or users.last_name LIKE ? or periods.name LIKE ? or languages.name LIKE ? or levels.name LIKE ?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "#{keyword}")}
 
   # =========== CALLBACKS ====================#
 
@@ -145,14 +145,19 @@ class AcademicRecord < ApplicationRecord
 
       field :section do
         label 'Sección'
-
         formatted_value do
-          bindings[:object].section.description if bindings[:object].section
+          bindings[:object].section.name if bindings[:object].section
         end
 
-        # orderable true
-        # N funciona
       end
+
+      # field :section do
+      #   label 'Sección'
+
+      #   formatted_value do
+      #     bindings[:object].section.description if bindings[:object].section
+      #   end
+      # end
 
       field :agreement do
         label 'Convenio'
@@ -180,7 +185,7 @@ class AcademicRecord < ApplicationRecord
     list do
       scopes [:todos, :preinscrito, :confirmado, :asignado]
       filters [:period, :language, :level]
-      search_by :my_custom_search
+      search_by :academic_record_search
       checkboxes false
       items_per_page 60
       # scopes [:preinscrito, :confirmado, nil]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_02_225308) do
+ActiveRecord::Schema.define(version: 2020_10_06_183600) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -143,6 +143,29 @@ ActiveRecord::Schema.define(version: 2020_09_02_225308) do
     t.index ["id"], name: "index_general_setups_on_id"
   end
 
+  create_table "historial_academico", primary_key: ["usuario_ci", "idioma_id", "tipo_categoria_id", "tipo_nivel_id", "periodo_id", "seccion_numero", "nota_final"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "usuario_ci", limit: 20, null: false
+    t.string "idioma_id", limit: 10, null: false
+    t.string "tipo_categoria_id", limit: 10, null: false
+    t.string "tipo_nivel_id", limit: 10, null: false
+    t.string "tipo_convenio_id", limit: 10, null: false
+    t.string "tipo_estado_calificacion_id", limit: 10, null: false
+    t.string "tipo_estado_inscripcion_id", limit: 10, null: false
+    t.float "nota_final", default: -2.0, null: false
+    t.string "periodo_id", limit: 10, null: false
+    t.integer "seccion_numero", null: false
+    t.string "numero_deposito"
+    t.string "cuenta_bancaria_id", limit: 10, null: false
+    t.string "tipo_transaccion_id", limit: 5
+    t.datetime "fecha_inscripcion"
+    t.index ["cuenta_bancaria_id"], name: "fk_historial_academico_cuenta_bancaria_fk1"
+    t.index ["periodo_id", "idioma_id", "tipo_categoria_id", "tipo_nivel_id", "seccion_numero"], name: "fk_historial_academico_estudiante_seccion1"
+    t.index ["tipo_convenio_id"], name: "fk_historial_academico_tipo_ingreso1"
+    t.index ["tipo_estado_calificacion_id"], name: "fk_historial_academico_tipo_estado_calificacion1"
+    t.index ["tipo_estado_inscripcion_id"], name: "fk_historial_academico_tipo_estado_inscripcion1"
+    t.index ["tipo_transaccion_id"], name: "fk_historial_academico_tipo_transacion1"
+  end
+
   create_table "instructors", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -211,7 +234,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_225308) do
     t.boolean "enrollment", default: false
     t.boolean "enabled_qualification", default: false
     t.boolean "show_survey", default: false
-    t.integer "academic_hours", default: 54
+    t.integer "academic_hours", default: 48
   end
 
   create_table "qualification_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -251,6 +274,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_225308) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "url_classroom_canvas"
     t.string "id_canvas"
+    t.string "name"
     t.index ["course_period_id"], name: "index_sections_on_course_period_id"
     t.index ["evaluator_id"], name: "index_sections_on_evaluator_id"
     t.index ["instructor_id"], name: "index_sections_on_instructor_id"
