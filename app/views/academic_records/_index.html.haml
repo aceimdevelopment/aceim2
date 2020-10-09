@@ -45,7 +45,7 @@
                     .text-danger.fa.fa-trash
             - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
               %td
-                =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id, section: section}
+                =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id, section: section, enabled: qs.enabled}
           %td
             .form-group
               - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'

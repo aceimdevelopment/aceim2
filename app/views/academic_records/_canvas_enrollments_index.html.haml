@@ -85,7 +85,7 @@
                         -# @partial_qualification = PartialQualification.where(academic_record_id: enrolled.id, qualification_schema_id: qs.id).first #_or_initialize
                         -# @partial_qualification = PartialQualification.new(academic_record_id: enrolled.id, qualification_schema_id: qs.id)
                         %td.col-md-1
-                          =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id, section: sec}
+                          =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id, section: sec, enabled: qs.enabled}
                       %td.col-md-1
                         .form-group
                           - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'

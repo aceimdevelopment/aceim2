@@ -9,6 +9,8 @@ class QualificationSchema < ApplicationRecord
   validates :sequence, uniqueness: { scope: :period_id}
   validates_with TotalPercentageValidator
 
+  scope :disabled, -> {where(enabled: false)}
+
   def desc
     "#{name} (#{percentage}%)"
   end
@@ -31,6 +33,15 @@ class QualificationSchema < ApplicationRecord
       field :percentage do
         label 'Porcentaje'
       end
+
+      field :enrollments do
+        label 'Activar'
+        formatted_value do
+          url = "/qualification_schemas/#{bindings[:object].id}/onoff_switch"
+          bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Activar', url: url, to_checked: bindings[:object].enabled, id_html: 'avtivar' , alert: false})
+        end
+      end
+
     end
 
 
@@ -47,6 +58,9 @@ class QualificationSchema < ApplicationRecord
       field :name do
         label 'Nombre'
       end
+      field :enabled do
+        label 'Activar'
+      end      
     end
   end
 

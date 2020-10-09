@@ -1,13 +1,17 @@
-- readonly = current_user.administrator && current_user.administrator.supervisor? && !section.instructor_id.eql?(current_user.id)
-- @partial_qualification = PartialQualification.where(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id).first
+- readonly = !enabled or current_user.administrator && current_user.administrator.supervisor? && !section.instructor_id.eql?(current_user.id)
+-# @partial_qualification = PartialQualification.where(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id).first
 
-- @partial_qualification ||= PartialQualification.create(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id, value: 0)
+-# @partial_qualification ||= PartialQualification.create(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id)
+
+- @partial_qualification = PartialQualification.find_or_create_by(academic_record_id: academic_record_id, qualification_schema_id: qualification_schema_id)
 
 - action_aux = "/partial_qualifications/#{@partial_qualification.id}"
 
-= form_for @partial_qualification, url: action_aux, html: { role: "form", id: "formToPQ#{@partial_qualification.id}"}, authenticity_token: true, remote: true, type: :json do |f|
-  = f.hidden_field :qualification_schema_id, id: "qualification_schema_id#{@partial_qualification.id}"
-  = f.hidden_field :academic_record_id, id: "academic_record_id#{@partial_qualification.id}"
-  .form-group
-    = f.number_field :value, class: 'form-control form-control-sm mr-1', onChange: "sendForm('formToPQ#{@partial_qualification.id}', 'final#{academic_record_id}');", id: "value#{@partial_qualification.id}", style: 'width:5em;', in: -2...21, step: 0.5, readonly: readonly
-    
+- if enabled
+  = form_for @partial_qualification, url: action_aux, html: { role: "form", id: "formToPQ#{@partial_qualification.id}"}, authenticity_token: true, remote: true, type: :json do |f|
+    = f.hidden_field :qualification_schema_id, id: "qualification_schema_id#{@partial_qualification.id}"
+    = f.hidden_field :academic_record_id, id: "academic_record_id#{@partial_qualification.id}"
+    .form-group
+      = f.number_field :value, class: 'form-control form-control-sm mr-1', onChange: "sendForm('formToPQ#{@partial_qualification.id}', 'final#{academic_record_id}');", id: "value#{@partial_qualification.id}", style: 'width:5em;', in: -2...21, step: 0.5, readonly: readonly
+- else
+  = text_field_tag nil, @partial_qualification.value, class: 'form-control form-control-sm mr-1', readonly: true, disabled: true, style: 'width:4em;'
