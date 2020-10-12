@@ -6,6 +6,7 @@
 %table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
 	%thead
 		%tr
+			%th 
 			%th Idioma
 			%th Nivel
 			%th Tipo
@@ -14,6 +15,9 @@
 	%tbody
 		- virtual_object.course_periods.joins(course: [:language, :level]).order([:kind, 'languages.name', 'levels.grade']).each do |cp| 
 			%tr
+				%td
+					= link_to "/admin/course_period/#{cp.id}", class: 'pjax tooltip-btn', 'data-toggle': :tooltip, title: 'Ir al detalle' do
+						%i.icon-info-sign
 				%td= cp.language.name
 				%td= cp.level.name
 				%td= cp.kind
