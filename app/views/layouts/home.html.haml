@@ -13,7 +13,5 @@
     = render 'layouts/toastr_alert'
     - if user_signed_in?
       = react_component 'NavBarMainLogin'
-    - else
-      = react_component 'NavBarMain'
     = yield
     = react_component 'FootBar'

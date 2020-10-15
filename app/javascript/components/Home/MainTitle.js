@@ -8,9 +8,9 @@ import Image from 'react-bootstrap/Image'
 class MainTitle extends React.Component {
   render() {
     return (
-		<div className='text-center text-info pt-4 align-middle'>
+		<div className='text-center text-info'>
 
-      <Image src={Banner} width='70%' className='align-items-center justify-content-center mt-5' rounded />
+      <Image src={Banner} width='70%' className='align-items-center justify-content-center' rounded />
 
       <h5 className=' mb-0'> Universidad Central de Venezuela </h5>
       <h5 className=' mb-0'> Facultad de Humanidades y Educación</h5>
