@@ -111,34 +111,54 @@ class Period < ApplicationRecord
       end
 
       show do
-        field :name do
-          label 'Id'
+
+        field :description do
+          label 'Descripción'
+          formatted_value do
+            bindings[:view].render(partial: "/periods/description_table", locals: {period: bindings[:object]})
+          end
+        end
+
+        field :canvas_registers_status do
+          label 'Registro de Usuarios en Canvas'
+
+          formatted_value do
+
+            if bindings[:object].enrollment?
+              bindings[:view].render(partial: "/periods/canvas_register_status", locals: {period: bindings[:object]})
+            else
+              "Active las calificaciones para tener esta vista"
+            end
+          end
         end
 
         field :clean_not_reported do
           label 'Preinscritos No Reportados'
           formatted_value do
-            bindings[:view].render(partial: "/periods/clean_not_reported", locals: {period: bindings[:object]})            
-            # bindings[:view].content_tag(:a, "<i class='fa fa-trash'></i> Remover No Preinscritos Reportados", href: "/periods/clean_not_reported")
-
+            bindings[:view].render(partial: "/periods/clean_not_reported", locals: {period: bindings[:object]})
           end
-
         end
 
-        field :academic_hours do
-          label 'Horas Académicas'
-        end
         field :qualification_report do 
           label 'Reporte de calificaciones'
           formatted_value do
-            bindings[:view].render(partial: "rails_admin/main/qualification_schemas/index", locals: {qa_schemas: bindings[:object].qualification_schemas})
+            if bindings[:object].enabled_qualification?
+              bindings[:view].render(partial: "rails_admin/main/qualification_schemas/index", locals: {qa_schemas: bindings[:object].qualification_schemas})
+            else
+              "Active las calificaciones para tener esta vista"
+            end
+
           end
         end
 
         field :programations do
           label 'Programaciones en éste período'
           formatted_value do
-            bindings[:view].render(partial: "rails_admin/main/course_periods/index", locals: {virtual_object: bindings[:object]})
+            if bindings[:object].enabled_qualification?
+              bindings[:view].render(partial: "rails_admin/main/course_periods/index", locals: {virtual_object: bindings[:object]})
+            else
+              "Active las calificaciones para tener esta vista"
+            end
           end
         end
       end

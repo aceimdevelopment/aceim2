@@ -1,0 +1,22 @@
+.container-fluid.middle-box.text-center.loginscreen.animated.fadeInDown.mt-1
+	%table.table.table-responsive-md.border
+		%thead
+			%tr
+				%th.text-center Id
+				%th.text-center Horas Académicas
+				%th.text-center Pre
+				%th.text-center Confirm
+				%th.text-center Canvas
+				%th.text-center Total
+				%th.text-center Total Cursos
+				%th.text-center Total Secciones
+		%tbody
+			%tr
+				%td= period.name
+				%td= period.academic_hours
+				%td= period.total_preenrollment
+				%td= period.total_enrollment
+				%td= period.total_assigned
+				%td= period.academic_records.count
+				%td= period.course_periods.count
+				%td= period.sections.count

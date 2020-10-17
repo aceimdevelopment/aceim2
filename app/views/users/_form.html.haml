@@ -2,17 +2,19 @@
 = form_for @user do |f|
   - if @user and @user.student
     .form-group
-      = f.label :number_phone, value: 'Cédula de Identidad:'
+      .row
+        .col-6
+          = f.label :number_phone, value: 'Cédula de Identidad:'
 
-      = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'número de Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 8)", required: true, autofocus: true
-  .form-group
-    = f.label :email, value: 'Correo:'
-    = f.email_field :email, autofocus: true, placeholder: 'Correo', class: 'form-control', required: true
+          = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 8)", required: true, autofocus: true
+        .col-6
+          = f.label :email, value: 'Correo:'
+          = f.email_field :email, autofocus: true, placeholder: 'Correo', class: 'form-control', required: true
+  - else
+    .form-group
+      = f.label :email, value: 'Correo:'
+      = f.email_field :email, autofocus: true, placeholder: 'Correo', class: 'form-control', required: true
 
-  .form-group.alert.alert-warning
-    = f.label :canvas_email, value: 'Correo de Canvas:'
-    = f.email_field :canvas_email, placeholder: 'Correo Canvas', class: 'form-control'
-    .text-muted* Sí aún no tiene cuenta en Canvas deje éste campo en blanco. Posteriormente se le solicitará su llenado. 
   - if false
     .form-group
       = f.label :password, value: 'Contraseña:'
@@ -22,27 +24,59 @@
       = f.password_field :password, placeholder: 'Confirmación de Contraseña', class: 'form-control', required: true
 
   .form-group
-    = f.label :number_phone, value: 'Nombres:'
-    = f.text_field :name, placeholder: 'Nombres', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
+    .row
+      .col-6
+        = f.label :number_phone, value: 'Nombres:'
+        = f.text_field :name, placeholder: 'Nombres', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
+      .col-6
+        = f.label :number_phone, value: 'Apellidos:'
+        = f.text_field :last_name, placeholder: 'Apellidos', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
   .form-group
-    = f.label :number_phone, value: 'Apellidos:'
-    = f.text_field :last_name, placeholder: 'Apellidos', class: 'form-control', onInput: "disnableSpecialChar(this);", required: true
-  .form-group
-    = f.label :number_phone, value: 'Número Telefónico:'
+    .row
+      .col-6
+        = f.label :number_phone, value: 'Número Telefónico:'
+      - if @user and @user.student
+        .col-6
+          = label_tag 'Ubicación:'
     .row
       - @operators_code = ['0412', '0414', '0424', '0416','0426']
       - if (@user and @user.number_phone)
         -# @operator_code, @user.number_phone = @user.split_phone
         - @operator_code = @user.number_phone[0..3] 
-        - @user.number_phone = @user.number_phone[4..10] 
-      = select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control col-3 ml-3', required: true, include_blank: 'CÓDIGO'
-      .col-1.text-center= "-"
-      = f.text_field :number_phone, placeholder: 'Complemento', class: 'form-control upcase col-7', onInput: "onlyNumber(this);maxSize(this, 7)", required: true
-  - if @user and @user.student
-    .form-group
-      = label_tag 'Ubicación:'
-      = text_field_tag 'student[location]', @user.student.location, placeholder: 'Dirección Corta', class: 'form-control upcase', required: true
+        - @user.number_phone = @user.number_phone[4..10]
+      .col-2 
+        = select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control', required: true, include_blank: 'Operadora'
+      .col-4
+        = f.text_field :number_phone, placeholder: 'XXXXXXX', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 7)", required: true
+      - if @user and @user.student
+        .col-6
+          = text_field_tag 'student[location]', @user.student.location, placeholder: 'Dirección Corta', class: 'form-control upcase', required: true
   = f.hidden_field :sign_in_count
+  %hr
+  .form-group
+    %h5.text-center 
+      La plataforma educativa que utilizamos para las clases es 
+      %b{style: 'color: red'} CANVAS
+    .alert.alert-warning
+      %b Por favor, indique lo siguiente:
+      %br
+      %br
+      - canvas = "<b class='canvas'>CANVAS</b>"
+      %p 
+        = radio_button_tag 'user[canvas_status]', :registrado, true, onclick: "canvasEmail(false)"
+        = "Si tiene usuario en #{canvas}, recuerda su contraseña y funciona bien, coloque el correo que tiene registrado en esa plataforma en la siguiente casilla.".html_safe
+      = f.email_field :canvas_email, placeholder: 'Correo Canvas', class: 'form-control', required: true
+      .mt-4
+        %p
+          = radio_button_tag 'user[canvas_status]', :nuevo, false, onclick: 'canvasEmail(true)'
+          = "Si no tiene usuario en #{canvas} marque esta casilla para brindarle apoyo con la creación de su usuario en esa plataforma. Nos comunicaremos con usted cuando hayamos creado su usuario en #{canvas}.".html_safe
+      .mt-4
+        = radio_button_tag 'user[canvas_status]', 'no_sabe', false, onclick: 'canvasEmail(true)'
+        = "Si tiene usuario en #{canvas} y no recuerda su usuario o contraseña, marque esta casilla para brindarle el apoyo correspondiente. Nos comunicaremos con usted en breve.".html_safe
+
+
+
+
   - if false
     .form-group
       =# label_tag 'Origen:'
@@ -50,6 +84,11 @@
 
   %button.btn.btn-primary.btn-lg.btn-block{:type => "submit"} Guardar
 :javascript
+  
+  function canvasEmail(value){
+    document.getElementById('user_canvas_email').disabled = value
+  }
+  
   function disnableSpecialChar(elem) {
     return elem.value = elem.value.replace(/[^A-Z|a-z| |Ñ]/g, '');
   }

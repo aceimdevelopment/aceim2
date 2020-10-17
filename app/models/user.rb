@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 
+  # ========== VARIABLES ============ #
+  enum canvas_status: ['nuevo', 'no_sabe', 'registrado'] 
+
   # ========== RELATIONSHIPS ============ #
 
   # Include default devise modules. Others available are:
@@ -142,6 +145,26 @@ class User < ApplicationRecord
   end
 
   # ========== FUNCTIONS ============ #
+  def label_canvas_status
+    value = ''
+    if self.registrado? 
+      aux = 'danger' 
+      icon = 'fa-copyright'
+      value = 'Registrado'
+    elsif self.no_sabe?
+      aux = 'warning'
+      icon = 'fa-chain-broken' # #fa-pied-piper-alt
+    else
+      aux = 'default'
+      icon = 'fa-toggle-on'
+    end
+    i = "<i class='fa #{icon}'></i>"
+    "<span class='label label-#{aux} tooltip-btn' data-toggle= 'tooltip', data-original-title= '#{self.canvas_status.titleize}'>#{i} #{value}</span>".html_safe
+
+
+  end
+
+
   def name_for_email_canvas
     aux = canvas_email
     aux ||= email
@@ -209,6 +232,7 @@ class User < ApplicationRecord
   def upcase_names
     self.name = capitalize_by_word(self.name)
     self.last_name = capitalize_by_word(self.last_name) 
+    self.canvas_status = :registrado unless self.canvas_email.blank?
   end
 
   def capitalize_by_word(string)

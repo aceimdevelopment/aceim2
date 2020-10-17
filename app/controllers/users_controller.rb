@@ -3,6 +3,18 @@ class UsersController < ApplicationController
 	before_action :authenticate_user!, except: [:update]
 	before_action :setup_data, only: :update
 
+	def registration_canvas
+		status = @user.canvas_status
+		if @user.update(canvas_email: @user.email)
+			aux = 'Usuario Registrado en Canvas.'
+			aux += ' Correo enviado al usuario.'if UserMailer.canvas_new_user_registration(@user, status).deliver
+			flash[:success] = aux
+		else
+			flash[:danger] = 'Un error ha ocurrido intnetando actualizar los datos del usuario, por favor verifique estos e inténtelo nuevamente.'
+		end
+		redirect_back fallback_location: '/admin/academic_record'
+	end
+
 	def update_canvas_email
 
 		if @user.update(user_params)
@@ -76,7 +88,7 @@ class UsersController < ApplicationController
 	end
 
 	def user_params
-		params.require(:user).permit(:name, :last_name, :email, :number_phone, :sign_in_count, :password, :password_confirmation, :canvas_email)
+		params.require(:user).permit(:name, :last_name, :email, :number_phone, :sign_in_count, :password, :password_confirmation, :canvas_email, :canvas_status)
 	end
 
 end

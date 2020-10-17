@@ -237,11 +237,23 @@ class AcademicRecord < ApplicationRecord
       end
 
       field :canvas_course_id do
-        label 'Id Canvas'
+        label 'Id Curso Canvas'
         formatted_value do
           bindings[:view].content_tag(:a, bindings[:object].section.id_canvas, {href: bindings[:object].section.full_url_canvas_section, target: '_blank'})
         end
         column_width 80
+
+      end
+
+      field :user_canvas_status do
+        label 'Estado Usuario Canvas'
+        formatted_value do
+          bindings[:view].render(partial: 'users/canvas_status', locals: {ar: bindings[:object]})
+        end
+        column_width 100
+        # filterable 'user[canvas_status]'
+        # filterable 'student.user.canvas_status'
+
 
       end
 

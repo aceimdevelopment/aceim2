@@ -1,11 +1,25 @@
 class UserMailer < ApplicationMailer
   layout 'mailer'
 
+  def canvas_new_user_registration(user, status)
+    @user = user
+
+    if (status.eql? 'no_sabe')
+      @first_paragraph = "Hemos intentado crear su usuario en <b style='color:red;'>CANVAS</b> pero el sistema nos indica que ya existe un usuario registrado con este correo.  Debe haber recibido un correo con las indicaciones para recuperar su contraseña de <b style='color:red;'>CANVAS</b>. Por favor, revise todas las carpetas de su buzón de entrada en su correo, siga las instrucciones para recuperar su contraseña y actualice su perfil en <b style='color:red;'>CANVAS</b>."
+    else
+      @first_paragraph = "Hemos creado su usuario en <b style='color:red;'>CANVAS</b>, su contraseña temporal en <b style='color:red;'>CANVAS</b> es <b>12341234</b>, debe haber recibido un correo, por favor, acepte esa invitación y actualice su perfil en <b style='color:red;'>CANVAS</b>."
+    end
+
+    mail(to: user.email,
+    subject: "CREACIÓN DE USUARIO EN CANVAS",
+    content_type: "text/html")
+  end
+
   def preenrollment_2020c(user)
     @user = user
     mail(to: user.email,
     subject: "ATENCIÓN PREINSCRITOS 2020-C",
-    content_type: "text/html")    
+    content_type: "text/html")
   end
 
   def asigneds_2020b(user)
