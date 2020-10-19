@@ -2,6 +2,11 @@ class GeneralSetup < ApplicationRecord
 
   validates :id, presence: true
 
+  def self.payment_dollar_value
+    aux = GeneralSetup.where(id: "PAGO_DIVISA").first
+    (aux and aux.value) ? aux.value : 'Para pagos en efectivo o divisas favor escribir al correo fundeimucv@gmail.com para plantearle opciones.'
+  end
+
   def self.director_value
     aux = GeneralSetup.where(id: "DIRECTOR").first
     (aux and aux.value) ? aux.value : 'Prof. Carlos A. Saavedra A.'

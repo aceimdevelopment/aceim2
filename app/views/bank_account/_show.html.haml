@@ -26,12 +26,10 @@
 					%b IMPORTANTE:
 					= GeneralSetup.amount_divisa_date
 	%hr
-	%h4.text-center Pagos en Efectivo o Divisas
+	%h4.text-center Pagos en Divisas
 	%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
 		%tbody		
 			%tr.text-center
 				%td{style: 'text-align: center;'} 
-					Para pagos en efectivo o divisas favor escribir al correo 
-					= link_to 'fundeimucv@gmail.com', 'mailto:fundeimucv@gmail.com'
-					para plantearle opciones.
+					= GeneralSetup.payment_dollar_value
 
