@@ -4,9 +4,9 @@
     .form-group
       .row
         .col-6
-          = f.label :number_phone, value: 'Cédula de Identidad:'
+          = f.label :number_phone, value: 'Número Documento de Identidad:'
 
-          = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 8)", required: true, autofocus: true
+          = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 9)", required: true, autofocus: true
         .col-6
           = f.label :email, value: 'Correo:'
           = f.email_field :email, autofocus: true, placeholder: 'Correo', class: 'form-control', required: true
@@ -45,7 +45,8 @@
         - @operator_code = @user.number_phone[0..3] 
         - @user.number_phone = @user.number_phone[4..10]
       .col-2 
-        = select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control', required: true, include_blank: 'Operadora'
+        =# select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control', required: true, include_blank: 'Operadora'
+        = text_field_tag :operator_code, @operator_code, class: 'form-control', required: true, placeholder: 'OPERADORA', onInput: "onlyNumber(this);maxSize(this, 3)"
       .col-4
         = f.text_field :number_phone, placeholder: 'XXXXXXX', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 7)", required: true
       - if @user and @user.student
@@ -73,9 +74,6 @@
       .mt-4
         = radio_button_tag 'user[canvas_status]', 'no_sabe', false, onclick: 'canvasEmail(true)'
         = "Si tiene usuario en #{canvas} y no recuerda su usuario o contraseña, marque esta casilla para brindarle el apoyo correspondiente. Nos comunicaremos con usted en breve.".html_safe
-
-
-
 
   - if false
     .form-group
