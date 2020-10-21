@@ -1,6 +1,6 @@
 = ar.user.label_canvas_status
 - if ar.user.nuevo? or ar.user.no_sabe?
-	= link_to "/users/#{ar.user.id}/registration_canvas", class: 'label label-success tooltip-btn ml-1', 'data-toggle': :tolltip, title: 'Registrar y enviar correo', 'data-confirm': 'Está acción asignará al correo de Canvas del usuario el correo principal del mismo. Adicionalmente, le enviará un correo confirmando dicha acción. ¿Está seguro?' do
+	= link_to "/users/#{ar.user.id}/registration_canvas", class: 'label label-success tooltip-btn', 'data-toggle': :tolltip, title: 'Registrar y enviar correo', 'data-confirm': 'Está acción asignará al correo de Canvas del usuario el correo principal del mismo. Adicionalmente, le enviará un correo confirmando dicha acción. ¿Está seguro?', style: '    margin-left: 4px;' do
 		%i.fa.fa-gavel
 		%i.fa.fa-envelope
 		%i.fa.fa-mail-forward

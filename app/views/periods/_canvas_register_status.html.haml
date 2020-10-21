@@ -5,27 +5,31 @@
 			%li
 				= link_to "#tabContent#{status[1]}", "data-toggle": :tab, class: "nav-item nav-link", role: :tab, 'aria-controls': "tabContent#{status[1]}", id: "tab#{status[1]}", "aria-selected": false do
 
-					= status[0].pluralize.capitalize
+					= status[0].titleize
 					.badge.badge-primary= total
 
 
 #navTabStatusContent.tab-content
-	- User.canvas_statuses.first(2).each do |status|
+	- User.canvas_statuses.first(2).each do |status| 
 		- acs = period.academic_records.confirmado.reject{|ar| !ar.user.canvas_status.eql? status[0]}.select{|ar| ar.user.student} 
 		.tab-pane{id: "tabContent#{status[1]}", "aria-labelledby": "tab#{status[1]}", role: "tabpanel"}
 			%table.table.table-responsive-md.border
 				%thead
 					%tr
+						%th.text-center #
 						%th.text-center CI
 						%th.text-center Nombre
 						%th.text-center Correo
+						%th.text-center Teléfono
 						%th.text-center Estado
 				%tbody
-					- acs.each do |ar| 
+					- acs.each_with_index do |ar, i| 
 						%tr
+							%td= i+1
 							%td.text-center= link_to ar.student.ci, "/admin/student/#{ar.student_id}"
 							%td.text-center= ar.user.full_name_invert
 							%td.text-center= ar.user.email
+							%td.text-center= ar.user.number_phone
 							%td.text-center
 								= render partial: 'users/canvas_status', locals: {ar: ar}
 
