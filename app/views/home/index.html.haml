@@ -1,30 +1,9 @@
 = react_component 'Home/MainTitle'
 
-.text-center
-  = link_to 'Nuevo Ingreso', new_user_registration_path, class: 'btn btn-success btn-lg mr-3' if GeneralSetup.permitir_registros_nuevos
-  = link_to 'Ingreso Regular', user_session_path, class: 'btn btn-primary btn-lg'
+.text-center.align-middle
+	= link_to 'Nuevo Ingreso', new_user_registration_path, class: 'btn btn-success btn-lg mr-3' if GeneralSetup.permitir_registros_nuevos
+	= link_to 'Ingreso Regular', user_session_path, class: 'btn btn-primary btn-lg'
 
-%br
-#mainCarousel.carousel.slide{"data-ride": :carousel, style: 'background-image: linear-gradient(#1B3A5B, #006D9D) !important;'}
-  %ol.carousel-indicators
-    - Billboard.enableds.order(sequence: :asc).each_with_index do |bb, i| 
-      - active = (i.eql? 0) ? "active" : ""
-      %li{class: active, "data-slide-to": i, "data-target": "#mainCarousel" }
-        .d-block.w-100
-          = raw bb.content
-  .carousel-inner
-    - Billboard.enableds.order(sequence: :asc).each_with_index do |bb, i| 
-      - active = (i.eql? 0) ? "active" : ""
-      .carousel-item{class: active}
-        %br
-        .d-block.w-100
-          = raw bb.content
-          
-  %a.carousel-control-prev{"data-slide": :prev, href: "#mainCarousel", role: :button}
-    %span.carousel-control-prev-icon{"aria-hidden": true}
-    %span.sr-only Anterior
-  %a.carousel-control-next{"data-slide": :prev, href: "#mainCarousel", role: :button}
-    %span.carousel-control-next-icon{"aria-hidden": true}
-    %span.sr-only Siguiente
-%br
-%br
+	- Billboard.enableds.order(sequence: :asc).each do |bb| 
+		.m-3.p-3
+			= raw bb.content
