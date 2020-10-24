@@ -6,7 +6,7 @@
     - student.language_avaliables.each do |lan| 
       - cp = lan.first_course.course_periods.online.from_period(period.id).first
       - if cp and cp.sections.any?
-        - total_enrolls = cp.academic_records.preinscrito.count
+        - total_enrolls = cp.academic_records.count
         - availables = cp.capacity - total_enrolls
         - disabled = (availables <= 0)
         - class_disadled = disabled ? 'disabled' : ''
