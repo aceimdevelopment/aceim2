@@ -30,6 +30,9 @@ class User < ApplicationRecord
 
   attr_accessor :allow_blank_password
 
+  # ========== SCOPE ============ #
+
+
   # ========== DEVISE ============ #
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable

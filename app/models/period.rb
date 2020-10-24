@@ -124,10 +124,10 @@ class Period < ApplicationRecord
 
           formatted_value do
 
-            if bindings[:object].enrollment?
+            if bindings[:object].academic_records.confirmado.not_canvas_registers.any?
               bindings[:view].render(partial: "/periods/canvas_register_status", locals: {period: bindings[:object]})
             else
-              "Active las calificaciones para tener esta vista"
+              "Sin registros de Canvas por procesar."
             end
           end
         end
