@@ -76,7 +76,8 @@ class UsersController < ApplicationController
 	end
 
 	def setup_data
-		params[:user][:number_phone] = "#{params[:oparator_code]}#{params[:user][:number_phone]}" if (params[:user][:number_phone] and params[:oparator_code])
+		p params[:operator_code].center(200, "#")
+		params[:user][:number_phone] = "#{params[:operator_code]}#{params[:user][:number_phone]}" if (params[:user][:number_phone] and params[:operator_code])
 		aux = params[:user][:sign_in_count].to_i
 		params[:user][:sign_in_count] = aux+1 if (aux.eql? 0)
 		params[:student][:source_country] = "Venezuela" if params[:student]

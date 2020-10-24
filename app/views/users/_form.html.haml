@@ -46,7 +46,7 @@
         - @user.number_phone = @user.number_phone[4..10]
       .col-2 
         =# select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control', required: true, include_blank: 'Operadora'
-        = text_field_tag :operator_code, @operator_code, class: 'form-control', required: true, placeholder: 'OPERADORA', onInput: "onlyNumber(this);maxSize(this, 3)"
+        = text_field_tag :operator_code, @operator_code, class: 'form-control', required: true, placeholder: '04XX', onInput: "onlyNumber(this);maxSize(this, 4)"
       .col-4
         = f.text_field :number_phone, placeholder: 'XXXXXXX', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 7)", required: true
       - if @user and @user.student
