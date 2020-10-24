@@ -54,15 +54,18 @@ class PaymentDetailsController < ApplicationController
 
 
 	def new
-		@academic_record = AcademicRecord.find params[:academic_record_id]
-		unless @academic_record.payment_detail.nil?
-			flash[:error] = "Ya tienes un pago registrado para el curso seleccionado"
-			redirect_to student_session_index_path
-		else
-			@payment_detail = PaymentDetail.new
-			@payment_detail.academic_record_id = @academic_record.id
-			@user = @academic_record.user
-		end
+		flash[:error] = "El proceso de reporte de pago está cerrado por este fin de semana. Se reactivará el lunes 26 de Octubre de 2020 a las 8:00 am. "
+		redirect_to student_session_index_path
+
+		# @academic_record = AcademicRecord.find params[:academic_record_id]
+		# unless @academic_record.payment_detail.nil?
+		# 	flash[:error] = "Ya tienes un pago registrado para el curso seleccionado"
+		# 	redirect_to student_session_index_path
+		# else
+		# 	@payment_detail = PaymentDetail.new
+		# 	@payment_detail.academic_record_id = @academic_record.id
+		# 	@user = @academic_record.user
+		# end
 	end
 
 	def show
