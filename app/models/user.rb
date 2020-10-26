@@ -205,7 +205,7 @@ class User < ApplicationRecord
   end
 
   def any_blank?
-    return (name.blank? or last_name.blank? or number_phone.blank? or (student and student.any_blank?))
+    return (name.blank? or last_name.blank? or (number_phone and number_phone.length < 10) or (student and student.any_blank?))
   end
 
   def full_name

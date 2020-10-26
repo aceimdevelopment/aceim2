@@ -42,8 +42,9 @@
       - @operators_code = ['0412', '0414', '0424', '0416','0426']
       - if (@user and @user.number_phone)
         -# @operator_code, @user.number_phone = @user.split_phone
-        - @operator_code = @user.number_phone[0..3] 
-        - @user.number_phone = @user.number_phone[4..10]
+        - if @user.number_phone.length >= 10
+          - @operator_code = @user.number_phone[0..3]
+          - @user.number_phone = @user.number_phone[4..10]
       .col-2 
         =# select_tag :oparator_code, options_for_select(@operators_code, @operator_code), class: 'form-control', required: true, include_blank: 'Operadora'
         = text_field_tag :operator_code, @operator_code, class: 'form-control', required: true, placeholder: '04XX', onInput: "onlyNumber(this);maxSize(this, 4)"
