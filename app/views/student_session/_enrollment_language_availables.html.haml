@@ -1,7 +1,4 @@
 - if GeneralSetup.permitir_registros_nuevos and period and period.allow_enrollments?
-
-  = render partial: '/layouts/modal_alert', locals: {content: @normative, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil}
-
   .text-center
     - student.language_avaliables.each do |lan| 
       - cp = lan.first_course.course_periods.online.from_period(period.id).first
