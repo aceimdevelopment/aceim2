@@ -131,6 +131,11 @@ class User < ApplicationRecord
         label 'Id Canvas'
       end
 
+      field :canvas_status do
+        label 'Status Canvas'
+      end
+
+
       field :number_phone do
         label 'Número Telefónico'
         html_attributes do
