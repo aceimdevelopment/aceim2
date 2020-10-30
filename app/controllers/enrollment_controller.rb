@@ -48,7 +48,7 @@ class EnrollmentController < ApplicationController
             user = User.where("email = '#{email}' OR canvas_email = '#{email}' OR login_id_canvas = '#{email}'").first
 
             if user and es = user.student
-              user.update(id_canvas: ele['user']['id'])
+              user.update(id_canvas: ele['user']['id'], canvas_email: email, login_id_canvas: email)
               if enrolled = es.academic_records.joins({section: :course_period}).where("course_periods.id = #{course_period_id}").first
               # if enrolled = es.academic_records.joins(:course_period).where("course_periods.id = #{course_period_id}").first
                 enrolled.section_id = s2.id

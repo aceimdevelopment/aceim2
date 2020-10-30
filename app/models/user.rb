@@ -240,7 +240,7 @@ class User < ApplicationRecord
   def upcase_names
     self.name = capitalize_by_word(self.name)
     self.last_name = capitalize_by_word(self.last_name) 
-    self.canvas_status = :registrado unless self.canvas_email.blank?
+    self.canvas_status = :registrado if (self.id_canvas or !self.canvas_email.blank?)
   end
 
   def capitalize_by_word(string)
