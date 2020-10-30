@@ -66,7 +66,7 @@ class Period < ApplicationRecord
           label 'Confirmados'
         end
         field :total_assigned do
-          label 'Regi Canvas'
+          label 'Insc Curso Canvas'
         end
 
         field :enrollments do
