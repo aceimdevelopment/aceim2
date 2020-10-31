@@ -132,6 +132,10 @@ class AcademicRecord < ApplicationRecord
         label 'Cal. Final'
       end
 
+      field :q_detail_table do
+        label 'Calificaciones Parciales'
+      end
+
       field :options do
         label 'Opciones'
         formatted_value do
@@ -405,6 +409,24 @@ class AcademicRecord < ApplicationRecord
       final += percent*pq.value
     end
     return final.round
+  end
+
+  def q_detail_table
+    if partial_qualifications.any?
+      aux = "<table class='table'><thead><tr>"
+      partial_qualifications.each do |par|
+        aux += "<th class='text-center'>#{par.qualification_schema.desc}</th>"
+      end
+      aux += "</tr></thead><tbody><tr>"
+      partial_qualifications.each do |par|
+        value = sprintf("%02i",par.value) if par.value
+        aux += "<td class='text-center'>#{value}</td>"
+      end
+      aux += "</tr></tbody></table>"
+      aux.html_safe
+    else
+      ""
+    end
   end
 
   def label_fq

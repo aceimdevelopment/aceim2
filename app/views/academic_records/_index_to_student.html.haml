@@ -3,15 +3,15 @@
 	%thead
 		%tr
 			%th #
-			%th Periodo
-			%th Nivel
-			%th Modalidad
-			%th Estado Inscrip.
-			%th Estado Calif.
-			%th Valor Calif.
+			%th.text-center Periodo
+			%th.text-center Nivel
+			%th.text-center Modalidad
+			%th.text-center Estado Inscrip.
+			%th.text-center Estado Calif.
+			%th.text-right Valor Calif.
 
-			%th Convenio
-			%th Sección
+			%th.text-center Convenio
+			%th.text-center Sección
 			%th Opciones
 
 	%tbody
@@ -19,20 +19,26 @@
 		- records.each_with_index do |ar, i| 
 			-# user = ar.student.user
 			%tr
-				%td= i+1
-				%td= ar.period.name
-				%td 
+				%td.text-center= i+1
+				%td.text-center= ar.period.name
+				%td.text-center 
 					=ar.level.name
 					- if ar.approved?
 						- if ar.is_last_level_approved?
 							%span.fa.fa-star.text-warning.tooltip-btn{"data-toggle": :tooltip, title: 'Último nivel aprobado'}
-				%td
+				%td.text-center
 					.label.label-info= ar.course_period.kind.upcase
-				%td= raw ar.label_insc_status('admin')
-				%td= raw ar.label_fq
-				%td= ar.final_desc
+				%td.text-center= raw ar.label_insc_status('admin')
+				%td.text-center= raw ar.label_fq
+				%td.text-right
+					- if ar.partial_qualifications.any?
+						.btn.btn-sm.btn-info.tooltip-btn.diplayModalBtn{idModal: "qDetail#{ar.id}", "data-toggle": :tooltip, title: 'Calificaciones Parciales'}
+							.fa.fa-search-plus
+						
+						= render partial: '/layouts/modal', locals: {content: ar.q_detail_table, id: "qDetail#{ar.id}", msg: "Calificaciones Parciales", title: nil, msg2: "" }
+					= ar.final_desc
 				%td= ar.agreement.name
-				%td= ar.section.number_to_string
+				%td.text-center= ar.section.number_to_string
 				%td
 					- if current_user.administrator? and current_user.administrator.high_authotization?
 						= render partial: '/academic_records/options_to_admin', locals: {ar: ar} if controller_name.eql? 'main'

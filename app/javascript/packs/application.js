@@ -12,6 +12,11 @@ require("channels")
 import "bootstrap";
 import "../stylesheets/application"
 
+
+function displayModal(name) {
+	$(name).modal();
+}
+
 document.addEventListener("turbolinks:load", () => {
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
@@ -39,12 +44,17 @@ document.addEventListener("turbolinks:load", () => {
 
 $(document).ready(function() {
 	$('.tooltip-btn').tooltip();
+
+	$(".diplayModalBtn").on('click', function(){
+		let idModal = $(this).attr('idModal');
+		$(`#${idModal}`).modal();
+
+	});
 	$("#updatePersonalData").modal({ keyboard: false, backdrop: 'static' });
 	$("#AlertPaymentUnread").modal({ keyboard: false, backdrop: 'static' });
 	
 	$('.onlyOneCharacter').on('input', function(evt) {
 		var node = $(this);
-		console.log(node.val());
 	});
 
 	$('.upcase').on('input', function(evt) {

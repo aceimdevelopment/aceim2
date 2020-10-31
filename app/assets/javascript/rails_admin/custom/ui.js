@@ -15,6 +15,12 @@
 
 $(document).ready(function() {
 
+	$(".diplayModalBtn").on('click', function() {
+		var idModal = $(this).attr('idModal');
+		$('#' + idModal).modal();
+
+	});
+
 	$('[rel="tooltip"]').tooltip()
 	$('.tooltip-btn').tooltip()
 	$('.popover').popover()
