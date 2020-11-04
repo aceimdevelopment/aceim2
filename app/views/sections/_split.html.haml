@@ -7,7 +7,7 @@
 .pull-right.tooltip-btn{"data-toggle": :tooltip, title: msg}
 	= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
 		.input-group
-			= number_field_tag :number_split, 2, class: 'form-control input-small mr-3', in: 2...20, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable
+			= number_field_tag :number_split, 1, class: 'form-control input-small mr-3', in: 1...20, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable
 			%span.input-group-btn
 				= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
 					%i.fa.fa-cut
