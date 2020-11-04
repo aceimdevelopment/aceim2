@@ -12,20 +12,8 @@
 // $(document).on('turbolinks:load', ready)
 
 
+$(document).on('ready pjax:success', function() {
 
-$(document).ready(function() {
-
-	$(".diplayModalBtn").on('click', function() {
-		var idModal = $(this).attr('idModal');
-		$('#' + idModal).modal();
-
-	});
-
-	$('[rel="tooltip"]').tooltip()
-	$('.tooltip-btn').tooltip()
-	$('.popover').popover()
-
-	$('body').append("<div id='message' style='position: fixed;left: 83%;top: 8%;'></div>");
 	$('.onoffswitch').on('click', '.onoffswitch-label', function(event) {
 		var checkbox = $(this).prev()[0];
 		var alert = checkbox.attributes["alert"].value
@@ -43,6 +31,24 @@ $(document).ready(function() {
 			event.stopPropagation()
 		}
 	});
+
+	$('[rel="tooltip"]').tooltip()
+	$('.tooltip-btn').tooltip()
+	$('.popover').popover()
+
+});
+
+
+$(document).ready(function() {
+
+	$(".diplayModalBtn").on('click', function() {
+		var idModal = $(this).attr('idModal');
+		$('#' + idModal).modal();
+
+	});
+
+
+	$('body').append("<div id='message' style='position: fixed;left: 83%;top: 8%;'></div>");
 
 });
 
