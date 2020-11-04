@@ -302,6 +302,11 @@ class AcademicRecord < ApplicationRecord
   # def level
   #   course.level.name if course
   # end
+
+  def class_approved
+    (final_desc and final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
+  end
+
   def ci
     student.ci
   end

@@ -48,7 +48,7 @@
                 =render partial: '/partial_qualifications/form', locals: {academic_record_id: enrolled.id, qualification_schema_id: qs.id, section: section, enabled: qs.enabled}
           %td
             .form-group
-              - clase = (enrolled.final_desc and enrolled.final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'
+              - clase = enrolled.class_approved
               = text_field_tag "final#{enrolled.id}", enrolled.final_desc, class: "form-control form-control-sm mr-2 #{clase}", disabled: true, readonly: true, style: 'width:5em;'
 
 :javascript

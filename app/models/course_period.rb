@@ -101,14 +101,14 @@ class CoursePeriod < ApplicationRecord
         end
         searchable :name
         filterable :name
-        sortable true
+        sortable 'periods.name'
       end
 
       field :language do
         label 'Idioma'
         searchable :name
         filterable :name
-        sortable true
+        sortable 'languages.id'
 
         formatted_value do
           bindings[:object].course.language.name
@@ -123,7 +123,7 @@ class CoursePeriod < ApplicationRecord
         label 'Nivel'
         searchable :name
         filterable :name
-        sortable true
+        sortable 'levels.grade'
         formatted_value do
           bindings[:object].course.level.name
         end
