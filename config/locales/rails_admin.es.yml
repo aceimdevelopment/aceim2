@@ -4,6 +4,7 @@ es:
   home:
     name: "inicio"
   admin:
+    toggle_navigation: 'Navegación'
     loading: 'cargando'
     misc:
       bulk_menu_title: "Seleccionados"

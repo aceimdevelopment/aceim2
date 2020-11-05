@@ -239,7 +239,7 @@ class Section < ApplicationRecord
 
   # ========== FUNCTIONS ============ #
   def list_of_emails_canvas
-    academic_records.map{|ar| ar.user.name_for_email_canvas}.join(", ")
+    academic_records.reject{|ar| ar.user.id_canvas}.map{|ar| ar.user.name_for_email_canvas}.join(", ")
   end
 
 

@@ -36,11 +36,6 @@ $(document).on('ready pjax:success', function() {
 	$('.tooltip-btn').tooltip()
 	$('.popover').popover()
 
-});
-
-
-$(document).ready(function() {
-
 	$(".diplayModalBtn").on('click', function() {
 		var idModal = $(this).attr('idModal');
 		$('#' + idModal).modal();
@@ -49,8 +44,8 @@ $(document).ready(function() {
 
 
 	$('body').append("<div id='message' style='position: fixed;left: 83%;top: 8%;'></div>");
-
 });
+
 
 function sendForm(id, responseFieldId) {
 
