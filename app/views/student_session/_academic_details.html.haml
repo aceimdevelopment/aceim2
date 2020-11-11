@@ -15,10 +15,16 @@
 - if ar
   = render partial: "/bank_account/show", locals: {ar: ar}
   
-- unless GeneralSetup.video_tuto_canvas_value.blank?
+- if false #unless GeneralSetup.video_tuto_canvas_value.blank?
   .text-center.align-middle
     = link_to GeneralSetup.video_tuto_canvas_value, {type: :button, class: 'tooltip-btn btn btn-sm btn-outline-success', title: 'Video ilustrativo de ayuda para Canvas', data: {toggle: :tooltip}, target: '_blank'} do
       Video Tutorial para Canvas
+      %span.fa.fa-play-circle
+
+- if Content.published.any?
+  .text-center.align-middle
+    = link_to multimedia_student_session_index_path, {type: :button, class: 'tooltip-btn btn btn-sm btn-outline-success', title: 'Contenido Multimedia', data: {toggle: :tooltip}} do
+      Contenido Multimedia
       %span.fa.fa-play-circle
 
 -if student

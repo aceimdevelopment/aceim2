@@ -161,8 +161,8 @@ class PaymentDetail < ApplicationRecord
       end
       
       field :backup_file, :active_storage do
-        label 'Imagen Adjunta'
-        delete_method :remove_backup_file
+        label 'Adjunto'
+        delete_method :remove_file
       end
 
       field :academic_record do 

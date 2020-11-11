@@ -71,7 +71,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :student_session, only: [:index]
+  resources :student_session, only: [:index] do
+    collection do
+      get 'multimedia'
+    end
+  end
   resources :instructor_session, only: [:index] do
     member do
       get 'show_sections'

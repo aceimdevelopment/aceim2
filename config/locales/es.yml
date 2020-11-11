@@ -216,6 +216,9 @@ es:
       <<: *errors
   activerecord:
     models:
+      content:
+        one: 'Contenido Multimedia'
+        other: 'Contenidos Multimedia'
       administrator:
         one: 'Administrador'
         other: 'Administradores'

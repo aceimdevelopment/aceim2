@@ -1,0 +1,48 @@
+%br
+%h5.p-2.mt-5.bg-dark.text-white
+  = link_to student_session_index_path, class: 'pull-left btn btn-secondary btn-sm' do
+    .fa.fa-angle-left
+    Regresar
+  .text-center=@title
+
+.p-3
+  %nav
+    %ul#navTab.nav.nav-tabs{role: :tablist}
+      - i = 0
+      - Content.categories.each do |cat| 
+        - if Content.published.where(category: cat[0]).any?
+          - if (i.eql? 0)
+            - active = ' active'
+            - selected = true
+          - else
+            - active = ''
+            - selected = false
+          - i += 1
+          %li= link_to cat[0].titleize, "#tabContent#{cat[0].upcase}", "data-toggle": :tab, class: "nav-item nav-link #{active}", role: :tab, 'aria-controls': "tabContent#{cat[0].upcase}", id: "tab#{cat[0].upcase}", "aria-selected": selected
+
+  #navTabContent.tab-content
+    - Content.categories.each_with_index do |cat, j|
+      - contents = Content.published.where(category: cat[0])
+      - if contents.any?
+        - active = (j.eql? 0) ? ' active show' : ''
+        .tab-pane.fade{id: "tabContent#{cat[0].upcase}", class: "p-3 bg-white border border-top-0 #{active}", "aria-labelledby": "tab#{cat[0].upcase}", role: :tabpanel}
+          .card-columns
+            - contents.each do |media| 
+              .card.bg-light
+                - if media.file.attached?
+                  .text-center
+                    - image = (media.file.content_type.include? "image") ? media.file : 'general_doc'
+                    
+                    - path = Rails.application.routes.url_helpers.rails_blob_path(media.file, only_path: true)
+
+                    = link_to path, target: '_blank' do
+                      = image_tag image, class: 'card-img-top', style: 'max-height:150px;max-width:200px'
+
+                - elsif media.url and media.url.include? 'youtu'
+                  %iframe.embed-responsive.embed-responsive-4by3{allow: "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: "", frameborder: "0", src: media.url}
+                .card-body.text-center
+                  %h5.card-title= media.title
+                  - if media.description
+                    %p.card-text= media.description
+%br
+%br
