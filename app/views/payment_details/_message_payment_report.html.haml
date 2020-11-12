@@ -45,6 +45,11 @@
         %th Fecha de Pago: 
         %td= @payment_detail.created_at.strftime('%d/%m/%Y')
 
-  %p En las próximas 48 horas hábiles estaremos procesando su pago y notificándole vía correo electrónico, previa confirmación de la transacción. Hemos enviado a su correo estos detalles de la transacción.
+  %p
+    - if @payment_detail.divisas? and GeneralSetup.payment_dollar_value
+      = GeneralSetup.payment_dollar_value
+    - else
+      = "En las próximas 48 horas hábiles estaremos procesando su pago y notificándole vía correo electrónico, previa confirmación de la transacción. Hemos enviado a su correo estos detalles de la transacción."
+  
   %p.text-center
     %b Gracias por confiar en nosotros para su formación académica.
