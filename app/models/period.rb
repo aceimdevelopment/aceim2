@@ -76,14 +76,14 @@ class Period < ApplicationRecord
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Permitir PreInscripcion', url: url, to_checked: bindings[:object].enrollment, id_html: 'enrollment' , alert: false})
           end
         end
-        field :canvas_autoregister do
-          label 'Automatricular Canvas'
-          formatted_value do
-          alert = "Esta acción enviará correos masivos a los estudiantes confirmados en éste periodo ¿Está Seguro?"
-            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_autoregister"
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', url: url, to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister', alert: alert})
-          end
-        end
+        # field :canvas_autoregister do
+        #   label 'Automatricular Canvas'
+        #   formatted_value do
+        #   alert = "Esta acción enviará correos masivos a los estudiantes confirmados en éste periodo ¿Está Seguro?"
+        #     url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_autoregister"
+        #     bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', url: url, to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister', alert: alert})
+        #   end
+        # end
         field :canvas_login do
           label 'Login Canvas'
           formatted_value do
