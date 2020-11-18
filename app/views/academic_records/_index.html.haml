@@ -15,7 +15,7 @@
             Status
         - if enabled_qua
           %th
-          - course_period.period.qualification_schemas.each do |qs| 
+          - course_period.period.qualification_schemas.order(sequence: :asc).each do |qs| 
             %th.text-center
               .tooltip-btn{"data-toggle": :tooltip, title: qs.desc.to_s}= qs.name
         %th.text-center Final
