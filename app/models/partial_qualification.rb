@@ -3,6 +3,9 @@ class PartialQualification < ApplicationRecord
   belongs_to :academic_record, inverse_of: :partial_qualifications
   # validates :value, presence: true
 
+  #=========== PAPER TRAIL ========#
+  has_paper_trail
+
   after_save :set_final, unless: :new_record? 
 
   # ======================== SCOPES =============================#

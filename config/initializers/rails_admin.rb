@@ -74,13 +74,15 @@ RailsAdmin.config do |config|
   # config.authorize_with :pundit
 
   ## == PaperTrail ==
-  # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
+  config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
+
+  PAPER_TRAIL_AUDIT_MODEL = ['AcademicRecord', 'PartialQualification', 'PaymentDetail', 'Section', 'Student']
 
   config.actions do
     dashboard                     # mandatory
@@ -103,5 +105,35 @@ RailsAdmin.config do |config|
     # HELP: https://github.com/sferik/rails_admin/wiki/Papertrail
     # history_index
     # history_show
+
+    history_index do
+      only PAPER_TRAIL_AUDIT_MODEL
+      # controller :my_test_action
+    end
+    history_show do
+      only PAPER_TRAIL_AUDIT_MODEL
+    end
+
   end
+
+  config.model "PaperTrail::Version" do
+    visible false
+  end
+
+  config.model "PaperTrail::VersionAssociation" do
+    visible false
+  end
+
+  config.model "ActionText::RichText" do
+    visible false
+  end
+
+  config.model "ActiveStorage::Blob" do
+    visible false
+  end
+  config.model "ActiveStorage::Attachment" do
+    visible false
+  end
+
+
 end

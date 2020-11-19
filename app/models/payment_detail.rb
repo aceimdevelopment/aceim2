@@ -1,4 +1,7 @@
 class PaymentDetail < ApplicationRecord
+
+  #=========== PAPER TRAIL ========#
+  has_paper_trail
   
   # ========== ASSOCIATION ============ #
   belongs_to :academic_record, inverse_of: :payment_detail

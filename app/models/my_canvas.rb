@@ -34,6 +34,12 @@ class MyCanvas
 
     # Pruebas:
 
+{"user":{"login_id":"carlosdaniel@mailinator.com","name":"Carlos Daniel","password":"123456","email":"carlosdaniel@mailinator.com"},"pseudonym":{"unique_id":"carlosdaniel@mailinator.com","authentication_provider_id":""}}
+
+
+    # new_user = canvas.post("/api/v1/accounts/self/users", {'account_user' => {'name' => 'Daniel Moros Prueba', 'short_name' => 'Preuba', 'term_of_use' => true, 'skip_registration' => true}, 'pseudonyms' => {'account_id' => , 'unique_id' => 'danielousky@gmail.com', 'send_confirmation' => true, 'force_self_registration' => true }})
+
+
     # new_user = canvas.post("/api/v1/accounts/self/users", {'account_user' => {'name' => 'Daniel Moros Prueba', 'short_name' => 'Preuba', 'term_of_use' => true, 'skip_registration' => true}, 'account_pseudonym' => {'unique_id' => 'danielousky@gmail.com', 'send_confirmation' => true, 'force_self_registration' => true }})
 
 

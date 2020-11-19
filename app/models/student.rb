@@ -2,6 +2,10 @@ class Student < ApplicationRecord
 
   # QUERY CON INCLUDES QUE PUEDE SER UTIL:
   # Student.includes(:user, {academic_records: {section: {course_period: [{course: [:language, :level]}, :period]}}}).limit(5).each{|es|}
+  
+  #=========== PAPER TRAIL ========#
+  has_paper_trail
+
   # ========== RELATIONSHIPS ============ #
 
   belongs_to :user, inverse_of: :student#, foreign_key: :user_id

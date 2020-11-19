@@ -3,6 +3,9 @@ class AcademicRecord < ApplicationRecord
   # QUERY CON INCLUDES QUE PUEDE SER UTIL:
   # AcademicRecord.includes({student: :user}, {section: {course_period: [{course: [:language, :level]}, :period]}}).limit(5).each{|ar| ar.student.name; ar.section.name}
 
+  #=========== PAPER TRAIL ========#
+  has_paper_trail
+
   #=========== RELATIONSHIPS=======#
   belongs_to :student, inverse_of: :academic_records
   belongs_to :section, inverse_of: :academic_records

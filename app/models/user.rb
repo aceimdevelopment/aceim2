@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  #=========== PAPER TRAIL ========#
+  has_paper_trail
 
   # ========== VARIABLES ============ #
   enum canvas_status: ['nuevo', 'no_sabe', 'registrado'] 

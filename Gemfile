@@ -43,6 +43,9 @@ gem "haml-rails", "~> 2.0"
 gem "canvas-api"
 gem 'figaro'
 gem 'rqrcode'
+gem 'paper_trail'
+gem 'paper_trail-association_tracking'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

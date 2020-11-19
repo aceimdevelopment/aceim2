@@ -33,6 +33,14 @@ es:
       char_length_up_to: "máximos caracteres permitidos "
       cancel: "Cancelar"
     actions:
+      history_show:
+        title: "Bitácora" 
+        menu: "Bitácora"
+        breadcrumb: "Bitácora"
+      history_index:
+        title: "Bitácora" 
+        menu: "Bitácora"
+        breadcrumb: "Bitácora"
       import:
         done: "guardar"
         menu: "importaciones"
