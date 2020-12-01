@@ -42,7 +42,7 @@ class PdfDocs
     pdf.move_down 10
 
     unless verified
-      link = "https://fundeim.com/careers/#{career.id}/career_finished_certificate_verify"
+      link = "https://aceim.fundeim.com/careers/#{career.id}/career_finished_certificate_verify"
     
       pdf.text "<a href='#{link}' style='margin-right:100px' target='_blank'>clic para verificar</a>", align: :center, size: 8, inline_format: true, color: color_base
     else
@@ -244,7 +244,7 @@ class PdfDocs
 
     require 'rqrcode'
 
-    link = "https://fundeim.com/careers/#{career.id}/constance_verify"
+    link = "https://aceim.fundeim.com/careers/#{career.id}/constance_verify"
     qrcode = RQRCode::QRCode.new(link)
 
     png = qrcode.as_png(
