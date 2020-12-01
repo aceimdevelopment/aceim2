@@ -4,6 +4,7 @@
 	= link_to 'Nuevo Ingreso', new_user_registration_path, class: 'btn btn-success btn-lg mr-3' if GeneralSetup.permitir_registros_nuevos
 	= link_to 'Ingreso Regular', user_session_path, class: 'btn btn-primary btn-lg'
 
-	- Billboard.enableds.order(sequence: :asc).each do |bb| 
-		.m-3.p-3
-			= raw bb.content
+	- if false
+		- Billboard.enableds.order(sequence: :asc).each do |bb| 
+			.m-3.p-3
+				= raw bb.content

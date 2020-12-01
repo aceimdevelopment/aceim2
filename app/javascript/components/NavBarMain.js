@@ -48,7 +48,6 @@ class NavBarMain extends React.Component {
 					<Nav className="mr-auto">
 						<Nav.Link href="mailto:fundeimucv@gmail.com" className='nav-bar-link text-muted'>Contáctanos</Nav.Link>
 					</Nav>
-					<LoginButton />
 				</Navbar.Collapse>
 			</Navbar>
 
