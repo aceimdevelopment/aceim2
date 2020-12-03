@@ -1,4 +1,10 @@
 class Api::V1::ItemsController < Api::V1::BaseController
+  skip_before_action :authenticate_user!, only: [:open_newers_registration]
+  
+  def open_newers_registration
+    respond_with open_newers_registration: GeneralSetup.permitir_registros_nuevos
+  end
+
   def index
     respond_with Item.all
   end
