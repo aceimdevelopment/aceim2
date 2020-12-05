@@ -2,6 +2,17 @@ class GeneralSetup < ApplicationRecord
 
   validates :id, presence: true
 
+  def self.enabled_cash_payment
+    aux = GeneralSetup.where(id: "ACEPTAR_PAGO_DIVISA").first
+    (aux and aux.value) ? aux.value : 'NO'
+  end
+
+  def self.enabled_transfer_payment
+    aux = GeneralSetup.where(id: "ACEPTAR_PAGO_TRANSFERENCIA").first
+    (aux and aux.value) ? aux.value : 'NO'
+  end
+
+
   def self.payment_dollar_value
     aux = GeneralSetup.where(id: "PAGO_DIVISA").first
     (aux and aux.value) ? aux.value : 'Para pagos en efectivo o divisas favor escribir al correo fundeimucv@gmail.com para plantearle opciones.'

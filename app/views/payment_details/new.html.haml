@@ -32,23 +32,46 @@
           .input-group-prepend
             .input-group-text{style: 'padding: 0px 10px 0px 10px;'}
               %span.fa.fa-credit-card
-          - PaymentDetail.transaction_types.map do |k,v| 
-            %label.btn.btn-secondary.btn-sm.tooltip-btn.m-2{'data_toggle': :tooltip, title: k.titleize}
-              = radio_button_tag '[payment_detail]transaction_type', k, (k.eql? @payment_detail.transaction_type), required: true, onChange: "hola(event.target);"
-              = k.upcase
+          -# PaymentDetail.transaction_types.map do |k,v| 
+          -# default_type = (@payment_detail.id.nil? and v.eql? 0) ? true : (k.eql? @payment_detail.transaction_type)
+          -# enabled_type = false
+
+          -# if k.eql? 'transferencia'
+          -# enabled_type = true if GeneralSetup.enabled_transfer_payment.eql? 'SI'
+          -# elsif k.eql? 'divisas'
+          -# enabled_type = true if GeneralSetup.enabled_cash_payment.eql? 'SI'
+          -# if enabled_type
+
+
+          %label.btn.btn-secondary.btn-sm.tooltip-btn.m-2{'data_toggle': :tooltip, title: 'Divisas'}
+            =# radio_button_tag '[payment_detail]transaction_type', :divisas, true, required: true, onChange: "hola(event.target);"
+            = radio_button_tag '[payment_detail]transaction_type', :divisas, true, required: true
+            DIVISAS
+
+    - if true
+      .form-group.row.px-3
+        = f.label :created_at, class: 'col-sm-5 control-label', value: 'Fecha de Transacción:', style: 'text-align: right'
+
+        .col-sm-5.my-1
+          .input-group
+            .input-group-prepend
+              .input-group-text
+                %span.fa.fa-calendar
+            = f.date_field :created_at, class: 'form-control ', required: true, value: Date.today
+
+    - if false
+      .form-group.row.px-3
+        = f.label :transaction_number, class: 'col-sm-5 control-label', value: 'Número de Transacción:', style: 'text-align: right', id: :transNumberLabel
+
+        .col-sm-5.my-1
+          .input-group
+            .input-group-prepend
+              .input-group-text
+                %span.fa.fa-barcode
+            = f.text_field :transaction_number, class: 'form-control onlyNumbers', required: true
 
     .form-group.row.px-3
-      = f.label :created_at, class: 'col-sm-5 control-label', value: 'Fecha de Transacción:', style: 'text-align: right'
-
-      .col-sm-5.my-1
-        .input-group
-          .input-group-prepend
-            .input-group-text
-              %span.fa.fa-calendar
-          = f.date_field :created_at, class: 'form-control ', required: true
-
-    .form-group.row.px-3
-      = f.label :transaction_number, class: 'col-sm-5 control-label', value: 'Número de Transacción:', style: 'text-align: right', id: :transNumberLabel
+      = f.label :transaction_number, class: 'col-sm-5 control-label', value: 'Código del billete:', style: 'text-align: right', id: :transNumberLabel
 
       .col-sm-5.my-1
         .input-group
@@ -70,24 +93,27 @@
             .input-group-text
               Bs. (o equivalente en divisas) 
           =# number_to_currency(@academic_record.agreement.value, :unit => "Bs.", :separator => ",", :delimiter => ".")
-    = f.hidden_field :source_bank_id, value: '0000', disabled: true, class: 'form-control', id: 'weCollect'
-    #banksData
-      .form-group.row.px-3
-        = f.label :source_bank_id, class: 'col-sm-5 control-label', value: 'Banco Origen:', style: 'text-align: right'
-        .col-sm-5.my-1
-          .input-group
-            .input-group-prepend
-              .input-group-text
-                %span.fa.fa-bank
-            = f.collection_select :source_bank_id, Bank.where('id != 0000'), :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control', id: 'bank', required: true}
-      .form-group.row.px-3
-        = f.label :bank_account_id, class: 'col-sm-5 control-label', value: 'Cuenta Destino:', style: 'text-align: right'
-        .col-sm-5.my-1
-          .input-group
-            .input-group-prepend
-              .input-group-text
-                %span.fa.fa-graduation-cap
-            = f.collection_select :bank_account_id, BankAccount.all, :id, :name, {}, {class: 'form-control', readonly: true}
+    = f.hidden_field :source_bank_id, value: '0000', class: 'form-control'
+    = f.hidden_field :bank_account_id, value: 'FUNDEIM', class: 'form-control'
+    
+    - if false
+      #banksData
+        .form-group.row.px-3
+          = f.label :source_bank_id, class: 'col-sm-5 control-label', value: 'Banco Origen:', style: 'text-align: right'
+          .col-sm-5.my-1
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  %span.fa.fa-bank
+              = f.collection_select :source_bank_id, Bank.where('id != 0000'), :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control', id: 'bank', required: true}
+        .form-group.row.px-3
+          = f.label :bank_account_id, class: 'col-sm-5 control-label', value: 'Cuenta Destino:', style: 'text-align: right'
+          .col-sm-5.my-1
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  %span.fa.fa-graduation-cap
+              = f.collection_select :bank_account_id, BankAccount.all, :id, :name, {}, {class: 'form-control', readonly: true}
 
     .form-group.row.px-3
       = f.label :file_field, class: 'col-sm-5 control-label', value: 'Archivo de respaldo:', style: 'text-align: right', id: 'fileField'

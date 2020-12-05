@@ -282,6 +282,12 @@ es:
 
     errors:
       models:
+        payment_detail:
+          attributes:
+            bank_account:
+              required: 'Cuenta de Banco requerida'
+            source_bank:
+              required: 'Banco Origen Requerido'
         academic_record:
           attributes:
             required: "%{attribute_name} requerido"

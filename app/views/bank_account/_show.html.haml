@@ -1,35 +1,38 @@
 - # OJO: ESTO DEBE CAMBIAR SI SE DISPONE DE OTRAS CUENTAS
-- ba = BankAccount.first
-.alert.alert-success
-	%h4.text-center Datos de pago para Depósito o Transferencia Bancaria
-	%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
-		%tbody
-			%tr.row
-				%th.col-6.float-right{style: 'text-align: right;'} Banco:
-				%td.col-6= ba.bank.name if ba.bank
-			%tr.row
-				%th.col-6.float-right{style: 'text-align: right;'} Cuenta Corriente:
-				%td.col-6= ba.number
-			%tr.row
-				%th.col-6{style: 'text-align: right;'} A nombre de:
-				%td.col-6= ba.holder
-			%tr.row
-				%th.col-6{style: 'text-align: right;'} Monto:
+- if GeneralSetup.enabled_transfer_payment.eql? 'SI' or GeneralSetup.enabled_cash_payment.eql? 'SI'
+	.alert.alert-success
+		- if GeneralSetup.enabled_transfer_payment.eql? 'SI'
+			- ba = BankAccount.first
+			%h4.text-center Datos de pago para Depósito o Transferencia Bancaria
+			%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
+				%tbody
+					%tr.row
+						%th.col-6.float-right{style: 'text-align: right;'} Banco:
+						%td.col-6= ba.bank.name if ba.bank
+					%tr.row
+						%th.col-6.float-right{style: 'text-align: right;'} Cuenta Corriente:
+						%td.col-6= ba.number
+					%tr.row
+						%th.col-6{style: 'text-align: right;'} A nombre de:
+						%td.col-6= ba.holder
+					%tr.row
+						%th.col-6{style: 'text-align: right;'} Monto:
 
-				%td.col-6
-					= number_to_currency(ar.agreement.value, unit: 'Bs.', separator: ",", delimiter: ".") 
-			%tr.row
-				%th.col-6{style: 'text-align: right;'} Descripción del Curso:
-				%td.col-6= ar.course_period.description_inscription
-			%tr.alert.alert-warning.text-center
-				%td{style: 'text-align: center;'} 
-					%b IMPORTANTE:
-					= GeneralSetup.amount_divisa_date
-	%hr
-	%h4.text-center Pagos en Divisas
-	%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
-		%tbody		
-			%tr.text-center
-				%td{style: 'text-align: center;'} 
-					= GeneralSetup.payment_dollar_value
+						%td.col-6
+							= number_to_currency(ar.agreement.value, unit: 'Bs.', separator: ",", delimiter: ".") 
+					%tr.row
+						%th.col-6{style: 'text-align: right;'} Descripción del Curso:
+						%td.col-6= ar.course_period.description_inscription
+					%tr.alert.alert-warning.text-center
+						%td{style: 'text-align: center;'} 
+							%b IMPORTANTE:
+							= GeneralSetup.amount_divisa_date
+		- if GeneralSetup.enabled_cash_payment.eql? 'SI'
+			%hr
+			%h4.text-center Pagos en Divisas
+			%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
+				%tbody		
+					%tr.text-center
+						%td{style: 'text-align: center;'} 
+							= GeneralSetup.payment_dollar_value
 

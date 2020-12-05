@@ -46,7 +46,7 @@
         %td= @payment_detail.created_at.strftime('%d/%m/%Y')
 
   %p
-    - if @payment_detail.divisas? and GeneralSetup.payment_dollar_value
+    - if @payment_detail.divisas? and GeneralSetup.enabled_cash_payment.eql? 'SI' and GeneralSetup.payment_dollar_value
       = GeneralSetup.payment_dollar_value
     - else
       = "En las próximas 48 horas hábiles estaremos procesando su pago y notificándole vía correo electrónico, previa confirmación de la transacción. Hemos enviado a su correo estos detalles de la transacción."
