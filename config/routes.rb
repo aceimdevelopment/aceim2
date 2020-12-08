@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :academic_records, only: [:index] do
+  resources :academic_records, only: [:index, :show] do
     member do
       get 'send_confirmation_mail'
       get 'show_payments_accounts'

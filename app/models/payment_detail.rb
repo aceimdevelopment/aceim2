@@ -98,7 +98,7 @@ class PaymentDetail < ApplicationRecord
       # end
       # end
       field :transaction_number do
-        label '# Transacción'
+        label '# Transacción'        
       end
 
       field :bank_account do 
@@ -134,6 +134,20 @@ class PaymentDetail < ApplicationRecord
 
     edit do
 
+      field :academic_record do 
+        label 'Inscripción'
+        html_attributes do
+          {id: "inscripcionPaymentReport", onChange: "getMount(this.value);" }
+
+        end
+      end
+
+      field :mount do
+        label 'Monto'
+        html_attributes do
+          {id: "amountPaymentReport"}
+        end        
+      end
 
       field :transaction_number do
         label '# Transacción'
@@ -151,10 +165,6 @@ class PaymentDetail < ApplicationRecord
         label 'Cuenta Destino'
       end
 
-      field :mount do
-        label 'Monto'
-      end
-
       field :created_at do
         label 'Fecha'
       end
@@ -165,11 +175,7 @@ class PaymentDetail < ApplicationRecord
       
       field :backup_file, :active_storage do
         label 'Adjunto'
-        delete_method :remove_file
-      end
-
-      field :academic_record do 
-        label 'Inscripción'
+        delete_method :remove_backup_file
       end
 
     end

@@ -1,5 +1,5 @@
 class AcademicRecordsController < ApplicationController
-	before_action :set_academic_record, only: [:show_payments_accounts, :certificate]
+	before_action :set_academic_record, only: [:show_payments_accounts, :certificate, :show]
 	before_action :authenticate_user!
 
 	def send_confirmation_mail

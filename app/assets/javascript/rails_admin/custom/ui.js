@@ -42,7 +42,6 @@ $(document).on('ready pjax:success', function() {
 
 	});
 
-
 	$('body').append("<div id='message' style='position: fixed;left: 83%;top: 8%;'></div>");
 });
 
@@ -92,6 +91,23 @@ function sendForm(id, responseFieldId) {
 
 // ============== trix-file ==============
 
+
+function getMount(id) {
+	let url = `/academic_records/${id}.json`
+	$.ajax({
+		url: url,
+		type: 'GET',
+		dataType: 'json',
+		success: function(json) {
+			$('#amountPaymentReport').val(json.value); 
+		},
+		error: function(json) {
+			console.log(json)
+			obj.prop('checked', !obj[0].checked)
+			toastr.error(json.data);
+		}
+	});
+}
 
 
 
