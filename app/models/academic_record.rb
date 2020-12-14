@@ -427,8 +427,7 @@ class AcademicRecord < ApplicationRecord
       end
       aux += "</tr></thead><tbody><tr>"
       partial_qualifications.each do |par|
-        value = sprintf("%02i",par.value) if par.value
-        aux += "<td class='text-center'>#{value}</td>"
+        aux += "<td class='text-center'>#{par.value}</td>"
       end
       aux += "</tr></tbody></table>"
       aux.html_safe
