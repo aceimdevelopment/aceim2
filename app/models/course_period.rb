@@ -298,7 +298,7 @@ class CoursePeriod < ApplicationRecord
   protected
 
   def create_first_section
-    sections.create(number: '1') unless sections.any?
+    sections.create(number: '0') unless sections.any?
   end
 
 end
