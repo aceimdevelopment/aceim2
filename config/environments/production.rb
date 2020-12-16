@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   # URL Options:
-  config.action_mailer.default_url_options = { host: 'fundeim.com' }
+  config.action_mailer.default_url_options = { host: 'aceim.fundeim.com' }
 
   config.active_storage.service = :digitalocean #:local
   # Mailgun Config:
