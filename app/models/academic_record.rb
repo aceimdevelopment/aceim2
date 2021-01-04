@@ -322,6 +322,23 @@ class AcademicRecord < ApplicationRecord
     self.qualification_status_id.eql? 'AP'
   end
 
+
+  def qualification_status_style
+
+    if repproved?
+      aux = 'danger' 
+    elsif qualification_status_id.eql? 'AP'
+      aux = 'success'
+    else
+      aux = 'info'
+    end
+    return aux
+  end
+
+  def repproved?
+    self.qualification_status_id.eql? 'PI' or qualification_status_id.eql? 'RE'
+  end
+
   def is_last_level_approved?
     last_approved = career.last_level_approved
     last_approved and self.level.id.eql?(last_approved.level.id)

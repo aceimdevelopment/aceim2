@@ -31,4 +31,6 @@
   - if GeneralSetup.permitir_registros_nuevos or (period and period.allow_enrollments?)
     = render partial: '/layouts/modal_alert', locals: {content: @normative, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil}
   = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
-  = render partial: '/careers/index_to_student', locals: {careers: student.careers}
+  
+  .container-fluid.middle-box.text-center.animated.fadeInDown
+    = render partial: '/careers/index_to_student', locals: {careers: student.careers}

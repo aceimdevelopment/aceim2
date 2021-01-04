@@ -1,49 +1,49 @@
-
-%table.table.table-striped.table-sm.table-hover.table-responsive-md.m-3
-	%thead
-		%tr
-			%th #
-			%th.text-center Periodo
-			%th.text-center Nivel
-			%th.text-center Modalidad
-			%th.text-center Estado Inscrip.
-			%th.text-center Estado Calif.
-			%th.text-right Valor Calif.
-
-			%th.text-center Convenio
-			%th.text-center Sección
-			%th Opciones
-
-	%tbody
-		-# career.academic_records.order(created_at: :desc).each_with_index do |ar, i| 
-		- records.each_with_index do |ar, i| 
-			-# user = ar.student.user
+.table-responsive
+	%table.table.table-striped.table-sm.table-hover.m-3
+		%thead
 			%tr
-				%td.text-center= i+1
-				%td.text-center= ar.period.name
-				%td.text-center 
-					=ar.level.name
-					- if ar.approved?
-						- if ar.is_last_level_approved?
-							%span.fa.fa-star.text-warning.tooltip-btn{"data-toggle": :tooltip, title: 'Último nivel aprobado'}
-				%td.text-center
-					.label.label-info= ar.course_period.kind.upcase
-				%td.text-center= raw ar.label_insc_status('admin')
-				%td.text-center= raw ar.label_fq
-				%td.text-right
-					- if ar.partial_qualifications.any?
-						.btn.btn-sm.btn-info.tooltip-btn.diplayModalBtn{idModal: "qDetail#{ar.id}", "data-toggle": :tooltip, title: 'Calificaciones Parciales'}
-							.fa.fa-search-plus
-						
-						= render partial: '/layouts/modal', locals: {content: ar.q_detail_table, id: "qDetail#{ar.id}", msg: "Calificaciones Parciales", title: nil, msg2: "" }
-					= ar.final_desc
-				%td= ar.agreement.name
-				%td.text-center= ar.section.number_to_string
-				%td
-					- if current_user.administrator? and current_user.administrator.high_authotization?
-						= render partial: '/academic_records/options_to_admin', locals: {ar: ar} if controller_name.eql? 'main'
-					- if (current_user.eql? ar.user or (current_user.administrator? and current_user.administrator.desarrollador?)) and controller_name.eql? 'student_session'
-						= render partial: '/academic_records/options_to_student', locals: {ar: ar} if controller_name.eql? 'student_session'
+				%th #
+				%th.text-center Periodo
+				%th.text-center Nivel
+				%th.text-center Modalidad
+				%th.text-center Estado Inscrip.
+				%th.text-center Estado Calif.
+				%th.text-right Valor Calif.
+				%th.text-center Convenio
+				%th.text-center Sección
+				%th Opciones
+
+		%tbody
+			-# career.academic_records.order(created_at: :desc).each_with_index do |ar, i| 
+			- records.each_with_index do |ar, i| 
+				-# user = ar.student.user
+				- bgRowStyle =  "table-#{ar.qualification_status_style}" 
+				%tr{class: bgRowStyle}
+					%td.text-center.align-middle= i+1
+					%td.text-center.align-middle= ar.period.name
+					%td.align-middle.text-center 
+						=ar.level.name
+						- if ar.approved?
+							- if ar.is_last_level_approved?
+								%span.fa.fa-star.text-warning.tooltip-btn{"data-toggle": :tooltip, title: 'Último nivel aprobado'}
+					%td.text-center.align-middle
+						.label.label-info= ar.course_period.kind.upcase
+					%td.text-center.align-middle= raw ar.label_insc_status('admin')
+					%td.text-center.align-middle= raw ar.label_fq
+					%td.text-right.align-middle= ar.final_desc
+					%td.align-middle= ar.agreement.name
+					%td.text-center.align-middle= ar.section.number_to_string
+					%td.align-middle
+						- if ar.partial_qualifications.any?
+							.btn.btn-sm.btn-info.tooltip-btn.diplayModalBtn{idModal: "qDetail#{ar.id}", "data-toggle": :tooltip, title: 'Calificaciones Parciales'}
+								.fa.fa-search-plus
+							
+							= render partial: '/layouts/modal', locals: {content: ar.q_detail_table, id: "qDetail#{ar.id}", msg: "Calificaciones Parciales", title: nil, msg2: "" }
+
+						- if current_user.administrator? and current_user.administrator.high_authotization?
+							= render partial: '/academic_records/options_to_admin', locals: {ar: ar} if controller_name.eql? 'main'
+						- if (current_user.eql? ar.user or (current_user.administrator? and current_user.administrator.desarrollador?)) and controller_name.eql? 'student_session'
+							= render partial: '/academic_records/options_to_student', locals: {ar: ar} if controller_name.eql? 'student_session'
 
 
 

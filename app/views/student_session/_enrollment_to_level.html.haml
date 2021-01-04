@@ -23,7 +23,7 @@
                 %span{"aria-hidden": true} ×
 
           %td
-            %h6.ml-1
+            %h6.my-3
               = " Nivel Online Disponible: "
 
               = link_to 'javascript:void(0)', class: "btn btn-success tooltip-btn confirmBtn", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", url: "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", desc_user: @user.description, desc_inscrip: cp.description_inscription do
