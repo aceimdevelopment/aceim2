@@ -1,17 +1,30 @@
 - period = Period.where(enrollment: true).last
 - student = career.student
-%h4
-  - if period and period.allow_enrollments? and !period.preview.enabled_qualification?
-    - next_course = career.next_course_available
-    - if next_course
-      - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
-      - if cp  and !student.enrolled_course_period?(cp.id)
-        - total_enrolls = cp.academic_records.preinscrito.count
-        - if total_enrolls <= cp.capacity
-          - section = cp.sections.first
-          - if section
-            %td
-              %b= " Nivel Online Disponible: "
 
-              = link_to 'javascript:void(0)', class: "btn btn-success m-2 tooltip-btn confirmBtn", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", url: "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", desc_user: @user.description, desc_inscrip: cp.description_inscription do
+- if period and period.allow_enrollments? and !period.preview.enabled_qualification?
+  - next_course = career.next_course_available
+  - if next_course
+    - cp = period.course_periods.online.joins(:course).where('courses.language_id = ? AND courses.level_id = ?', next_course.language_id, next_course.level_id).first
+    - if cp  and !student.enrolled_course_period?(cp.id)
+      - total_enrolls = cp.academic_records.preinscrito.count
+      - if total_enrolls <= cp.capacity
+        - section = cp.sections.first
+        - if section
+          - approved = career.last_academic_record_approved
+          - distance = Period.distance_between_active_enrollment_period approved.period
+
+          - if approved and distance > 2
+            %h6.mt-2.alert.alert-warning.alert-dismissable{role: "alert"}
+              %b Atención:
+              %a 
+                = "Usted tiene más de un 2 períodos sin aprobar, deberá volver a cursar su último nivel aprobado: #{approved.course.name}"
+
+              %button.close{"aria-label": :Close, "data-dismiss": :alert, type: :button}
+                %span{"aria-hidden": true} ×
+
+          %td
+            %h6.ml-1
+              = " Nivel Online Disponible: "
+
+              = link_to 'javascript:void(0)', class: "btn btn-success tooltip-btn confirmBtn", 'data-toggle': :tooltip, title: "Inscribirse en #{cp.description_inscription}", url: "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", desc_user: @user.description, desc_inscrip: cp.description_inscription do
                 = "¡Inscríbite ahora! (#{period.name})"
