@@ -39,8 +39,13 @@
               Transferencia
           - if GeneralSetup.enabled_cash_payment.eql? 'SI'
             %label.btn.btn-secondary.btn-sm.tooltip-btn.m-2{'data_toggle': :tooltip, title: 'Divisas'}
-              = radio_button_tag '[payment_detail]transaction_type', :divisas, false, required: true, onChange: "displayType('divisas')"
+              = radio_button_tag '[payment_detail]transaction_type', :divisas, false, required: true, onChange: "displayType('divisas')", id: 'checkDivisas'
               Divisas
+            - unless GeneralSetup.enabled_transfer_payment.eql? 'SI'
+              :javascript
+                window.onload = function() {
+                  document.getElementById('checkDivisas').click();
+                }
 
 
     .form-group.row.px-3
