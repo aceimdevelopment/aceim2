@@ -32,7 +32,7 @@ class PaymentDetail < ApplicationRecord
   def acceptable_image
     return unless backup_file.attached?
 
-    unless backup_file.byte_size <= 800.kilobyte
+    unless backup_file.byte_size <= 5.megabyte
       errors.add(:backup_file, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
     end
 
