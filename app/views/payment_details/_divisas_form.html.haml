@@ -1,37 +1,3 @@
 #divisasForm{style: 'display:none'}
   = f.hidden_field :created_at, value: Date.today
   = f.hidden_field :source_bank_id, value: '0000'
-  .form-group.row.px-3
-    = f.label :transaction_number, class: 'col-sm-5 control-label', value: 'Código del billete:', style: 'text-align: right', id: :transNumberLabel
-
-    .col-sm-5.my-1
-      .input-group
-        .input-group-prepend
-          .input-group-text
-            %span.fa.fa-barcode
-        = f.text_field :transaction_number, class: 'form-control onlyNumbers', required: true
-
-  .form-group.row.px-3
-    = f.label :value, class: 'col-sm-5 control-label', value: 'Monto:', style: 'text-align: right'
-
-    .col-sm-5.my-1
-      .input-group
-        .input-group-prepend
-          .input-group-text
-            %span.fa.fa-money
-        = text_field_tag nil, number_to_currency(@academic_record.agreement.value, :unit => "Bs.", :separator => ",", :delimiter => "."), class: 'form-control onlyNumbers', readonly: true, disabled: true
-        =# f.number_field :mount, class: 'form-control', readonly: true, value: @academic_record.agreement.value, step: '0.01'
-        .input-group-append
-          .input-group-text
-            Bs. (o equivalente en divisas) 
-
-  .form-group.row.px-3
-    = f.label :file_field, class: 'col-sm-5 control-label', value: 'Imagen del billete:', style: 'text-align: right', id: 'fileField'
-    .col-sm-5.my-1
-      .input-group
-        .input-group-prepend
-          .input-group-text{style: 'padding: 0px 16px 0px 16px;'}
-            %span.fa.fa-file-image-o
-        =# f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
-        = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/jpeg,image/jpg,image/png,application/pdf"}
-      .text-muted= "Solo se perimiten archivos de los tipo: jpg, jpeg, png y pdf"
