@@ -1,6 +1,6 @@
 - #OJO: REEMPLAZAR POR PERIOD DE INSCRIPCION
 - period = Period.where(enrollment: true).last
-%h5.p-2.my-5.bg-dark.text-white.text-center= "Dashboard - #{@user.description}"
+%h5.p-2.mt-5.mb-4.bg-dark.text-white.text-center= "Dashboard - #{@user.description}"
 - student = @user.student
 
 - if flash[:success_enrolled]
@@ -22,9 +22,9 @@
       %span.fa.fa-play-circle
 
 - if Content.published.any?
-  .text-center.align-middle
-    = link_to multimedia_student_session_index_path, {type: :button, class: 'tooltip-btn btn btn-sm btn-outline-success', title: 'Contenido Multimedia', data: {toggle: :tooltip}} do
-      Contenido Multimedia
+  .text-center.align-middle.mb-3
+    = link_to multimedia_student_session_index_path, {type: :button, class: 'tooltip-btn btn btn-lg btn-primary', title: 'Videos ilustrativos de ayuda para Canvas', data: {toggle: :tooltip}} do
+      Tutoriales de Canvas
       %span.fa.fa-play-circle
 
 -if student
