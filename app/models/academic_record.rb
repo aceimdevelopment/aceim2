@@ -36,6 +36,7 @@ class AcademicRecord < ApplicationRecord
 
   after_initialize :set_default, :if => :new_record?
   after_save :add_career
+  after_destroy :destroy_career
 
   #============SCOPE===============#
   # scope :not_preinscrito, -> {where('inscription_status != 0')}
@@ -514,6 +515,10 @@ class AcademicRecord < ApplicationRecord
   # OJO: ¡¡¡ATENCIÓN!!! AL INTENTAR REALIZAR LA ACCIÓN DEBAJO SE GENERA UN ABRAZO MORTAL, YA QUE SE ACTUALIZAN PARCIALES Y SE VUELVE A ACTUALIZAR FINAL. SOLUCIÓN: AGREGAR EN LA EDICIÓN DE ACADEMIC RECORD SOLO CALIFICACIONES PARCIALES Y NO FINAL
   def set_partials_qualifications
     self.partial_qualifications.each{|partial| partial.update(value: final_qualification.to_i)}
+  end
+
+  def destroy_career
+    career.destroy unless career.academic_records.any?
   end
 
   def add_career
