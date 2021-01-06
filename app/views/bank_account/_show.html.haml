@@ -35,10 +35,11 @@
 					%tr.text-center
 						%td{style: 'text-align: center;'} 
 							= GeneralSetup.payment_dollar_value
-		%hr
-		.text-center
-			= link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-lg btn-warning mb-2 ml-2', title: 'Reportar Pago del curso', data: {toggle: 'tooltip', placement: 'bottom'}  do
-				.fa.fa-money
-				Reportar Pago
+		- unless controller_name.eql? 'payment_details'
+			%hr
+			.text-center
+				= link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-lg btn-warning mb-2 ml-2', title: 'Reportar Pago del curso', data: {toggle: 'tooltip', placement: 'bottom'}  do
+					.fa.fa-money
+					Reportar Pago
 
 
