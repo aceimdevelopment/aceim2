@@ -33,6 +33,11 @@ class GeneralSetup < ApplicationRecord
     (aux and aux.value) ? aux.value : ''
   end
 
+  def self.permitir_inscripciones_regulares
+    aux = GeneralSetup.where(id: "PERMITIR_INSCRIPCIONES_REGULARES").first
+    (aux and aux.value.eql? 'SI')
+  end
+
 	def self.permitir_registros_nuevos
 		aux = GeneralSetup.where(id: "PERMITIR_NUEVOS_REGISTROS").first
 		(aux and aux.value.eql? 'SI')
