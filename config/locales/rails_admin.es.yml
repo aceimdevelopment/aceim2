@@ -163,7 +163,7 @@ es:
         col_sep: "Separador de Columna"
         col_sep_help: "Dejar vacío por defecto ('%{value}')" # el valor es default_col_sep
     flash:
-      successful: "%{name} fue %{action} correctamente"
+      successful: "Acción completada correctamente"
       error: "%{name} no se pudo %{action} correctamente"
       noaction: "No se realizó ninguna acción"     
     breadcrumbs:
