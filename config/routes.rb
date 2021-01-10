@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
   resources :periods, only: [:index] do
     member do
+      get :unreported
       get 'onoff_switch'
       get 'clean_not_reported'
     end

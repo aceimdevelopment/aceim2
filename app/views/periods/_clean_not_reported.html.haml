@@ -11,3 +11,9 @@
 	= link_to "/periods/#{period.id}/clean_not_reported", class: "btn btn-sm btn-danger", disabled: (period.enrollment? or total.eql? 0), 'data-confirm': "Esta acción es irreversible y eliminará #{total} registros de inscripciones ¿Está completamente seguro?"  do
 		.fa.fa-trash 
 		Remover Preinscritos Sin Reportar
+
+%b.tooltip-btn{'data-toggle': :tooltip, title: 'Ver detalles de preinscritos sin reporte'}
+	= link_to "/periods/#{period.id}/unreported", class: "btn btn-sm btn-primary" do
+		.fa.fa-search
+		Detalles
+

@@ -3,6 +3,10 @@ class PeriodsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :set_period
 
+	def unreported
+		@unreported = @period.academic_records.preinscrito.joins(student: :user).order('users.last_name').reject{ |ar| ar.payment_detail}
+	end
+
 	def clean_not_reported
 		ids = @period.academic_records.preinscrito.reject{ |ar| ar.payment_detail}.map{ |ar| ar.id }
 		total = ids.count
