@@ -7,31 +7,32 @@
 - else
 	- msg = "Remover #{total} registros de preinscritos sin reporte de pago"
 
+%nav.navbar.fixed-top.navbar-dark.bg-dark
+	%form.form-inline
+		= link_to 'Atrás', "/admin/period/#{@period.id}", class: 'btn btn-sm btn-secondary'
+
+		%b.tooltip-btn{'data-toggle': :tooltip, title: 'Enviar Correo a usuarios Sin Reporte'}
+			= link_to "javascript:void(0)", class: "btn btn-sm btn-success ml-2"  do
+				.fa.fa-mail
+				Enviar Correo
+	.text-center.text-light= "Preinscritos No Reportados - #{@period.name}"
+
 .container-fluid.middle-box.loginscreen.animated.fadeInDown.mt-4
-	= link_to 'Atrás', "/admin/period/#{@period.id}", class: 'btn btn-sm btn-secondary'
-
-	- if false
-		%b.tooltip-btn{'data-toggle': :tooltip, title: msg}
-			= link_to "/periods/#{@period.id}/clean_not_reported", class: "btn btn-sm btn-danger", disabled: (@period.enrollment? or total.eql? 0), 'data-confirm': "Esta acción es irreversible y eliminará #{total} registros de inscripciones ¿Está completamente seguro?"  do
-				.fa.fa-trash 
-				Remover Preinscritos Sin Reportar
-
-	%b.tooltip-btn{'data-toggle': :tooltip, title: 'Enviar Correo a usuarios Sin Reporte'}
-		= link_to "javascript:void(0)", class: "btn btn-sm btn-success"  do
-			.fa.fa-mail
-			Enviar Correo
-
-	%table.table.table-sm.border.mt-4
+	%br
+	.alert.alert-info.text-center.mt-2= "#{total} inscripciones sin reporte de pago"
+	%table.table.table-sm.border.mt-2
 		%thead
 			%tr
+				%th #
 				%th Nombre
 				%th CI
 				%th Correo
 				%th Idioma
 				%th Nivel
 		%tbody
-			- @unreported.each do |ar| 
+			- @unreported.each_with_index do |ar,i| 
 				%tr
+					%th= i+1
 					%td= ar.student.user.full_name_invert
 					%td= ar.student.ci
 					%td= ar.user.email
