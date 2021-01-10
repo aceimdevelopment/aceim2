@@ -41,13 +41,13 @@ class Period < ApplicationRecord
           label 'Letra'
         end
         field :total_preenrollment do
-          label 'Preinscritos'
+          label 'PREINS'
         end
         field :total_enrollment do
-          label 'Confirmados'
+          label 'CONFIR'
         end
         field :total_assigned do
-          label 'Regi Canvas'
+          label 'CANVAS'
         end
 
       end
@@ -56,22 +56,39 @@ class Period < ApplicationRecord
         checkboxes false
         items_per_page 10
         field :name do
-          label 'Id'
+          label 'ID'
           sort_reverse true
         end
 
         field :total_preenrollment do
-          label 'Preinscritos'
+          label 'PREINS'
+        end
+        field :total_reported do
+          label 'REPORT'
         end
         field :total_enrollment do
-          label 'Confirmados'
-        end
-        field :total_assigned do
-          label 'Insc Curso Canvas'
+          label 'CONFIR'
         end
 
+        field :total_assigned do
+          label 'CANVAS'
+        end
+
+        field :total_approved do
+          label 'APROB'
+        end
+
+        field :total_repproved do
+          label 'REPROB'
+        end
+
+        field :total_pi do
+          label 'PI'
+        end
+
+
         field :enrollments do
-          label 'Preinscripciones'
+          label 'PREINSCRIBIR'
           formatted_value do
             url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=enrollment"
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Permitir PreInscripcion', url: url, to_checked: bindings[:object].enrollment, id_html: 'enrollment' , alert: false})
@@ -86,7 +103,7 @@ class Period < ApplicationRecord
         #   end
         # end
         field :canvas_login do
-          label 'Login Canvas'
+          label 'LOGIN CANVAS'
           formatted_value do
             url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_login"
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', url: url, to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin', alert: false})
@@ -94,7 +111,7 @@ class Period < ApplicationRecord
         end
 
         field :qualification do
-          label 'Calificar'
+          label 'CALIFICAR'
           formatted_value do
             url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=enabled_qualification"
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Calificación', url: url, to_checked: bindings[:object].enabled_qualification, id_html: 'calification', alert: false})
@@ -102,7 +119,7 @@ class Period < ApplicationRecord
         end
 
         field :survey do
-          label 'Encuesta'
+          label 'ENCUESTAR'
           formatted_value do
             url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=show_survey"
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Calificación', url: url, to_checked: bindings[:object].show_survey, id_html: 'survey', alert: false})
@@ -228,6 +245,22 @@ class Period < ApplicationRecord
       self.enrollment
     end
 
+    def total_approved
+      academic_records.approved.count
+    end
+
+    def total_repproved
+      academic_records.repproved.count
+    end
+
+    def total_pi
+      academic_records.pi.count
+    end
+
+    def total_reported
+      academic_records.preinscrito.total_reported
+    end
+
     def total_preenrollment
       academic_records.preinscrito.count
     end
@@ -247,16 +280,3 @@ class Period < ApplicationRecord
       self.name = "#{year}-#{letter}"
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

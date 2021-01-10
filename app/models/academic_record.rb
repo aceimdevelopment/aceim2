@@ -42,9 +42,14 @@ class AcademicRecord < ApplicationRecord
   # scope :not_preinscrito, -> {where('inscription_status != 0')}
   # OJO: El scope anterior ya está por defecto para los enum ej: not_
   scope :approved, -> {where(qualification_status_id: :AP)}
+  scope :repproved, -> {where("qualification_status_id = 'PI' or qualification_status_id = 'RE'")}
+  scope :pi, -> {where("qualification_status_id = 'PI'")}
   scope :not_qualifiqued, -> {where(qualification_status_id: :SC)}
 
   scope :not_canvas_registers, -> {joins(:user).where('users.canvas_status != 2')}
+
+  scope :reported, -> {joins(:payment_detail)}
+  scope :total_reported, -> {reported.count}
 
   scope :qualified, -> {where("qualification_status_id != ?", :SC)}
   scope :currents, -> {confirmado.where(qualification_status_id: :SC)}
@@ -64,6 +69,10 @@ class AcademicRecord < ApplicationRecord
   before_update :set_qualification_status, :if => :final_qualification_changed?
 
   # ===========RAILS ADMIN ====================#
+
+  def have_report
+    !self.payment_detail.nil?
+  end
 
   rails_admin do
 

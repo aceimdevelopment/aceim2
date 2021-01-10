@@ -17,6 +17,8 @@ class PaymentDetail < ApplicationRecord
   after_save { backup_file.purge if remove_backup_file.eql? '1' }
 
 
+  scope :from_period, -> (period_id) {joins({academic_record: {section: {course_period: :period}}}).where('periods.id = ?', period_id)}
+
   # ========== VALIDATIONS ============ #
   validates :bank_account, presence: true
   validates :transaction_type, presence: true
