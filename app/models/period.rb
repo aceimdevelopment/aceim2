@@ -74,6 +74,10 @@ class Period < ApplicationRecord
           label 'CANVAS'
         end
 
+        field :total_sc do
+          label 'SC'
+        end
+
         field :total_approved do
           label 'APROB'
         end
@@ -102,13 +106,6 @@ class Period < ApplicationRecord
         #     bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas automatricular', url: url, to_checked: bindings[:object].enabled_autoregister_canvas_link, id_html: 'canvasAutoregister', alert: alert})
         #   end
         # end
-        field :canvas_login do
-          label 'LOGIN CANVAS'
-          formatted_value do
-            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_login"
-            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', url: url, to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin', alert: false})
-          end
-        end
 
         field :qualification do
           label 'CALIFICAR'
@@ -118,8 +115,16 @@ class Period < ApplicationRecord
           end
         end
 
+        field :canvas_login do
+          label 'LOGIN CANVAS'
+          formatted_value do
+            url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=canvas_login"
+            bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off enlace Canvas login', url: url, to_checked: bindings[:object].enabled_login_canvas_link, id_html: 'canvasLogin', alert: false})
+          end
+        end
+
         field :survey do
-          label 'ENCUESTAR'
+          label 'ENCUESTA'
           formatted_value do
             url = "/periods/#{bindings[:object].id}/onoff_switch?function_to_switch=show_survey"
             bindings[:view].render(partial: "onoff_switch_partial", locals: {virtual_object: bindings[:object], titulo: 'On/Off Calificación', url: url, to_checked: bindings[:object].show_survey, id_html: 'survey', alert: false})
@@ -211,7 +216,12 @@ class Period < ApplicationRecord
     # ============== RAILS ADMIN END ============= #
 
     def self.distance_between_active_enrollment_period any_period
-      Period.enrollment_active.distance_between(any_period)
+      aux = Period.enrollment_active
+      if aux
+        return aux.distance_between(any_period)
+      else
+        return false
+      end 
     end
 
 
@@ -255,6 +265,10 @@ class Period < ApplicationRecord
 
     def total_pi
       academic_records.pi.count
+    end
+
+    def total_sc
+      academic_records.not_qualifiqued.count
     end
 
     def total_reported

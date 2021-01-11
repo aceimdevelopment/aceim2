@@ -42,7 +42,7 @@ class AcademicRecord < ApplicationRecord
   # scope :not_preinscrito, -> {where('inscription_status != 0')}
   # OJO: El scope anterior ya está por defecto para los enum ej: not_
   scope :approved, -> {where(qualification_status_id: :AP)}
-  scope :repproved, -> {where("qualification_status_id = 'PI' or qualification_status_id = 'RE'")}
+  scope :repproved, -> {where("qualification_status_id = 'RE'")}
   scope :pi, -> {where("qualification_status_id = 'PI'")}
   scope :not_qualifiqued, -> {where(qualification_status_id: :SC)}
 
