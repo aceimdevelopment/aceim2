@@ -22,8 +22,8 @@ class PaymentDetail < ApplicationRecord
   # ========== VALIDATIONS ============ #
   validates :bank_account, presence: true
   validates :transaction_type, presence: true
-  validates :transaction_number, presence: true
-  validates :transaction_number, presence: true, uniqueness: true
+  # validates :transaction_number, presence: true
+  validates :transaction_number, presence: true, uniqueness: {case_sensitive: false}
   validates :source_bank, presence: true
   validates :mount, presence: true
   validates :created_at, presence: true
@@ -31,13 +31,27 @@ class PaymentDetail < ApplicationRecord
 
   validate :acceptable_image
 
+  before_save :upcase_transaction_number
+
   def acceptable_image
     return unless backup_file.attached?
+    # resize_image if backup_file.blob.content_type.start_with? 'image/'
 
-    unless backup_file.byte_size <= 5.megabyte
-      errors.add(:backup_file, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
-    end
+    # unless backup_file.byte_size <= 5.megabyte
+    #   errors.add(:backup_file, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
+    # end
 
+  end
+
+  def resize_image
+    # resized_image = MiniMagick::Image.read(backup_file)
+    resized_image = MiniMagick::Image.new(self.backup_file, '400x300^')
+
+    # resized_image.resize('400x300^')
+    v_filename = backup_file.filename
+    v_content_type = backup_file.content_type
+    backup_file.purge
+    backup_file.attach(io: File.open(resized_image.path), filename:  v_filename, content_type: v_content_type)
   end
 
 
@@ -253,23 +267,23 @@ class PaymentDetail < ApplicationRecord
 
     show do
 
-      # field :image do
-      #   label 'Imagen'
-      #   formatted_value do
-      #     bindings[:view].render(partial: "rails_admin/main/payment_receives/image", locals: {virtual_object: bindings[:object]})
-      #   end
-      # end
-
-      field :backup_file, :active_storage do
-        label 'Imagen Adjunta'
-        delete_method :remove_backup_file
-        pretty_value do
-          if value
-            path = Rails.application.routes.url_helpers.rails_blob_path(value, only_path: true)
-            bindings[:view].content_tag(:a, value.filename, href: path)
-          end
+      field :backup_file, :active_storage  do
+        label 'Imagen'
+        formatted_value do
+          bindings[:view].render(partial: "rails_admin/main/payment_receives/image", locals: {virtual_object: bindings[:object]})
         end
       end
+
+      # field :backup_file, :active_storage do
+      #   label 'Imagen Adjunta'
+      #   delete_method :remove_backup_file
+      #   pretty_value do
+      #     if value
+      #       path = Rails.application.routes.url_helpers.rails_blob_path(value, only_path: true)
+      #       bindings[:view].content_tag(:a, value.filename, href: path)
+      #     end
+      #   end
+      # end
 
 
       field :invoice do
@@ -336,6 +350,10 @@ class PaymentDetail < ApplicationRecord
   end
 
   private
+
+  def upcase_transaction_number
+    self.transaction_number.upcase!
+  end
 
   def check_for_files
     if url_file and File.exist?(url_file)
