@@ -276,7 +276,7 @@ class Period < ApplicationRecord
     end
 
     def total_preenrollment
-      academic_records.preinscrito.count
+      academic_records.preinscrito.count - total_reported
     end
 
     def total_enrollment
