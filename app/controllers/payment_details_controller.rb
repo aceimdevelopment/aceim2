@@ -91,6 +91,7 @@ class PaymentDetailsController < ApplicationController
 			end
 		end
 	end
+	require 'mini_magick'
 
 	def create
 		# begin
@@ -107,7 +108,10 @@ class PaymentDetailsController < ApplicationController
 
 		# params[:payment_detail][:url_file] = url
 		@payment_detail = PaymentDetail.new(payment_detail_params)
-		# @payment_detail.url_file = url
+
+		mini_magick = MiniMagick::Image.new(params[:payment_detail][:backup_file].tempfile.path)
+		mini_magick.resize('400x300^')
+
 		if @payment_detail.save
 			PaymentDetailMailer.send_payment_report(@payment_detail.id).deliver
 			session[:payment_id] = @payment_detail.id #GeneralSetup.message_payment_report
