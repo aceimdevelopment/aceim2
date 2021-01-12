@@ -17,7 +17,7 @@ class Period < ApplicationRecord
     has_many :academic_records, through: :sections
     accepts_nested_attributes_for :academic_records
 
-    scope :enrollment_active, -> {where(enrollment: true).last}
+    scope :enrollment_active, -> {where('enrollment = TRUE').last}
     before_save :set_name
     # has_many :planes, through: :historialplanes, source: :plan
 
@@ -216,7 +216,8 @@ class Period < ApplicationRecord
     # ============== RAILS ADMIN END ============= #
 
     def self.distance_between_active_enrollment_period any_period
-      aux = Period.enrollment_active
+      # aux = Period.enrollment_active
+      aux = Period.where('enrollment = TRUE').last
       if aux
         return aux.distance_between(any_period)
       else
