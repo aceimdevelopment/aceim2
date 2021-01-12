@@ -1,13 +1,17 @@
 %br
-%h5.p-2.my-5.bg-dark.text-white.text-center
-  = link_to student_session_index_path, class: 'btn btn-sm btn-primary float-left' do
-    %span.fa.fa-angle-left
-    Atrás
-  = "Reporte de Pago para: #{@academic_record.course_period.description_inscription}"
+%br
+%br
+.navbar.navbar-dark.bg-dark
+  %form.form-inline
+    = link_to student_session_index_path, class: 'btn btn-sm btn-secondary' do
+      %span.fa.fa-angle-left
+      Atrás
+
+  .text-center.text-light= "Reporte de Pago para: #{@academic_record.course_period.description_inscription}"
 
 = render partial: "/bank_account/show", locals: {ar: @academic_record}
 .border.px-5.mx-3.pt-3
-  %h4.text-center Reporte de Pago
+  %h4.text-center= "Curso: #{@academic_record.course_period.description_inscription}"
 
   = form_for @payment_detail, html: { class: "form-horizontal", role: "form" } do |f|
     -if @payment_detail.errors.any?
