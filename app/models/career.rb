@@ -78,7 +78,7 @@ class Career < ApplicationRecord
         end
       else
         distance = Period.distance_between_active_enrollment_period approved.period
-        if distance > 2
+        if distance and distance > 2
           course = approved.course  
         else
           course = approved.course.next_course
