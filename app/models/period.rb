@@ -280,6 +280,10 @@ class Period < ApplicationRecord
       academic_records.preinscrito.count - total_reported
     end
 
+    def total_pre_unreported
+      total_preenrollment - total_reported
+    end
+
     def total_enrollment
       academic_records.confirmado.count
     end

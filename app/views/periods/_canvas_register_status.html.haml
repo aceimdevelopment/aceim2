@@ -1,17 +1,16 @@
 %nav
 	%ul#navTabStatus.nav.nav-tabs{role: :tablist}
 		- User.canvas_statuses.first(2).each do |status| 
-			- total = period.academic_records.confirmado.reject{|ar| !ar.user.canvas_status.eql? status[0]}.count
+			-# total = period.academic_records.confirmado.reject{|ar| !ar.user.canvas_status.eql? status[0]}.count
 			%li
 				= link_to "#tabContent#{status[1]}", "data-toggle": :tab, class: "nav-item nav-link", role: :tab, 'aria-controls': "tabContent#{status[1]}", id: "tab#{status[1]}", "aria-selected": false do
-
 					= status[0].titleize
-					.badge.badge-primary= total
 
 
 #navTabStatusContent.tab-content
 	- User.canvas_statuses.first(2).each do |status| 
-		- acs = period.academic_records.confirmado.reject{|ar| !ar.user.canvas_status.eql? status[0]}.select{|ar| ar.user.student} 
+		-# acs = period.academic_records.confirmado.reject{|ar| !ar.user.canvas_status.eql? status[0]}.select{|ar| ar.user.student} 
+		- acs = period.academic_records.confirmado.joins({student: :user}).where("users.canvas_status = #{status[1]}").select{|ar| ar.user.student} 
 		.tab-pane{id: "tabContent#{status[1]}", "aria-labelledby": "tab#{status[1]}", role: "tabpanel"}
 			%table.table.table-responsive-md.border
 				%thead

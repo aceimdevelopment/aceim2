@@ -50,6 +50,7 @@ class AcademicRecord < ApplicationRecord
 
   scope :reported, -> {joins(:payment_detail)}
   scope :total_reported, -> {reported.count}
+  scope :total_preenrollment_unreported, -> {preinscrito.count - total_reported}
 
   scope :qualified, -> {where("qualification_status_id != ?", :SC)}
   scope :currents, -> {confirmado.where(qualification_status_id: :SC)}

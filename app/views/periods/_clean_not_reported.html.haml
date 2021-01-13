@@ -1,6 +1,8 @@
-- total = period.academic_records.preinscrito.reject{ |ar| ar.payment_detail}.map{ |ar| ar.id }.count
+- #total = period.academic_records.preinscrito.reject{ |ar| ar.payment_detail}.map{ |ar| ar.id }.count
+=# total = period.academic_records.total_preenrollment_unreported
+- total = period.total_pre_unreported
  
-- if period.enrollment?
+- if  period.enrollment?
 	- msg = "Para habilitar el botón por favor cierre las inscripciones"
 - elsif (total.eql? 0)
 	- msg = "Sin reportes por eliminar"
@@ -8,7 +10,7 @@
 	- msg = "Remover #{total} registros de preinscritos sin reporte de pago"
 
 %b.tooltip-btn{'data-toggle': :tooltip, title: msg}
-	= link_to "/periods/#{period.id}/clean_not_reported", class: "btn btn-sm btn-danger", disabled: (period.enrollment? or total.eql? 0), 'data-confirm': "Esta acción es irreversible y eliminará #{total} registros de inscripciones ¿Está completamente seguro?"  do
+	= link_to "/periods/#{period.id}/clean_not_reported", class: "btn btn-sm btn-danger", disabled: (period.enrollment? or total.eql? 0), 'data-confirm': "Esta acción es irreversible y eliminarán #{total} registros de inscripciones ¿Está completamente seguro?"  do
 		.fa.fa-trash 
 		Remover Preinscritos Sin Reportar
 
