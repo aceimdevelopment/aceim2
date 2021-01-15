@@ -281,7 +281,7 @@ class Period < ApplicationRecord
     end
 
     def total_pre_unreported
-      total_preenrollment - total_reported
+      total_preenrollment
     end
 
     def total_enrollment
