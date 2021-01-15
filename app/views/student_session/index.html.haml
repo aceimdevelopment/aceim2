@@ -13,7 +13,6 @@
   - msg2 = "<strong>Los datos suministrados en el siguiente formulario serán usados para tu cuenta de Canvas</strong>"
   - id = "updatePersonalData"
   = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, msg2: msg2 }
-
 - if (!@user.id.eql? current_user.id) and @user.student? # session[:admin] 
   .border.border-danger
     .p-3.bg-danger.text-white.text-center
@@ -24,5 +23,4 @@
     .p-2
       = render 'academic_details'
 - else
-  %br
   = render 'academic_details'

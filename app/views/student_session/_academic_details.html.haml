@@ -12,7 +12,9 @@
       sobre el siguiente paso: 
       %b la automatriculación en su curso ONLINE en la plataforma CANVAS.
 - ar = student.academic_records.preinscrito.reject{|ar| !ar.payment_detail.nil?}.first
+.text-center.align-middle= image_tag 'resumen_actividades01'
 - if ar
+
   = render partial: "/bank_account/show", locals: {ar: ar}
   
 - if false #unless GeneralSetup.video_tuto_canvas_value.blank?
