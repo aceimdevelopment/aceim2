@@ -1,5 +1,16 @@
 =# "VALOR DE CONTADOR DE SESSIONES: #{current_user.sign_in_count}"
 = form_for @user do |f|
+  - if @user and @user.instructor
+    %h5.text-primary Datos Personales y de Contactos
+    
+    .form-group
+      .row
+        .col-6
+          = label_tag 'instructor[ci]', 'Cédula de Identidad:'
+          = text_field_tag 'instructor[ci]', @user.instructor.ci, placeholder: 'Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 9)", required: true
+        .col-6
+          = label_tag 'instructor[rif]', 'Rif:'
+          = text_field_tag 'instructor[rif]', @user.instructor.rif, placeholder: 'Registro de identificación Fiscal Rif', class: 'form-control', required: true
   - if @user and @user.student
     .form-group
       .row
@@ -9,7 +20,7 @@
           = text_field_tag 'student[personal_identity_document]', @user.student.personal_identity_document, placeholder: 'Documento de Identidad', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 9)", required: true, autofocus: true
         .col-6
           = f.label :email, value: 'Correo:'
-          = f.email_field :email, autofocus: true, placeholder: 'Correo', class: 'form-control', required: true
+          = f.email_field :email, placeholder: 'Correo', class: 'form-control', required: true
   - else
     .form-group
       = f.label :email, value: 'Correo:'
@@ -54,8 +65,10 @@
         .col-6
           = text_field_tag 'student[location]', @user.student.location, placeholder: 'Dirección Corta', class: 'form-control upcase', required: true
   = f.hidden_field :sign_in_count
-  - if @user and @user.student
-    = render partial: '/users/form_datos_canvas', locals: {f: f}
+  - if @user
+    = render partial: '/users/form_datos_canvas', locals: {f: f} if @user.student
+    = render partial: '/bank_account/form', locals: {bank_account: @user.instructor.bank_account} if @user.instructor
+
   - if false
     .form-group
       =# label_tag 'Origen:'

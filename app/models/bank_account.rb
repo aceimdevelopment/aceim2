@@ -4,6 +4,8 @@ class BankAccount < ApplicationRecord
   belongs_to :bank, inverse_of: :bank_accounts
 
   has_many :payment_details, inverse_of: :bank_account
+  has_many :instructors, inverse_of: :bank_account
+
   # ========== VALIDATIONS ============ #
   
   validates :id, presence: true
@@ -11,9 +13,13 @@ class BankAccount < ApplicationRecord
   validates :holder, presence: true
   validates :bank_id, presence: true
 
+  enum account_type: [:corriente, :ahorro]
+
+  # ============ SCOPE ============== #
+
+  scope :owns, -> {where('own IS TRUE')}
 
   # ========== FUNCTIONS ============ #
-
   def name
     "#{bank.name}: #{number} (#{holder})"
   end
@@ -40,6 +46,11 @@ class BankAccount < ApplicationRecord
       field :id do
         label 'Identificador'
       end
+      
+      field :own do
+        label 'Propia'
+      end
+
       field :number do
         label 'Número'
       end
@@ -48,6 +59,10 @@ class BankAccount < ApplicationRecord
       end
       field :bank do
         label 'Banco'
+      end
+
+      field :account_type do
+        label 'Tipo de Cuenta'
       end
     end
 
@@ -66,6 +81,10 @@ class BankAccount < ApplicationRecord
       end
       
     end
+  end
+
+  def any_blank?
+    (self.number.nil? or self.holder.nil? or self.bank_id.nil? or self.account_type.nil?) ? true : false
   end
 
 end

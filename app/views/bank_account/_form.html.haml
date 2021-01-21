@@ -1,0 +1,35 @@
+%hr
+%h5.text-primary Datos Bancarios
+.form-group.row
+	.col-4= label_tag nil, 'Tipo de Cuenta:'
+	- BankAccount.account_types.each do |ba| 
+		- account_type = bank_account ? (bank_account.account_type.eql? ba[0]) : false
+		.col-3
+			=# radio_button_tag 'bank_account[account_type]', account_type, ba[1], {class: 'form-check-input mr-5'}
+			= radio_button_tag 'bank_account[account_type]', ba[0].to_sym, account_type, required: true
+			= label_tag ba[0].to_sym, nil, {class: 'form-check-label mr-5'}
+		
+- if false
+	.form-group
+		= label_tag 'bank_account[holder]', 'Titular de Cuenta:'
+		- holder = bank_account ? bank_account.holder : nil
+		= text_field_tag 'bank_account[holder]', holder, placeholder: 'Titular de la Cuenta', class: 'form-control upcase', required: true
+
+.form-group
+	= label_tag nil, 'Número de Cuenta y Banco de Origen:'
+	.row
+		.col-6
+			- number = bank_account ? bank_account.number : nil
+			= text_field_tag 'bank_account[number]', number, placeholder: 'Número de Cuenta', class: 'form-control upcase', required: true
+
+		.col-6
+			.input-group
+				.input-group-prepend
+					.input-group-text
+						%span.fa.fa-bank
+				- bank_id = bank_account ? bank_account.bank_id : nil
+				= collection_select :bank_account, :bank_id, Bank.where("id != 0000 and name != 'NULO'"), :id, :name, {prompt: "-- Seleccione Banco Origen --", selected: bank_id}, {class: 'form-control', required: true}
+	
+
+
+

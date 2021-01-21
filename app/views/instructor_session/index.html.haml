@@ -1,10 +1,10 @@
 
-- if @user.id.eql? current_user.id and (@user.any_blank? or @user.sign_in_count.eql? 0)
+- if (@user.id.eql? current_user.id and (@user.sign_in_count.eql? 0) or (@user.instructor and @user.instructor.any_blank?))
   - content = render partial: '/users/form'
-  - title = "Datos Personales y de Contacto"
-  - msg = "<strong>Atención</strong>: Por favor, actualice sus datos personales"
+  -# title = nil
+  - msg = "<strong>Actualización de datos</strong>"
   - id = "updatePersonalData"
-  = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, msg2: nil }
+  = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: nil, msg2: nil }
 
 %br
 %br

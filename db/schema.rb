@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_003041) do
+ActiveRecord::Schema.define(version: 2021_01_21_170941) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
     t.string "bank_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "account_type", null: false
+    t.boolean "own", default: false
     t.index ["bank_id"], name: "index_bank_accounts_on_bank_id"
     t.index ["id"], name: "index_bank_accounts_on_id"
   end
@@ -112,12 +114,12 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
     t.index ["student_id"], name: "index_careers_on_student_id"
   end
 
-  create_table "contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "description"
     t.string "url"
-    t.integer "category", default: 0
-    t.boolean "published", default: false
+    t.integer "category"
+    t.boolean "published", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -180,6 +182,10 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "ci"
+    t.string "rif"
+    t.string "bank_account_id"
+    t.index ["bank_account_id"], name: "fk_rails_c9deb1e13f"
     t.index ["user_id"], name: "index_instructors_on_user_id"
   end
 
@@ -292,6 +298,15 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
     t.index ["number", "course_period_id"], name: "index_sections_on_number_and_course_period_id", unique: true
   end
 
+  create_table "send_mailers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.string "to"
+    t.string "bcc"
+    t.string "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "students", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "active", default: true
     t.string "personal_identity_document"
@@ -327,7 +342,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "version_associations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "version_associations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "version_id"
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
@@ -336,7 +351,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
 
-  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.bigint "item_id", null: false
     t.string "event", null: false
@@ -363,6 +378,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_003041) do
   add_foreign_key "course_periods", "periods"
   add_foreign_key "courses", "languages", on_update: :cascade, on_delete: :cascade
   add_foreign_key "courses", "levels", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "instructors", "bank_accounts", on_update: :cascade, on_delete: :cascade
   add_foreign_key "instructors", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "partial_qualifications", "academic_records", on_update: :cascade, on_delete: :cascade
   add_foreign_key "partial_qualifications", "qualification_schemas", on_update: :cascade, on_delete: :cascade

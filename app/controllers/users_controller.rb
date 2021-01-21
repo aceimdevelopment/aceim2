@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 			aux += ' Correo enviado al usuario.'if UserMailer.canvas_new_user_registration(@user, status).deliver
 			flash[:success] = aux
 		else
-			flash[:danger] = 'Un error ha ocurrido intnetando actualizar los datos del usuario, por favor verifique estos e inténtelo nuevamente.'
+			flash[:danger] = 'Un error ha ocurrido intentando actualizar los datos del usuario, por favor verifique estos e inténtelo nuevamente.'
 		end
 		redirect_back fallback_location: '/admin/academic_record'
 	end
@@ -40,25 +40,35 @@ class UsersController < ApplicationController
 
 
 		if @user.update(user_params)
-			student = @user.student	
-			if student and student_params
+				
+			if student = @user.student and student_params
 				if student.update(student_params)
-					flash[:success] = "Usuario actualizado con éxito"
-					# if @user.id_canvas.blank?
-					# 	begin
-					# 		canvas = MyCanvas.connect
-					# 		user_canvas = canvas.post("/api/v1/accounts/#{ENV['CANVAS_ACCOUNT_ID']}/self_registration", {user: {name: @user.full_name, short_name: @user.name, sortable_name: @user.last_name, terms_of_use: true}, pseudonym: {unique_id: @user.email, password: user_params[:password]}})
-
-					# 		@user.id_canvas = user_canvas['id'] if user_canvas['id']
-
-					# 		flash[:success] = "Usuario actualizado con éxito. Agregaado a Canvas." if @user.save 
-
-					# 	rescue Exception => e
-					# 		flash[:error] = "Problemas en Canvas: #{e}"
-					# 	end
-					# end
+					flash[:success] = "Datos del estudiante actualizados con éxito."
 				else
 					flash[:error] = student.errors.full_messages.to_sentence
+				end
+			elsif instructor = @user.instructor and instructor_params
+				ba = instructor.bank_account
+				if ba.nil?
+					ba = BankAccount.new
+					ba.id = "#{instructor.ci}-#{params[:bank_account][:number]}"
+				end
+				ba.number = params[:bank_account][:number]
+				ba.holder = "#{instructor.ci}-#{params[:bank_account][:number]}"
+				ba.bank_id = params[:bank_account][:bank_id]
+				ba.account_type = params[:bank_account][:account_type]
+				if ba.save
+
+					flash[:success] = "Datos de la cuenta actualizados con éxito."
+					instructor.bank_account = ba
+					if instructor.update(instructor_params)
+						flash[:success] = "Datos del instructor actualizados con éxito."
+					else
+						flash[:error] = instructor.errors.full_messages.to_sentence
+					end
+
+				else
+					flash[:error] = ba.errors.full_messages.to_sentence
 				end
 			end
 		else
@@ -74,7 +84,6 @@ class UsersController < ApplicationController
 	end
 
 	def setup_data
-		p params[:operator_code].center(200, "#")
 		params[:user][:number_phone] = "#{params[:operator_code]}#{params[:user][:number_phone]}" if (params[:user][:number_phone] and params[:operator_code])
 		aux = params[:user][:sign_in_count].to_i
 		params[:user][:sign_in_count] = aux+1 if (aux.eql? 0)
@@ -84,6 +93,10 @@ class UsersController < ApplicationController
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def student_params
 		params.require(:student).permit(:personal_identity_document, :location, :source_country) if params.require(:student)
+	end
+
+	def instructor_params
+		params.require(:instructor).permit(:ci, :rif) if params.require(:instructor)
 	end
 
 	def user_params

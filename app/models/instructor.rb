@@ -2,6 +2,7 @@ class Instructor < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
   
   belongs_to :user, inverse_of: :instructor#, foreign_key: :user_id
+  belongs_to :bank_account, inverse_of: :instructors#, foreign_key: :user_id
   # accepts_nested_attributes_for :user
   
   has_many :sections, inverse_of: :instructor, dependent: :nullify
@@ -62,8 +63,14 @@ class Instructor < ApplicationRecord
       field :user do
         label 'usuario'
       end
+
+      field :ci
+      field :rif
       field :active do
         label 'Activo'
+      end
+      field :bank_account do
+        label 'Cuanta Bancaria'
       end
     end
 
@@ -76,7 +83,7 @@ class Instructor < ApplicationRecord
         end
       end
 
-      field :email 
+      field :email
       field :number_phone do
         label 'Teléfono'
       end
@@ -100,6 +107,10 @@ class Instructor < ApplicationRecord
   end 
 
   # ================ FUNCTIONS =================== #
+
+  def any_blank?
+    (!self.ci.blank? and !self.rif.blank? and self.user and !self.user.any_blank? and self.bank_account and !self.bank_account.any_blank?) ? false : true
+  end
 
   def total_sections
     sections.count

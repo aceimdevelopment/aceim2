@@ -103,7 +103,7 @@
             .input-group-prepend
               .input-group-text
                 %span.fa.fa-graduation-cap
-            = f.collection_select :bank_account_id, BankAccount.all, :id, :name, {}, {class: 'form-control', readonly: true}
+            = f.collection_select :bank_account_id, BankAccount.owns, :id, :name, {}, {class: 'form-control', readonly: true}
 
     .form-group.row.px-3
       = f.label :file_field, class: 'col-sm-5 control-label', value: 'Archivo de respaldo:', style: 'text-align: right', id: 'fileField'
