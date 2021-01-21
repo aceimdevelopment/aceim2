@@ -11,9 +11,12 @@ class BankAccount < ApplicationRecord
   validates :id, presence: true
   validates :number, presence: true
   validates :holder, presence: true
+  validates :account_type, presence: true
   validates :bank_id, presence: true
 
   enum account_type: [:corriente, :ahorro]
+
+  before_validation :set_id
 
   # ============ SCOPE ============== #
 
@@ -43,10 +46,6 @@ class BankAccount < ApplicationRecord
     end
 
     edit do
-      field :id do
-        label 'Identificador'
-      end
-      
       field :own do
         label 'Propia'
       end
@@ -85,6 +84,11 @@ class BankAccount < ApplicationRecord
 
   def any_blank?
     (self.number.nil? or self.holder.nil? or self.bank_id.nil? or self.account_type.nil?) ? true : false
+  end
+
+  private
+  def set_id
+    self.id = self.number if self.id.blank?
   end
 
 end

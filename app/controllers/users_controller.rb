@@ -48,11 +48,9 @@ class UsersController < ApplicationController
 					flash[:error] = student.errors.full_messages.to_sentence
 				end
 			elsif instructor = @user.instructor and instructor_params
-				ba = instructor.bank_account
-				if ba.nil?
-					ba = BankAccount.new
-					ba.id = "#{instructor.ci}-#{params[:bank_account][:number]}"
-				end
+				ba = instructor.bank_account				
+				ba = BankAccount.new if ba.nil?
+
 				ba.number = params[:bank_account][:number]
 				ba.holder = "#{instructor.ci}-#{params[:bank_account][:number]}"
 				ba.bank_id = params[:bank_account][:bank_id]
