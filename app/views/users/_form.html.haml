@@ -54,28 +54,8 @@
         .col-6
           = text_field_tag 'student[location]', @user.student.location, placeholder: 'Dirección Corta', class: 'form-control upcase', required: true
   = f.hidden_field :sign_in_count
-  %hr
-  .form-group
-    %h5.text-center 
-      La plataforma educativa que utilizamos para las clases es 
-      %b{style: 'color: red'} CANVAS
-    .alert.alert-warning
-      %b Por favor, indique lo siguiente:
-      %br
-      %br
-      - canvas = "<b class='canvas'>CANVAS</b>"
-      %p 
-        = radio_button_tag 'user[canvas_status]', :registrado, true, onclick: "canvasEmail(false)"
-        = "Si tiene usuario en #{canvas}, recuerda su contraseña y funciona bien, coloque el correo que tiene registrado en esa plataforma en la siguiente casilla.".html_safe
-      = f.email_field :canvas_email, placeholder: 'Correo Canvas', class: 'form-control', required: true
-      .mt-4
-        %p
-          = radio_button_tag 'user[canvas_status]', :nuevo, false, onclick: 'canvasEmail(true)'
-          = "Si no tiene usuario en #{canvas} marque esta casilla para brindarle apoyo con la creación de su usuario en esa plataforma. Nos comunicaremos con usted cuando hayamos creado su usuario en #{canvas}.".html_safe
-      .mt-4
-        = radio_button_tag 'user[canvas_status]', 'no_sabe', false, onclick: 'canvasEmail(true)'
-        = "Si tiene usuario en #{canvas} y no recuerda su usuario o contraseña, marque esta casilla para brindarle el apoyo correspondiente. Nos comunicaremos con usted en breve.".html_safe
-
+  - if @user and @user.student
+    = render partial: '/users/form_datos_canvas', locals: {f: f}
   - if false
     .form-group
       =# label_tag 'Origen:'

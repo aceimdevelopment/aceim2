@@ -13,7 +13,17 @@
 
 
 $(document).on('ready pjax:success', function() {
-
+	const queryString = window.location.search;
+	// console.log(queryString);
+	const urlParams = new URLSearchParams(queryString);
+	const outSimulation = urlParams.get('outSimulation')
+	// console.log(outSimulation);
+	// console.log(sessionStorage);
+	// console.log(sessionStorage.getItem('adminSimulation'));
+	if (outSimulation == true) { 
+		console.log('Sessión Cerrada');
+		sessionStorage.setItem('user_id', null);
+	}
 	$('.onoffswitch').on('click', '.onoffswitch-label', function(event) {
 		var checkbox = $(this).prev()[0];
 		var alert = checkbox.attributes["alert"].value

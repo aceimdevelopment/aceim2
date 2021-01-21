@@ -212,7 +212,7 @@ class User < ApplicationRecord
   end
 
   def any_blank?
-    return (name.blank? or last_name.blank? or (number_phone and number_phone.length < 10) or (student and student.any_blank?))
+    (name.blank? or last_name.blank? or (number_phone.nil? or (number_phone and number_phone.length < 10)) or (student and student.any_blank?)) ? true : false
   end
 
   def full_name

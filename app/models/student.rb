@@ -30,7 +30,7 @@ class Student < ApplicationRecord
 
   after_destroy :check_user_for_destroy
 
-  scope :my_search, -> (keyword) { joins(:user).where("personal_identity_document LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%'") }
+  scope :my_search, -> (keyword) { joins(:user).where("personal_identity_document LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.name LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%' OR users.number_phone LIKE '%#{keyword}%'") }
 
   # ========== RAILS ADMIN ============ #
 

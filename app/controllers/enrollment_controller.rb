@@ -18,7 +18,7 @@ class EnrollmentController < ApplicationController
       course_period_id = course_period.id
       course_id_canvas = course_period.id_canvas
       canvas = MyCanvas.connect
-      sections = canvas.get("/api/v1/courses/#{course_id_canvas}/sections",{per_page: 30}) #get_sections_of_course(course_id_canvas)
+      sections = canvas.get("/api/v1/courses/#{course_id_canvas}/sections",{per_page: 40}) #get_sections_of_course(course_id_canvas)
 
       sections.each do |s|
         section_id_canvas = s['id']

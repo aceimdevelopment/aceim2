@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 
 		if @user.update(user_params)
 			student = @user.student	
-			if student_params and student
+			if student and student_params
 				if student.update(student_params)
 					flash[:success] = "Usuario actualizado con éxito"
 					# if @user.id_canvas.blank?
@@ -64,9 +64,7 @@ class UsersController < ApplicationController
 		else
 			flash[:error] = @user.errors.full_messages.to_sentence
 		end
-
-
-		redirect_to student_session_index_path
+		redirect_back fallback_location: student_session_index_path
 	end
 
 	private

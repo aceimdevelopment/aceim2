@@ -8,6 +8,7 @@ class StudentSessionController < ApplicationController
 			type, msg = @user.student.import_from_aceim_local
 			flash[type] = msg
 		end
+		session[:user_id] = @user.id if params[:simulated]
 	end
 
 	def multimedia
@@ -20,12 +21,14 @@ class StudentSessionController < ApplicationController
 
 	private
 
-		def set_user_session
-			if params[:id]
-				@user =  User.find(params[:id])
-			else
-				@user = current_user
-				session[:student] = @user.student
-			end		
+	def set_user_session
+		if params[:id]
+			student =  Student.find(params[:id])
+			@user =  student.user
+		elsif session[:user_id]
+			@user = User.find session[:user_id]
+		else
+			@user = current_user
 		end
+	end
 end

@@ -21,7 +21,7 @@ class Instructor < ApplicationRecord
     self.active = record[:active]
     # end
   end
-  scope :my_search, -> (keyword) { joins(:user).where("users.email LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%'") }
+  scope :my_search, -> (keyword) { joins(:user).where("users.email LIKE '%#{keyword}%' OR users.email LIKE '%#{keyword}%' OR users.last_name LIKE '%#{keyword}%' OR users.number_phone LIKE '%#{keyword}%'") }
 
 
   #   scope :search, lambda { |clave| 
@@ -69,17 +69,28 @@ class Instructor < ApplicationRecord
 
     list do
       search_by :my_search
-      field :description do
-        label 'Descricpción'
+      field :name do
+        label 'Nombre'
         formatted_value do
-          bindings[:object].user.description if bindings[:object].user
+          bindings[:object].user.full_name_invert if bindings[:object].user
         end
-        # queryable 'INNER JOIN users ON users.id = id'
-        # filterable false
-        # searchable 'users.name'
-        # searchable false, class_name: :user #:name
       end
 
+      field :email 
+      field :number_phone do
+        label 'Teléfono'
+      end
+
+      field :total_sections do
+        label 'Secciones'
+      end
+
+      field :languages do
+        label 'Idiomas'
+      end
+      # Period.each do |pe|
+        
+      # end
       # fields :description
       # field :active do
       #   label 'Activo'
@@ -89,6 +100,22 @@ class Instructor < ApplicationRecord
   end 
 
   # ================ FUNCTIONS =================== #
+
+  def total_sections
+    sections.count
+  end
+
+  def languages
+    sections.map{|s| s.language.name}.uniq.to_sentence
+  end
+
+  def number_phone
+    user ? user.number_phone : nil
+  end
+
+  def email
+    user ? user.email : nil
+  end
 
   def name
     "#{user.description}" if user

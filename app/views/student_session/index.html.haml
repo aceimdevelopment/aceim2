@@ -13,14 +13,5 @@
   - msg2 = "<strong>Los datos suministrados en el siguiente formulario serán usados para tu cuenta de Canvas</strong>"
   - id = "updatePersonalData"
   = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, msg2: msg2 }
-- if (!@user.id.eql? current_user.id) and @user.student? # session[:admin] 
-  .border.border-danger
-    .p-3.bg-danger.text-white.text-center
-      Vista Estudante
-      = link_to "/admin/student/#{@user.id}", class: 'tooltip-btn btn btn-sm btn-primary float-right', title: 'Salir de Vista Estudiante', placement: 'left' do
-        %span.fa.fa-times
-        Salir
-    .p-2
-      = render 'academic_details'
-- else
-  = render 'academic_details'
+%br
+= render 'academic_details'

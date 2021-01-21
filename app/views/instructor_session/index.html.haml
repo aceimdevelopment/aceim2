@@ -1,7 +1,18 @@
+
+- if @user.id.eql? current_user.id and (@user.any_blank? or @user.sign_in_count.eql? 0)
+  - content = render partial: '/users/form'
+  - title = "Datos Personales y de Contacto"
+  - msg = "<strong>Atención</strong>: Por favor, actualice sus datos personales"
+  - id = "updatePersonalData"
+  = render partial: '/layouts/modal', locals: {content: content, id: id, msg: msg, title: title, msg2: nil }
+
 %br
 %br
 .border.m-3.p-3
-	.text-center.align-middle
-		%img{alt: "image", src: "#{image_path('resumen_actividades01.png')}"}
-	%h3 Secciones:
-	= render partial: '/sections/index', locals: {sections: @instructor.sections}
+  .text-center.align-middle
+    %img{alt: "image", src: "#{image_path('resumen_actividades01.png')}"}
+  %h3 Secciones:
+  - if @instructor.sections.any?
+    = render partial: '/sections/index', locals: {sections: @instructor.sections}
+  - else
+    .alert.alert-info Sin secciones asignadas 

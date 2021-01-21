@@ -11,10 +11,35 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = favicon_link_tag 'logo_favicon.ico'
   %body.grey-bg
-    = render 'layouts/toastr_alert'
-    - if user_signed_in?
-      = react_component 'NavBarMainLogin' if @user and (@user.id.eql? current_user.id)
+    - if session[:user_id] and current_user.admin? and @user
+      -# @aux = User.find session[:user_id]
+      .border.border-danger
+        .p-3.bg-danger.text-white.text-center
+          
+          - if @user.student? 
+            Vista Estudante - 
+            - url = "/admin/student/#{@user.student.id}?outSimulation=true"
+          - elsif @user.instructor?
+            Vista Instructor - 
+            - url = "/admin/instructor/#{@user.instructor.id}?outSimulation=true"
+          - else
+            Vista Simulada
+            - url = '/admin'
+          = @user.description
+          = link_to url, class: 'tooltip-btn btn btn-sm btn-primary float-right', title: 'Salir de Vista Simulada', placement: 'left' do
+            %span.fa.fa-times
+            Salir
+    - elsif user_signed_in?
+      %br
+      = react_component 'NavBarMainLogin' 
+      :javascript
+        document.addEventListener("turbolinks:load", () => {
+          us = document.getElementById('userName');
+          us.text = `#{current_user.description}`
+        })
     - else
       = react_component 'NavBarMain'
+    = render 'layouts/toastr_alert'
     = yield
     = react_component 'FootBar'
+

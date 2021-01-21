@@ -1,7 +1,7 @@
 
 - autorize = (current_user and current_user.admin? and current_user.administrator.super_role?)
 - if autorize
-	= link_to "/student_session?id=#{field.bindings[:object].id}", class: 'btn btn-sm btn-success pull-right' do
+	= link_to "/student_session?id=#{field.bindings[:object].id}&simulated=true", class: 'btn btn-sm btn-success pull-right' do
 		%span.fa.fa-eye
 		Vista Estudiante
 
