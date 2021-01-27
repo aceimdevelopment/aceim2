@@ -1,6 +1,7 @@
 =# "VALOR DE CONTADOR DE SESSIONES: #{current_user.sign_in_count}"
 = form_for @user do |f|
-  - if @user and @user.instructor
+  - if @user and @user.instructor and session[:instructor]
+    =# IMPORTANTE: Colocamos session[:student] para contemplar los casos de multiples roles 
     %h5.text-primary Datos Personales y de Contactos
     
     .form-group
@@ -11,7 +12,9 @@
         .col-6
           = label_tag 'instructor[rif]', 'Rif:'
           = text_field_tag 'instructor[rif]', @user.instructor.rif, placeholder: 'Registro de identificación Fiscal Rif', class: 'form-control', required: true
-  - if @user and @user.student
+  - if @user and @user.student and session[:student]
+    =# IMPORTANTE: Colocamos session[:student] para contemplar los casos de multiples roles 
+
     .form-group
       .row
         .col-6
@@ -46,7 +49,7 @@
     .row
       .col-6
         = f.label :number_phone, value: 'Número Telefónico:'
-      - if @user and @user.student
+      - if @user and @user.student and session[:student]
         .col-6
           = label_tag 'Ubicación:'
     .row
@@ -61,13 +64,13 @@
         = text_field_tag :operator_code, @operator_code, class: 'form-control', required: true, placeholder: '04XX', onInput: "onlyNumber(this);maxSize(this, 4)"
       .col-4
         = f.text_field :number_phone, placeholder: 'XXXXXXX', class: 'form-control upcase', onInput: "onlyNumber(this);maxSize(this, 7)", required: true
-      - if @user and @user.student
+      - if @user and @user.student and session[:student]
         .col-6
           = text_field_tag 'student[location]', @user.student.location, placeholder: 'Dirección Corta', class: 'form-control upcase', required: true
   = f.hidden_field :sign_in_count
   - if @user
-    = render partial: '/users/form_datos_canvas', locals: {f: f} if @user.student
-    = render partial: '/bank_account/form', locals: {bank_account: @user.instructor.bank_account} if @user.instructor
+    = render partial: '/users/form_datos_canvas', locals: {f: f} if (@user and @user.student and session[:student])
+    = render partial: '/bank_account/form', locals: {bank_account: @user.instructor.bank_account} if (@user and @user.instructor and session[:instructor])
 
   - if false
     .form-group

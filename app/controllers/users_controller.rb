@@ -90,11 +90,11 @@ class UsersController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def student_params
-		params.require(:student).permit(:personal_identity_document, :location, :source_country) if params.require(:student)
+		params.require(:student).permit(:personal_identity_document, :location, :source_country) if params[:student]
 	end
 
 	def instructor_params
-		params.require(:instructor).permit(:ci, :rif) if params.require(:instructor)
+		params.require(:instructor).permit(:ci, :rif) if params[:instructor]
 	end
 
 	def user_params

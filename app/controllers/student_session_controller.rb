@@ -8,6 +8,7 @@ class StudentSessionController < ApplicationController
 			type, msg = @user.student.import_from_aceim_local
 			flash[type] = msg
 		end
+		session[:student] = true #IMPORTANTE: Esta variable es para tomar en cuenta los casos de multiples roles 
 		session[:user_id] = @user.id if params[:simulated]
 	end
 

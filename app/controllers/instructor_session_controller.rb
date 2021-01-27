@@ -5,6 +5,7 @@ class InstructorSessionController < ApplicationController
 	
 	def index
 		@instructor = @user.instructor
+		session[:instructor] = true #IMPORTANTE: Esta variable es para tomar en cuenta los casos de multiples roles (Instructor, Estudiante)
 		session[:user_id] = @user.id if params[:simulated]
 	end
 
