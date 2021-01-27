@@ -219,7 +219,7 @@ class PdfDocs
 
     cursos = instructor.sections.map { |sec| sec.desc_work_proof }.to_sentence
 
-    pdf.text "Quien suscribe, en mi condición de Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela y Presidente de la Fundación de la Escuela de Idiomas Modernos (FUNDEIM), de conformidad con la atribución establecida en el literal d) de la Cláusula Decima Primera de los Estatutos de la referenda fundación; hago constar por medio de la presente que el(la) ciudadano(a) <b>#{instructor.user.full_name.upcase}</b>, titular de la cédula de identidad N° #{instructor.ci} ha participado en calidad de Pasante bajo la modalidad de instructor de los siguientes periodos del <b>PROGRAMA DE CURSOS DE IDIOMAS DE FUNDEIM</b> #{cursos}, con una duración de seis (6) semanas cada uno.", size: 11, align: :justify, inline_format: true 
+    pdf.text "Quien suscribe, en mi condición de Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela y Presidente de la Fundación de la Escuela de Idiomas Modernos (FUNDEIM), de conformidad con la atribución establecida en el literal d) de la Cláusula Decima Primera de los Estatutos de la referenda fundación; hago constar por medio de la presente que el(la) ciudadano(a) <b>#{instructor.user.full_name.upcase}</b>, titular de la cédula de identidad N° #{instructor.ci} ha participado en calidad de Pasante bajo la modalidad de INSTRUCTOR de los siguientes periodos del <b>PROGRAMA DE CURSOS DE IDIOMAS DE FUNDEIM</b> #{cursos}, con una duración de seis (6) semanas cada uno.", size: 11, align: :justify, inline_format: true 
     
     pdf.move_down 20
 
@@ -235,7 +235,7 @@ class PdfDocs
     pdf.text "y Educación de la Universidad Central de Venezuela y Presidente de Fundeim", align: :center, size: 9
     pdf.move_down 20
 
-    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANEÉ EL SIGUIENTE CÓDIGO QR CON SU DISPOSITIVO APROPIADO PARA ELLO:" , align: :justify, size: 11, inline_format: true
+    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANÉE EL SIGUIENTE CÓDIGO QR CON SU DISPOSITIVO APROPIADO PARA ELLO:" , align: :justify, size: 11, inline_format: true
 
     require 'rqrcode'
 
@@ -309,7 +309,7 @@ class PdfDocs
     pdf.text GeneralSetup.director_value, align: :center, size: 11
     pdf.move_down 20
 
-    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANEÉ EL SIGUIENTE CÓDIGO QR CON SU SMARTPHONE:" , align: :justify, size: 11, inline_format: true
+    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANÉE EL SIGUIENTE CÓDIGO QR CON SU SMARTPHONE:" , align: :justify, size: 11, inline_format: true
 
     require 'rqrcode'
 
