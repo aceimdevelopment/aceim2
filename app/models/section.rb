@@ -309,6 +309,10 @@ class Section < ApplicationRecord
     end
   end
 
+  def desc_work_proof
+    self.course_period.desc_work_proof
+  end
+
   def description
     self.course_period ? "#{number}|#{course_period.name}" : self.id.to_s
   end

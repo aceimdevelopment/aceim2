@@ -23,6 +23,13 @@ Rails.application.routes.draw do
 
   end
 
+  resources :instructors, only: [:index] do
+    member do
+      get 'work_proof'
+      get 'work_proof_verify'
+    end
+  end
+
   resources :careers, only: [:index] do
     member do
       get 'constance'

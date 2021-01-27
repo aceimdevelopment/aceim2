@@ -207,6 +207,75 @@ class PdfDocs
 
   end
 
+  def self.get_work_proof instructor
+    pdf = Prawn::Document.new(top_margin: 20, left_margin: 60, right_margin: 60, bottom_margin: 10)
+
+    banner_width_logo pdf, nil, 10
+    pdf.move_down 20
+
+    pdf.text '<b>CONSTANCIA</b>', size: 16, align: :center, inline_format: true
+
+    pdf.move_down 20
+
+    cursos = instructor.sections.map { |sec| sec.desc_work_proof }.to_sentence
+
+    pdf.text "Quien suscribe, en mi condición de Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela y Presidente de la Fundación de la Escuela de Idiomas Modernos (FUNDEIM), de conformidad con la atribución establecida en el literal d) de la Cláusula Decima Primera de los Estatutos de la referenda fundación; hago constar por medio de la presente que el(la) ciudadano(a) <b>#{instructor.user.full_name.upcase}</b>, titular de la cédula de identidad N° #{instructor.ci} ha participado en calidad de Pasante bajo la modalidad de instructor de los siguientes periodos del <b>PROGRAMA DE CURSOS DE IDIOMAS DE FUNDEIM</b> #{cursos}, con una duración de seis (6) semanas cada uno.", size: 11, align: :justify, inline_format: true 
+    
+    pdf.move_down 20
+
+    t = Time.new
+
+    pdf.text "Esta constancia se expide a solicitud de la parte interesada.  En Caracas, a los #{t.day} días del mes de #{t.month} de #{t.year}.", size: 11, align: :justify, inline_format: true
+
+    pdf.move_down 40
+
+    pdf.text "<b>#{GeneralSetup.director_value}</b>", align: :center, size: 11, inline_format: true
+    pdf.text "<b>C.I. N° #{GeneralSetup.director_ci_value}</b>", align: :center, size: 11, inline_format: true
+    pdf.text "Director de Escuela de Idiomas Modernos de la Facultad de Humanidades", align: :center, size: 9
+    pdf.text "y Educación de la Universidad Central de Venezuela y Presidente de Fundeim", align: :center, size: 9
+    pdf.move_down 20
+
+    pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANEÉ EL SIGUIENTE CÓDIGO QR CON SU DISPOSITIVO APROPIADO PARA ELLO:" , align: :justify, size: 11, inline_format: true
+
+    require 'rqrcode'
+
+    # include Rails.application.routes.url_helpers
+
+    # link = URI.join(root_url, "instructors/#{instructor.id}/work_proof_verify").to_s
+    link = "/instructors/#{instructor.id}/work_proof_verify"
+    qrcode = RQRCode::QRCode.new(link)
+
+    png = qrcode.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: 'black',
+      file: "tmp/barcode.png",
+      fill: 'white',
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 150
+    )
+
+    pdf.image "#{Rails.root.to_s}/tmp/barcode.png", image_width: 50, image_height: 50, position: :center
+    pdf.text "o haga clíc <a href='#{link}' target='_blank'>aquí</a>", align: :center, size: 8, inline_format: true
+
+
+
+    pdf.bounding_box [pdf.bounds.left, pdf.bounds.bottom + 35], :width  => pdf.bounds.width do
+        pdf.font "Helvetica"
+        pdf.stroke_horizontal_rule
+        pdf.move_down(5)
+        pdf.text 'Cuidad Universitaria de Caracas - FUNDEIM - UCV #VenciendoLaSombra', size: 8, align: :center
+        pdf.text GeneralSetup.fundeim_location_value, size: 8, align: :center
+        pdf.text GeneralSetup.fundeim_phone_value, size: 8, align: :center
+
+    end
+    return pdf
+
+  end
+
 
   def self.constance career
     pdf = Prawn::Document.new(top_margin: 20, left_margin: 60, right_margin: 60, bottom_margin: 10)
@@ -218,7 +287,7 @@ class PdfDocs
 
     pdf.move_down 10
 
-    pdf.text 'Quien suscribe, Prof. Carlos A. Saavedra A., Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela, hace constar por medio de la presente que el ciudadano:', size: 11, align: :justify
+    pdf.text "Quien suscribe, #{GeneralSetup.director_value}, Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela, hace constar por medio de la presente que el ciudadano:", size: 11, align: :justify
     pdf.move_down 10
 
     pdf.text "<b>#{career.student.constance_name}</b>", size: 13, align: :center, inline_format: true 
@@ -237,7 +306,7 @@ class PdfDocs
 
     pdf.move_down 40
 
-    pdf.text "Prof. Carlos A. Saavedra A." , align: :center, size: 11
+    pdf.text GeneralSetup.director_value, align: :center, size: 11
     pdf.move_down 20
 
     pdf.text "<b>IMPORTANTE:</b> PARA VALIDAR LA AUTENTICIDAD DEL PRESENTE DOCUMENTO ESCANEÉ EL SIGUIENTE CÓDIGO QR CON SU SMARTPHONE:" , align: :justify, size: 11, inline_format: true

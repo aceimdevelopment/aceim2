@@ -1,0 +1,41 @@
+.text-center
+
+  %p.mt-3= image_tag "banner_logos_dark.png", style: 'width:80%'
+  %p UNIVERSIDAD CENTRAL DE VENEZUELA
+  %p Escuela de Idiomas Modernos
+  %p FUNDEIM
+
+  %h3 CONSTANCIA
+.mx-5.px-5.mt-5
+  %p.text-justify
+
+    - cursos = @instructor.sections.map { |sec| sec.desc_work_proof }.to_sentence
+
+    = "Quien suscribe, en mi condición de Director de la Escuela de Idiomas Modernos de la Facultad de Humanidades y Educación de la Universidad Central de Venezuela y Presidente de la Fundación de la Escuela de Idiomas Modernos (FUNDEIM), de conformidad con la atribución establecida en el literal d) de la Cláusula Decima Primera de los Estatutos de la referenda fundación; hago constar por medio de la presente que el(la) ciudadano(a) <b>#{@instructor.user.full_name.upcase}</b>, titular de la cédula de identidad N° #{@instructor.ci} ha participado en calidad de Pasante bajo la modalidad de instructor de los siguientes periodos del <b>PROGRAMA DE CURSOS DE IDIOMAS DE FUNDEIM</b> #{cursos}, con una duración de seis (6) semanas cada uno.".html_safe
+
+    -t = Time.new
+
+    ="Esta constancia se expide a solicitud de la parte interesada.  En Caracas, a los #{t.day} días del mes de #{t.month} de #{t.year}."
+
+  %br
+  %br
+  %br
+
+  .text-center.m-0.p-0
+    %b= GeneralSetup.director_value
+    %p= "<b>C.I. N° #{GeneralSetup.director_ci_value}</b>".html_safe
+    %p= "Director de Escuela de Idiomas Modernos de la Facultad de Humanidades"
+    %p= "y Educación de la Universidad Central de Venezuela y Presidente de Fundeim"
+  %br
+  %br
+  %br
+
+  %p.text-justify.mt-3 
+    Para mayor información puede escribirnos al correo:
+
+    %b= GeneralSetup.fundeim_email_value
+    y gustosamente le atenderemos.
+  %br
+  %br
+  %br
+

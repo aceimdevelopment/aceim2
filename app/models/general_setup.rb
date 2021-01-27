@@ -18,6 +18,11 @@ class GeneralSetup < ApplicationRecord
     (aux and aux.value) ? aux.value : 'Para pagos en efectivo o divisas favor escribir al correo fundeimucv@gmail.com para plantearle opciones.'
   end
 
+  def self.director_ci_value
+    aux = GeneralSetup.where(id: "DIRECTOR_CI").first
+    (aux and aux.value) ? aux.value : '10.264.009'
+  end
+
   def self.director_value
     aux = GeneralSetup.where(id: "DIRECTOR").first
     (aux and aux.value) ? aux.value : 'Prof. Carlos A. Saavedra A.'

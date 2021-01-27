@@ -283,6 +283,10 @@ class CoursePeriod < ApplicationRecord
     self.kind = :Mixtos
   end
 
+  def desc_work_proof
+    "#{self.course.language.name.titleize} #{self.course.level.name} #{self.kind.titleize} (#{self.period.name})"
+  end
+
   def description_inscription
     "#{course.name} para el período #{period.name} en la modalidad #{kind.capitalize}"
   end
