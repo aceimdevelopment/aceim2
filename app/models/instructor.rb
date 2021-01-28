@@ -41,7 +41,6 @@ class Instructor < ApplicationRecord
     #   mapping_key_list [:active]
     # end
     show do
-
       field :description do
         label 'usuario'
         formatted_value do
@@ -49,13 +48,22 @@ class Instructor < ApplicationRecord
           bindings[:view].link_to(bindings[:object].user.description, path )
         end
       end
+      field :constancia do
+        formatted_value do
+          path = "/instructors/#{bindings[:object].id}/work_proof"
+          bindings[:view].link_to('Generar Constancia', path, class: 'btn btn-sm btn-primary' )
+        end        
+      end
+
       field :active do
         label 'Activo'
       end
       field :sections do
         label 'Secciones'
       end
-
+      field :bank_account do
+        label 'Cuanta Bancaria'
+      end
     end
 
     edit do
