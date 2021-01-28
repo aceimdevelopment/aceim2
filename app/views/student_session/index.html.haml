@@ -4,7 +4,7 @@
   - content = render partial: '/payment_details/message_payment_report' 
   = render partial: '/layouts/modal_alert', locals: {content: content, title: '¡Atención!', id: "AlertPaymentUnread", url: read_report_payment_detail_path(@payment_detail.id)}
 
-- if @user.id.eql? current_user.id and (@user.any_blank? or @user.sign_in_count.eql? 0)
+- if @user.id.eql? current_user.id and (@user.any_blank? or @user.sign_in_count.eql? 0 or (@user.student and @user.student.any_blank?))
 
   - @user = @user
   - content = render partial: '/users/form'
