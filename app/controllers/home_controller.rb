@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 		render json: user_signed_in?
 	end
 
-	def select_role
-		@roles = params[:roles]
+	def show
+		@roles = params[:id]
 	end
 end

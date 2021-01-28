@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
 		roles << :instructor if current_user.instructor
 
 		if roles.count > 1
-			params[:roles] = roles
-			select_role_home_index_path(roles: roles)
+			# params[:roles] = roles
+			home_path(id: roles)
 		elsif current_user.administrator?
 			rails_admin_path
 		elsif current_user.student?

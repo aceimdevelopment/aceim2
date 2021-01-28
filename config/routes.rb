@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   # resources :partial_qualifications
 
   resources :partial_qualifications
-  resources :home, only: [:index] do
+  resources :home, only: [:index, :show] do
     collection do
-      get 'select_role'
+      # get 'select_role'
       get 'longged_in'
     end
   end
