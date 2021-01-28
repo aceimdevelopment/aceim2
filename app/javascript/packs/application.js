@@ -13,13 +13,38 @@ import "bootstrap";
 import "../stylesheets/application"
 
 
-function displayModal(name) {
-	$(name).modal();
-}
+// function displayModal(name) {
+// 	$(name).modal();
+// }
 
 document.addEventListener("turbolinks:load", () => {
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
+	$("#updatePersonalData").modal({ keyboard: false, backdrop: 'static' });
+	$("#AlertPaymentUnread").modal({ keyboard: false, backdrop: 'static' });
+
+	$(".diplayModalBtn").on('click', function() {
+		let idModal = $(this).attr('idModal');
+		$(`#${idModal}`).modal();
+
+	});
+
+
+	$('.onlyOneCharacter').on('input', function(evt) {
+		var node = $(this);
+	});
+
+	$('.upcase').on('input', function(evt) {
+		var node = $(this);
+		node.val(node.val().toUpperCase());
+	});
+
+
+	$('.onlyNumbers').on('input', function(evt) {
+		var node = $(this);
+		node.val(node.val().replace(/[^0-9]/g, ''));
+	});
+
 	$('.confirmBtn').on('click', function() {
 		let ele = $(this);
 		let url = ele.attr('url');
@@ -40,37 +65,6 @@ document.addEventListener("turbolinks:load", () => {
 
 	})
 })
-
-
-$(document).ready(function() {
-	$('.tooltip-btn').tooltip();
-
-	$(".diplayModalBtn").on('click', function(){
-		let idModal = $(this).attr('idModal');
-		$(`#${idModal}`).modal();
-
-	});
-	$("#updatePersonalData").modal({ keyboard: false, backdrop: 'static' });
-	$("#AlertPaymentUnread").modal({ keyboard: false, backdrop: 'static' });
-	
-	$('.onlyOneCharacter').on('input', function(evt) {
-		var node = $(this);
-	});
-
-	$('.upcase').on('input', function(evt) {
-		var node = $(this);
-		node.val(node.val().toUpperCase());
-	});
-
-
-	$('.onlyNumbers').on('input', function(evt) {
-		var node = $(this);
-		node.val(node.val().replace(/[^0-9]/g, ''));
-	});
-
-
-
-});
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
