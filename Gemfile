@@ -27,7 +27,7 @@ gem 'image_processing', '~> 1.2'
 gem 'mini_magick'
 
 
-# GEM INCLUDE BY ME:
+# GEM INCLUDED BY ME:
 # gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
 gem 'prawn'
 gem 'prawn-table'
