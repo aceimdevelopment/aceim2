@@ -2,7 +2,7 @@
 - if GeneralSetup.enabled_transfer_payment.eql? 'SI' or GeneralSetup.enabled_cash_payment.eql? 'SI'
 	.alert.alert-success
 		- if GeneralSetup.enabled_transfer_payment.eql? 'SI'
-			- ba = BankAccount.first
+			- ba = BankAccount.onws.first
 			%h4.text-center Datos de pago para Depósito o Transferencia Bancaria
 			%table.table.table-sm.table-hover.table-condensed.table-responsive-md.m-2
 				%tbody

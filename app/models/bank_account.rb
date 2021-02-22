@@ -46,10 +46,6 @@ class BankAccount < ApplicationRecord
     end
 
     edit do
-      field :own do
-        label 'Propia'
-      end
-
       field :number do
         label 'Número'
       end
@@ -69,6 +65,7 @@ class BankAccount < ApplicationRecord
       field :id do
         label 'Identificador'
       end
+
       field :number do
         label 'Número'
       end
@@ -78,7 +75,9 @@ class BankAccount < ApplicationRecord
       field :bank do
         label 'Banco'
       end
-      
+      field :own do
+        label 'Propia'
+      end      
     end
   end
 
