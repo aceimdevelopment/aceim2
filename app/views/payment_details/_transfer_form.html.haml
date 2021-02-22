@@ -24,4 +24,4 @@
           .input-group-prepend
             .input-group-text
               %span.fa.fa-graduation-cap
-          = f.collection_select :bank_account_id, BankAccount.owns.all, :id, :name, {}, {class: 'form-control', readonly: true}
+          = f.collection_select :bank_account_id, BankAccount.owns, :id, :name, {}, {class: 'form-control', readonly: true}
