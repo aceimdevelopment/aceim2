@@ -120,7 +120,7 @@ class PdfDocs
     pdf.move_down 20
     pdf.text "<b>#{sprintf('%05i', payment_detail.id)}</b>", align: :right, size: 14, inline_format: true
     pdf.move_down 20
-    data = [["<b>#{BankAccount.first.holder}<b>", "<b>Fecha: </b> #{payment_detail.created_at.strftime('%d/%m/%Y')}"]]
+    data = [["<b>#{BankAccount.owns.first.holder}<b>", "<b>Fecha: </b> #{payment_detail.created_at.strftime('%d/%m/%Y')}"]]
 
     data << ["<b>#{GeneralSetup.fundeim_location_value}<b>", "<b>Cliente: </b> #{payment_detail.client_description}"]
     data << ["<b>#{GeneralSetup.fundeim_phone_value}<b>", ]
