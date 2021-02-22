@@ -7,7 +7,7 @@
   %table{style: 'margin-top: 20px;'}
     %tbody
       %tr
-        %th{style: 'text-align:left;paddin-left: 3px;font-weight: bold;'}= BankAccount.first.holder
+        %th{style: 'text-align:left;paddin-left: 3px;font-weight: bold;'}= BankAccount.owns.first.holder
         %td{align: :right, style: 'width: 50%;font-size: 12px;'}
           %b Fecha:
           = @payment_detail.created_at.strftime('%d/%m/%Y')
