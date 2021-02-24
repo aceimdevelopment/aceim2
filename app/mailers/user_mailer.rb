@@ -1,5 +1,12 @@
 class UserMailer < ApplicationMailer
+  # default from: 'CONTACTO FUNDEIM <fundeimucv@gmail.com>'
   layout 'mailer'
+
+  def reset_password_instructions(resource, authenticity_token, commit)
+    @resource = resource
+    @token = authenticity_token
+    mail(to: @resource.email, subject: "Solicitud de Reinicio de Contraseña" )
+  end
 
   def canvas_new_user_registration(user, status)
     @user = user
