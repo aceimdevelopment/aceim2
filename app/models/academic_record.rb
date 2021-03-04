@@ -126,17 +126,22 @@ class AcademicRecord < ApplicationRecord
         label 'Estudiante'
       end
 
-
       field :desc_show do
         label 'Sección'
         formatted_value do
           bindings[:view].render(partial: 'sections/description_table', locals: {section: bindings[:object].section})
         end
-
       end
 
       field :inscription_status do
         label 'Estado de Inscripción'
+      end
+
+      field :quickview_payment_detail do 
+        label 'Reporte de Pago'
+        formatted_value do
+          bindings[:view].render(partial: '/payment_details/quick_report', locals: {academic_record: bindings[:object]})
+        end
       end
       field :agreement do
         label 'Convenio'
@@ -299,6 +304,10 @@ class AcademicRecord < ApplicationRecord
       field :agreement_id do
         label 'Conv'
         column_width 50
+      end
+
+      field :payment_detail do
+        label 'Reporte Pago'
       end
       # fields :student, :period, :language, :level, :section, :agreement_id, :qualification_status, :final_qualification
     end

@@ -1,0 +1,35 @@
+= form_tag("/payment_details", class: 'form-inline') do
+  
+  = hidden_field_tag '[payment_detail]academic_record_id', academic_record.id
+  = hidden_field_tag '[payment_detail]bank_account_id', 'FUNDEIM'
+
+  .form-group
+    .form-control.form-control-sm
+      - PaymentDetail.transaction_types.each_pair do |v, k| 
+        = radio_button_tag '[payment_detail]transaction_type', v, false, required: true, class: 'tipos_transaccion'
+        = v.humanize
+
+  .form-group
+    = text_field_tag '[payment_detail]transaction_number', nil, class: 'form-control form-control-sm onlyNumbers', placeholder: 'Número', style: 'width:120px', required: true
+  .form-group
+    = number_field_tag '[payment_detail]mount', academic_record.agreement.value, class: 'form-control form-control-sm', style: 'width:150px', required: true
+  .form-group
+    = collection_select :payment_detail, :source_bank_id, Bank.where("name != 'NULO'"), :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control', required: true, style: 'width:200px', id: 'selectSourceBankId'}
+  .form-group
+    = submit_tag 'Enviar', class: 'btn btn-sm btn-success'
+
+:javascript
+  $(".tipos_transaccion").on('click', function(e){
+    
+    let select = $('#selectSourceBankId')
+    if (this.value == 'divisas'){
+      select.attr('readonly', true);
+      select.val('0000');
+
+    }else{
+      select.attr('readonly', false);
+      select.val(null);
+
+    }
+
+  })

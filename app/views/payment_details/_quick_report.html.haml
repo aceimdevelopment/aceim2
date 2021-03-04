@@ -1,0 +1,21 @@
+- if academic_record.payment_detail
+	%p= "Monto: <b>#{academic_record.payment_detail.mount }</b>".html_safe
+	
+	%p= "Número: <b>#{academic_record.payment_detail.transaction_number }</b>".html_safe
+	
+	%p= "Banco Origen: <b>#{academic_record.payment_detail.source_bank.name }</b>".html_safe
+
+	= link_to "/admin/payment_detail/#{academic_record.payment_detail.id}", class: 'btn btn-sm btn-info' do
+		.fa.fa-search
+		Detalle
+
+- else
+	- payment_detail = PaymentDetail.new
+	- payment_detail.academic_record_id = academic_record.id
+	- payment_detail.mount = academic_record.agreement.value
+	- payment_detail.bank_account_id = 'FUNDEIM'
+
+	%h5 Reporte Rápido
+	= render partial: 'payment_details/quick_report_form', locals: {academic_record: academic_record}
+	%hr
+	= link_to 'Agregar Reporte Completo', "/admin/payment_detail/new?#{academic_record.id}", class: 'btn btn-sm btn-info'

@@ -62,7 +62,7 @@ class PaymentDetail < ApplicationRecord
   # belongs_to :pci_escuela, foreign_key: 'pci_escuela_id', class_name: 'Escuela', optional: true
 
   # ========== ENUM TYPE ============ #
-  enum transaction_type: [:transferencia, :divisas]
+  enum transaction_type: [:transferencia, :divisas, :punto_venta]
 
 
   # before_destroy :check_for_files#, prepend: true

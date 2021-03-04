@@ -94,31 +94,25 @@ class PaymentDetailsController < ApplicationController
 	require 'mini_magick'
 
 	def create
-		# begin
-		# 	data = payment_detail_params[:url_file]
-		# 	url = Rails.root.join('public', 'payment_receives', "payment_#{payment_detail_params[:academic_record_id]}.#{data.original_filename.split('.').last}")
-		# 	# data = data.tempfile
-		# 	File.open(url, "wb") do |file| 
-		# 		file.write(data.read) 
-		# 		# file.close
-		# 	end
-		# rescue Exception => e
-		# 	flash[:danger] = "Error: #{e.message}"
-		# end
-
-		# params[:payment_detail][:url_file] = url
 		@payment_detail = PaymentDetail.new(payment_detail_params)
-
-		mini_magick = MiniMagick::Image.new(params[:payment_detail][:backup_file].tempfile.path)
-		mini_magick.resize('400x300^')
+		@payment_detail.created_at ||= Time.now
+		if params[:payment_detail][:backup_file]
+			begin
+				mini_magick = MiniMagick::Image.new(params[:payment_detail][:backup_file].tempfile.path)
+				mini_magick.resize('400x300^')
+				
+			rescue Exception => e
+				flash[:danger] = "No es posible modificar el tamaño de la imágen: #{e}"
+			end
+		end
 
 		if @payment_detail.save
-			PaymentDetailMailer.send_payment_report(@payment_detail.id).deliver
+			# PaymentDetailMailer.send_payment_report(@payment_detail.id).deliver
 			session[:payment_id] = @payment_detail.id #GeneralSetup.message_payment_report
 		else
-			flash[:error] = "No se pudo completar el guardado del reporte de pago. Por favor inténtalo de nuevo o concacta al personal calificado: #{@payment_detail.errors.full_messages.to_sentence}"
+			flash[:danger] = "No se pudo completar el guardado del reporte de pago. Por favor inténtalo de nuevo o concacta al personal calificado: #{@payment_detail.errors.full_messages.to_sentence}"
 		end
-		redirect_to student_session_index_path
+		redirect_back fallback_location: student_session_index_path
 	end
 
 	private
