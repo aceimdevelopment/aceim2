@@ -9,6 +9,12 @@
 		.fa.fa-search
 		Detalle
 
+	- if academic_record.preinscrito?
+		.pull-right
+			- url = "/payment_details/#{academic_record.payment_detail.id}/confirm"
+			= render partial: "confirmation_button", locals: {title: 'Confirmar Pago', url: url}
+
+
 - else
 	- payment_detail = PaymentDetail.new
 	- payment_detail.academic_record_id = academic_record.id

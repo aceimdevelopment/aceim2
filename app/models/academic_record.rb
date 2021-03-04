@@ -283,6 +283,19 @@ class AcademicRecord < ApplicationRecord
 
       end
 
+      # field :reported do
+      #   label 'Reporte Pago'
+
+      #   pretty_value do
+      #     if bindings[:object].payment_detail
+      #       %{<span class='fa fa-check text-success'></span><span class="fa fa-search text-info"></span>}.html_safe
+            
+      #     else
+      #       %{<span class="fa fa-remove text-danger"></span>}.html_safe
+      #     end
+      #   end
+      # end
+
       field :label_status_enroll do
         label 'Estado Insc.'
         formatted_value do
