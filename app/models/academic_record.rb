@@ -515,12 +515,14 @@ class AcademicRecord < ApplicationRecord
     # aux = calculate_final
     aux = self.final_qualification
     aux_approved = 'SC'
-    if aux.eql? PI
-      aux_approved = 'PI'
-    elsif aux >= 15
-      aux_approved = 'AP'
-    elsif aux > 0 and aux < 15
-      aux_approved = 'RE'
+    if aux
+      if aux.eql? PI
+        aux_approved = 'PI'
+      elsif aux >= 15
+        aux_approved = 'AP'
+      elsif aux > 0 and aux < 15
+        aux_approved = 'RE'
+      end
     end
     return aux_approved
   end
