@@ -1,6 +1,16 @@
 class SectionsController < ApplicationController
-	before_action :set_section, except: [:index, :new, :create]
+	before_action :set_section, except: [:index, :new, :create, :rollback_split]
 	before_action :authenticate_user!
+
+	def unsplit
+		course_period = @section.course_period
+		begin
+			flash[:info] = @section.destroy_section_on_canvas
+		rescue Exception => e
+			flash[:danger] = e
+		end
+		redirect_to "/admin/course_period/#{course_period.id}"
+	end
 
 	def split 
 

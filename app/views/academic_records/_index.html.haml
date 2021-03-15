@@ -7,6 +7,7 @@
       %tr
         %th #
         %th{style: "width: 2%"} CI
+        %th{style: "width: 2%"} IdCanvas
         %th Apellidos
         %th Nombre
         %th Corrreo
@@ -25,6 +26,7 @@
         %tr
           %td= i+1
           %td= link_to_if (controller_name.eql? 'main'),  enrolled.student.ci, "/admin/student/#{enrolled.student_id}"
+          %td= user.id_canvas
           %td
             .tooltip-btn{"data-toggle": :tooltip, title: user.last_name}
               =# link_to_if (controller_name.eql? 'main'),  user.last_name, "/admin/user/#{enrolled.student_id}"

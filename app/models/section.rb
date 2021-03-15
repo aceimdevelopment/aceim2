@@ -243,17 +243,37 @@ class Section < ApplicationRecord
   end
 
 
-  def create_section_on_canvas (canvas = MyCanvas.connect)
-    section_canvas = canvas.post("/api/v1/courses/#{self.course_period.id_canvas}/sections", {'course_section' => {'name' => "#{title_for_create_canvas}"}})
+  def create_section_on_canvas (canvas_connection = MyCanvas.connect)
+    section_canvas = canvas_connection.post("/api/v1/courses/#{self.course_period.id_canvas}/sections", {'course_section' => {'name' => "#{title_for_create_canvas}"}})
 
     self.update(id_canvas: section_canvas['id']) if section_canvas
   end
 
-  def enrollments_to_canvas(canvas = MyCanvas.connect)
+  def destroy_section_on_canvas (canvas_connection = MyCanvas.connect)
+    msg = "actualizados: "
+    if section0 = self.course_period.sections.where(number: 0).first
+      pres = self.academic_records.not_preinscrito
+      if pres.any?
+        pres.each do |ar|
+          if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}/enrollments/#{ar.user.id_canvas}") and ar.update(inscription_status: :confirmado, section_id: section0.id)
+            msg += "#{ar.id}, "
+          end 
+        end
+      else
+        msg = 'Sin estudiantes por cambiar'
+      end
+      unless academic_records.not_preinscrito.any?
+        msg += 'Sección Eliminada' if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}") and self.destroy
+      end
+    end
+    msg
+  end
+
+  def enrollments_to_canvas(canvas_connection = MyCanvas.connect)
     total_enrolled = 0
     academic_records.confirmado.each do |ar|
-      if ar.student.user.id_canvas
-        new_enrolled_canvas = canvas.post("/api/v1/sections/#{self.id_canvas}/enrollments", {'enrollment' => {'user_id' => ar.user.id_canvas, 'type' => 'StudentEnrollment', 'limit_privileges_to_course_section' => true, 'notify' => true, 'enrollment_state' => 'active'}})
+      if ar.user.id_canvas
+        new_enrolled_canvas = canvas_connection.post("/api/v1/sections/#{self.id_canvas}/enrollments", {'enrollment' => {'user_id' => ar.user.id_canvas, 'type' => 'StudentEnrollment', 'limit_privileges_to_course_section' => true, 'notify' => true, 'enrollment_state' => 'active'}})
          total_enrolled += 1 if (new_enrolled_canvas and ar.update(inscription_status: :asignado))
       end
     end
