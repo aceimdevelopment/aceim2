@@ -258,10 +258,14 @@ class Section < ApplicationRecord
           canvas_destroy = false
           if ar.asignado? and ar.user.id_canvas
             #if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}/enrollments/#{ar.user.id_canvas}")
-            if canvas_connection.delete("/api/v1/courses/#{self.course_period.id_canvas}/enrollments/#{ar.user.id_canvas}")
-              canvas_destroy = true
-              msg += "#{ar.id}, "
-              p "    Ugregister on Canvas     ".canter(400, "U")
+            begin            
+              if canvas_connection.delete("/api/v1/courses/#{self.course_period.id_canvas}/enrollments/#{ar.user.id_canvas}")
+                canvas_destroy = true
+                msg += "#{ar.id}, "
+                p "    Ugregister on Canvas     ".canter(400, "U")
+              end
+            rescue Exception => e
+              msg += "Error: al intentar eliminar retirar el curso en canvas al estudiante: #{e}. Se continúa la carga"
             end
           end
           ar.update(inscription_status: :confirmado, section_id: section0.id) if canvas_destroy
@@ -270,9 +274,14 @@ class Section < ApplicationRecord
         msg = 'Sin estudiantes por cambiar'
       end
       unless academic_records.not_preinscrito.any?
-        if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}") and self.destroy
-          p "    Sección Eliminada     ".canter(400, "S")
-          msg += 'Sección Eliminada' 
+        begin
+          if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}") and self.destroy
+            p "    Sección Eliminada     ".canter(400, "S")
+            msg += 'Sección Eliminada' 
+          end
+          
+        rescue Exception => e
+          msg += "Error al intentar eliminar la sección: #{e}"
         end
       end
     end
