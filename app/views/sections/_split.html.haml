@@ -8,7 +8,7 @@
 
 	= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
 		.input-group
-			- if section.academic_records.asignado.any?
+			- if section.academic_records.not_preinscrito.any?
 				%span.input-group-btn.tooltip-btn{"data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, pasarlos a la sección 00, eliminar inscritos y sección de Canvas y eliminar la sección'}
 					= link_to 'Deshacer y Eliminar Sección', "/sections/#{section.id}/unsplit", class: 'btn btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla? '
 			= number_field_tag :number_split, 1, class: 'form-control input-small mr-3', in: 1...41, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable
