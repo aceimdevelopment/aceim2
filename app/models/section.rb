@@ -255,11 +255,14 @@ class Section < ApplicationRecord
       pres = self.academic_records.not_preinscrito
       if pres.any?
         pres.each do |ar|
-          if ar.asignado? and ar.user.id_canvas and canvas_connection.delete("/api/v1/sections/#{self.id_canvas}/enrollments/#{ar.user.id_canvas}")
-            msg += "#{ar.id}, "
-            p "    Ugregister on Canvas     ".canter(400, "U")
-          end
-          ar.update(inscription_status: :confirmado, section_id: section0.id)
+          # canvas_destroy = false
+          # if ar.asignado? and ar.user.id_canvas
+          #   if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}/enrollments/#{ar.user.id_canvas}")
+          #     canvas_destroy = true
+          #     msg += "#{ar.id}, "
+          #   p "    Ugregister on Canvas     ".canter(400, "U")
+          # end
+          ar.update(inscription_status: :confirmado, section_id: section0.id) #if canvas_destroy
         end
       else
         msg = 'Sin estudiantes por cambiar'
