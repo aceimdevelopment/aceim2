@@ -261,9 +261,10 @@ class Section < ApplicationRecord
             if canvas_connection.delete("/api/v1/courses/#{self.course_period.id_canvas}/enrollments/#{ar.user.id_canvas}")
               canvas_destroy = true
               msg += "#{ar.id}, "
-            p "    Ugregister on Canvas     ".canter(400, "U")
+              p "    Ugregister on Canvas     ".canter(400, "U")
+            end
           end
-          ar.update(inscription_status: :confirmado, section_id: section0.id) #if canvas_destroy
+          ar.update(inscription_status: :confirmado, section_id: section0.id) if canvas_destroy
         end
       else
         msg = 'Sin estudiantes por cambiar'
