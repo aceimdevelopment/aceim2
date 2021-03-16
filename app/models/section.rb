@@ -250,42 +250,31 @@ class Section < ApplicationRecord
   end
 
   def destroy_section_on_canvas (canvas_connection = MyCanvas.connect)
-    msg = "actualizados: "
-    if section0 = self.course_period.sections.where(number: 0).first
-      pres = self.academic_records.not_preinscrito
-      if pres.any?
-        pres.each do |ar|
-          canvas_destroy = false
-          if ar.asignado? and ar.user.id_canvas
-            #if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}/enrollments/#{ar.user.id_canvas}")
-            begin            
-              if canvas_connection.delete("/api/v1/courses/#{self.course_period.id_canvas}/enrollments/#{ar.user.id_canvas}")
-                canvas_destroy = true
-                msg += "#{ar.id}, "
-                p "    Ugregister on Canvas     ".canter(400, "U")
-              end
-            rescue Exception => e
-              msg += "Error: al intentar eliminar retirar el curso en canvas al estudiante: #{e}. Se continúa la carga"
-            end
-          end
-          ar.update(inscription_status: :confirmado, section_id: section0.id) if canvas_destroy
-        end
-      else
-        msg = 'Sin estudiantes por cambiar'
-      end
-      unless academic_records.not_preinscrito.any?
+
+    errors = []
+    unenrolled = 0
+    section_deleted = false
+
+    section0 = self.course_period.sections.where(number: 0).first
+    section0 ||= self.course_period.sections.create(number: 0)
+
+    inscritos_en_canvas = canvas_connection.get("/api/v1/sections/#{self.id_canvas}/enrollments")
+      inscritos_en_canvas.each do |ele|
         begin
-          if canvas_connection.delete("/api/v1/sections/#{self.id_canvas}") and self.destroy
-            p "    Sección Eliminada     ".canter(400, "S")
-            msg += 'Sección Eliminada' 
-          end
-          
+          unenrolled += 1 if canvas_connection.delete("/api/v1/courses/#{self.course_period.id_canvas}/enrollments/#{ele['id']}", {task: :delete})
+    
         rescue Exception => e
-          msg += "Error al intentar eliminar la sección: #{e}"
+          errors << e
         end
       end
+
+    if (inscritos_en_canvas.count.eql? unenrolled) and canvas_connection.delete("/api/v1/sections/#{self.id_canvas}")
+      section_deleted = true 
+      self.academic_records.not_preinscrito.update_all(inscription_status: :confirmado, section_id: section0.id)
+      self.destroy
     end
-    msg
+    return [errors, unenrolled, section_deleted]
+
   end
 
   def enrollments_to_canvas(canvas_connection = MyCanvas.connect)

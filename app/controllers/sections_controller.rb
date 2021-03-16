@@ -3,13 +3,15 @@ class SectionsController < ApplicationController
 	before_action :authenticate_user!
 
 	def unsplit
-		course_period = @section.course_period
+		course_period_id = @section.course_period_id
 		begin
-			flash[:info] = @section.destroy_section_on_canvas
+			errors, unenrolled, section_deleted = @section.destroy_section_on_canvas
+			flash[:danger] = errors.to_sentence if errors.any?
+			flash[:success] = "Estudiantes eliminados de la sección de Canvas: #{unenrolled} y seccioón eliminada" if unenrolled > 0 and section_deleted			
 		rescue Exception => e
-			flash[:danger] = e
+			flash[:danger] = "Error: #{e}"
 		end
-		redirect_to "/admin/course_period/#{course_period.id}"
+		redirect_to "/admin/course_period/#{course_period_id}"
 	end
 
 	def split 
