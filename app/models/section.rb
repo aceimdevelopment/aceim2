@@ -289,7 +289,7 @@ class Section < ApplicationRecord
 
   def enrollments_to_canvas(canvas_connection = MyCanvas.connect)
     total_enrolled = 0
-    academic_records.confirmado.each do |ar|
+    academic_records.not_preinscrito.each do |ar|
       if ar.user.id_canvas
         new_enrolled_canvas = canvas_connection.post("/api/v1/sections/#{self.id_canvas}/enrollments", {'enrollment' => {'user_id' => ar.user.id_canvas, 'type' => 'StudentEnrollment', 'limit_privileges_to_course_section' => true, 'notify' => true, 'enrollment_state' => 'active'}})
          total_enrolled += 1 if (new_enrolled_canvas and ar.update(inscription_status: :asignado))
