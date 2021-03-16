@@ -249,6 +249,15 @@ class Section < ApplicationRecord
     self.update(id_canvas: section_canvas['id']) if section_canvas
   end
 
+  def destroy_section
+    section0 = self.course_period.sections.where(number: 0).first
+    section0 ||= self.course_period.sections.create(number: 0)
+    
+    self.academic_records.update_all(section_id: section0.id)
+    self.academic_records.not_preinscrito.update_all(inscription_status: :confirmado)
+    self.destroy
+  end
+
   def destroy_section_on_canvas (canvas_connection = MyCanvas.connect)
 
     errors = []
@@ -270,7 +279,8 @@ class Section < ApplicationRecord
 
     if (inscritos_en_canvas.count.eql? unenrolled) and canvas_connection.delete("/api/v1/sections/#{self.id_canvas}")
       section_deleted = true 
-      self.academic_records.not_preinscrito.update_all(inscription_status: :confirmado, section_id: section0.id)
+      self.academic_records.update_all(section_id: section0.id)
+      self.academic_records.not_preinscrito.update_all(inscription_status: :confirmado)
       self.destroy
     end
     return [errors, unenrolled, section_deleted]

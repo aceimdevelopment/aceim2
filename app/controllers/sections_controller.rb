@@ -2,6 +2,18 @@ class SectionsController < ApplicationController
 	before_action :set_section, except: [:index, :new, :create, :rollback_split]
 	before_action :authenticate_user!
 
+	def delete
+		course_period_id = @section.course_period_id
+		
+		if @section.destroy_section
+			flash[:info] = 'Sección eliminada y estudiantes traladados a la sección 00'
+		else
+			flash[:danger] = "Error: #{@section.errors.full_messages.to_sentence}"
+		end
+		redirect_to "/admin/course_period/#{course_period_id}"
+
+	end
+
 	def unsplit
 		course_period_id = @section.course_period_id
 		begin
