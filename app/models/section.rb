@@ -258,7 +258,7 @@ class Section < ApplicationRecord
     section0 = self.course_period.sections.where(number: 0).first
     section0 ||= self.course_period.sections.create(number: 0)
 
-    inscritos_en_canvas = canvas_connection.get("/api/v1/sections/#{self.id_canvas}/enrollments")
+    inscritos_en_canvas = canvas_connection.get("/api/v1/sections/#{self.id_canvas}/enrollments", {per_page: 40})
       inscritos_en_canvas.each do |ele|
         begin
           unenrolled += 1 if canvas_connection.delete("/api/v1/courses/#{self.course_period.id_canvas}/enrollments/#{ele['id']}", {task: :delete})
