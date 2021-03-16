@@ -45,7 +45,7 @@
 
 
         .pull-right
-          - if s.academic_records.not_preinscrito.any?
+          - if s.academic_records.not_preinscrito.any? and (!s.number.eql? 0)
             = link_to "/sections/#{s.id}/unsplit", class: 'tooltip-btn btn btn-sm btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla?', "data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, pasarlos a la sección 00, eliminar inscritos y sección de Canvas y eliminar la sección', style: 'margin-right: 10px;' do
               .fa.fa-trash
 
