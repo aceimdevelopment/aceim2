@@ -1,7 +1,8 @@
 - if ar.online? and ar.asignado? and ar.period.show_survey
-  = link_to GeneralSetup.link_survey, {type: 'button', class: 'tooltip-btn btn btn-sm btn-primary ml-2 mb-2', title: 'Por favor, responda la encuesta sobre los cursos en linea', data: {toggle: 'tooltip'}, target: "_blank"} do
-    %span.fa.fa-list-ol
-    %span.fa.fa-external-link
+  .tooltip-btn{data: {toggle: :tooltip, title: 'Por favor, responda la encuesta sobre los cursos en linea', target: "_blank"}}
+    = link_to GeneralSetup.link_survey, {type: 'button', class: 'btn btn-sm btn-primary ml-2 mb-2'} do
+      %span.fa.fa-list-ol
+      %span.fa.fa-external-link
 - if !ar.preinscrito?
   = link_to certificate_academic_record_path(ar.id),{type: 'button', class: 'tooltip-btn btn btn-sm btn-success mb-2 ml-2', title: 'Planilla de Inscripción', data: {toggle: :tooltip}} do
     .fa.fa-graduation-cap
