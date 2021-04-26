@@ -15,7 +15,7 @@
     - active = (i.eql? 0) ? ' active show' : ''
 
     .tab-pane.fade{id: "tabContent#{career.language_id}", class: active, "aria-labelledby": "tab#{career.language_id}", role: "tabpanel"}
-      .p-3.bg-white.border-left.border-right
+      .p-3.bg-white.border.border-top-0
         - if career.academic_records.approved.any?
           = link_to constance_career_path(career), class: 'btn btn-outline-primary btn-tooltip', 'data-toggle': :tooltip, title: 'Constancia de notas aprobadas' do
             .fa.fa-certificate
