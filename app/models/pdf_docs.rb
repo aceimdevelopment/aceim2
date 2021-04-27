@@ -183,7 +183,7 @@ class PdfDocs
     pdf.move_down 10
     pdf.text "1.  Es obligatorio leer con detenimiento toda la información suministrada en el mensaje de inicio y en el módulo introductorio de su aula en CANVAS. Si tiene alguna duda sobre ACEIM o CANVAS,  o presenta algún inconveniente con el programa en general, debe contactar de inmediato a su instructor o a FUNDEIM por el correo fundeimucv@gmail.com." , align: :justify, size: 11
     pdf.move_down 10
-    pdf.text "2.  Su participación en las actividades del foro es obligatoria y será tomada como asistencia a clase. La ausencia en el foro por 2 semanas, no necesariamente de manera consecutiva, tendrá como consecuencia la pérdida del curso por inasistencia." , align: :justify, size: 11
+    pdf.text "2.  Su participación en las actividades del foro es obligatoria y será tomada como asistencia a clase. La ausencia en el foro por 3 semanas, no necesariamente de manera consecutiva, tendrá como consecuencia la pérdida del curso por inasistencia." , align: :justify, size: 11
     pdf.move_down 10
     pdf.text "3.  La calificación mínima aprobatoria es de 15 puntos. La evaluación será continua y dinámica. Encontrará mayor información en el cronograma del curso incluido en el módulo introductorio del nivel." , align: :justify, size: 11
     pdf.move_down 10
