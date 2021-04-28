@@ -99,7 +99,7 @@ class PaymentDetailsController < ApplicationController
 		if params[:payment_detail][:backup_file]
 			begin
 				mini_magick = MiniMagick::Image.new(params[:payment_detail][:backup_file].tempfile.path)
-				mini_magick.resize('400x300^')
+				mini_magick.resize('800x600^')
 				
 			rescue Exception => e
 				flash[:danger] = "No es posible modificar el tamaño de la imágen: #{e}"

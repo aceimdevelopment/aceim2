@@ -105,16 +105,17 @@
                 %span.fa.fa-graduation-cap
             = f.collection_select :bank_account_id, BankAccount.owns, :id, :name, {}, {class: 'form-control', readonly: true}
 
-    .form-group.row.px-3
-      = f.label :file_field, class: 'col-sm-5 control-label', value: 'Archivo de respaldo:', style: 'text-align: right', id: 'fileField'
-      .col-sm-5.my-1
-        .input-group
-          .input-group-prepend
-            .input-group-text{style: 'padding: 0px 16px 0px 16px;'}
-              %span.fa.fa-file-image-o
-          =# f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
-          = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/jpeg,image/jpg,image/png,application/pdf"}
-        .text-muted= "Solo se perimiten archivos de los tipo: jpg, jpeg, png y pdf"
+    #adjunto
+      .form-group.row.px-3
+        = f.label :file_field, class: 'col-sm-5 control-label', value: 'Archivo de respaldo:', style: 'text-align: right', id: 'fileField'
+        .col-sm-5.my-1
+          .input-group
+            .input-group-prepend
+              .input-group-text{style: 'padding: 0px 16px 0px 16px;'}
+                %span.fa.fa-file-image-o
+            =# f.file_field 'url_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/*,*.pdf"}
+            = f.file_field 'backup_file', {class: 'btn btn-sm btn-secondary form-control form-control-file', required: true, accept: "image/jpeg,image/jpg,image/png,application/pdf"}
+          .text-muted= "Solo se perimiten archivos de los tipo: jpg, jpeg, png y pdf"
 
     .form-group.row.px-3
       = f.label :customer, class: 'col-sm-5 control-label', value: 'A Nombre De:', style: 'text-align: right'
@@ -145,19 +146,23 @@
     // var weCollect = document.getElementById('weCollect');
     var dateTransaction = document.getElementById('dateTransaction');
     var transNumberLabel = document.getElementById('transNumberLabel');
-    var fileField = document.getElementById('fileField');
+    var fileField = document.getElementById('payment_detail_backup_file');
+    var fileGroup = document.getElementById('adjunto');
+    fileField.disabled = !fileField.disabled;
+
     if (t == 'divisas'){
       banksData.style.display = "none";
       selBank.disabled = true;
       dateTransaction.style.display = "none";
       //weCollect.disabled = false;
       transNumberLabel.textContent = 'Código del billete:'
-      fileField.textContent = 'Imagen del billete:'
+      fileGroup.style.display = "none";
     }else{
       banksData.style.display = "block";
       selBank.disabled = false;
       dateTransaction.style.display = "block";
       //weCollect.disabled = true;
+      fileGroup.style.display = "block";
       transNumberLabel.textContent = 'Número de transacción:'
       fileField.textContent = 'Archivo de respaldo:'
     }

@@ -1,7 +1,7 @@
 <% unless flash.blank? %>
    <script type="text/javascript">
       <% flash.each do |f| %>
-        <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+        <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info').gsub('danger', 'error') %>
         if (<%= !type.eql? '' %>) toastr['<%= type %>']('<%= f[1] %>')
    	  <% end %>
    </script>
