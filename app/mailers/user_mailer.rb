@@ -10,11 +10,14 @@ class UserMailer < ApplicationMailer
 
   def canvas_new_user_registration(user, status)
     @user = user
+    @canvas_color = "<b style='color:red;'>CANVAS</b>"
+    @aceim_color = "<b style='color:#6F9BED;'>ACEIM</b>"
 
     if (status.eql? 'no_sabe')
-      @first_paragraph = "Hemos intentado crear su usuario en <b style='color:red;'>CANVAS</b> pero el sistema nos indica que ya existe un usuario registrado con este correo.  Debe haber recibido un correo con las indicaciones para recuperar su contraseña de <b style='color:red;'>CANVAS</b>. Por favor, revise todas las carpetas de su buzón de entrada en su correo, siga las instrucciones para recuperar su contraseña y actualice su perfil en <b style='color:red;'>CANVAS</b>."
+      @first_paragraph = "Hemos intentado crear su usuario en #{@canvas_color} pero el sistema nos indica que ya existe un usuario registrado con este correo. Debe haber recibido un correo con las indicaciones para recuperar su contraseña de #{@canvas_color}. Por favor, revise todas las carpetas de su buzón de entrada en su correo, siga las instrucciones para recuperar su contraseña y actualice su perfil en #{@canvas_color}"
     else
-      @first_paragraph = "Hemos creado su usuario en <b style='color:red;'>CANVAS</b>, su contraseña temporal en <b style='color:red;'>CANVAS</b> es <b>12341234</b>, debe haber recibido un correo, por favor, acepte esa invitación y actualice su perfil en <b style='color:red;'>CANVAS</b>."
+
+      @first_paragraph = "Hemos creado su usuario en #{@canvas_color}, su usuario es el mismo correo que tiene registrado en #{@aceim_color} y su contraseña temporal en #{@canvas_color} es <b>12341234</b>."
     end
 
     mail(to: user.email,

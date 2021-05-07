@@ -5,9 +5,15 @@
 
   %p= @first_paragraph.html_safe
 
+  %p= "Debe haber recibido un correo de invitación, por favor, acepte esa invitación y actualice su perfil en #{@canvas_color}.".html_safe
+
+  %p El sistema le pedirá colocar una contraseña privada, por favor, anótela para evitar problemas de acceso en el futuro.
+
+  %p= "Después de ese momento, puede utilizar el enlace que aparece en su usuario de #{@aceim_color} para ingresar a #{@canvas_color}.".html_safe
+
   %p No funciona con las APP descargables para dispositivos móviles, debe usarla desde el buscador de internet. 
 
-  %p Le invitamos a estar pendiente de las fechas publicadas en nuestra página para el envío de las invitaciones a las aulas en CANVAS y para el inicio de las clases
+  %p= "Le invitamos a estar pendiente de las fechas publicadas en nuestra página (fundeim.com) para el envío de las invitaciones a las aulas en #{@canvas_color} y para el inicio de las clases.".html_safe
 
   %p No deje pasar tantos días después de esas fechas para reportarnos por fundeimucv@gmail.com si no recibe la invitación o tiene algún inconveniente con el ingreso a su aula virtual.
 
@@ -16,4 +22,3 @@
   %p{style: 'color:#0070c0'} #SeguimosAvanzando
 
   %p{style: 'color:#0070c0'} #SeguimosVenciendoLaSombra
-
