@@ -31,7 +31,8 @@
 					%td.text-center.align-middle= raw ar.label_insc_status('admin')
 					%td.text-center.align-middle= raw ar.label_fq
 					%td.text-right.align-middle= ar.final_desc
-					%td.align-middle= ar.agreement.name
+					%td.align-middle
+						.tooltip-btn{"data-toggle": :tooltip, title: ar.agreement.name}= ar.agreement.name
 					%td.text-center.align-middle= ar.section.number_to_string
 					%td.align-middle
 						- if ar.partial_qualifications.any?
