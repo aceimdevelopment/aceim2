@@ -29,17 +29,20 @@ class Ability
             can :cru, [Bank, BankAccount, Period, Agreement, GeneralSetup, PartialQualification, QualificationSchema]
             can :read, [Course]
         elsif user.administrator.administrativo?
-        # Agregar vista de Guedez y Mendez
+            # Nelson Guedez
             can :cru, [Bank, BankAccount, PaymentDetail]
             can :read, [Student, User, AcademicRecord, Section]
+        elsif user.administrator.administrativo_plus? # Con posibilidad de Inscribir
+            # Nelson Guedez durante los días de inscripción
+            can :cru, [Bank, BankAccount, PaymentDetail, Student, User, AcademicRecord]
+            can :read, [Section]
         elsif user.administrator.superadmin?
             can :cru, [Student, Instructor, Section, AcademicRecord, User, PartialQualification, QualificationSchema, CoursePeriod]
             can :read, [Period, Agreement, Course]
             can :cr, [User]
-            # can :update, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
-            # can :create, [Bank, Period, CoursePeriod, Agreement]
-            # cannot :destroy, [Bank, Language, Level, Course, Period, CoursePeriod, Agreement]
-
+        elsif user.administrator.superadmin_plus? #Con posibilidad de hacer Reporte Pago
+            # Maria Mendez
+            can :cru, [Student, Instructor, Section, AcademicRecord, User, CoursePeriod, Bank, BankAccount, PaymentDetail]
         elsif user.administrator.supervisor?
             can :read, [AcademicRecord, Student, Section]
         else

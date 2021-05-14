@@ -6,7 +6,7 @@ class Administrator < ApplicationRecord
 
   # ========== VARIABLES ============ #
 
-  enum role: [:desarrollador, :superadmin, :supervisor, :pasante, :administrativo]
+  enum role: [:desarrollador, :superadmin, :supervisor, :pasante, :administrativo, :administrativo_plus, :superadmin_plus]
 
   # ========== VALIDATIONS ============ #
   validates :user_id, presence: true
