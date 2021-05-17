@@ -13,6 +13,10 @@
       %th= link_to cp.course.name, "/admin/courses/#{cp.course_id}"
       %th= link_to cp.period.name, "/admin/period/#{cp.period_id}"
       %th= cp.kind.capitalize
-      %th= link_to cp.id_canvas, "https://canvas.instructure.com/courses/#{cp.id_canvas}/settings", target: '_blank'
+      %th
+        - if cp.id_canvas
+          = link_to cp.id_canvas, "https://canvas.instructure.com/courses/#{cp.id_canvas}/settings", target: '_blank'
+        - else
+          Sin IdCanvas Asociado
       %th= cp.capacity
-      %th= cp.enrollments_confirmed
+      %th= render partial: 'sections/resume', locals: {objeto: cp}

@@ -1,0 +1,9 @@
+.label.label-info.tooltip-btn{data: {toggle: :tooltip, title: 'Total Preinscritos'}}= objeto.academic_records.preinscrito.count
+.label.label-warning.tooltip-btn{data: {toggle: :tooltip, title: 'Total Confirmados'}}= objeto.academic_records.confirmado.count
+.label.label-success.tooltip-btn{data: {toggle: :tooltip, title: 'Total Asignados'}}= objeto.academic_records.asignado.count
+
+= '/'
+
+.label.label-success.tooltip-btn{data: {toggle: :tooltip, title: 'Total Aprobados'}}= objeto.academic_records.approved.count
+.label.label-danger.tooltip-btn{data: {toggle: :tooltip, title: 'Total Reprobados'}}= objeto.academic_records.repproved.count
+.label.label-default.tooltip-btn{data: {toggle: :tooltip, title: 'Total PI'}}= objeto.academic_records.pi.count

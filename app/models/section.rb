@@ -236,7 +236,7 @@ class Section < ApplicationRecord
   end
 
   def text_box_email_cavas_list
-    "<div class='container-fluid middle-box text-justify'><span class='input' role='textbox' style='margin-top:10px'>#{self.list_of_emails_canvas}</span></div>".html_safe
+    capture_haml{"<div class='container-fluid middle-box text-justify'><span class='input' role='textbox' style='margin-top:10px'> #{self.list_of_emails_canvas} </span></div>"}.html_safe
   end
 
   def create_section_on_canvas (canvas_connection = MyCanvas.connect)

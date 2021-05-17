@@ -1,13 +1,11 @@
--# qa_schs = section.course_period.period.qualification_schemas.order(:sequence)
+
 - any_student = section.academic_records.any?
-.label.label-success.ml-5.p-3
-	Total Inscritos: 
-	= section.academic_records.count
-	- # Agregar otros numeritos resumen como: total_preinscritos, total_asignados, total_confirmados, total_calificados, total_aprobados, etc
+
+= render partial: 'sections/resume', locals: {objeto: section}
 = render partial: 'sections/options', locals: {section: section, any_student: any_student}
 
 - if any_student
-	= render partial: '/layouts/modal', locals: {content: section.text_box_email_cavas_list, id: "emailsList#{section.id}", msg: "Lista de Emails de la Sección SIN IDENTIFICADOR DE CANVAS (Por enviar Invitación)", title: nil, msg2: "" }
+	= render partial: 'sections/modal_emails_list', locals: {content: section.list_of_emails_canvas, id: "emailsList#{section.id}", msg: "Lista de Emails de la Sección SIN IDENTIFICADOR DE CANVAS (Por enviar Invitación)"}
 
 	= render partial: "qualification_schemas/comparative_table", locals: {period: section.period, objeto: section}
 	= render partial: '/academic_records/index', locals: {section: section}

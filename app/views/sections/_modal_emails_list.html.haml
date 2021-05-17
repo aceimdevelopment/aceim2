@@ -1,0 +1,10 @@
+.modal.fade{'aria-hidden': false, 'aria-labelledby': 'updateModalLabel', id: id}
+  .modal-dialog.modal-lg
+    .modal-content
+      .alert.alert-info.text-center
+        %h5= raw msg
+      .modal-body
+        .border.m-1.p-3
+          .container-fluid.middle-box#emails.text-justify
+            %span.input{role: "textbox", style: 'margin-top:10px'}
+              = content
