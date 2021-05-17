@@ -1,10 +1,11 @@
-.modal.fade{'aria-hidden': false, 'aria-labelledby': 'updateModalLabel', id: id}
+.modal.fade{'aria-hidden': false, 'aria-labelledby': 'updateModalLabel', id: "emailsList#{section.id}"}
   .modal-dialog.modal-lg
     .modal-content
       .alert.alert-info.text-center
-        %h5= raw msg
+        %h3= "Sección #{section.number_to_string}".html_safe
+        %h5 Lista de correos SIN IDENTIFICADOR DE CANVAS (Por enviar Invitación)
       .modal-body
         .border.m-1.p-3
           .container-fluid.middle-box#emails.text-justify
-            %span.input{role: "textbox", style: 'margin-top:10px'}
-              = content
+            #alert.alert.alert-success.hidden !Copiado!
+            = text_area_tag "emailsListText#{section.id}", section.list_of_emails_canvas, role: "textbox", onclick: "$(this)[0].select();document.execCommand('copy');$('#alert').removeClass('hidden');", class: 'form-control onlyread disabled text-justify', readonly: true, rows: 20

@@ -1,5 +1,8 @@
-- if can? :manage, Section
-	.pull-right
+.pull-right
+	- if can? :read, Section
+		= link_to "/admin/section/#{section.id}", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir al detalle de sección #{section.number_to_string}", style: 'margin-right: 10px'  do
+			.fa.fa-search
+	- if can? :manage, Section
 		- if current_user.administrator? and current_user.administrator.high_authotization?
 			- if section.id_canvas
 				= link_to section.full_url_canvas_section, class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir a la sección  #{section.number_to_string} en Canvas", style: 'margin-right: 10px;', target: '_blank'  do

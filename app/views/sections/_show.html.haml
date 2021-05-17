@@ -5,7 +5,7 @@
 = render partial: 'sections/options', locals: {section: section, any_student: any_student}
 
 - if any_student
-	= render partial: 'sections/modal_emails_list', locals: {content: section.list_of_emails_canvas, id: "emailsList#{section.id}", msg: "Lista de Emails de la Sección SIN IDENTIFICADOR DE CANVAS (Por enviar Invitación)"}
+	= render partial: 'sections/modal_emails_list', locals: {section: section}
 
 	= render partial: "qualification_schemas/comparative_table", locals: {period: section.period, objeto: section}
 	= render partial: '/academic_records/index', locals: {section: section}
