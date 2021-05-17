@@ -1,7 +1,5 @@
 
-=link_to "Lista de Emails", "javascript:void(0)", class: 'btn btn-info', onclick: "$('#emails').toggleClass('hidden')"
-.container-fluid.middle-box.hidden#emails.text-justify
-	%span.input{role: "textbox", style: 'margin-top:10px'}= section.list_of_emails_canvas
-
-
-
+=link_to "javascript:void(0)", class: 'btn btn-info tooltip-btn btn-sm pull-right', onclick: "$('#emailsList#{section.id}').modal()", data: {toggle: :tooltip, title: 'Lista de correos de los estudiantes SIN IDENTIFICADOR DE CANVAS (Por enviar Invitación)'}, style: 'margin-right: 10px;'  do
+	.fa.fa-envelope
+	.fa.fa-address-book
+	

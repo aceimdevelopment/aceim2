@@ -19,7 +19,7 @@ class SectionsController < ApplicationController
 		begin
 			errors, unenrolled, section_deleted = @section.destroy_section_on_canvas
 			flash[:danger] = errors.to_sentence if errors.any?
-			flash[:success] = "Estudiantes eliminados de la sección de Canvas: #{unenrolled} y seccioón eliminada" if unenrolled > 0 and section_deleted			
+			flash[:success] = "Estudiantes eliminados de la sección de Canvas: #{unenrolled}. Sección eliminada" if unenrolled > 0 and section_deleted			
 		rescue Exception => e
 			flash[:danger] = "Error: #{e}"
 		end
@@ -37,15 +37,13 @@ class SectionsController < ApplicationController
 			flash[:info] = ""
 			total_new_sections = 0
 			total_challenge = 0
-			canvas = MyCanvas.connect
+			# canvas = MyCanvas.connect
 
 			for i in 1..number_split
 				new_section = @section.dup
 				new_section.number = course_period.next_section_number
 				if new_section.save
-					
-					new_section.create_section_on_canvas canvas
-
+					# new_section.create_section_on_canvas canvas
 					total_new_sections += 1
 					@section.reload
 
@@ -59,16 +57,16 @@ class SectionsController < ApplicationController
 						ar.section = new_section
 						total_challenge += 1 if ar.save
 					end
-					new_section.reload
+					# new_section.reload
 					course_period.reload
-					new_section.enrollments_to_canvas canvas
+					# new_section.enrollments_to_canvas canvas
 				else
-					flash[:info] += "No fue posible crear la nueva sección #{new_section.errors.full_messages.to_sentence}"
+					flash[:info] += "No fue posible crear la nueva sección: #{new_section.errors.full_messages.to_sentence}. "
 				end
 			end
 
-			flash[:info] += "Se crearon un total de #{total_new_sections} nuevas secciones"
-			flash[:info] += "Se cambiaron de sección un total de #{total_challenge} estudiantes"
+			flash[:info] += "Se crearon un total de #{total_new_sections} nuevas secciones. "
+			flash[:info] += "Se cambiaron de sección un total de #{total_challenge} estudiantes. "
 
 
 		rescue Exception => e
@@ -94,7 +92,7 @@ class SectionsController < ApplicationController
 
 	def enrollments_to_canvas
 		begin
-			flash[:success] = "Total asignados en Candas: #{@section.enrollments_to_canvas}"	
+			flash[:success] = "Total asignados en Canvas: #{@section.enrollments_to_canvas}"
 		rescue Exception => e
 			flash[:danger] = "Error: #{e}"
 		end

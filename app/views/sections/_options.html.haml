@@ -1,0 +1,32 @@
+- if can? :manage, Section
+	.pull-right
+		- if current_user.administrator? and current_user.administrator.high_authotization?
+			- if section.id_canvas
+				= link_to section.full_url_canvas_section, class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir a la sección  #{section.number_to_string} en Canvas", style: 'margin-right: 10px;', target: '_blank'  do
+					.fa.fa-external-link
+
+			- if section.id_canvas.blank? and section.course_period.id_canvas and can? :manage, Section
+				= link_to "/sections/#{section.id}/create_on_canvas", class: 'btn btn-success btn-sm tooltip-btn', 'data-toggle': :tooltip, title: "Crear esta sección en Canvas", style: 'margin-right: 10px;' do
+					.fa.fa-paper-plane
+
+			- if section.course_period.id_canvas and can? :manage, Section and any_student
+				= link_to "/sections/#{section.id}/enrollments_to_canvas", class: 'btn btn-success btn-sm tooltip-btn', 'data-toggle': :tooltip, title: "Asignar estudiantes a Canvas", style: 'margin-right: 10px;' do
+					.fa.fa-paper-plane
+					.fa.fa-graduation-cap
+			= render partial: "sections/split", locals: {section: section}
+		- if can? :manage, CoursePeriod and request.path.include? 'section'
+			= link_to "/admin/course_period/#{section.course_period.id}", class: 'btn-sm btn btn-info tooltip-btn', data: {toggle: :tooltip, title: 'Ir a la programación'}, style: 'margin-right:10px' do
+				.fa.fa-level-up
+
+		- if current_user.administrator and current_user.administrator.high_authotization? and (!section.number.eql? 0)
+			= link_to "/sections/#{section.id}/delete", class: 'tooltip-btn btn btn-sm btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla?', "data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, devolverlos a la sección 00 y eliminar la sección en ACEIM', style: 'margin-right: 10px;' do
+				.fa.fa-remove
+
+			- if section.academic_records.not_preinscrito.any?
+				= link_to "/sections/#{section.id}/unsplit", class: 'tooltip-btn btn btn-sm btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla?', "data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, pasarlos a la sección 00, eliminar inscritos y sección de Canvas y eliminar la sección en ACEIM', style: 'margin-right: 10px;' do
+					.fa.fa-remove
+					.fa.fa-external-link
+
+		- if any_student
+			= render partial: "sections/emails_section", locals: {section: section}
+	%hr

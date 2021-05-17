@@ -8,12 +8,8 @@
 
 	= form_tag("/sections/#{section.id}/split", class: 'form-inline', method: :get) do
 		.input-group
-			- # Ojo la linea siguiente se comenta ya en programacion detalle la asigna a la seccion 00 y no está bien
-			- if false #section.academic_records.not_preinscrito.any?
-				%span.input-group-btn.tooltip-btn{"data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, pasarlos a la sección 00, eliminar inscritos y sección de Canvas y eliminar la sección'}
-					= link_to 'Deshacer y Eliminar Sección', "/sections/#{section.id}/unsplit", class: 'btn btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla? '
-			= number_field_tag :number_split, 1, class: 'form-control input-small mr-3', in: 1...41, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable
+			= number_field_tag :number_split, 1, class: 'form-control input-sm', in: 1...50, step: 1, required: true, placeholder: 'Total Secciones', disabled: cutable, id: "number_split#{section.id}"
 			%span.input-group-btn.tooltip-btn{"data-toggle": :tooltip, title: msg}
-				= button_tag(type: :submit, class: 'btn btn-success', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
+				= button_tag(type: :submit, class: 'btn btn-success btn-sm', disabled: cutable, data: {confirm: 'Está Acción es irrevesrible. ¿Seguro que desea distribuir esta sessión?'}) do
 					%i.fa.fa-cut
 					Distribuir Sección

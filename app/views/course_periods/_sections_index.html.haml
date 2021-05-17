@@ -4,8 +4,8 @@
 - if course_period.response_unenrolled_canvas
   .alert.alert-warning
     = raw (course_period.response_unenrolled_canvas)
-- sec_split = course_period.sections.where(number: 0).first
-= (render partial: "sections/split", locals: {section: sec_split}) if sec_split
+-# sec_split = course_period.sections.where(number: 0).first
+=# (render partial: "sections/split", locals: {section: sec_split}) if sec_split
 %nav
   %ul.nav.nav-tabs
     - course_period.sections.each_with_index do |s,i| 
@@ -26,42 +26,6 @@
   - course_period.sections.each_with_index do |s,i| 
     - active = (i.eql? 0) ? ' active' : ''
     .tab-pane{id: "tab-#{s.id}", class: active}
+
       .border.mt-3.p-3
-        %b= "Total Inscritos: #{s.academic_records.count}"
-        
-        %table.table
-          %thead
-            %tr.text-center
-              - qa_schs.each do |qs| 
-                %th= qs.desc
-          %tbody
-            %tr.text-center
-              - qa_schs.each do |qs| 
-                %td
-                  .tooltip-btn.label.label-success{'data-toggle': :tolltip, title: 'Calificados'}
-                    = PartialQualification.from_qualification_schema_and_section_qualified(qs.id, s.id).count
-                  .tooltip-btn.label.label-danger{'data-toggle': :tolltip, title: 'Pendientes'}
-                    = PartialQualification.from_qualification_schema_and_section_not_qualified(qs.id, s.id).count
-
-
-        .pull-right
-          - if current_user.administrator and current_user.administrator.high_authotization?
-            - if (!s.number.eql? 0)
-              = link_to "/sections/#{s.id}/delete", class: 'tooltip-btn btn btn-sm btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla?', "data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, devolverlos a la sección 00 y eliminar la sección', style: 'margin-right: 10px;' do
-                .fa.fa-remove
-
-            - if s.academic_records.not_preinscrito.any? and (!s.number.eql? 0)
-              = link_to "/sections/#{s.id}/unsplit", class: 'tooltip-btn btn btn-sm btn-danger', 'data-confirm': 'Está acción es irreversible. ¿Está completamente seguro de ejecutarla?', "data-toggle": :tooltip, title: 'Llevar nuevamente los estudiantes asignados a confirmados, pasarlos a la sección 00, eliminar inscritos y sección de Canvas y eliminar la sección', style: 'margin-right: 10px;' do
-                .fa.fa-trash
-                .fa.fa-external-link
-
-          - if s.id_canvas and s.course_period.id_canvas
-            = link_to "https://canvas.instructure.com/courses/#{s.course_period.id_canvas}/sections/#{s.id_canvas}", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir a la sección en Canvas #{s.number_to_string}", style: 'margin-right: 10px;', target: '_blank'  do
-              .fa.fa-external-link
-
-            = link_to "/sections/#{s.id}/enrollments_to_canvas", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Asignar Estudiantes a Canvas", style: 'margin-right: 10px;' do
-              .fa.fa-graduation-cap
-          = link_to "/admin/section/#{s.id}", class: 'btn btn-sm btn-info tooltip-btn', 'data-toggle': :tooltip, title: "Ir al detalle de esta sección #{s.number_to_string}"  do
-            .fa.fa-search
-          = link_to "Instructor: #{s.instructor.user.full_name}", "/admin/instructor/#{s.instructor.id}", class: 'btn btn-sm btn-info', style: 'margin-left: 10px;' if s.instructor
-        = render partial: '/academic_records/index', locals: {section: s}
+        = render partial: "sections/show", locals: {section: s}

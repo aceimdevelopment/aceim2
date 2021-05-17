@@ -51,17 +51,10 @@ class Section < ApplicationRecord
         end
 
       end
-      field :emails do
-        label 'Emails'
-        formatted_value do
-          bindings[:view].render(partial: "sections/emails_section", locals: {section: self.bindings[:object]})
-        end
-      end
-
       field :records do
         label 'Inscripciones'
         formatted_value do
-          bindings[:view].render(partial: "table_academic_records_partial", locals: {section: self.bindings[:object]})
+          bindings[:view].render(partial: "sections/show", locals: {section: self.bindings[:object]})
         end
       end
     end
@@ -242,6 +235,9 @@ class Section < ApplicationRecord
     academic_records.reject{|ar| ar.user.id_canvas}.map{|ar| ar.user.name_for_email_canvas}.join(", ")
   end
 
+  def text_box_email_cavas_list
+    "<div class='container-fluid middle-box text-justify'><span class='input' role='textbox' style='margin-top:10px'>#{self.list_of_emails_canvas}</span></div>".html_safe
+  end
 
   def create_section_on_canvas (canvas_connection = MyCanvas.connect)
     section_canvas = canvas_connection.post("/api/v1/courses/#{self.course_period.id_canvas}/sections", {'course_section' => {'name' => "#{title_for_create_canvas}"}})
@@ -289,10 +285,16 @@ class Section < ApplicationRecord
 
   def enrollments_to_canvas(canvas_connection = MyCanvas.connect)
     total_enrolled = 0
-    academic_records.not_preinscrito.each do |ar|
-      if ar.user.id_canvas
-        new_enrolled_canvas = canvas_connection.post("/api/v1/sections/#{self.id_canvas}/enrollments", {'enrollment' => {'user_id' => ar.user.id_canvas, 'type' => 'StudentEnrollment', 'limit_privileges_to_course_section' => true, 'notify' => true, 'enrollment_state' => 'active'}})
-         total_enrolled += 1 if (new_enrolled_canvas and ar.update(inscription_status: :asignado))
+    
+    (self.create_section_on_canvas canvas_connection) if self.id_canvas.nil?
+
+    if self.id_canvas
+      self.academic_records.not_preinscrito.each do |ar|
+        if ar.user.id_canvas
+          
+          new_enrolled_canvas = canvas_connection.post("/api/v1/sections/#{self.id_canvas}/enrollments", {'enrollment' => {'user_id' => ar.user.id_canvas, 'type' => 'StudentEnrollment', 'limit_privileges_to_course_section' => true, 'notify' => true, 'enrollment_state' => 'active'}})
+          total_enrolled += 1 if (new_enrolled_canvas and ar.update(inscription_status: :asignado))
+        end
       end
     end
     return total_enrolled

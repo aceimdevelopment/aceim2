@@ -1,0 +1,16 @@
+- qa_schs = period.qualification_schemas.order(:sequence)
+- if qa_schs.any?  
+  %table.table
+    %thead
+      %tr
+        - qa_schs.each do |qs| 
+          %th.text-center= qs.desc
+    %tbody
+      %tr.text-center
+        - qa_schs.each do |qs| 
+          %td
+            .tooltip-btn.label.label-success{'data-toggle': :tolltip, title: 'Calificados'}
+              = PartialQualification.total_qualified_by_type qs.id, objeto
+            .tooltip-btn.label.label-danger{'data-toggle': :tolltip, title: 'Pendientes'}
+              = PartialQualification.total_not_qualified_by_type qs.id, objeto
+  %br
