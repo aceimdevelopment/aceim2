@@ -101,6 +101,7 @@ class Student < ApplicationRecord
 
     list do
       search_by :my_search
+      # filters [:agreement, :languages, :last_level]
       field :personal_identity_document do
         label 'Cédula'
         column_width 100
@@ -108,6 +109,26 @@ class Student < ApplicationRecord
       field :name do
         label 'Usuario'
       end
+      field :agreement do
+        formatted_value do
+          label 'Convenio'
+          bindings[:object].careers.collect{|c| c.agreement_id}.to_sentence
+        end
+      end
+      field :languages do
+        formatted_value do
+          label 'Idiomas'
+          bindings[:object].careers.collect{|c| c.language_id}.to_sentence
+        end
+      end
+
+      field :last_level do
+        formatted_value do
+          label 'Ult. Nivel Inscrito'
+          bindings[:object].careers.collect{|c| c.academic_records.last.level.id if c.academic_records.last}.to_sentence
+        end
+      end
+
       field :location do
         label 'Ubicación'
       end
