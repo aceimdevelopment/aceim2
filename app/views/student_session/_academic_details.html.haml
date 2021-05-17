@@ -13,8 +13,8 @@
 - ar = student.academic_records.preinscrito.reject{|ar| !ar.payment_detail.nil?}.first
 .text-center.align-middle
   .alert.alert-info.mt-4 En el siguiente cuadro pueden ver la organización de las actividades semanales que cada estudiante debe completar en nuestro programa de cursos de idiomas.
-  %img{alt: "image", src: "#{image_path('resumen_actividades01_low.png')}", style: 'width:55%', class: 'pt-1 pb-3'}
-  =# image_tag 'resumen_actividades01.png'
+  %img{alt: "image", src: "#{image_path('resumen_actividades.png')}", style: 'width:55%', class: 'pt-1 pb-3'}
+  =# image_tag 'resumen_actividades.png'
 - if ar
 
   = render partial: "/bank_account/show", locals: {ar: ar}

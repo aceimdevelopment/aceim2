@@ -10,7 +10,7 @@
 %br
 .border.m-3.p-3
   .text-center.align-middle
-    %img{alt: "image", src: "#{image_path('resumen_actividades01.png')}"}
+    %img{alt: "image", src: "#{image_path('resumen_actividades.png')}"}
   %h3 Secciones:
   - if @instructor.sections.any?
     = link_to 'Constancia', "/instructors/#{@instructor.id}/work_proof", class: 'btn btn-sm btn-primary btn-tooltip', 'data-toggle': :tooltip, title: 'Generar Constancia'
