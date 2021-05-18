@@ -2,7 +2,7 @@ class Instructor < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
   
   belongs_to :user, inverse_of: :instructor#, foreign_key: :user_id
-  belongs_to :bank_account, foreign_key: :bank_account_id, primary_key: :user_id, optional: true, inverse_of: :instructors
+  belongs_to :bank_account, optional: true, inverse_of: :instructors
   
   has_many :sections, inverse_of: :instructor, dependent: :nullify
   accepts_nested_attributes_for :sections
@@ -68,6 +68,13 @@ class Instructor < ApplicationRecord
       field :user do
         label 'usuario'
       end
+
+      # field :user do
+      #   label 'usuario'
+      #   formatted_value do
+      #     bindings[:object].user.name if bindings[:object].user
+      #   end
+      # end
 
       field :ci
       field :rif
