@@ -2,6 +2,67 @@ class SectionsController < ApplicationController
 	before_action :set_section, except: [:index, :new, :create, :rollback_split]
 	before_action :authenticate_user!
 
+
+
+	def sync_up_width_canvas
+
+			unfinded = []
+			unenrolled = []
+			section_id_canvas = @section.id_canvas
+			canvas = MyCanvas.connect
+			# section_canvas = canvas.get("/api/v1/sections/#{section_id_canvas}") #get_sections_of_course(course_id_canvas)
+
+			# instructor = canvas.get_enrollments_to_section(id_canvas, 'TaEnrollment').first
+			instructor = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 10, role: 'TaEnrollment'}).first
+
+			if instructor
+				email_instr = instructor['user']['login_id']
+				i_aux = User.where("email = '#{email_instr}' OR login_id_canvas = '#{email_instr}'").first
+				@section.instructor_id = i_aux.id if i_aux
+			end
+
+			if @section.save
+				enrollments = canvas.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 50, role: 'StudentEnrollment'})
+
+				enrollments.reject{|enrolled| enrolled['user']['name'].eql? 'Test Student' or enrolled['user']['name'].eql? 'Estudiante de prueba'}.each do |ele|
+					email = ele['user']['login_id']
+					user = User.where("email = '#{email}' OR canvas_email = '#{email}' OR login_id_canvas = '#{email}'").first
+
+					if user and es = user.student
+						user.update(id_canvas: ele['user']['id'], canvas_email: email, login_id_canvas: email)
+						if enrolled = es.academic_records.joins(:section).where("sections.id = #{@section.id}").first
+							enrolled.inscription_status = :asignado if enrolled.confirmado?
+							enrolled.save!
+						else
+							unenrolled << [ele['user']['id'], email, ele['user']['name']]
+						end
+					else
+						unfinded << [ele['user']['id'], email, ele['user']['name']]
+					end
+				end
+			else
+				flash[:error] = "No se pudo guardar la sección: #{s2.errors.full_messages.to_sentence}. #{s2.attributes}"
+			end
+		  
+			flash[:success] = 'Sincronización realizada con éxito'
+
+		if unenrolled.any?
+			flash[:warning] = "Algunos estudiantes no están inscritos. Revise el área de las secciones para mayor detalle."
+			
+		end
+		if unfinded.any?
+			flash[:danger] = "Algunos estudiantes no fueron encontrados. Revise el área de las secciones para mayor detalle."
+		end
+
+		redirect_back fallback_location: '/admin/section'
+	  end
+
+
+
+
+
+
+
 	def delete
 		course_period_id = @section.course_period_id
 		
@@ -101,7 +162,7 @@ class SectionsController < ApplicationController
 
 
 	private
-      # Use callbacks to share common setup or constraints between actions.
+	  # Use callbacks to share common setup or constraints between actions.
 	def set_section
 		@section = Section.find(params[:id])
 	end
