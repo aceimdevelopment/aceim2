@@ -98,6 +98,14 @@ class Student < ApplicationRecord
 
     end
 
+    # pretty_value do
+    #   util = bindings[:object]
+    #   %{<div class="blah">
+    #       #{util.name} #{util.phone} #{util.logo}
+    #     </div >}
+    # end
+    # children_fields [:name, :phone, :logo] # will be used for searching/filtering, first field will be used for sorting
+    # read_only true # won't be editable in forms (alternatively, hide it in edit section)
 
     list do
       search_by :my_search
@@ -106,8 +114,12 @@ class Student < ApplicationRecord
         label 'Cédula'
         column_width 100
       end
-      field :name do
-        label 'Usuario'
+      field :user_name do
+        column_width 400
+        formatted_value do
+          label 'Usuario'
+          bindings[:object].user.description if bindings[:object].user
+        end
       end
       field :agreement do
         formatted_value do
