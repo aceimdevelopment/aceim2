@@ -2,8 +2,7 @@ class Instructor < ApplicationRecord
   # ========== RELATIONSHIPS ============ #
   
   belongs_to :user, inverse_of: :instructor#, foreign_key: :user_id
-  belongs_to :bank_account, inverse_of: :instructors#, foreign_key: :user_id
-  # accepts_nested_attributes_for :user
+  belongs_to :bank_account, foreign_key: :bank_account_id, primary_key: :user_id, optional: true, inverse_of: :instructors
   
   has_many :sections, inverse_of: :instructor, dependent: :nullify
   accepts_nested_attributes_for :sections
@@ -12,6 +11,7 @@ class Instructor < ApplicationRecord
   validates :user, presence: true, uniqueness: true
 
   after_destroy :check_user_for_destroy
+  before_save :set_nil_bank_account
   # ========== SCOPE ============ #
 
   # ========== RAILS ADMIN ============ #
@@ -61,9 +61,6 @@ class Instructor < ApplicationRecord
       field :sections do
         label 'Secciones'
       end
-      field :bank_account do
-        label 'Cuanta Bancaria'
-      end
     end
 
     edit do
@@ -78,7 +75,7 @@ class Instructor < ApplicationRecord
         label 'Activo'
       end
       field :bank_account do
-        label 'Cuanta Bancaria'
+        label 'Cuenta Bancaria'
       end
     end
 
@@ -145,6 +142,12 @@ class Instructor < ApplicationRecord
   def check_user_for_destroy
     user_aux = User.find self.user_id
     user_aux.delete if user_aux.without_rol?
+  end
+
+  private
+
+  def set_nil_bank_account
+    self.bank_account_id = nil if self.bank_account_id.eql? ''
   end
 
 end

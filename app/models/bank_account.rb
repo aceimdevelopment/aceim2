@@ -4,7 +4,8 @@ class BankAccount < ApplicationRecord
   belongs_to :bank, inverse_of: :bank_accounts
 
   has_many :payment_details, inverse_of: :bank_account
-  has_many :instructors, inverse_of: :bank_account
+  has_many :instructors, inverse_of: :bank_account, dependent: :nullify
+  accepts_nested_attributes_for :instructors
 
   # ========== VALIDATIONS ============ #
   
