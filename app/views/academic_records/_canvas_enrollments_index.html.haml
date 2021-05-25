@@ -20,7 +20,7 @@
         = "#{sections.length} Secciones:"
         .label.label-info= "#{sections.map{|sec| sec['name'].last 2}.to_sentence}"
         .pull-right.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
-          = link_to "/enrollment/#{course_period.id}/sync_up_width_canvas", class: 'btn btn-sm btn-success' do
+          = link_to "/enrollment/#{course_period.id}/sync_up_with_canvas", class: 'btn btn-sm btn-success' do
             .fa.fa-sliders
             Sincronizar
     - else

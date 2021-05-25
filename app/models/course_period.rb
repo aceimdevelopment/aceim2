@@ -259,7 +259,7 @@ class CoursePeriod < ApplicationRecord
       tipo = (type.eql? 'unfinded') ? 'Estudiantes no encontrados' : 'Estudiantes encontrados pero no inscritos en el curso'
       t = Time.now - 4.hours
       time = "<b>Fecha de Última Sincronización:</b> #{I18n.l(t, format: '%a, %d / %B / %Y (%I:%M%p)')}"
-      aux = "<a href='/enrollment/#{self.id}/sync_up_width_canvas' class= 'btn btn-success pull-right mb-0 p-1' style='margin-bottom: 0px; padding: 6px;'><div class='fa fa-sliders'></div>Sincronizar nuevamente</a>"
+      aux = "<a href='/enrollment/#{self.id}/sync_up_with_canvas' class= 'btn btn-success pull-right mb-0 p-1' style='margin-bottom: 0px; padding: 6px;'><div class='fa fa-sliders'></div>Sincronizar nuevamente</a>"
       aux += "<p class= 'pull-right' style='margin-bottom: 0px; padding: 6px;'>#{time}</p>"
       aux += "</br><b>#{tipo}</b>"
       aux += "<table class='table table-striped table-sm table-hover table-condensed'>"

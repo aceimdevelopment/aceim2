@@ -10,7 +10,7 @@ class EnrollmentController < ApplicationController
   end
 
 
-  def sync_up_width_canvas
+  def sync_up_with_canvas
     begin
       unfinded = []
       unenrolled = []

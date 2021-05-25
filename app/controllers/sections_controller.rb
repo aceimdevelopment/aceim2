@@ -4,7 +4,7 @@ class SectionsController < ApplicationController
 
 
 
-	def sync_up_width_canvas
+	def sync_up_with_canvas
 
 			unfinded = []
 			unenrolled = []

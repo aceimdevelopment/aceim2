@@ -19,9 +19,15 @@
 			= render partial: "sections/split", locals: {section: section}
 
 			- if section.id_canvas
-				= link_to "/sections/#{section.id}/sync_up_width_canvas", class: 'btn btn-sm btn-success tooltip-btn', data: {toggle: :tooltip, title: "Sincronzar Sección #{section.number_to_string} con Canvas"}, style: 'margin-right: 10px;' do
-					.fa.fa-sliders
-					.fa.fa-arrow-down
+				- if false
+					= link_to "/sections/#{section.id}/sync_up_with_canvas", class: 'btn btn-sm btn-success tooltip-btn', data: {toggle: :tooltip, title: "Sincronzar Sección #{section.number_to_string} con Canvas"}, style: 'margin-right: 10px;' do
+						.fa.fa-sliders
+						.fa.fa-arrow-down
+
+				- if section.id_canvas or section.course_period.id_canvas
+					= link_to "/canvas/#{section.id}/sync_with_canvas?entity=section", {class: 'tooltip-btn btn btn-sm btn-success', data: {toggle: :tooltip, title: "Sincronizar la sección #{section.number_to_string} con Canvas"}, style: 'margin-right: 10px;'}, {disabled_with: 'Sincronizando...'} do
+						.fa.fa-sliders
+						.fa.fa-arrow-down
 
 		- if can? :manage, CoursePeriod and request.path.include? 'section'
 			= link_to "/admin/course_period/#{section.course_period.id}", class: 'btn-sm btn btn-info tooltip-btn', data: {toggle: :tooltip, title: 'Ir a la programación'}, style: 'margin-right:10px' do

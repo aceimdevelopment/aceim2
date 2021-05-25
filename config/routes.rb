@@ -49,7 +49,7 @@ Rails.application.routes.draw do
 
   resources :sections, only: [:index] do
     member do
-      get 'sync_up_width_canvas'
+      get 'sync_up_with_canvas'
       get 'delete'
       get 'unsplit'
       get 'split'
@@ -100,12 +100,15 @@ Rails.application.routes.draw do
     member do
       get 'regular'
       get 'import_aceim_old'
-      get 'sync_up_width_canvas'
+      get 'sync_up_with_canvas'
     end
   end
 
-
-
+  resources :canvas, only: [:index] do
+    member do
+      get 'sync_with_canvas'
+    end
+  end
 
   resources :users, only: [:update] do
     member do

@@ -3,8 +3,8 @@
 
 = render partial: 'sections/resume', locals: {objeto: section}
 - if section.instructor
-	%b.label.label-primary.tooltip-btn{style: 'margin-left:10px', data:{toggle: :tooltip, title: 'Instructor'}}
-		= link_to section.instructor.user.description , "/admin/instructor/#{section.instructor.id}", style: 'text-decoration:none;color: #fff'
+	%b.label.label-primary.tooltip-btn{style: 'margin-left:10px', data:{toggle: :tooltip, title: "Instructor: #{section.instructor.user.description}" }}
+		= link_to section.instructor.user.name , "/admin/instructor/#{section.instructor.id}", style: 'text-decoration:none;color: #fff'
 = render partial: 'sections/options', locals: {section: section, any_student: any_student}
 
 - if any_student

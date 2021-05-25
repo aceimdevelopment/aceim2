@@ -13,12 +13,14 @@
       %li{class: active}
         = link_to s.number_to_string, "#tab-#{s.id}", "data-toggle": "tab", class: "nav-item nav-link"
     
-    %li.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
-      = link_to "/enrollment/#{course_period.id}/sync_up_width_canvas", class: 'text-success' do
-        %span.label.label-success.border.border-success
-          .fa.fa-sliders
-          .fa.fa-arrow-down
-          Sincronizar
+    - if course_period.id_canvas
+      = # Falta cambiar por la función sync_up_course_period de canvas_controller
+      %li.tooltip-btn{"data-toggle": :tooltip, title: 'Sincronzar con Canvas'}
+        = link_to "/enrollment/#{course_period.id}/sync_up_with_canvas", class: 'text-success' do
+          %span.label.label-success.border.border-success
+            .fa.fa-sliders
+            .fa.fa-arrow-down
+            Sincronizar
 
   
 - qa_schs = course_period.period.qualification_schemas.order(:sequence)

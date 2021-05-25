@@ -6,19 +6,23 @@ class MyCanvas
   end
 
   def get_course(course_id_canvas)
-    self.get("/api/v1/courses/#{course_id_canvas}")
+    self.connect.get("/api/v1/courses/#{course_id_canvas}")
   end
 
-  def get_sections_of_course(course_id_canvas)
-    self.get("/api/v1/courses/#{course_id_canvas}/sections")
+  def self.get_sections_of_course(course_id_canvas)
+    self.connect.get("/api/v1/courses/#{course_id_canvas}/sections")
   end
 
-  def get_section(section_id_canvas)
-    self.get("/api/v1/sections/#{section_id_canvas}")
+  def self.get_section(section_id_canvas)
+    self.connect.get("/api/v1/sections/#{section_id_canvas}")
   end
 
-  def get_enrollments_to_section(section_id_canvas, type)
-    self.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 80, role: type})
+  def self.get_enrollments_of_section(section_id_canvas, type=nil)
+    if type
+      self.connect.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 80, role: type})
+    else
+      self.connect.get("/api/v1/sections/#{section_id_canvas}/enrollments", {per_page: 80})
+    end
   end
 
   def create_section_on_canvas(section)

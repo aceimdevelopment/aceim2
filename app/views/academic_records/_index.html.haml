@@ -37,7 +37,12 @@
             .tooltip-btn{"data-toggle": :tooltip, title: user.email}=user.email
           - if (controller_name.eql? 'main')
             %td
-              .tooltip-btn{"data-toggle": :tooltip, title: enrolled.inscription_status.capitalize}=raw enrolled.label_insc_status('admin')
+              .tooltip-btn.pull-right.ml-2{"data-toggle": :tooltip, title: "Sincronizar con Canvas a #{enrolled.user.name}", style: 'margin: 0px 0px 3px 7px'}
+                = link_to "/canvas/#{enrolled.id}/sync_with_canvas?entity=academic_record", class: 'label label-success' do
+                  .fa.fa-sliders
+                  .fa.fa-arrow-down
+              .tooltip-btn.pull-right{"data-toggle": :tooltip, title: enrolled.inscription_status.capitalize}=raw enrolled.label_insc_status('admin')
+
 
           - if enabled_qua
             %td
