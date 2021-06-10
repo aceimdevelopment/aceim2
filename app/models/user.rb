@@ -36,6 +36,8 @@ class User < ApplicationRecord
 
   attr_accessor :allow_blank_password
 
+  # before_validation
+
   validate :acceptable_image
 
   def acceptable_image
