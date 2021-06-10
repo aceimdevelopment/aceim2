@@ -10,6 +10,8 @@ Rails.application.configure do
   config.active_storage.service = :digitalocean #:local
   # Mail Config:
 
+  # config.active_storage.variant_processor = :mini_magick
+
   config.action_mailer.smtp_settings = {
     address: ENV['EMAIL_PROVIDER_ADDRESS'],
     port: 587,

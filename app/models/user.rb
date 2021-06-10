@@ -19,7 +19,11 @@ class User < ApplicationRecord
   has_one :instructor, inverse_of: :user
   # accepts_nested_attributes_for :instructor
 
-  # ========== VALIDATIONS ============ #
+  has_one_attached :profile_image
+  attr_accessor :remove_profile_image
+  after_save { profile_image.purge if remove_profile_image.eql? '1' }  
+
+  # ========== VALIDATIONS and CALLBACKS ============ #
   before_save :upcase_names, unless: :new_record?
   # before_validation :upcase_names
   # validates_uniqueness_of :email#, message: 'La sección ya existe para el período seleccionado', field_name: false
@@ -31,6 +35,34 @@ class User < ApplicationRecord
   # validates :number_phone, presence: true, unless: :new_record?
 
   attr_accessor :allow_blank_password
+
+  validate :acceptable_image
+
+  def acceptable_image
+    unless profile_image.attached?
+      errors.add(:foto_de_perfil, "debe ser cargarda.")
+    end
+
+    # resize_image if profile_image.blob.content_type.start_with? 'image/'
+
+    # unless profile_image.byte_size <= 5.megabyte
+    #   errors.add(:profile_image, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
+    # end
+
+  end
+
+  def resize_image
+    # resized_image = MiniMagick::Image.read(backup_file)
+    resized_image = MiniMagick::Image.new(self.backup_file, '400x300^')
+
+    # resized_image.resize('400x300^')
+    v_filename = backup_file.filename
+    v_content_type = backup_file.content_type
+    backup_file.purge
+    backup_file.attach(io: File.open(resized_image.path), filename:  v_filename, content_type: v_content_type)
+  end
+
+
 
   # ========== SCOPE ============ #
 
@@ -212,7 +244,7 @@ class User < ApplicationRecord
   end
 
   def any_blank?
-    (name.blank? or last_name.blank? or (number_phone.nil? or (number_phone and number_phone.length < 10))) ? true : false
+    (name.blank? or last_name.blank? or (profile_image.nil? or (profile_image and !profile_image.attached?)) or (number_phone.nil? or (number_phone and number_phone.length < 10))) ? true : false
   end
 
   def full_name
@@ -225,6 +257,12 @@ class User < ApplicationRecord
 
   def description
     "#{full_name_invert} (#{email})"
+  end
+
+  def description_with_profile
+
+    aux = description
+    aux =+ "#{image_tag(main_app.url_for(profile_image(:thumbnail)))}".html_safe if profile_image and profile_image.attached?
   end
 
   def password_required?

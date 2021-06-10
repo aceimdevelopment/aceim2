@@ -98,7 +98,7 @@ class UsersController < ApplicationController
 	end
 
 	def user_params
-		params.require(:user).permit(:name, :last_name, :email, :number_phone, :sign_in_count, :password, :password_confirmation, :canvas_email, :canvas_status)
+		params.require(:user).permit(:name, :last_name, :email, :number_phone, :sign_in_count, :password, :password_confirmation, :canvas_email, :canvas_status, :profile_image)
 	end
 
 end

@@ -32,10 +32,24 @@
     - elsif user_signed_in?
       %br
       = react_component 'NavBarMainLogin' 
+      -# @perfil = current_user.description
+
+      - if current_user.profile_image and current_user.profile_image.attached?
+        =# image_tag(main_app.url_for(current_user.profile_image)).html_safe
+        =# image_tag current_user.profile_image.variant(resize_to_limit: [100, 100]) 
+        - @perfil = main_app.url_for(current_user.profile_image.variant(resize_to_limit: [35, 35]))
+
       :javascript
+
         document.addEventListener("turbolinks:load", () => {
+          let img = document.createElement("img");
           us = document.getElementById('userName');
           us.text = `#{current_user.description}`
+          
+          img.src = `#{@perfil}`;
+          // img.width = 35;
+
+          us.appendChild(img);
         })
     - else
       = react_component 'NavBarMain'
