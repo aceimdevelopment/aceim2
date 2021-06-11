@@ -18,4 +18,8 @@
 			.border.mt-3.p-3
 				= link_to "/careers/#{career.id}/constance", class: 'btn btn-sm btn-info' do
 					Constancia Notas Aprobadas
+				- if career.leveling
+					%h1.m.3.label.label-success{style: 'margin-left: 20px'}
+						%span.fa.fa-check
+						Nivelación
 				= render partial: '/academic_records/index_to_student', locals: {records: career.academic_records}

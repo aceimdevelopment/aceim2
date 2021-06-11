@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_170941) do
+ActiveRecord::Schema.define(version: 2021_06_11_141643) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_170941) do
     t.bigint "student_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "leveling", default: false
     t.index ["agreement_id"], name: "index_careers_on_agreement_id"
     t.index ["language_id"], name: "index_careers_on_language_id"
     t.index ["student_id"], name: "index_careers_on_student_id"
@@ -296,15 +297,6 @@ ActiveRecord::Schema.define(version: 2021_01_21_170941) do
     t.index ["evaluator_id"], name: "index_sections_on_evaluator_id"
     t.index ["instructor_id"], name: "index_sections_on_instructor_id"
     t.index ["number", "course_period_id"], name: "index_sections_on_number_and_course_period_id", unique: true
-  end
-
-  create_table "send_mailers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "title"
-    t.string "to"
-    t.string "bcc"
-    t.string "content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "students", primary_key: "user_id", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

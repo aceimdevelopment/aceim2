@@ -1,6 +1,6 @@
 class Career < ApplicationRecord
 
-  # =============== ASSOTIACIONS =================# 
+  # =============== ASSOTIACIONS =================#
   belongs_to :agreement, inverse_of: :careers
   belongs_to :language, inverse_of: :careers
   belongs_to :student, inverse_of: :careers
@@ -8,14 +8,14 @@ class Career < ApplicationRecord
 
   # has_many :academic_records, through: :student 
 
-  # =============== VALIATIONS =================# 
+  # =============== VALIATIONS =================#
   validates :agreement_id, presence: true
   validates :language_id, presence: true
   validates :student_id, presence: true
 
 
 
-  # =============== FUNCTIONS =================# 
+  # =============== FUNCTIONS =================#
   # def academic_records
   #   self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
   # end
