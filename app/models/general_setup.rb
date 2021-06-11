@@ -2,6 +2,11 @@ class GeneralSetup < ApplicationRecord
 
   validates :id, presence: true
 
+  def self.enable_leveling
+    aux = GeneralSetup.where(id: "PERMITIR_INSCRIPCIONES_NIVELACION").first
+    (aux and aux.value.eql? 'SI')
+  end
+
   def self.enabled_cash_payment
     aux = GeneralSetup.where(id: "ACEPTAR_PAGO_DIVISA").first
     (aux and aux.value) ? aux.value : 'NO'
@@ -11,7 +16,6 @@ class GeneralSetup < ApplicationRecord
     aux = GeneralSetup.where(id: "ACEPTAR_PAGO_TRANSFERENCIA").first
     (aux and aux.value) ? aux.value : 'NO'
   end
-
 
   def self.payment_dollar_value
     aux = GeneralSetup.where(id: "PAGO_DIVISA").first
