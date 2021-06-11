@@ -36,22 +36,20 @@ class User < ApplicationRecord
 
   attr_accessor :allow_blank_password
 
-  # before_validation
+  # validate :acceptable_image
 
-  validate :acceptable_image
+  # def acceptable_image
+  #   unless profile_image.attached?
+  #     errors.add(:foto_de_perfil, "debe ser cargarda.")
+  #   end
 
-  def acceptable_image
-    unless profile_image.attached?
-      errors.add(:foto_de_perfil, "debe ser cargarda.")
-    end
+  #   # resize_image if profile_image.blob.content_type.start_with? 'image/'
 
-    # resize_image if profile_image.blob.content_type.start_with? 'image/'
+  #   # unless profile_image.byte_size <= 5.megabyte
+  #   #   errors.add(:profile_image, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
+  #   # end
 
-    # unless profile_image.byte_size <= 5.megabyte
-    #   errors.add(:profile_image, "Archivo muy grande, por favor reduzca el tamaño de la imagen e inténtelo de nuevo")
-    # end
-
-  end
+  # end
 
   def resize_image
     # resized_image = MiniMagick::Image.read(backup_file)
@@ -146,6 +144,12 @@ class User < ApplicationRecord
     end
 
     edit do
+
+      field :profile_image, :active_storage do
+        label 'Adjunto'
+        delete_method :remove_profile_image
+      end
+
       field :name do
         label 'Nombres'
       end

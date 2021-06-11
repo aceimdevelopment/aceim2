@@ -1,18 +1,21 @@
-
-%table.table.table-striped.table-sm.table-hover.table-responsive-md.mt-3
+- if object.user and object.user.profile_image and object.user.profile_image.attached?
+	- @width = 'width: 90%;'
+	.pull-right
+		= image_tag(main_app.url_for(object.user.profile_image.variant(resize_to_limit: [100, 100])))
+%table.table.table-striped.table-sm.table-hover{style: @width}
 	%thead
 		%tr
-			%th CI
-			%th Nombre
-			%th Email
-			%th Teléfono
-			%th Ubicación
-			%th Canvas 
+			%th.text-center CI
+			%th.text-center Nombre
+			%th.text-center Email
+			%th.text-center Teléfono
+			%th.text-center Ubicación
+			%th.text-center Canvas 
 	%tbody
 		%tr
-			%td= object.ci
-			%td= object.user.full_name_invert
-			%td= object.user.email
-			%td= object.user.number_phone
-			%td= object.location
-			%td= object.user.label_canvas_status
+			%td.text-center= object.ci
+			%td.text-center= object.user.full_name_invert
+			%td.text-center= object.user.email
+			%td.text-center= object.user.number_phone
+			%td.text-center= object.location
+			%td.text-center= object.user.label_canvas_status
