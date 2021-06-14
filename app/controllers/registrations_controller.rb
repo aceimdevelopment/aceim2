@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
 
   def create
-    if GeneralSetup.permitir_registros_nuevos
+    if (GeneralSetup.permitir_registros_nuevos or GeneralSetup.enable_leveling)
       super
     else
       redirect_back fallback_location: root_path, flash: {error: 'Por el momento los nuevos registros no están permitidos. ¡Inténtalo más tarde!'}
