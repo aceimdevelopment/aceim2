@@ -38,9 +38,11 @@ class AcademicRecord < ApplicationRecord
   after_save :add_career
   after_destroy :destroy_career
 
+  # AcademicRecord.old_levelings.each{|ar| ar.career.update(leveling: true); ar.destroy}
   #============SCOPE===============#
   # scope :not_preinscrito, -> {where('inscription_status != 0')}
   # OJO: El scope anterior ya está por defecto para los enum ej: not_
+  scope :old_levelings, -> {joins(:course).where("courses.level_id = 'NIVE'")}
   scope :approved, -> {where(qualification_status_id: :AP)}
   scope :repproved, -> {where("qualification_status_id = 'RE'")}
   scope :pi, -> {where("qualification_status_id = 'PI'")}
