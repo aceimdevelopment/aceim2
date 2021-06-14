@@ -32,9 +32,11 @@
       %span.fa.fa-play-circle
 
 -if student
-  - if GeneralSetup.permitir_registros_nuevos or (period and period.allow_enrollments?)
+  - if GeneralSetup.enable_leveling and period
+    = render partial: "/student_session/availables_language_leveling", locals: {student: student, period: period}
+  - if GeneralSetup.permitir_registros_nuevos and period
     = render partial: '/layouts/modal_alert', locals: {content: @normative, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil}
-  = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
+    = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
   
   .container-fluid.middle-box.text-center.animated.fadeInDown
     = render partial: '/careers/index_to_student', locals: {careers: student.careers}

@@ -13,7 +13,11 @@ class Career < ApplicationRecord
   validates :language_id, presence: true
   validates :student_id, presence: true
 
+  
+  # =============== SCOPES =================#
 
+  scope :leveled, -> {where('leveling IS NOT NULL')}
+  scope :not_leveled, -> {where('leveling IS NULL')}
 
   # =============== FUNCTIONS =================#
   # def academic_records

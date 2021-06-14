@@ -14,6 +14,8 @@ class Course < ApplicationRecord
 
   # ================ SCOPE ================== # 
   scope :without_nevel, -> {where("level_id != 'NIVE'")}
+  scope :levelings, -> {where(level_id: 'NIVE')}
+
   default_scope { order([language_id: :asc, grade: :asc]) }
   # ================ FUNCTIONS ================== # 
 

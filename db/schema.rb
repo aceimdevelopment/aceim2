@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_141643) do
     t.bigint "student_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "leveling", default: false
+    t.boolean "leveling"
     t.index ["agreement_id"], name: "index_careers_on_agreement_id"
     t.index ["language_id"], name: "index_careers_on_language_id"
     t.index ["student_id"], name: "index_careers_on_student_id"

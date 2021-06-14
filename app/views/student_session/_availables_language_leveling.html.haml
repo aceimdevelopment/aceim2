@@ -1,0 +1,16 @@
+.text-center
+  - language_leveled_ids = student.careers.leveled.map{|c| c.language_id}
+  - languages = (language_leveled_ids.count > 0) ? Language.where('id NOT IN (?)', language_leveled_ids) : Language.all
+  - languages.each do |lan| 
+    - cp = lan.courses.levelings.first.course_periods.online.from_period(period.id).first
+    - if cp and cp.sections.any?
+      - total_enrolls = cp.academic_records.count
+      - availables = cp.capacity - total_enrolls
+      - disabled = (availables <= 0)
+      - class_disadled = disabled ? 'disabled' : ''
+      - msg = disabled ? 'Sin cupos' : "#{availables} #{"cupo".pluralize(availables)}"
+      - section = cp.sections.first
+
+      = link_to 'javascript:void(0)', class: "#{class_disadled} btn btn-warning m-2 tooltip-btn confirmBtn", 'data-toggle': :tooltip, title: "Inscribirse en la Prueba de nivelación de #{cp.description_inscription}", 'aria-disabled': disabled, url: "#{regular_enrollment_path(section.id)}?student_id=#{student.id}", desc_user: @user.description, desc_inscrip: cp.description_inscription  do
+        = "¡Prueba Nivelación de #{lan.name.capitalize}!"
+        = "(#{msg})"
