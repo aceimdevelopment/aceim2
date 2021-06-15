@@ -25,6 +25,7 @@ class User < ApplicationRecord
 
   # ========== VALIDATIONS and CALLBACKS ============ #
   before_save :upcase_names, unless: :new_record?
+  after_create :send_welcome_email
   # before_validation :upcase_names
   # validates_uniqueness_of :email#, message: 'La sección ya existe para el período seleccionado', field_name: false
   validates :email, presence: true#, uniqueness: true
@@ -325,5 +326,11 @@ class User < ApplicationRecord
   #   # self.encrypted_password = password_digest(@password) if @password.present?
   #   # record.delete(:password)
   # end
+  private
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver
+  end
+
 
 end

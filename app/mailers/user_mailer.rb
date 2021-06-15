@@ -2,6 +2,11 @@ class UserMailer < ApplicationMailer
   # default from: 'CONTACTO FUNDEIM <fundeimucv@gmail.com>'
   layout 'mailer'
 
+  def welcome_email(user)
+    @user = user
+    mail(to: @user.email, subject: "¡Bienvenido a FUNDEIM!" )
+  end
+
   def reset_password_instructions(resource, authenticity_token, commit)
     @resource = resource
     @token = authenticity_token
