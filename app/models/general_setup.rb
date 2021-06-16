@@ -2,6 +2,11 @@ class GeneralSetup < ApplicationRecord
 
   validates :id, presence: true
 
+  def self.normative
+    aux = GeneralSetup.where(id: "NORMATIVA").first
+    aux.value ? aux.value : ''
+  end
+
   def self.enable_leveling
     aux = GeneralSetup.where(id: "PERMITIR_INSCRIPCIONES_NIVELACION").first
     (aux and aux.value.eql? 'SI')

@@ -51,14 +51,9 @@ document.addEventListener("turbolinks:load", () => {
 		let descUser = ele.attr('desc_user');
 		let descInscrip = ele.attr('desc_inscrip');
 
-		let textConfirm = `<b>¿Confirma que deseas completar la preinscripcion de ${descUser} en el curso: ${descInscrip} y de que acepta la siguiente normativa ?</b></br></br>`
+		let textConfirm = `<b>¿Confirma que deseas completar la preinscripcion de ${descUser} en ${descInscrip} y de que acepta la normativa expuesta?</b></br>`
 
-		let normative = "<p>1.  Es obligatorio leer con detenimiento toda la información suministrada en el mensaje de inicio y en el módulo introductorio de su aula en <b style='color:red' >CANVAS</b>. Si tienen alguna duda sobre <b style='color:blue' >ACEIM</b> o <b style='color:red' >CANVAS</b>,  o presentan algún inconveniente con el programa en general, deben contactar de inmediato a su instructor o a <b>FUNDEIM</b> por el correo <a href='mailto:fundeimucv@gmail.com'> fundeimucv@gmail.com</a>.</p>"
-		normative += "<p>2.  La participación de los estudiantes en las actividades del foro es obligatoria y será tomada como asistencia a clase. La ausencia en el foro por 3 semanas, no necesariamente de manera consecutiva, tendrá como consecuencia la pérdida del curso por inasistencia.</p>"
-		normative += "<p>3.  La calificación mínima aprobatoria es de 15 puntos. La evaluación será continua y dinámica. Encontrará mayor información en el cronograma del curso incluido en el módulo introductorio del nivel.</p>"
-		normative += "<p>4.  El programa <b>ONLINE</b> consta de solo actividades asíncronas, es decir, no serán clases en vivo,  para que cada estudiante pueda organizarse y buscar el tiempo y la conexión para seguir formándose a su ritmo y en el horario de su preferencia; sin embargo, cada estudiante debe completar dos clases por semana, además de realizar las tareas asignadas y los exámenes semanales programados.</p>"
-
-		$('#confirmDialog #content').html(textConfirm + normative);
+		$('#confirmDialog #content #titleConfirmation').html(textConfirm);
 
 		$('#confirmDialog #confirmLink').attr('href', url);
 		$('#confirmDialog').modal();

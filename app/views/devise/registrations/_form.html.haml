@@ -11,6 +11,7 @@
   .form-group
     = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: 'Confirma Contraseña', class: 'form-control input-login'
   = hidden_field_tag :student, true
+
   %button.btn.btn-primary.block.full-width.m-b{:type => "submit"} Completar Registro
   ó
   = render "devise/shared/links"

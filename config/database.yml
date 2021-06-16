@@ -49,7 +49,9 @@ test:
 #   production:
 #
 production:
-  url: <%= ENV['DATABASE_URL'] %>
+  <<: *default
+  database: aceim_react_development
+  password: d15573230
   # database: aceim_react_production
   # username: aceim_react
   # password: <%= ENV['ACEIM_REACT_DATABASE_PASSWORD'] %>

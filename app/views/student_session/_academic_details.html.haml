@@ -32,11 +32,39 @@
       %span.fa.fa-play-circle
 
 -if student
-  - if GeneralSetup.enable_leveling and period
-    = render partial: "/student_session/availables_language_leveling", locals: {student: student, period: period}
-  - if GeneralSetup.permitir_registros_nuevos and period
-    = render partial: '/layouts/modal_alert', locals: {content: @normative, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil}
-    = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
+  - if period and (GeneralSetup.enable_leveling or GeneralSetup.permitir_registros_nuevos)
+    - @normative = "<b>Para completar la preinscripción en el NIVEL, ESTUDIANTE, CURSO, PERIODO EN LA MODALIDAD ONLINE USTED DEBE LEER, ACEPTAR Y ESTAR DE ACUERDO CON LA SIGUIENTE NORMATIVA:</b></br></br>"
+
+    - @normative += "<p>1.  Es obligatorio leer con detenimiento toda la información suministrada en página de inicio y en el módulo introductorio de su aula en <b style='color:red' >CANVAS</b>. Si tienen alguna duda sobre <b style='color:blue' >ACEIM</b> o <b style='color:red' >CANVAS</b>,  o presentan algún inconveniente con el programa en general, deben contactar de inmediato a su instructor o a <b>FUNDEIM</b> por el correo <a href='mailto:fundeimucv@gmail.com'> fundeimucv@gmail.com</a>.</p>"
+
+    - @normative += "<p>2.  La participación de los estudiantes en las actividades del foro es obligatoria y será tomada como asistencia a clase. La ausencia en el foro por 3 semanas, no necesariamente de manera consecutiva, tendrá como consecuencia la pérdida del curso por inasistencia.</p>"
+
+    - @normative += "<p>3.  La calificación mínima aprobatoria es de 15 puntos. La evaluación será continua y dinámica. Encontrará mayor información en el cronograma del curso incluido en el módulo introductorio del nivel.</p>"
+
+    - @normative += "<p>4.  El programa <b>ONLINE</b> consta de solo actividades asíncronas, es decir, no serán clases en vivo, para que cada estudiante pueda organizarse y buscar el tiempo y la conexión para seguir formándose a su ritmo y en el horario de su preferencia.</p>"
+    
+    - @normative += "<p>5. Cada semana, los estudiantes deben completar dos clases, entregar las tareas y realizar los exámenes asignados para cada curso en los lapsos de tiempo estipulados para cada actividad.</p>"
+
+    - @normative += "<p>6. Las clases síncronas (en vivo) son opcionales y están concebidas como un refuerzo adicional a su formación académica. Los horarios de esas clases son establecidos por el instructor de acuerdo con la disponibilidad de la mayoría de los estudiantes de cada curso.</p>"
+
+    - @normative += "<p>7. El estudiante acepta los criterios de evaluación establecidos por el comité académico de FUNDEIM y asume la responsabilidad por casos de plagio/copia y fraude académico llevados a cabo por su persona.</p>"
+    
+    - @normative += "<p>8. No se permiten cambios de sección ni retiros o modificaciones de inscripción una vez que el nivel haya comenzado.</p>"
+    
+    - @normative += "<p>9. Si un estudiante deja dos períodos sin cursar o aprobar algún nivel debe tomar la prueba de nivelación o repetir el último nivel aprobado.</p>"
+
+    - @normative += "<p>10. Los estudiantes que tomen la prueba de nivelación deben cursar el nivel indicado por el resultado de la prueba.</p>"
+    
+    - @normative += "<p>¡Mucho éxito en sus clases!</p>"
+
+    - @normative += "<b id='titleConfirmation'></b>"
+
+    = render partial: '/layouts/modal_alert', locals: {content: @normative.html_safe, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil}
+
+    - if GeneralSetup.enable_leveling
+      = render partial: "/student_session/availables_language_leveling", locals: {student: student, period: period}
+    - if GeneralSetup.permitir_registros_nuevos
+      = render partial: "/student_session/enrollment_language_availables", locals: {student: student, period: period}
   
   .container-fluid.middle-box.text-center.animated.fadeInDown
     = render partial: '/careers/index_to_student', locals: {careers: student.careers}
