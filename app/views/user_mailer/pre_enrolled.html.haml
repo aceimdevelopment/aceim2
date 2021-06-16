@@ -1,0 +1,35 @@
+
+
+.content{style: "text-align: justify; padding: 5px 30px;"}
+  %h3=" Estimado(a)  #{@user.name},"
+
+  %p=  "Se ha completado el proceso de preinscripción en #{@academic_record.course_period.description_inscription}."
+
+  %p= "Le invitamos amablemente a realizar el pago correspondiente al curso y reportarlo en nuestra plataforma #{UserMailer::ACEIM_LINK }. Si ya realizó el reporte espere nuestra confirmación en las próximas 48 horas por esta misma vía.".html_safe
+
+  %h2{style: 'text-align:center'} NORMATIVA:
+  
+  %p= "1.  Es obligatorio leer con detenimiento toda la información suministrada en página de inicio y en el módulo introductorio de su aula en <b style='color:red' >CANVAS</b>. Si tienen alguna duda sobre <b style='color:blue' >ACEIM</b> o <b style='color:red' >CANVAS</b>,  o presentan algún inconveniente con el programa en general, deben contactar de inmediato a su instructor o a <b>FUNDEIM</b> por el correo <a href='mailto:fundeimucv@gmail.com'> fundeimucv@gmail.com</a>".html_safe
+
+  %p= "2.  La participación de los estudiantes en las actividades del foro es obligatoria y será tomada como asistencia a clase. La ausencia en el foro por 3 semanas, no necesariamente de manera consecutiva, tendrá como consecuencia la pérdida del curso por inasistencia.".html_safe
+
+  %p= "3.  La calificación mínima aprobatoria es de 15 puntos. La evaluación será continua y dinámica. Encontrará mayor información en el cronograma del curso incluido en el módulo introductorio del nivel.".html_safe
+
+  %p= "4.  El programa <b>ONLINE</b> consta de solo actividades asíncronas, es decir, no serán clases en vivo, para que cada estudiante pueda organizarse y buscar el tiempo y la conexión para seguir formándose a su ritmo y en el horario de su preferencia.".html_safe
+    
+  %p= "5. Cada semana, los estudiantes deben completar dos clases, entregar las tareas y realizar los exámenes asignados para cada curso en los lapsos de tiempo estipulados para cada actividad.".html_safe
+
+  %p= "6. Las clases síncronas (en vivo) son opcionales y están concebidas como un refuerzo adicional a su formación académica. Los horarios de esas clases son establecidos por el instructor de acuerdo con la disponibilidad de la mayoría de los estudiantes de cada curso.".html_safe
+
+  %p= "7. El estudiante acepta los criterios de evaluación establecidos por el comité académico de FUNDEIM y asume la responsabilidad por casos de plagio/copia y fraude académico llevados a cabo por su persona.".html_safe
+    
+  %p= "8. No se permiten cambios de sección ni retiros o modificaciones de inscripción una vez que el nivel haya comenzado.".html_safe
+    
+  %p= "9. Si un estudiante deja dos períodos sin cursar o aprobar algún nivel debe tomar la prueba de nivelación o repetir el último nivel aprobado.".html_safe
+
+  %p= "10. Los estudiantes que tomen la prueba de nivelación deben cursar el nivel indicado por el resultado de la prueba.".html_safe
+    
+  %p= "¡Mucho éxito en sus clases!".html_safe
+
+
+  %p Saludos cordiales.

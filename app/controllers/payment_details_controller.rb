@@ -24,13 +24,13 @@ class PaymentDetailsController < ApplicationController
 		end
 
 		if ar.save
-			flash[:success] = '¡Cambio realizado con éxito!'
-			
+			ar.career.update(leveling: ar.confirmado?) if ar.level.id.eql? 'NIVE'
 
+			flash[:success] = '¡Cambio realizado con éxito!'
 			begin
-				if ar.section.period.enabled_autoregister_canvas_link and ar.confirmado? and UserMailer.autoenrollment_canvas(ar).deliver
-					flash[:success] += 'Correo de automatriculación en Canvas enviado al estudiante.'
-				end
+				# if ar.section.period.enabled_autoregister_canvas_link and ar.confirmado? and UserMailer.autoenrollment_canvas(ar).deliver
+				# 	flash[:success] += 'Correo de automatriculación en Canvas enviado al estudiante.'
+				# end
 
 				if PaymentDetailMailer.send_payment_confirmed(@payment_detail.id).deliver
 					flash[:success] += ' Correo de pago enviado al estudiante.'

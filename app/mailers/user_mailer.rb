@@ -1,6 +1,16 @@
 class UserMailer < ApplicationMailer
   # default from: 'CONTACTO FUNDEIM <fundeimucv@gmail.com>'
   layout 'mailer'
+  CANVAS_COLOR = "<b style='color:red;'>CANVAS</b>"
+  ACEIM_COLOR = "<b style='color:#6F9BED;'>ACEIM</b>"
+  ACEIM_LINK = "<a style='color:#6F9BED;font-weight: bold;text-decoration: none;' href='https://https://aceim.fundeim.com/users/sign_in'>ACEIM</a>"
+
+
+  def pre_enrolled(academic_record)
+    @academic_record = academic_record
+    @user = academic_record.student.user
+    mail(to: @user.email, subject: "¡Preinscripción realizada con éxito!" )
+  end
 
   def welcome_email(user)
     @user = user

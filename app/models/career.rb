@@ -16,13 +16,19 @@ class Career < ApplicationRecord
   
   # =============== SCOPES =================#
 
-  scope :leveled, -> {where('leveling IS NOT NULL')}
+  scope :leveled, -> {where('leveling IS TRUE')}
   scope :not_leveled, -> {where('leveling IS NULL')}
 
   # =============== FUNCTIONS =================#
   # def academic_records
   #   self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
   # end
+
+  def enrollment_leveling
+    academic_records.where("levels.id = 'NIVE'")
+  end
+
+
   def academic_records
     # self.student.academic_records.joins(:level).order('levels.grade desc').from_language(language_id)
     self.student.academic_records.joins({section: {course_period: [{course: :level}, :period]}}).order(['periods.year': :desc, 'periods.letter': :desc, 'levels.grade': :desc]).from_language(language_id)
