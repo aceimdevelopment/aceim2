@@ -157,12 +157,12 @@ class AcademicRecord < ApplicationRecord
         label 'Calificaciones Parciales'
       end
 
-      field :options do
-        label 'Opciones'
-        formatted_value do
-          bindings[:view].render(partial: "send_reconfirmer_button", locals: {object: bindings[:object]})
-        end
-      end
+      # field :options do
+      #   label 'Opciones'
+      #   formatted_value do
+      #     bindings[:view].render(partial: "send_reconfirmer_button", locals: {object: bindings[:object]})
+      #   end
+      # end
 
     end
 

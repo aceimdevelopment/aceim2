@@ -1,22 +1,8 @@
-%div{style: "background-color: #f2f2f2; padding: 30px; margin: 10px;"}
+.content{style: 'text-align: justify;'}
+  %h4= "Estimado(a) #{@user.name}, ".html_safe
+  %h4= "Su inscripción ha sido confirmada en #{@ar.course_period.description_inscription}.".html_safe
+  %p= "Recuerde que de ahora en adelante podrá ingresar a su sesión de usuario en #{UserMailer::ACEIM_COLOR} mediante el botón #{ApplicationMailer::INGRESO_REGULAR_BTN}".html_safe
 
-  %h3{style: 'color: #6F9BED;'}= " Estimad@ estudiante #{@user.name}, bienvenido al programa de cursos de FUNDEIM ONLINE."
+  %p= "Ya puede ver y descargar la factura proforma de su inscripción en su usuario de #{UserMailer::ACEIM_COLOR}.".html_safe
 
-  .content{style: 'text-align: justify;'}
-
-    %p
-      Por favor, haga clíc en
-      =link_to 'Mi Curso Fundeim ONLINE', @section.url_classroom_canvas
-      para entrar a su aula en CANVAS.
-
-    %p Cuando se abra la página de CANVAS coloque su usuario y contraseña. Luego haga click en Go To Course.
-
-    %p Al entrar, verá la página de inicio, lea cuidadosamente la información presentada allí.
-
-    %p Cuando ingrese a los módulos (menú de la izquierda) verá un Módulo de Introducción y una clase identificada como CLASE 12 de Repaso.
-
-    %p Revise con detenimiento el contenido del Módulo de Introducción y espere instrucciones de su profesor para comenzar a trabajar con la clase de repaso.
-
-    %p= "Esta cuenta de contacto no es monitoreada, así que cualquier duda o inquietud deben escribir un correo con su nombre, número de cédula y su requerimiento a fundeimucv@gmail.com y con gusto le atenderemos."
-
-    %p Mucho éxito!!!
+  %p En los próximos días recibirá información sobre los siguientes pasos.

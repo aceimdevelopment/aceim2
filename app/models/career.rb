@@ -16,7 +16,7 @@ class Career < ApplicationRecord
   
   # =============== SCOPES =================#
 
-  scope :leveled, -> {where('leveling IS TRUE')}
+  scope :leveled, -> {where('leveling IS NOT NULL')}
   scope :not_leveled, -> {where('leveling IS NULL')}
 
   # =============== FUNCTIONS =================#

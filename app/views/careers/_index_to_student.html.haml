@@ -20,7 +20,7 @@
           .m.3.badge.badge-success{style: 'margin-left: 20px'}
             %span.fa.fa-check
             Nivelación
-
+            = career.leveling.strftime('%d/%m/%Y')
         - if career.academic_records.approved.any?
           = link_to constance_career_path(career), class: 'btn btn-outline-primary btn-tooltip', 'data-toggle': :tooltip, title: 'Constancia de notas aprobadas' do
             .fa.fa-certificate

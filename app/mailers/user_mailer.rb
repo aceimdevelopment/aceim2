@@ -1,10 +1,14 @@
 class UserMailer < ApplicationMailer
   # default from: 'CONTACTO FUNDEIM <fundeimucv@gmail.com>'
   layout 'mailer'
-  CANVAS_COLOR = "<b style='color:red;'>CANVAS</b>"
-  ACEIM_COLOR = "<b style='color:#6F9BED;'>ACEIM</b>"
-  ACEIM_LINK = "<a style='color:#6F9BED;font-weight: bold;text-decoration: none;' href='https://https://aceim.fundeim.com/users/sign_in'>ACEIM</a>"
 
+
+
+  def confirmation_enrollment_email(academic_record)
+    @ar = academic_record
+    @user = @ar.student.user
+    mail(to: @user.email, subject: "Confirmación de Inscripción #{@ar.course_period.name}")
+  end
 
   def pre_enrolled(academic_record)
     @academic_record = academic_record
@@ -25,8 +29,8 @@ class UserMailer < ApplicationMailer
 
   def canvas_new_user_registration(user, status)
     @user = user
-    @canvas_color = "<b style='color:red;'>CANVAS</b>"
-    @aceim_color = "<b style='color:#6F9BED;'>ACEIM</b>"
+    @canvas_color = ApplicationMailer::CANVAS_COLOR
+    @aceim_color = ApplicationMailer::ACEIM_COLOR
 
     if (status.eql? 'no_sabe')
       @first_paragraph = "Hemos intentado crear su usuario en #{@canvas_color} pero el sistema nos indica que ya existe un usuario registrado con este correo. Debe haber recibido un correo con las indicaciones para recuperar su contraseña de #{@canvas_color}. Por favor, revise todas las carpetas de su buzón de entrada en su correo, siga las instrucciones para recuperar su contraseña y actualice su perfil en #{@canvas_color}"
@@ -95,15 +99,6 @@ class UserMailer < ApplicationMailer
     subject: "Registro en FUNDEIM ONLINE",
     content_type: "text/html")
 
-  end
-
-  def confirmation_enrollment_email(ar_id)
-    ar = AcademicRecord.find(ar_id)
-    @user = ar.student.user
-    @section = ar.section
-    mail(to: @user.email,
-    subject: "Confirmación de Inscripción #{ar.course_period.name}",
-    content_type: "text/html")    
   end
 
   def encuesta(ids)

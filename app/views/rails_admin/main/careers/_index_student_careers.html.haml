@@ -22,4 +22,5 @@
 					%h1.m.3.label.label-success{style: 'margin-left: 20px'}
 						%span.fa.fa-check
 						Nivelación
+						= career.leveling.strftime('%d/%m/%Y')
 				= render partial: '/academic_records/index_to_student', locals: {records: career.academic_records}

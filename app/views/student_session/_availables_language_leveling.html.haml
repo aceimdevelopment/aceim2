@@ -1,6 +1,6 @@
 .text-center
-  - language_leveled_ids = student.careers.leveled.map{|c| c.language_id}
-  - language_leveled_ids += student.careers.reject{|c| !c.enrollment_leveling.any?}.map{|c| c.language_id}
+  -# language_leveled_ids = student.careers.leveled.map{|c| c.language_id}
+  - language_leveled_ids = student.careers.reject{|c| !c.enrollment_leveling.any?}.map{|c| c.language_id}
   - languages = (language_leveled_ids.count > 0) ? Language.where('id NOT IN (?)', language_leveled_ids) : Language.all
   - languages.all.each do |lan| 
     - cp = lan.courses.levelings.first.course_periods.online.from_period(period.id).first

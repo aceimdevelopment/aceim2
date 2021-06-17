@@ -6,4 +6,8 @@ class UserMailerPreview < ActionMailer::Preview
   def pre_enrolled
     UserMailer.pre_enrolled(AcademicRecord.last)
   end
+
+  def confirmation_enrollment_email
+    UserMailer.confirmation_enrollment_email(AcademicRecord.last)
+  end
 end

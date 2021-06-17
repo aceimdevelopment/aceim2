@@ -24,7 +24,7 @@ class PaymentDetailsController < ApplicationController
 		end
 
 		if ar.save
-			ar.career.update(leveling: ar.confirmado?) if ar.level.id.eql? 'NIVE'
+			ar.career.update(leveling: Time.now) if ar.level.id.eql? 'NIVE'
 
 			flash[:success] = '¡Cambio realizado con éxito!'
 			begin
@@ -32,7 +32,8 @@ class PaymentDetailsController < ApplicationController
 				# 	flash[:success] += 'Correo de automatriculación en Canvas enviado al estudiante.'
 				# end
 
-				if PaymentDetailMailer.send_payment_confirmed(@payment_detail.id).deliver
+				# if PaymentDetailMailer.send_payment_confirmed(@payment_detail.id).deliver
+				if UserMailer.confirmation_enrollment_email(ar).deliver
 					flash[:success] += ' Correo de pago enviado al estudiante.'
 				else
 					flash[:error] = "Problemas el intentar enviar el correo."
