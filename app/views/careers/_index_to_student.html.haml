@@ -16,11 +16,8 @@
 
     .tab-pane.fade{id: "tabContent#{career.language_id}", class: active, "aria-labelledby": "tab#{career.language_id}", role: "tabpanel"}
       .p-3.bg-white.border.border-top-0
-        - if career.leveling
-          .m.3.badge.badge-success{style: 'margin-left: 20px'}
-            %span.fa.fa-check
-            Nivelación
-            = career.leveling.strftime('%d/%m/%Y')
+        = label_leveling career.leveling_period.name if career.leveling_period
+            
         - if career.academic_records.approved.any?
           = link_to constance_career_path(career), class: 'btn btn-outline-primary btn-tooltip', 'data-toggle': :tooltip, title: 'Constancia de notas aprobadas' do
             .fa.fa-certificate

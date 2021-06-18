@@ -24,7 +24,7 @@ class PaymentDetailsController < ApplicationController
 		end
 
 		if ar.save
-			ar.career.update(leveling: Time.now) if ar.level.id.eql? 'NIVE'
+			ar.career.update(leveling_period_id: ar.period.id) if ar.level.id.eql? 'NIVE'
 
 			flash[:success] = '¡Cambio realizado con éxito!'
 			begin

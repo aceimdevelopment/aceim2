@@ -4,6 +4,8 @@ class Career < ApplicationRecord
   belongs_to :agreement, inverse_of: :careers
   belongs_to :language, inverse_of: :careers
   belongs_to :student, inverse_of: :careers
+  belongs_to :leveling_period, foreign_key: :leveling_period_id, class_name: 'Period', optional: true#, inverse_of: :carrers
+  
   has_one :user, through: :student
 
   # has_many :academic_records, through: :student 

@@ -109,9 +109,10 @@ ActiveRecord::Schema.define(version: 2021_06_11_141643) do
     t.bigint "student_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.date "leveling"
+    t.bigint "leveling_period_id"
     t.index ["agreement_id"], name: "index_careers_on_agreement_id"
     t.index ["language_id"], name: "index_careers_on_language_id"
+    t.index ["leveling_period_id"], name: "fk_rails_db699de9d4"
     t.index ["student_id"], name: "index_careers_on_student_id"
   end
 
@@ -365,6 +366,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_141643) do
   add_foreign_key "bank_accounts", "banks", on_update: :cascade, on_delete: :cascade
   add_foreign_key "careers", "agreements", on_update: :cascade, on_delete: :cascade
   add_foreign_key "careers", "languages", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "careers", "periods", column: "leveling_period_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "careers", "students", primary_key: "user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "course_periods", "courses"
   add_foreign_key "course_periods", "periods"
