@@ -20,7 +20,8 @@
   = link_to url, {type: 'button', class: 'tooltip-btn btn btn-sm btn-success ml-2', title: 'Entrar a CANVAS', data: {toggle: 'tooltip', placement: 'bottom'}, target: "_blank"} do
     .fa.fa-graduation-cap
     .fa.fa-external-link
-- if ar.preinscrito? and ar.SC? and ar.payment_detail.nil?
+- if ar.preinscrito? and ar.SC? and ar.payment_detail.nil? and GeneralSetup.enabled_payment? 
+
   = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning ml-2', title: 'Reportar Pago del curso', data: {toggle: 'tooltip', placement: 'bottom'}  do
     .fa.fa-money
     .fa.fa-angle-double-right

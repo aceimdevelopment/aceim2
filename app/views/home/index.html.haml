@@ -3,7 +3,7 @@
 .text-center.align-middle
 	= link_to 'Ingreso Primer Nivel', new_user_registration_path, class: 'btn btn-success btn-lg mr-3' if GeneralSetup.permitir_registros_nuevos
 
-	= link_to 'Ingreso Por Nivelación', new_user_registration_path, class: 'btn btn-warning btn-lg mr-3' if GeneralSetup.enable_leveling
+	= link_to 'Nuevo Ingreso Por Nivelación', new_user_registration_path, class: 'btn btn-warning btn-lg mr-3' if GeneralSetup.enable_leveling
 	
 	= link_to 'Ingreso Regular', user_session_path, class: 'btn btn-primary btn-lg'
 

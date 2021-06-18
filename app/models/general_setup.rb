@@ -7,6 +7,10 @@ class GeneralSetup < ApplicationRecord
     (aux and aux.value.eql? 'SI')
   end
 
+  def self.enabled_payment?
+      GeneralSetup.where("(id = 'ACEPTAR_PAGO_DIVISA' or id = 'ACEPTAR_PAGO_TRANSFERENCIA') and (value = 'SI')").any?
+  end
+
   def self.enabled_cash_payment
     aux = GeneralSetup.where(id: "ACEPTAR_PAGO_DIVISA").first
     (aux and aux.value) ? aux.value : 'NO'
