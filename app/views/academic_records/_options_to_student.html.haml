@@ -22,6 +22,6 @@
     .fa.fa-external-link
 - if ar.preinscrito? and ar.SC? and ar.payment_detail.nil? and GeneralSetup.enabled_payment? 
 
-  = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning ml-2', title: 'Reportar Pago del curso', data: {toggle: 'tooltip', placement: 'bottom'}  do
+  = link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-sm btn-warning ml-2', title: "Reportar pago del curso de #{ar.course.name}", data: {toggle: 'tooltip', placement: 'left'}  do
     .fa.fa-money
     .fa.fa-angle-double-right

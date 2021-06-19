@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_141643) do
+ActiveRecord::Schema.define(version: 2021_06_19_223938) do
 
   create_table "academic_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "student_id", null: false
@@ -236,6 +236,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_141643) do
     t.boolean "read_report", default: false
     t.boolean "read_confirmation", default: false
     t.string "customer_name"
+    t.string "description"
     t.index ["academic_record_id"], name: "index_payment_details_on_academic_record_id"
     t.index ["bank_account_id"], name: "index_payment_details_on_bank_account_id"
     t.index ["source_bank_id"], name: "index_payment_details_on_source_bank_id"

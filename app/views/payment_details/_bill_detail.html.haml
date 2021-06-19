@@ -21,10 +21,10 @@
 
         %td{align: :right, style: 'width: 50%;font-size: 12px;'}
           %b Cliente:
-          - if @payment_detail.customer_name
-            = @payment_detail.customer_name
-          - else
+          - if @payment_detail.customer_name.blank?
             = @payment_detail.client_description
+          - else
+            = @payment_detail.customer_name
   %br
   %br
   %table{style: 'width:85%'}
@@ -33,11 +33,7 @@
         %th{align: :left, style: 'padding-left: 1em;'} Descripción
         %th{align: :center, style: 'text-align: center;'} Importe
       %tr{style: 'background-color: ghostwhite;'}
-        %td{style: 'padding-left: 1em;'}
-          - if @payment_detail.customer_name
-            = @payment_detail.course_description_with_student
-          - else
-            = @payment_detail.course_description
+        %td{style: 'padding-left: 1em;'}= @payment_detail.aux_description
         %td{style: 'text-align:right'}= number_to_currency(@payment_detail.mount, unit: 'Bs.', separator: ",", delimiter: ".")
       %tr{style: 'background-color: ghostwhite;'}
         %td{style: 'padding-left: 1em;text-align:right'} IVA (16%)

@@ -31,7 +31,7 @@ class PaymentDetail < ApplicationRecord
 
   validate :acceptable_image
 
-  before_save :upcase_transaction_number
+  before_save :set_values
 
   def acceptable_image
     return unless backup_file.attached?
@@ -339,19 +339,38 @@ class PaymentDetail < ApplicationRecord
   end
 
   def course_description
-    aux = academic_record.section.course_period
-    "#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"
+    academic_record.proform_description
   end
 
   def course_description_with_student
-    aux = academic_record.section.course_period
-    aux = "#{aux.course.language.name} #{aux.course.level.name} (#{aux.kind.capitalize}) #{aux.period.name}"
-    "#{client_description}: #{aux}"
+    "#{client_description}: #{course_description}"
   end
+
+  def aux_description
+    if description.blank?
+      if self.customer_name.blank?
+        self.course_description
+      else
+        self.course_description_with_student
+      end
+    else
+      description
+    end
+  end
+
 
   private
 
-  def upcase_transaction_number
+  def set_description
+    if self.customer_name.blank?
+      self.description = self.course_description
+    else
+      self.description = self.course_description_with_student
+    end
+  end
+
+  def set_values
+    self.set_description
     self.transaction_number.upcase!
   end
 

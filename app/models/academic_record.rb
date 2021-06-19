@@ -42,6 +42,7 @@ class AcademicRecord < ApplicationRecord
   #============SCOPE===============#
   # scope :not_preinscrito, -> {where('inscription_status != 0')}
   # OJO: El scope anterior ya está por defecto para los enum ej: not_
+
   scope :old_levelings, -> {joins(:course).where("courses.level_id = 'NIVE'")}
   scope :approved, -> {where(qualification_status_id: :AP)}
   scope :repproved, -> {where("qualification_status_id = 'RE'")}
@@ -340,6 +341,37 @@ class AcademicRecord < ApplicationRecord
   # def level
   #   course.level.name if course
   # end
+
+  def proform_description
+    aux = "#{language.name} #{level.name} (#{course_period.kind.capitalize}) #{period.name}"
+    if test_leveling?
+      test_value = Agreement.where(id: 'NIVEL').first
+      test_value = test_value.value if test_value
+      aux = "Prueba de Nivelación (#{ActionController::Base.helpers.number_to_currency(test_value, unit: 'Bs.', separator: ",", delimiter: ".")}) + #{aux} (#{ActionController::Base.helpers.number_to_currency(self.agreement.value, unit: 'Bs.', separator: ",", delimiter: ".")})"
+    end
+    return aux    
+  end
+
+  def amount_bs (flat=false)
+    if payment_detail
+      value = self.payment_detail.mount
+    elsif test_leveling?
+      test_value = Agreement.where(id: 'NIVEL').first
+      test_value = test_value.value if test_value
+      value = test_value.to_i + self.agreement.value.to_i if test_value
+    else
+      value = self.agreement.value
+    end
+    if flat
+      return value
+    else
+      return ActionController::Base.helpers.number_to_currency(value, unit: 'Bs.', separator: ",", delimiter: ".")
+    end
+  end
+
+  def test_leveling?
+    self.level.id.eql? 'NIVE'
+  end
 
   def class_approved
     (final_desc and final_desc.to_i > 14) ? 'alert-success' : 'alert-danger'

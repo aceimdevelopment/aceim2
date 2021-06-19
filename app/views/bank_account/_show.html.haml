@@ -16,10 +16,19 @@
 						%th.col-6{style: 'text-align: right;'} A nombre de:
 						%td.col-6= ba.holder
 					%tr.row
-						%th.col-6{style: 'text-align: right;'} Monto:
-
-						%td.col-6
-							= number_to_currency(ar.agreement.value, unit: 'Bs.', separator: ",", delimiter: ".") 
+						- if ar.test_leveling?
+							- test_value = Agreement.where(id: 'NIVEL').first
+							- test_value = test_value.value if test_value
+							- total = test_value.to_i + ar.agreement.value.to_i
+							
+							%th.col-6{style: 'text-align: right;'} Monto (Prueba + Nivel):
+							%td.col-6
+								= number_to_currency(total, unit: 'Bs.', separator: ",", delimiter: ".")
+								= "(#{number_to_currency(test_value, unit: 'Bs.', separator: ",", delimiter: ".")}+#{number_to_currency(ar.agreement.value, unit: 'Bs.', separator: ",", delimiter: ".")})" 
+						- else
+							%th.col-6{style: 'text-align: right;'} Monto:
+							%td.col-6
+								= number_to_currency(ar.agreement.value, unit: 'Bs.', separator: ",", delimiter: ".") 
 					%tr.row
 						%th.col-6{style: 'text-align: right;'} Descripción del Curso:
 						%td.col-6= ar.course_period.description_inscription
@@ -38,7 +47,7 @@
 		- unless controller_name.eql? 'payment_details'
 			%hr
 			.text-center
-				= link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-lg btn-warning mb-2 ml-2', title: 'Reportar Pago del curso', data: {toggle: 'tooltip', placement: 'bottom'}  do
+				= link_to "#{new_payment_detail_path}?academic_record_id=#{ar.id}", class: 'btn btn-lg btn-warning mb-2 ml-2', title: "Reportar pago del curso de #{ar.course.name}", data: {toggle: 'tooltip', placement: 'bottom'}  do
 					.fa.fa-money
 					Reportar Pago
 

@@ -17,8 +17,8 @@
 
 - else
 	- payment_detail = PaymentDetail.new
-	- payment_detail.academic_record_id = academic_record.id
-	- payment_detail.mount = academic_record.agreement.value
+	- payment_detail.academic_record_id = academic_record.id	
+	- payment_detail.mount = academic_record.amount_bs(true)
 	- payment_detail.bank_account_id = 'FUNDEIM'
 
 	%h5 Reporte Rápido

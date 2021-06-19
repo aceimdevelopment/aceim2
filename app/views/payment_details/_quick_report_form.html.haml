@@ -12,7 +12,7 @@
   .form-group
     = text_field_tag '[payment_detail]transaction_number', nil, class: 'form-control form-control-sm onlyNumbers', placeholder: 'Número', style: 'width:120px', required: true
   .form-group
-    = number_field_tag '[payment_detail]mount', academic_record.agreement.value, class: 'form-control form-control-sm', style: 'width:150px', required: true
+    = number_field_tag '[payment_detail]mount', academic_record.amount_bs(true), class: 'form-control form-control-sm', style: 'width:150px', required: true
   .form-group
     = collection_select :payment_detail, :source_bank_id, Bank.where("name != 'NULO'"), :id, :name, {prompt: "-- Seleccione Banco Origen --"}, {class: 'form-control', required: true, style: 'width:200px', id: 'selectSourceBankId'}
   .form-group
