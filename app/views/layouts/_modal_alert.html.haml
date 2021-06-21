@@ -2,8 +2,15 @@
   .modal-dialog.modal-lg
     .modal-content
       .alert.alert-danger.text-center
-        %h3= title
+        %h3
+          = title
+          - if informative
+            %button.close.float-right{data: {dismiss: 'modal'}, aria: {label: 'Close'}}
+              %span{aria: {hidden: true}} &times;
       .modal-body.text-justify#content
         = content
       .modal-footer.float-center
-        = link_to 'Aceptar', url, class: 'btn btn-primary btn-block', id: 'confirmLink'
+        - if informative
+          %button.btn.btn-secondary{data: {dismiss: :modal}} Cerrar
+        - else
+          = link_to 'Aceptar', url, class: 'btn btn-primary btn-block', id: 'confirmLink'

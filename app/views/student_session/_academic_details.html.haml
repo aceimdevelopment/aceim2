@@ -25,11 +25,19 @@
       Video Tutorial para Canvas
       %span.fa.fa-play-circle
 
-- if Content.published.any?
-  .text-center.align-middle.mb-3
+.text-center.align-middle.mb-3
+  - if Content.published.any?
     = link_to multimedia_student_session_index_path, {type: :button, class: 'tooltip-btn btn btn-lg btn-primary', title: 'Videos ilustrativos de ayuda para Canvas', data: {toggle: :tooltip}} do
       Tutoriales de Canvas
-      %span.fa.fa-play-circle
+      .fa.fa-play-circle
+
+  - @normative = render partial: 'layouts/normative'
+
+  = link_to 'javascript:void(0)', class: "btn btn-primary btn-lg m-2 tooltip-btn diplayModalBtn", 'data-toggle': :tooltip, title: "Normativa de los cursos y pruebas de nivalación", 'aria-disabled': true, onclick: "$('law').modal()", idModal: :law do
+    Normativa
+    .fa.fa-legal
+
+  = render partial: '/layouts/modal_alert', locals: {content: @normative.html_safe, title: 'NORMATIVA DE LOS CURSOS', id: 'law', url: 'javascript:void(0)', informative: true}
 
 -if student
   - if period and (GeneralSetup.enable_leveling or GeneralSetup.permitir_registros_nuevos)
@@ -41,7 +49,7 @@
 
     - @normative += "<b id='titleConfirmation'></b>"
 
-    = render partial: '/layouts/modal_alert', locals: {content: @normative.html_safe, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil}
+    = render partial: '/layouts/modal_alert', locals: {content: @normative.html_safe, title: '¡IMPORTANTE!', id: 'confirmDialog', url: nil, informative: false}
 
     - if GeneralSetup.enable_leveling
       = render partial: "/student_session/availables_language_leveling", locals: {student: student, period: period}
