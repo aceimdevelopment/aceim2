@@ -117,7 +117,7 @@ class EnrollmentController < ApplicationController
 
         if record.save
           flash[:success] = '¡Preinscripción realizada con éxito!'
-          UserMailer.pre_enrolled(record)
+          UserMailer.pre_enrolled(record).deliver
           # TRATAMIENTO DE CASOS ESPECIALES DEL PERIODO 2020
           # period_id = section.course_period.period_id
           flash[:payment_accounts] = true
