@@ -2,7 +2,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
   skip_before_action :authenticate_user!, only: [:open_newers_registration]
   
   def open_newers_registration
-    respond_with open_newers_registration: GeneralSetup.permitir_registros_nuevos
+    respond_with open_newers_registration: GeneralSetup.permitir_registros_nuevos, open_leveling_newers_registration: GeneralSetup.enable_leveling
   end
 
   def index
