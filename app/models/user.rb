@@ -291,7 +291,7 @@ class User < ApplicationRecord
   end
 
   def capitalize_by_word(string)
-    string.split.map{|w| w.capitalize}.join(" ")
+    string.blank? ? '' : string.split.map{|w| w.capitalize}.join(" ")
   end
 
   def split_phone
