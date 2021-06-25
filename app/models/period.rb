@@ -294,6 +294,16 @@ class Period < ApplicationRecord
     academic_records.asignado.count
   end
 
+  def percentage_pi
+    (((total_pi.to_f)*100)/(total_enrollment.to_f)).round(1)
+  end
+  def percentage_repproved
+    (((total_repproved.to_f)*100)/(total_enrollment.to_f)).round(1)
+  end
+  def percentage_approved
+    (((total_approved.to_f)*100)/(total_enrollment.to_f)).round(1)
+  end
+
 
   protected
 

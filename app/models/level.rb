@@ -73,7 +73,24 @@ class Level < ApplicationRecord
       end
       field :grade do
         label 'orden'
-      end      
+      end
+
+      field :total_enrollments do
+        label 'Inscritos'
+      end
+
+      field :percentage_approved do
+        label '% APROB'
+      end
+
+      field :percentage_repproved do
+        label '% REPROB'
+      end
+
+      field :percentage_pi do
+        label '% PI'
+      end
+
     end
 
     edit do
@@ -90,5 +107,32 @@ class Level < ApplicationRecord
     end
 
   end
-  
+
+  def total_enrollments
+    AcademicRecord.from_level(self.id).count
+  end
+
+  def total_pi
+    AcademicRecord.from_level(self.id).pi.count
+  end
+
+  def total_approved
+    AcademicRecord.from_level(self.id).approved.count
+  end
+
+  def total_repproved
+    AcademicRecord.from_level(self.id).repproved.count
+  end
+
+  def percentage_pi
+    (((total_pi.to_f)*100)/(total_enrollments.to_f)).round(1)
+  end
+
+  def percentage_repproved
+    (((total_repproved.to_f)*100)/(total_enrollments.to_f)).round(1)
+  end
+  def percentage_approved
+    (((total_approved.to_f)*100)/(total_enrollments.to_f)).round(1)
+  end
+
 end
