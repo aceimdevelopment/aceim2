@@ -49,6 +49,9 @@ class AcademicRecord < ApplicationRecord
   scope :pi, -> {where("qualification_status_id = 'PI'")}
   scope :not_qualifiqued, -> {where(qualification_status_id: :SC)}
 
+  scope :canvas_statuses, -> (status){joins({student: :user}).where("users.canvas_status = #{status}")}
+  scope :canvas_nuevo_or_nosabe_statuses, -> {joins({student: :user}).where("users.canvas_status = 0 or users.canvas_status = 1")}
+
   scope :not_canvas_registers, -> {joins(:user).where('users.canvas_status != 2')}
 
   scope :reported, -> {joins(:payment_detail)}
