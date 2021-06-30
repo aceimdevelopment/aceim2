@@ -148,9 +148,9 @@ class Period < ApplicationRecord
         label 'Registro de Usuarios en Canvas'
 
         formatted_value do
-
-          if bindings[:object].academic_records.confirmado.not_canvas_registers.any?
-            bindings[:view].render(partial: "/periods/canvas_register_status", locals: {period: bindings[:object]})
+          total = bindings[:object].academic_records.confirmado.not_canvas_registers.count
+          if total > 0 
+            bindings[:view].render(partial: "/periods/canvas_register_status", locals: {period: bindings[:object], total: total})
           else
             "Sin registros de Canvas por procesar."
           end

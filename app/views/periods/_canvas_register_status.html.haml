@@ -1,3 +1,10 @@
+
+= link_to "/users/registration_canvas_all?period_id=#{period.id}", class: 'btn btn-sm btn-success pull-right tooltip-btn', data: {toggle: :tooltip, confirm: "Esta acción enviará #{total} correos ¿Está seguro?"}, title: "Asignar email a Id_Canvas a #{total} usuarios y enviar correos de registros" do
+	.badge.badge-primary= total
+	Canvas
+	%span.fa.fa-check
+	%span.fa.fa-envelope.fa-fw
+	
 %nav
 	%ul#navTabStatus.nav.nav-tabs{role: :tablist}
 		- User.canvas_statuses.first(2).each do |status| 

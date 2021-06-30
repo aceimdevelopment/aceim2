@@ -1,13 +1,23 @@
 class UsersController < ApplicationController
-	before_action :set_user, except: [:index, :new, :create]
+	before_action :set_user, except: [:index, :new, :create, :registration_canvas_all]
 	before_action :authenticate_user!, except: [:update]
 	before_action :setup_data, only: :update
+
+	def registration_canvas_all
+		period = Period.find params[:period_id]
+		total = 0
+		period.academic_records.confirmado.not_canvas_registers.each do |ar|
+			total += 1 if ar.user.update(canvas_email: ar.user.email) and UserMailer.canvas_registration(ar.user).deliver_later
+		end
+		flash[:info] = "#{total} usuarios actualizados en total."
+		redirect_back fallback_location: '/admin/academic_record'
+	end
 
 	def registration_canvas
 		status = @user.canvas_status
 		if @user.update(canvas_email: @user.email)
 			aux = 'Usuario Registrado en Canvas.'
-			aux += ' Correo enviado al usuario.'if UserMailer.canvas_new_user_registration(@user, status).deliver
+			aux += ' Correo enviado al usuario.' if UserMailer.canvas_registration(@user).deliver_later
 			flash[:success] = aux
 		else
 			flash[:danger] = 'Un error ha ocurrido intentando actualizar los datos del usuario, por favor verifique estos e inténtelo nuevamente.'

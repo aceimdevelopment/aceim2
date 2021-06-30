@@ -115,6 +115,9 @@ Rails.application.routes.draw do
       post 'update_canvas_email'
       get 'registration_canvas'
     end
+    collection do
+      get 'registration_canvas_all'
+    end
   end
 
   

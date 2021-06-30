@@ -19,13 +19,13 @@
         = label_leveling career.leveling_period.name if career.leveling_period
             
         - if career.academic_records.approved.any?
-          = link_to constance_career_path(career), class: 'btn btn-outline-primary btn-tooltip', 'data-toggle': :tooltip, title: 'Constancia de notas aprobadas' do
+          = link_to constance_career_path(career), class: 'btn btn-outline-primary tooltip-btn', 'data-toggle': :tooltip, title: 'Constancia de notas aprobadas' do
             .fa.fa-certificate
             Constancia
 
         - if career.finished?
           .align-items-center.justify-content-center.text-center
-            = link_to career_finished_certificate_career_path(career), class: 'btn-tooltip btn btn-lg', 'data-toggle': :tooltip, title: "Certifiado de culminación de Curso de #{career.language.name.upcase}", style: '    background-color: darkgoldenrod;border-color: yellow;color: yellow;'  do
+            = link_to career_finished_certificate_career_path(career), class: 'tooltip-btn btn btn-lg', 'data-toggle': :tooltip, title: "Certifiado de culminación de Curso de #{career.language.name.upcase}", style: '    background-color: darkgoldenrod;border-color: yellow;color: yellow;'  do
               .fa.fa-graduation-cap
               Certificado
               .fa.fa-certificate
