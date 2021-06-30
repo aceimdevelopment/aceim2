@@ -27,8 +27,13 @@ gem 'image_processing', '~> 1.2'
 gem 'mini_magick'
 
 
-# GEM INCLUDED BY ME:
+# GEM INCLUDED BY ME:
 # gem 'rails_admin', git: 'https://github.com/sferik/rails_admin.git'
+
+# DelayedJob
+gem 'delayed_job_active_record'
+gem 'daemons'
+
 gem 'prawn'
 gem 'prawn-table'
 gem "aws-sdk-s3", require: false
