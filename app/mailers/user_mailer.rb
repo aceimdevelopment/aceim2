@@ -2,7 +2,12 @@ class UserMailer < ApplicationMailer
   # default from: 'CONTACTO FUNDEIM <fundeimucv@gmail.com>'
   layout 'mailer'
 
-
+  def canvas_registration(user)
+    @user = user
+    @canvas_color = ApplicationMailer::CANVAS_COLOR
+    @aceim_color = ApplicationMailer::ACEIM_COLOR    
+    mail(to: user.email,subject: "CREACIÓN DE USUARIO EN CANVAS")    
+  end
 
   def confirmation_enrollment_email(academic_record)
     @ar = academic_record

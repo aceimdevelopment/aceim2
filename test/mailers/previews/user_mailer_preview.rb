@@ -1,4 +1,9 @@
 class UserMailerPreview < ActionMailer::Preview
+
+  def canvas_registration
+    UserMailer.canvas_registration(User.second)
+  end
+
   def welcome_email
     UserMailer.welcome_email(User.last)
   end
