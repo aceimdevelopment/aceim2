@@ -24,7 +24,7 @@ class User < ApplicationRecord
   after_save { profile_image.purge if remove_profile_image.eql? '1' }  
 
   # ========== VALIDATIONS and CALLBACKS ============ #
-  before_save :upcase_names, unless: :new_record?
+  before_save :update_status_upcase_names, unless: :new_record?
   after_create :send_welcome_email
   # before_validation :upcase_names
   # validates_uniqueness_of :email#, message: 'La sección ya existe para el período seleccionado', field_name: false
@@ -284,7 +284,7 @@ class User < ApplicationRecord
     # self.allow_blank_password = true
   end
 
-  def upcase_names
+  def update_status_upcase_names
     self.name = capitalize_by_word(self.name)
     self.last_name = capitalize_by_word(self.last_name) 
     self.canvas_status = :registrado if (self.id_canvas or !self.canvas_email.blank?)

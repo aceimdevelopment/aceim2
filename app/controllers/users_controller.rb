@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 		period.academic_records.confirmado.not_canvas_registers.each do |ar|
 			total += 1 if ar.user.update(canvas_email: ar.user.email) and UserMailer.canvas_registration(ar.user).deliver_later
 		end
-		flash[:info] = "#{total} usuarios actualizados en total."
+		flash[:info] = "Se envirán #{total} correos y el mismo número de usuarios han sido actualizados."
 		redirect_back fallback_location: '/admin/academic_record'
 	end
 
