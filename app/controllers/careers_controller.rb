@@ -1,6 +1,6 @@
 class CareersController < ApplicationController
 	before_action :set_carrer#, only: [:constance, :constance_verify]
-	before_action :authenticate_user!, except: [:constance_verify]
+	before_action :authenticate_user!, except: [:constance_verify, :career_finished_certificate_verify]
 
 	layout 'pdf'
 
