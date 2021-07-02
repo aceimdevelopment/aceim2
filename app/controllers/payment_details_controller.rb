@@ -33,7 +33,7 @@ class PaymentDetailsController < ApplicationController
 				# end
 
 				# if PaymentDetailMailer.send_payment_confirmed(@payment_detail.id).deliver
-				if UserMailer.confirmation_enrollment_email(ar).deliver
+				if UserMailer.confirmation_enrollment_email(ar).deliver_later
 					flash[:success] += ' Correo de pago enviado al estudiante.'
 				else
 					flash[:error] = "Problemas el intentar enviar el correo."

@@ -1,8 +1,54 @@
 .content{style: 'text-align: justify;'}
   %h4= "Estimado(a) #{@user.name}, ".html_safe
-  %h4= "Su inscripción ha sido confirmada en #{@ar.course_period.description_inscription}.".html_safe
-  %p= "Recuerde que de ahora en adelante podrá ingresar a su sesión de usuario en #{UserMailer::ACEIM_COLOR} mediante el botón #{ApplicationMailer::INGRESO_REGULAR_BTN}".html_safe
+  - unless @temp
+    %h4= "Su inscripción ha sido confirmada en #{@ar.course_period.description_inscription}.".html_safe
 
-  %p= "Ya puede ver y descargar la factura proforma de su inscripción en su usuario de #{UserMailer::ACEIM_COLOR}.".html_safe
+  %p= "A partir de este momento, usted podrá ingresar a su sesión de usuario de #{@aceim_color} mediante el botón #{ApplicationMailer::INGRESO_REGULAR_BTN}".html_safe
 
-  %p En los próximos días recibirá información sobre los siguientes pasos.
+  %p= "Desde allí podrá ver en detalle:".html_safe
+
+  %ul
+    %li - La factura proforma del pago realizado.
+    %li - Nuestra normativa.
+
+  %br
+  %p
+    = "El siguiente paso es crear su usuario de #{@canvas_color},".html_safe
+    %b{style: 'background: yellow;'}= "pero para eso debe esperar la invitación que será enviada según la fecha publicada en #{@fundeim_link}".html_safe
+
+  %p= "Recuerde que #{@canvas_color} es la plataforma académica donde podrá ver su aula, tomar la prueba de nivelación (si es su caso) o cursar su nivel.".html_safe
+
+  %p= "Por favor, verifique en #{@fundeim_link} el día que enviaremos las invitaciones para las aulas virtuales en #{@canvas_color}.".html_safe
+
+  %p Le recomendamos siempre revisar todas las carpetas de su buzón de correo, incluso la de spam o correos no deseados.
+
+  %p= "Se enviará una invitación por cada uno de los cursos inscritos y debe seguir las siguientes instrucciones:".html_safe
+
+  %ol{style: 'background:lightgray; margin:20px; padding:40px'}
+    %li Lo primero que debe hacer es aceptar esa invitación para que se despliegue una pantalla con el nombre de su curso y nivel.
+
+    %li= "En esa pantalla, los estudiantes que no tienen cuenta en #{@canvas_color} deben hacer click en el rectángulo de la derecha que dice Crear Cuenta (Create Your Account) e indicar que son estudiantes. Luego aparece un formulario donde deben colocar una contraseña propia, indicar el huso horario (CARACAS), aceptar los términos y condiciones, y finalmente aceptar. Recuerden anotar bien la contraseña y anotarla en un lugar seguro para que puedan revisarla con facilidad si se les olvida.".html_safe
+
+    %li= "Los estudiantes que ya tienen una cuenta en #{@canvas_color} pueden usar su mismo usuario, siempre y cuando tengan registrado en #{@aceim_color} el mismo correo con que tienen creado su usuario en CANVAS.".html_safe
+ 
+    %li= "Deben crear un solo usuario y allí tendrán todos los cursos que están estudiando. Es decir, una vez que ya hayan creado su usuario en #{@canvas_color}, si reciben otra invitación, solo deben aceptar esa nueva invitación e ingresar a #{@canvas_color} con su correo y contraseña del usuario que ya crearon.".html_safe
+
+    %li
+      = "Es muy importante que al ingresar a #{@canvas_color} lo hagan utilizando su usuario y contraseña y no con una cuenta alternativa de".html_safe
+      %b GOOGLE, LINKEDIN, FACEBOOK
+      = ", etc, porque a veces se presentan problemas de acceso y se hace muy complicado recuperar las contraseñas.".html_safe
+
+    %li= "Una vez que hayan creado su usuario en #{@canvas_color} y hayan aceptado la invitación para su aula virtual, pueden utilizar el enlace que les aparece en su usuario de #{@aceim_color} para ingresar a su aula, colocando su usuario y contraseña.".html_safe
+
+    %li= "Cuando ingresen a su aula virtual en #{@canvas_color}, por favor, lean con detenimiento la información que aparecerá en la página de inicio de su aula virtual.".html_safe
+
+  %h3 IMPORTANTE:
+
+  %p= "Debe verificar en #{@fundeim_link} el día de inicio de las actividades en #{@canvas_color}.".html_safe
+
+  %p Si tiene dudas o requiere de algún apoyo, puede contactarnos por el correo fundeimucv@gmail.com
+
+  %p ¡Mucho éxito en sus estudios!
+
+
+

@@ -5,12 +5,17 @@ class UserMailer < ApplicationMailer
   def canvas_registration(user)
     @user = user
     @canvas_color = ApplicationMailer::CANVAS_COLOR
-    @aceim_color = ApplicationMailer::ACEIM_COLOR    
+    @aceim_color = ApplicationMailer::ACEIM_COLOR
     mail(to: user.email,subject: "CREACIÓN DE USUARIO EN CANVAS")    
   end
   # handle_asynchronously :canvas_registration
 
-  def confirmation_enrollment_email(academic_record)
+  def confirmation_enrollment_email(academic_record, temp=false)
+    @temp = temp
+    @canvas_color = ApplicationMailer::CANVAS_COLOR
+    @aceim_color = ApplicationMailer::ACEIM_COLOR    
+    @aceim_link = ApplicationMailer::ACEIM_LINK
+    @fundeim_link = ApplicationMailer::FUNDEIM_LINK
     @ar = academic_record
     @user = @ar.student.user
     mail(to: @user.email, subject: "Confirmación de Inscripción #{@ar.course_period.name}")

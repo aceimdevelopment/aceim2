@@ -4,6 +4,7 @@ class ApplicationMailer < ActionMailer::Base
   CANVAS_COLOR = "<b style='color:red;'>CANVAS</b>"
   ACEIM_COLOR = "<b style='color:#6F9BED;'>ACEIM</b>"
   ACEIM_LINK = "<a style='color:#6F9BED;font-weight: bold;text-decoration: none;' href='https://https://aceim.fundeim.com/users/sign_in'>ACEIM</a>"
+  FUNDEIM_LINK = "<a style='color:blue;font-weight: bold;text-decoration: none;' href='https://fundeim.com'>fundeim.com</a>"
 
   default from: 'CONTACTO FUNDEIM <fundeimucv@gmail.com>'
   layout 'mailer'
