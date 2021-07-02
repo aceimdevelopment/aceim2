@@ -1,3 +1,13 @@
+desc "Enviar correos de confirmación a los no inscritos en canvas"
+task :send_email_not_canvas_record => :environment do
+  p 'iniciando....'
+  period = Period.find 59
+  period.academic_records.confirmado.not_canvas_registers.each do |ar| 
+    p UserMailer.confirmation_enrollment_email(ar, true).deliver_later ? '-' : 'x' 
+  end
+end
+
+
 desc "Preinscritos 2020C"
 task send_email_pre_2020C: :environment do
   p 'iniciando...'
