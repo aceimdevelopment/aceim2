@@ -1,12 +1,12 @@
 =# "VALOR DE CONTADOR DE SESSIONES: #{current_user.sign_in_count}"
 = form_for @user do |f|
 
-  -if @user.profile_image.nil? or (@user.profile_image and !@user.profile_image.attached?)
+  -if true #@user.profile_image.nil? or (@user.profile_image and !@user.profile_image.attached?)
 
     .mb-3
       = label_tag 'user[profile_image]', 'Foto de Perfil:'
       = f.file_field :profile_image, class: 'form-control', accept: "image/jpeg,image/jpg,image/png", required: true
-
+      .text-muted Debe agregar una fotografía de frente, dónde se vea su rostro para su perfil de usuario.
   - if @user and @user.instructor and session[:instructor]
     =# IMPORTANTE: Colocamos session[:student] para contemplar los casos de multiples roles 
     %h5.text-primary Datos Personales y de Contactos
