@@ -1,7 +1,7 @@
 =# "VALOR DE CONTADOR DE SESSIONES: #{current_user.sign_in_count}"
 = form_for @user do |f|
 
-  -if true #@user.profile_image.nil? or (@user.profile_image and !@user.profile_image.attached?)
+  -if @user.profile_image.nil? or (@user.profile_image and !@user.profile_image.attached?)
 
     .mb-3
       = label_tag 'user[profile_image]', 'Foto de Perfil:'
