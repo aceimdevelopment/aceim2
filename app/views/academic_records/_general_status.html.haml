@@ -1,0 +1,16 @@
+
+.container-fluid.middle-box.text-center.loginscreen.animated.fadeInDown.mt-1
+	%table.table.table-responsive-md.border
+		%thead
+			%tr
+
+				%th.text-center Convenio
+				%th.text-center Inscripción
+				%th.text-center Calificación Final
+				%th.text-center Estado Calificación
+		%tbody
+			%tr
+				%td.text-center= ar.agreement.name.titleize
+				%td.text-center= ar.inscription_status.titleize
+				%td.text-center= ar.final_qualification
+				%td.text-center= ar.label_fq.html_safe

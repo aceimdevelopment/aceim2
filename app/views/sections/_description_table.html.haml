@@ -19,7 +19,8 @@
 				%td= section.language.name
 				%td= section.level.name
 				%td= section.course_period_kind
-				%td= section.number_to_string
+				%td
+					= link_to section.number_to_string, "/admin/section/#{section.id}"
 				%td= section.asigned
 				%td
 					- if section.instructor

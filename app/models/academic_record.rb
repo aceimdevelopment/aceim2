@@ -140,8 +140,11 @@ class AcademicRecord < ApplicationRecord
         end
       end
 
-      field :inscription_status do
-        label 'Estado de Inscripción'
+      field :general_status do
+        label 'Estado'
+        formatted_value do
+          bindings[:view].render(partial: 'academic_records/general_status', locals: {ar: bindings[:object]})
+        end        
       end
 
       field :quickview_payment_detail do 
@@ -149,13 +152,6 @@ class AcademicRecord < ApplicationRecord
         formatted_value do
           bindings[:view].render(partial: '/payment_details/quick_report', locals: {academic_record: bindings[:object]})
         end
-      end
-      field :agreement do
-        label 'Convenio'
-      end
-
-      field :final_qualification do
-        label 'Cal. Final'
       end
 
       field :q_detail_table do
