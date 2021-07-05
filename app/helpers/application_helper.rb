@@ -10,6 +10,15 @@ module ApplicationHelper
 		end
 	end
 
+	def alert_msg(content, type)
+		render_haml <<-HAML, content: content, type: type
+          .mt-2.alert.alert-dismissable{role: "alert", class: "alert-#{type}"}
+            %button.close{"aria-label": :Close, "data-dismiss": :alert, type: :button}
+              %span{"aria-hidden": true} ×
+            = content.html_safe
+		HAML
+	end	
+
 	def label_leveling(name)
 		render_haml <<-HAML, period: name
 			.m.3.badge.badge-success{style: 'margin-left: 20px'}

@@ -77,39 +77,31 @@ class Career < ApplicationRecord
   end
 
   def next_course_available
-    unless academic_records.any?
-      return language.first_course
-    else
-      approved = last_academic_record_approved
-      if approved.nil?
-        aux = academic_records.qualified.last
-        if aux.nil?
-          course = academic_records.last.course
-        else
-          course = aux.course
-        end
-      else
-        distance = Period.distance_between_active_enrollment_period approved.period
-        if distance and distance > 2
-          course = approved.course  
-        else
-          course = approved.course.next_course
+    course = self.language.first_course
+    approved = self.last_academic_record_approved
+    msg = ""
+    if approved
+      distance = Period.distance_between_active_enrollment_period approved.period
+      
+      if distance
+        if (distance.eql? 0 or distance.eql? 1 or distance.eql? 2)
+          course = approved.course.next_course 
+        elsif (distance.eql? 3)
+          course = approved.course 
+          msg = "Usted a pasado 2 períodos sin aprobar su curso. Deberá tomar nuevamente su último nivel aprobado #{course.name}"
+        elsif (distance > 3)
+          msg = 'Usted a pasado más de 2 períodos sin aprobar un curso. Debe tomar la prueba de nivelación o comenzar  desde el primer nivel'
         end
       end
-      return course
+    elsif last_record = self.academic_records.last
+      distance = Period.distance_between_active_enrollment_period last_record.period
+      if distance and distance < 3
+        course = last_record.course 
+      else
+        msg = 'Usted a pasado más de 2 períodos sin aprobar un curso. Debe tomar la prueba de nivelación o comenzar desde el primer nivel'
+      end
     end
-    # approved = last_academic_record_approved
-    # if approved.nil?
-    #   aux = academic_records.confirmado.last
-    #   if aux
-    #     return aux.course
-    #   else
-    #     return language.first_course
-    #   end
-    # else
-    #   course = approved.course
-    #   return course.next_course
-    # end
+    [course, msg]
   end
   #=================================================================#
 

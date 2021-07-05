@@ -227,7 +227,6 @@ class Period < ApplicationRecord
     end 
   end
 
-
   def distance_between another_period
     pes = Period.all
     index_self = pes.index self
@@ -238,6 +237,7 @@ class Period < ApplicationRecord
       return (index_self - index_another).abs
     end
   end
+
   def preview  
     pes = Period.all#.reverse
     aux_index = pes.index self
